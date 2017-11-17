@@ -12,14 +12,19 @@
 		01BAC9FB1FBF75A70050C891 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 01BAC9FA1FBF759E0050C891 /* GoogleService-Info.plist */; };
 		AAE390072D6121EF9B932714 /* Pods_ItsFree.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52500CB0F9C6555890C6A26D /* Pods_ItsFree.framework */; };
 		CE5869CF1FBE445C0012F774 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5869CE1FBE445C0012F774 /* AppDelegate.swift */; };
-		CE5869D11FBE445C0012F774 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5869D01FBE445C0012F774 /* ViewController.swift */; };
+		CE5869D11FBE445C0012F774 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5869D01FBE445C0012F774 /* HomeViewController.swift */; };
 		CE5869D41FBE445C0012F774 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE5869D21FBE445C0012F774 /* Main.storyboard */; };
 		CE5869D61FBE445C0012F774 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE5869D51FBE445C0012F774 /* Assets.xcassets */; };
 		CE5869D91FBE445C0012F774 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE5869D71FBE445C0012F774 /* LaunchScreen.storyboard */; };
 		CE5869E41FBE445C0012F774 /* ItsFreeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5869E31FBE445C0012F774 /* ItsFreeTests.swift */; };
 		CE5869EF1FBE445C0012F774 /* ItsFreeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5869EE1FBE445C0012F774 /* ItsFreeUITests.swift */; };
+
+		CE9683D01FBE655600DFA277 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9683CF1FBE655600DFA277 /* LocationManager.swift */; };
+		CE9683D21FBF6C9700DFA277 /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9683D11FBF6C9700DFA277 /* PostViewController.swift */; };
+
 		D09EB17ADD16BC258A842A2F /* Pods_ItsFreeUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D52FC03A3A047C54F34352C /* Pods_ItsFreeUITests.framework */; };
 		D28314DA8D50F5539091E8ED /* Pods_ItsFreeTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C64014BEF220564A2FD0137 /* Pods_ItsFreeTests.framework */; };
+
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,7 +59,7 @@
 		C21A98A73CD94089A2DFCBB2 /* Pods-ItsFreeUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ItsFreeUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ItsFreeUITests/Pods-ItsFreeUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		CE5869CB1FBE445C0012F774 /* ItsFree.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ItsFree.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE5869CE1FBE445C0012F774 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		CE5869D01FBE445C0012F774 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		CE5869D01FBE445C0012F774 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		CE5869D31FBE445C0012F774 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		CE5869D51FBE445C0012F774 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CE5869D81FBE445C0012F774 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -65,6 +70,8 @@
 		CE5869EA1FBE445C0012F774 /* ItsFreeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ItsFreeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE5869EE1FBE445C0012F774 /* ItsFreeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItsFreeUITests.swift; sourceTree = "<group>"; };
 		CE5869F01FBE445C0012F774 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CE9683CF1FBE655600DFA277 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		CE9683D11FBF6C9700DFA277 /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -145,10 +152,12 @@
 			children = (
 				01BAC9FA1FBF759E0050C891 /* GoogleService-Info.plist */,
 				CE5869CE1FBE445C0012F774 /* AppDelegate.swift */,
-				CE5869D01FBE445C0012F774 /* ViewController.swift */,
+				CE5869D01FBE445C0012F774 /* HomeViewController.swift */,
+				CE9683CF1FBE655600DFA277 /* LocationManager.swift */,
 				CE5869D21FBE445C0012F774 /* Main.storyboard */,
 				01BAC9F61FBE5C9E0050C891 /* Item.swift */,
 				01BAC9F81FBF6CD10050C891 /* Enums.swift */,
+				CE9683D11FBF6C9700DFA277 /* PostViewController.swift */,
 				CE5869D51FBE445C0012F774 /* Assets.xcassets */,
 				CE5869D71FBE445C0012F774 /* LaunchScreen.storyboard */,
 				CE5869DA1FBE445C0012F774 /* Info.plist */,
@@ -473,7 +482,10 @@
 				CE5869D11FBE445C0012F774 /* ViewController.swift in Sources */,
 				01BAC9F71FBE5C9E0050C891 /* Item.swift in Sources */,
 				01BAC9F91FBF6CD10050C891 /* Enums.swift in Sources */,
+				CE9683D21FBF6C9700DFA277 /* PostViewController.swift in Sources */,
+				CE5869D11FBE445C0012F774 /* HomeViewController.swift in Sources */,
 				CE5869CF1FBE445C0012F774 /* AppDelegate.swift in Sources */,
+				CE9683D01FBE655600DFA277 /* LocationManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

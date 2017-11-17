@@ -9,12 +9,15 @@
 import UIKit
 import MapKit
 
-class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelegate {
+class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
+    
+
     
     
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var descriptionTextField: UITextField!
     @IBOutlet weak var categoryPicker: UIPickerView!
+    var categoryPickerData: [String] = [String]()
     @IBOutlet weak var qualitySegmentedControl: UISegmentedControl!
     @IBOutlet weak var tagButtonView: UIView!
     @IBOutlet weak var itemMapView: MKMapView!
@@ -24,6 +27,8 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         super.viewDidLoad()
         titleTextField.delegate = self
         descriptionTextField.delegate = self
+        
+
 
         // Do any additional setup after loading the view.
     }
@@ -38,5 +43,16 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         return true
         
     }
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return 5
+    }
+    
+    
+    
     
 }

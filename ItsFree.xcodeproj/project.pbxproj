@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		01301D4D1FBF82C000DB117E /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01301D4C1FBF82BF00DB117E /* HomeViewController.swift */; };
 		01BAC9F71FBE5C9E0050C891 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BAC9F61FBE5C9E0050C891 /* Item.swift */; };
 		01BAC9F91FBF6CD10050C891 /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BAC9F81FBF6CD10050C891 /* Enums.swift */; };
 		01BAC9FB1FBF75A70050C891 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 01BAC9FA1FBF759E0050C891 /* GoogleService-Info.plist */; };
@@ -21,6 +20,7 @@
 		CE5869EF1FBE445C0012F774 /* ItsFreeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5869EE1FBE445C0012F774 /* ItsFreeUITests.swift */; };
 		CE9683D01FBE655600DFA277 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9683CF1FBE655600DFA277 /* LocationManager.swift */; };
 		CE9683D21FBF6C9700DFA277 /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9683D11FBF6C9700DFA277 /* PostViewController.swift */; };
+		CE9683D51FBF8E5700DFA277 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9683D41FBF8E5600DFA277 /* HomeViewController.swift */; };
 		D09EB17ADD16BC258A842A2F /* Pods_ItsFreeUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D52FC03A3A047C54F34352C /* Pods_ItsFreeUITests.framework */; };
 		D28314DA8D50F5539091E8ED /* Pods_ItsFreeTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C64014BEF220564A2FD0137 /* Pods_ItsFreeTests.framework */; };
 /* End PBXBuildFile section */
@@ -43,7 +43,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		01301D4C1FBF82BF00DB117E /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = HomeViewController.swift; path = /Users/Nick/Desktop/Lighthouse/Bootcamp/ItsFree/ItsFree/ItsFree/HomeViewController.swift; sourceTree = "<absolute>"; };
 		01BAC9F61FBE5C9E0050C891 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		01BAC9F81FBF6CD10050C891 /* Enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
 		01BAC9FA1FBF759E0050C891 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -71,6 +70,7 @@
 		CE5869F01FBE445C0012F774 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CE9683CF1FBE655600DFA277 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		CE9683D11FBF6C9700DFA277 /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
+		CE9683D41FBF8E5600DFA277 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -149,7 +149,7 @@
 		CE5869CD1FBE445C0012F774 /* ItsFree */ = {
 			isa = PBXGroup;
 			children = (
-				01301D4C1FBF82BF00DB117E /* HomeViewController.swift */,
+				CE9683D41FBF8E5600DFA277 /* HomeViewController.swift */,
 				01BAC9FA1FBF759E0050C891 /* GoogleService-Info.plist */,
 				CE5869CE1FBE445C0012F774 /* AppDelegate.swift */,
 				CE9683CF1FBE655600DFA277 /* LocationManager.swift */,
@@ -484,8 +484,8 @@
 				CE9683D21FBF6C9700DFA277 /* PostViewController.swift in Sources */,
 				CE5869CF1FBE445C0012F774 /* AppDelegate.swift in Sources */,
 				CE9683D01FBE655600DFA277 /* LocationManager.swift in Sources */,
-				01301D4D1FBF82C000DB117E /* HomeViewController.swift in Sources */,
 				01D5DF461FBF86F40029A276 /* User.swift in Sources */,
+				CE9683D51FBF8E5700DFA277 /* HomeViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -653,7 +653,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 48KFD7RJD2;
+				DEVELOPMENT_TEAM = L4XYQHCH99;
 				INFOPLIST_FILE = ItsFree/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sanjayshah.ItsFree;
@@ -669,7 +669,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 48KFD7RJD2;
+				DEVELOPMENT_TEAM = L4XYQHCH99;
 				INFOPLIST_FILE = ItsFree/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sanjayshah.ItsFree;

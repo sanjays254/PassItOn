@@ -19,7 +19,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     var currentLocation: CLLocation!
     var locationManager: CLLocationManager!
     
-    @IBOutlet weak var mapListSegmentedControl: UISegmentedControl!
+    var mapListSegmentedControl: UISegmentedControl!
     
     @IBOutlet weak var wantedAvailableSegmentedControl: UISegmentedControl!
     
@@ -33,10 +33,16 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.homeTableView.delegate = self
         self.homeMapView.delegate = self
         
+        self.mapListSegmentedControl = UISegmentedControl(items: ["Map", "List"])
+        self.navigationItem.titleView = mapListSegmentedControl
+        self.mapListSegmentedControl.addTarget(self, action: #selector(mapListSegmentAction), for: .valueChanged)
+        
         self.locationManager = CLLocationManager()
         self.locationManager.delegate = self
         
         self.getLocation()
+        
+        
         
         // Do any additional setup after loading the view, typically from a nib.
     }
@@ -57,7 +63,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     //map/list segmenetd control
-    @IBAction func mapListSegmentAction(_ sender: UISegmentedControl) {
+    @objc func mapListSegmentAction(sender: UISegmentedControl) {
         
         if sender.selectedSegmentIndex == 0{
             self.view.bringSubview(toFront: homeMapView)

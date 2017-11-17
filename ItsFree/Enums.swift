@@ -8,26 +8,26 @@
 
 import Foundation
 
-public enum ItemCategory {
-    case Books,
-    Clothing,
-    Furniture,
-    ArtAndCollectables,
-    SportingGoods,
-    Electronics,
-    HomeAppliances,
-    JewelleryAndWatches,
-    Toys,
-    BuildingToolsAndSupplies,
-    IndoorDecor,
-    OutdoorDecor,
-    Other
+public enum ItemCategory:String {
+    case Books = "Books",
+    Clothing = "Clothing",
+    Furniture = "Furniture",
+    ArtAndCollectables = "Art & Collectables",
+    SportingGoods = "Sporting Goods",
+    Electronics = "Electronics",
+    HomeAppliances = "Home Appliances",
+    JewelleryAndWatches = "Jewellery & Watches",
+    Toys = "Toys",
+    BuildingToolsAndSupplies = "Building Tools & Supplies",
+    IndoorDecor = "Indoor Decor",
+    OutdoorDecor = "Outdoor Decor",
+    Other = "Other"
 }
 
-public enum ItemQuality {
-    case New,
-    GentlyUsed,
-    WellUsed,
-    DamagedButFunctional,
-    NeedsFixing
+public enum ItemQuality:String {
+    case New  = "New",
+    GentlyUsed = "Gently Used",
+    WellUsed = "Well Used",
+    DamagedButFunctional = "Damaged but Functional",
+    NeedsFixing = "Needs Fixing"
 }

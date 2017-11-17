@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		01BAC9F71FBE5C9E0050C891 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BAC9F61FBE5C9E0050C891 /* Item.swift */; };
+		01BAC9F91FBF6CD10050C891 /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BAC9F81FBF6CD10050C891 /* Enums.swift */; };
 		CE5869CF1FBE445C0012F774 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5869CE1FBE445C0012F774 /* AppDelegate.swift */; };
 		CE5869D11FBE445C0012F774 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5869D01FBE445C0012F774 /* ViewController.swift */; };
 		CE5869D41FBE445C0012F774 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE5869D21FBE445C0012F774 /* Main.storyboard */; };
@@ -34,6 +36,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		01BAC9F61FBE5C9E0050C891 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
+		01BAC9F81FBF6CD10050C891 /* Enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
 		CE5869CB1FBE445C0012F774 /* ItsFree.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ItsFree.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE5869CE1FBE445C0012F774 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CE5869D01FBE445C0012F774 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -100,6 +104,8 @@
 				CE5869CE1FBE445C0012F774 /* AppDelegate.swift */,
 				CE5869D01FBE445C0012F774 /* ViewController.swift */,
 				CE5869D21FBE445C0012F774 /* Main.storyboard */,
+				01BAC9F61FBE5C9E0050C891 /* Item.swift */,
+				01BAC9F81FBF6CD10050C891 /* Enums.swift */,
 				CE5869D51FBE445C0012F774 /* Assets.xcassets */,
 				CE5869D71FBE445C0012F774 /* LaunchScreen.storyboard */,
 				CE5869DA1FBE445C0012F774 /* Info.plist */,
@@ -260,6 +266,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				CE5869D11FBE445C0012F774 /* ViewController.swift in Sources */,
+				01BAC9F71FBE5C9E0050C891 /* Item.swift in Sources */,
+				01BAC9F91FBF6CD10050C891 /* Enums.swift in Sources */,
 				CE5869CF1FBE445C0012F774 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

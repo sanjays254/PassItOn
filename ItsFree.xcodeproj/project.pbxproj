@@ -16,13 +16,10 @@
 		CE5869D91FBE445C0012F774 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE5869D71FBE445C0012F774 /* LaunchScreen.storyboard */; };
 		CE5869E41FBE445C0012F774 /* ItsFreeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5869E31FBE445C0012F774 /* ItsFreeTests.swift */; };
 		CE5869EF1FBE445C0012F774 /* ItsFreeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5869EE1FBE445C0012F774 /* ItsFreeUITests.swift */; };
-
 		CE9683D01FBE655600DFA277 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9683CF1FBE655600DFA277 /* LocationManager.swift */; };
 		CE9683D21FBF6C9700DFA277 /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9683D11FBF6C9700DFA277 /* PostViewController.swift */; };
-
 		D09EB17ADD16BC258A842A2F /* Pods_ItsFreeUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D52FC03A3A047C54F34352C /* Pods_ItsFreeUITests.framework */; };
 		D28314DA8D50F5539091E8ED /* Pods_ItsFreeTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C64014BEF220564A2FD0137 /* Pods_ItsFreeTests.framework */; };
-
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -644,7 +641,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 48KFD7RJD2;
+				DEVELOPMENT_TEAM = L4XYQHCH99;
 				INFOPLIST_FILE = ItsFree/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sanjayshah.ItsFree;
@@ -660,7 +657,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 48KFD7RJD2;
+				DEVELOPMENT_TEAM = L4XYQHCH99;
 				INFOPLIST_FILE = ItsFree/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sanjayshah.ItsFree;

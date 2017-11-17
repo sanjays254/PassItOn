@@ -35,6 +35,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         self.mapListSegmentedControl = UISegmentedControl(items: ["Map", "List"])
         self.navigationItem.titleView = mapListSegmentedControl
+        self.mapListSegmentedControl.selectedSegmentIndex = 0
         self.mapListSegmentedControl.addTarget(self, action: #selector(mapListSegmentAction), for: .valueChanged)
         
         self.locationManager = CLLocationManager()

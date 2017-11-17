@@ -41,6 +41,10 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.locationManager = CLLocationManager()
         self.locationManager.delegate = self
         
+        if(self.locationManager == nil){
+            presentLocationAlert()
+        }
+        
         self.getLocation()
         
         
@@ -103,6 +107,9 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         //set region
         let span = MKCoordinateSpanMake(0.007, 0.007)
+        
+        
+        
         self.homeMapView.region = MKCoordinateRegionMake(self.currentLocation.coordinate, span)
         
         self.homeMapView.showsUserLocation = true
@@ -127,5 +134,17 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
 //
 //    }
   
+    
+    func presentLocationAlert(){
+        let alert = UIAlertController(title: "Your title", message: "GPS access is restricted. In order to use tracking, please enable GPS in the Settigs app under Privacy, Location Services.", preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: "Go to Settings now", style: UIAlertActionStyle.default, handler: { (alert: UIAlertAction!) in
+            print("")
+            UIApplication.shared.open(URL(string:UIApplicationOpenSettingsURLString)!)
+        }))
+        
+        present(alert, animated: true, completion: nil)
+        
+    }
+    
 }
 

@@ -33,7 +33,10 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.homeTableView.delegate = self
         self.homeMapView.delegate = self
         
-        locationManager = CLLocationManager()
+        self.locationManager = CLLocationManager()
+        self.locationManager.delegate = self
+        
+        self.getLocation()
         
         // Do any additional setup after loading the view, typically from a nib.
     }
@@ -68,7 +71,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     //mapView methods
     func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
         
-        self.currentLocation = locationManager.location
+        self.currentLocation = self.locationManager.location
         
         //if we are at default Apple coordinate (0,0), then update region
         let lat: Float = Float(self.homeMapView.region.center.latitude)
@@ -84,9 +87,9 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     
     func getLocation() {
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.requestWhenInUseAuthorization()
-        locationManager.startUpdatingLocation()
+        self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        self.locationManager.requestWhenInUseAuthorization()
+        self.locationManager.startUpdatingLocation()
         
         //get current position
         self.currentLocation = self.locationManager.location

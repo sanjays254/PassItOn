@@ -111,17 +111,21 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     
+    //segues
+
+    @IBAction func postItem(_ sender: UIBarButtonItem) {
+        performSegue(withIdentifier: "postSegue", sender: self)
+    }
+    
+    
 
     
-    
-    //segues
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if (segue.identifier == "postSegue"){
-          
-        }
-        
-    }
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        if (segue.identifier == "postSegue"){
+//            performSegue(withIdentifier: "postSegue", sender: self)
+//        }
+//
+//    }
   
 }
 

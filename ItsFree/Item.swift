@@ -24,7 +24,7 @@ class Item {
     var quality:ItemQuality
     var tags:[Tag]
     
-    init(with name:String,
+    init(name:String,
          category:ItemCategory,
          description:String,
          location:CLLocationCoordinate2D,

@@ -50,6 +50,21 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         
         // Do any additional setup after loading the view, typically from a nib.
+        
+        let tag1:Tag = Tag(tagString: "blue")
+        
+        var testUser:User = User.init(email: "test@gmail.com", name: "John", rating: 39)
+        testUser.UID = "testUserUID"
+        
+        var testItem:Item = Item.init(name: "Hat", category: ItemCategory.Clothing, description: "It's a hat", location: (self.locationManager.location?.coordinate)!, posterUID: testUser.UID, quality: ItemQuality.GentlyUsed, and: [tag1])
+        testItem.UID = "testItemUID"
+
+        AppData.sharedInstance.usersNode.child(testUser.UID).setValue(testUser.toDictionary())
+        AppData.sharedInstance.itemsNode.child(testUser.UID).child(testItem.UID).setValue(testItem.toDictionary())
+        
+        
+        
+        
     }
 
     override func didReceiveMemoryWarning() {

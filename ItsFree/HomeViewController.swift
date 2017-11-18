@@ -51,13 +51,16 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         // Do any additional setup after loading the view, typically from a nib.
         
-        let tag1:Tag = Tag(tagString: "blue")
+        //let tag1:Tag = Tag(tagString: "blue")
+        let tag1:Tag = Tag()
+        tag1.add(tag: "blue")
         
-        var testUser:User = User.init(email: "test@gmail.com", name: "John", rating: 39)
-        testUser.UID = "testUserUID"
         
-        var testItem:Item = Item.init(name: "Hat", category: ItemCategory.Clothing, description: "It's a hat", location: (self.locationManager.location?.coordinate)!, posterUID: testUser.UID, quality: ItemQuality.GentlyUsed, and: [tag1])
-        testItem.UID = "testItemUID"
+        let testUser:User = User.init(email: "test@gmail.com", name: "Bob", rating: 39)
+        testUser.UID = "testUserUID1"
+        
+        let testItem:Item = Item.init(name: "boot", category: ItemCategory.clothing, description: "It's a boot", location: (self.locationManager.location?.coordinate)!, posterUID: testUser.UID, quality: ItemQuality.GentlyUsed, tags: tag1)
+        testItem.UID = "testItemUID1"
 
         AppData.sharedInstance.usersNode.child(testUser.UID).setValue(testUser.toDictionary())
         AppData.sharedInstance.itemsNode.child(testUser.UID).child(testItem.UID).setValue(testItem.toDictionary())

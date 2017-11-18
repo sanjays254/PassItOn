@@ -57,8 +57,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.homeMapView.showsUserLocation = true
         self.homeMapView.showsPointsOfInterest = false
         
-        
-        
+
         
         
         // Do any additional setup after loading the view, typically from a nib.

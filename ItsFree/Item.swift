@@ -9,9 +9,7 @@
 import Foundation
 import CoreLocation
 
-struct Tag {
-    var tagString:String
-}
+
 
 class Item {
     
@@ -22,7 +20,7 @@ class Item {
     var location:CLLocationCoordinate2D
     var posterUID:String
     var quality:ItemQuality
-    var tags:[Tag]
+    var tags:Tag
     
     init(name:String,
          category:ItemCategory,
@@ -30,7 +28,7 @@ class Item {
          location:CLLocationCoordinate2D,
          posterUID:String,
          quality:ItemQuality,
-         and tags:[Tag]) {
+         tags:Tag) {
         
         self.name = name
         self.itemCategory = category
@@ -43,10 +41,6 @@ class Item {
     }
     
     func toDictionary() -> [String:Any] {
-        var tagDict: [String:String] = [:]
-        for tag in tags {
-            tagDict[String(tagDict.count)] = tag.tagString
-        }
         let locationDict:[String:Double] = ["latitude":self.location.latitude, "longitude":self.location.longitude]
         
         let itemDict:[String:Any] = [
@@ -57,7 +51,7 @@ class Item {
             "location": locationDict,
             "posterID":posterUID,
             "quality":self.quality.rawValue,
-            "tags":tagDict
+            "tags":self.tags.tagsDict
             ]
         
         return itemDict

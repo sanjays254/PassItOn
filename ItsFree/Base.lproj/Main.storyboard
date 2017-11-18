@@ -156,7 +156,7 @@
             </objects>
             <point key="canvasLocation" x="1456.8" y="568.06596701649175"/>
         </scene>
-        <!--Post View Controller-->
+        <!--Title-->
         <scene sceneID="Yb2-qp-hms">
             <objects>
                 <viewController id="uu9-5f-Eua" customClass="PostViewController" customModule="ItsFree" customModuleProvider="target" sceneMemberID="viewController">
@@ -256,6 +256,13 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="ivO-1W-BYH"/>
                     </view>
+                    <navigationItem key="navigationItem" title="Title" id="gKr-jo-OTu">
+                        <barButtonItem key="rightBarButtonItem" title="Post" id="kje-Co-6cg">
+                            <connections>
+                                <action selector="postItem:" destination="uu9-5f-Eua" id="oSt-Fc-nOI"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="addCategoryButton" destination="gBU-nq-UfP" id="8Cv-Wc-mqS"/>
                         <outlet property="descriptionTextField" destination="fNa-OL-1TG" id="iNr-9h-2ES"/>

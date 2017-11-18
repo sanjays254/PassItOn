@@ -8,6 +8,9 @@ target 'ItsFree' do
   # Pods for ItsFree
 
   pod 'Firebase', '>= 2.5.1'
+  pod 'FirebaseDatabase'
+
+
   target 'ItsFreeTests' do
     inherit! :search_paths
     # Pods for testing

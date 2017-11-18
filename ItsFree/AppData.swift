@@ -8,9 +8,22 @@
 
 import Foundation
 import Firebase
-import Firebase
+import FirebaseDatabase
 
 
 class AppData: NSObject {
 
+    static let sharedInstance = AppData()
+    
+    public var currentUser: User!
+    
+    public var usersNode: DatabaseReference
+    public var itemsNode: DatabaseReference
+    
+    public override init() {
+        
+        usersNode = Database.database().reference().child("users")
+        itemsNode = Database.database().reference().child("items")
+    }
+    
 }

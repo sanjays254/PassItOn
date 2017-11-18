@@ -13,11 +13,6 @@ struct Tag {
     var tagString:String
 }
 
-
-
-
-
-
 class Item {
     
     var UID:String!
@@ -47,7 +42,26 @@ class Item {
         self.posterUID = posterUID
     }
     
-    
+    func toDictionary() -> [String:Any] {
+        var tagDict: [String:String] = [:]
+        for tag in tags {
+            tagDict[String(tagDict.count)] = tag.tagString
+        }
+        let locationDict:[String:Double] = ["latitude":self.location.latitude, "longitude":self.location.longitude]
+        
+        let itemDict:[String:Any] = [
+            "UID": self.UID,
+            "name": self.name,
+            "itemCategory": self.itemCategory.rawValue,
+            "itemDescription": self.itemDescription,
+            "location": locationDict,
+            "posterID":posterUID,
+            "quality":self.quality.rawValue,
+            "tags":tagDict
+            ]
+        
+        return itemDict
+    }
     
     
     

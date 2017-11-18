@@ -21,7 +21,17 @@ class User {
         self.rating = rating
     }
     
-    
+    func toDictionary() -> [String:Any] {
+        let userDict:[String:Any] = [
+            "UID":self.UID,
+            "email":self.email,
+            "name":self.name,
+            "rating":self.rating
+        ]
+        
+        return userDict
+        
+    }
     
     
     

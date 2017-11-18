@@ -11,17 +11,13 @@ import MapKit
 
 class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource {
 
-    
-
     var categoryCount: Int!
-    
     
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var descriptionTextField: UITextField!
     @IBOutlet weak var qualitySegmentedControl: UISegmentedControl!
     @IBOutlet weak var tagButtonView: UIView!
     @IBOutlet weak var itemMapView: MKMapView!
-    
     
     @IBOutlet weak var addCategoryButton: UIButton!
     
@@ -36,10 +32,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         descriptionTextField.delegate = self
         descriptionTextField.borderStyle = UITextBorderStyle.roundedRect
         
-        
-        
         categoryTableView = UITableView(frame: CGRect(x: 20, y:20, width: 250, height: 500), style: UITableViewStyle.plain)
-        
         
         categoryTableView.delegate = self
         categoryTableView.dataSource = self
@@ -61,7 +54,6 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
     
     @IBAction func openCategories(_ sender: UIButton) {
         
-
         self.view.addSubview(categoryTableView)
         
         categoryTableView.register(UITableViewCell.self, forCellReuseIdentifier: cellID)
@@ -90,7 +82,6 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         let cell = categoryTableView.dequeueReusableCell(withIdentifier: cellID)!
         
         cell.textLabel?.text = ItemCategory.stringValue(index: indexPath.row)
-        
         
         return cell
         

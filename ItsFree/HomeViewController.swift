@@ -38,33 +38,29 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.mapListSegmentedControl.selectedSegmentIndex = 0
         self.mapListSegmentedControl.addTarget(self, action: #selector(mapListSegmentAction), for: .valueChanged)
         
-        self.locationManager = CLLocationManager()
-        self.locationManager.delegate = self
+        //self.locationManager = CLLocationManager()
+        //self.locationManager.delegate = self
         
-        if(self.locationManager == nil){
-            presentLocationAlert()
-        }
+        self.currentLocation =  LocationManager.theLocationManager.getLocation()
+        //self.getLocation()
         
-        self.getLocation()
+//        
+//                if(LocationManager.theLocationManager == nil){
+//                    presentLocationAlert()
+//                }
         
+        //set region
+        let span = MKCoordinateSpanMake(0.007, 0.007)
+        
+        self.homeMapView.region = MKCoordinateRegionMake(self.currentLocation.coordinate, span)
+        
+        self.homeMapView.showsUserLocation = true
+        self.homeMapView.showsPointsOfInterest = false
+        
+
         
         
         // Do any additional setup after loading the view, typically from a nib.
-        
-        //let tag1:Tag = Tag(tagString: "blue")
-        let tag1:Tag = Tag()
-        tag1.add(tag: "blue")
-        
-        
-        let testUser:User = User.init(email: "test@gmail.com", name: "Bob", rating: 39)
-        testUser.UID = "testUserUID1"
-        
-        let testItem:Item = Item.init(name: "boot", category: ItemCategory.clothing, description: "It's a boot", location: (self.locationManager.location?.coordinate)!, posterUID: testUser.UID, quality: ItemQuality.GentlyUsed, tags: tag1)
-        testItem.UID = "testItemUID1"
-
-        AppData.sharedInstance.usersNode.child(testUser.UID).setValue(testUser.toDictionary())
-        AppData.sharedInstance.itemsNode.child(testUser.UID).child(testItem.UID).setValue(testItem.toDictionary())
-        
         
         
         
@@ -100,7 +96,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     //mapView methods
     func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
         
-        self.currentLocation = self.locationManager.location
+        self.currentLocation = LocationManager.theLocationManager.getLocation()
         
         //if we are at default Apple coordinate (0,0), then update region
         let lat: Float = Float(self.homeMapView.region.center.latitude)
@@ -115,25 +111,27 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     
-    func getLocation() {
-        self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        self.locationManager.requestWhenInUseAuthorization()
-        self.locationManager.startUpdatingLocation()
-        
-        //get current position
-        self.currentLocation = self.locationManager.location
-        
-        //set region
-        let span = MKCoordinateSpanMake(0.007, 0.007)
-        
-        
-        
-        self.homeMapView.region = MKCoordinateRegionMake(self.currentLocation.coordinate, span)
-        
-        self.homeMapView.showsUserLocation = true
-        self.homeMapView.showsPointsOfInterest = false
-        
-    }
+//    func getLocation() {
+//        self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
+//        self.locationManager.requestWhenInUseAuthorization()
+//        self.locationManager.startUpdatingLocation()
+//
+//        //get current position
+//        self.currentLocation = self.locationManager.location
+//
+//
+//
+//        //set region
+//        let span = MKCoordinateSpanMake(0.007, 0.007)
+//
+//
+//
+//        self.homeMapView.region = MKCoordinateRegionMake(self.currentLocation.coordinate, span)
+//
+//        self.homeMapView.showsUserLocation = true
+//        self.homeMapView.showsPointsOfInterest = false
+//
+//    }
     
     
     //segues
@@ -152,6 +150,9 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
 //
 //    }
   
+
+    
+    
     
     func presentLocationAlert(){
         let alert = UIAlertController(title: "Your title", message: "GPS access is restricted. In order to use tracking, please enable GPS in the Settigs app under Privacy, Location Services.", preferredStyle: UIAlertControllerStyle.alert)
@@ -160,9 +161,12 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             UIApplication.shared.open(URL(string:UIApplicationOpenSettingsURLString)!)
         }))
         
+        
         present(alert, animated: true, completion: nil)
         
     }
+    
+    
     
 }
 

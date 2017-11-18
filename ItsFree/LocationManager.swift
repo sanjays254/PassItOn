@@ -13,11 +13,27 @@ import MobileCoreServices
 
 class LocationManager: CLLocationManager {
     
-    static let locationManager = LocationManager()
+    var currentLocation: CLLocation!
     
-    func getLocation() {
+    static let theLocationManager = LocationManager()
     
+    func getLocation() -> CLLocation {
+        
+
+        
+        self.desiredAccuracy = kCLLocationAccuracyBest
+        self.requestWhenInUseAuthorization()
+        self.startUpdatingLocation()
+        
+    
+        //locationManager = CLLocationManager()
+        //self.locationManager.delegate = self
+        currentLocation = self.location
+        return currentLocation
+        
         
     }
+    
+
     
 }

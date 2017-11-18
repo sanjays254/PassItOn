@@ -12,6 +12,7 @@
 		01BAC9FB1FBF75A70050C891 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 01BAC9FA1FBF759E0050C891 /* GoogleService-Info.plist */; };
 		01C1CAE91FBFB35500FB636C /* AppData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C1CAE81FBFB35500FB636C /* AppData.swift */; };
 		01C1CAEB1FBFCAE900FB636C /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C1CAEA1FBFCAE900FB636C /* Tag.swift */; };
+		01C1CAED1FBFD11E00FB636C /* AuthenticationHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C1CAEC1FBFD11E00FB636C /* AuthenticationHelper.swift */; };
 		01D5DF461FBF86F40029A276 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D5DF451FBF86F40029A276 /* User.swift */; };
 		AAE390072D6121EF9B932714 /* Pods_ItsFree.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52500CB0F9C6555890C6A26D /* Pods_ItsFree.framework */; };
 		CE5869CF1FBE445C0012F774 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5869CE1FBE445C0012F774 /* AppDelegate.swift */; };
@@ -50,6 +51,7 @@
 		01BAC9FA1FBF759E0050C891 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		01C1CAE81FBFB35500FB636C /* AppData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppData.swift; sourceTree = "<group>"; };
 		01C1CAEA1FBFCAE900FB636C /* Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
+		01C1CAEC1FBFD11E00FB636C /* AuthenticationHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationHelper.swift; sourceTree = "<group>"; };
 		01D5DF451FBF86F40029A276 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		19703A4DE107F8BC8775279E /* Pods-ItsFree.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ItsFree.release.xcconfig"; path = "Pods/Target Support Files/Pods-ItsFree/Pods-ItsFree.release.xcconfig"; sourceTree = "<group>"; };
 		3B7CE68F6A926C3412F77907 /* Pods-ItsFreeUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ItsFreeUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-ItsFreeUITests/Pods-ItsFreeUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -158,6 +160,7 @@
 				CE5869CE1FBE445C0012F774 /* AppDelegate.swift */,
 				01C1CAE81FBFB35500FB636C /* AppData.swift */,
 				CE9683CF1FBE655600DFA277 /* LocationManager.swift */,
+				01C1CAEC1FBFD11E00FB636C /* AuthenticationHelper.swift */,
 				CE5869D21FBE445C0012F774 /* Main.storyboard */,
 				01BAC9F61FBE5C9E0050C891 /* Item.swift */,
 				01C1CAEA1FBFCAE900FB636C /* Tag.swift */,
@@ -369,12 +372,14 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-ItsFree/Pods-ItsFree-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
 				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
@@ -488,6 +493,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				01BAC9F71FBE5C9E0050C891 /* Item.swift in Sources */,
+				01C1CAED1FBFD11E00FB636C /* AuthenticationHelper.swift in Sources */,
 				01BAC9F91FBF6CD10050C891 /* Enums.swift in Sources */,
 				CE9683D21FBF6C9700DFA277 /* PostViewController.swift in Sources */,
 				01C1CAE91FBFB35500FB636C /* AppData.swift in Sources */,

@@ -7,8 +7,9 @@ target 'ItsFree' do
 
   # Pods for ItsFree
 
-  pod 'Firebase', '>= 2.5.1'
+  pod 'Firebase'
   pod 'FirebaseDatabase'
+  pod 'Firebase/Auth'
 
 
   target 'ItsFreeTests' do

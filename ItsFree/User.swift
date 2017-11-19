@@ -15,7 +15,8 @@ class User {
     var rating:Int
     
     
-    init(email:String, name:String, rating:Int) {
+    init(email:String, name:String, rating:Int, uid:String) {
+        self.UID = uid
         self.email = email
         self.name = name
         self.rating = rating

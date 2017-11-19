@@ -43,6 +43,34 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.mapListSegmentedControl.addTarget(self, action: #selector(mapListSegmentAction), for: .valueChanged)
         
         self.currentLocation =  LocationManager.theLocationManager.getLocation()
+        //self.getLocation()
+        
+//        
+//                if(LocationManager.theLocationManager == nil){
+//                    presentLocationAlert()
+//                }
+        
+        //set region
+        let span = MKCoordinateSpanMake(0.007, 0.007)
+        
+        self.homeMapView.region = MKCoordinateRegionMake(self.currentLocation.coordinate, span)
+        
+        self.homeMapView.showsUserLocation = true
+        self.homeMapView.showsPointsOfInterest = false
+        
+
+        
+        
+        // Do any additional setup after loading the view, typically from a nib.
+        
+        let testEmail = "nchlsfung@gmail.com"
+        let testPassword = "password"
+        let testName = "Nick"
+        
+        print("email: \(testEmail), password: \(testPassword), username: \(testName)")
+        
+        // AuthenticationHelper.register(withEmail: testEmail, password: testPassword, username: testName)
+        AuthenticationHelper.login(withEmail: testEmail, password: testPassword)
     }
 
     override func didReceiveMemoryWarning() {

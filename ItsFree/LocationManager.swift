@@ -19,15 +19,10 @@ class LocationManager: CLLocationManager {
     
     func getLocation() -> CLLocation {
         
-
-        
         self.desiredAccuracy = kCLLocationAccuracyBest
         self.requestWhenInUseAuthorization()
         self.startUpdatingLocation()
         
-    
-        //locationManager = CLLocationManager()
-        //self.locationManager.delegate = self
         currentLocation = self.location
         return currentLocation
         

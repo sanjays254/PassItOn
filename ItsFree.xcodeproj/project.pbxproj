@@ -23,6 +23,7 @@
 		CE9683D01FBE655600DFA277 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9683CF1FBE655600DFA277 /* LocationManager.swift */; };
 		CE9683D21FBF6C9700DFA277 /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9683D11FBF6C9700DFA277 /* PostViewController.swift */; };
 		CE9683D51FBF8E5700DFA277 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9683D41FBF8E5600DFA277 /* HomeViewController.swift */; };
+		CEF41A1C1FC1000F0044C63E /* MapViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF41A1B1FC1000F0044C63E /* MapViewDelegate.swift */; };
 		D09EB17ADD16BC258A842A2F /* Pods_ItsFreeUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D52FC03A3A047C54F34352C /* Pods_ItsFreeUITests.framework */; };
 		D28314DA8D50F5539091E8ED /* Pods_ItsFreeTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C64014BEF220564A2FD0137 /* Pods_ItsFreeTests.framework */; };
 /* End PBXBuildFile section */
@@ -75,6 +76,7 @@
 		CE9683CF1FBE655600DFA277 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		CE9683D11FBF6C9700DFA277 /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
 		CE9683D41FBF8E5600DFA277 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		CEF41A1B1FC1000F0044C63E /* MapViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -154,6 +156,7 @@
 			isa = PBXGroup;
 			children = (
 				CE9683D41FBF8E5600DFA277 /* HomeViewController.swift */,
+				CEF41A1B1FC1000F0044C63E /* MapViewDelegate.swift */,
 				01BAC9FA1FBF759E0050C891 /* GoogleService-Info.plist */,
 				CE5869CE1FBE445C0012F774 /* AppDelegate.swift */,
 				01C1CAE81FBFB35500FB636C /* AppData.swift */,
@@ -493,6 +496,7 @@
 				01C1CAE91FBFB35500FB636C /* AppData.swift in Sources */,
 				CE5869CF1FBE445C0012F774 /* AppDelegate.swift in Sources */,
 				CE9683D01FBE655600DFA277 /* LocationManager.swift in Sources */,
+				CEF41A1C1FC1000F0044C63E /* MapViewDelegate.swift in Sources */,
 				01C1CAEB1FBFCAE900FB636C /* Tag.swift in Sources */,
 				01D5DF461FBF86F40029A276 /* User.swift in Sources */,
 				CE9683D51FBF8E5700DFA277 /* HomeViewController.swift in Sources */,

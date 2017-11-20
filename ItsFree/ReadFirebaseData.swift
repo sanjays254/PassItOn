@@ -9,6 +9,7 @@
 import UIKit
 import Firebase
 import FirebaseAuth
+import CoreLocation
 
 
 
@@ -70,13 +71,16 @@ class ReadFirebaseData: NSObject {
                         let readDescription : String = item["itemDescription"]! as! String;
                         let readCategory : String = item["itemCategory"]! as! String;
                         let readUid : String = item["UID"]! as! String;
-                        //let readLocation : Array<Dictionary<String : Float>> = item["location"]! as! Array;
+                        let readRawLocation : [String:Double] = item["location"]! as! [String:Double]
                         let readPosterID : String = item["posterID"] as! String;
                         let readQuality : String = item["quality"] as! String;
                         let readTags : Array<String> =  item["tags"] as! Array;
+                        
+                        let readLocationCoordinate : CLLocationCoordinate2D = CLLocationCoordinate2DMake(readRawLocation["latitude"]!, readRawLocation["longitude"]!)
+                        
 
                         //change the location AND tAG to read from the online data.
-                        let readEntry = Item.init(name: readTitle, category: ItemCategory(rawValue: readCategory)!, description: readDescription, location: LocationManager.theLocationManager.currentLocation.coordinate, posterUID: readPosterID, quality: ItemQuality(rawValue: readQuality)!, tags: Tag() )
+                        let readEntry = Item.init(name: readTitle, category: ItemCategory(rawValue: readCategory)!, description: readDescription, location: readLocationCoordinate, posterUID: readPosterID, quality: ItemQuality(rawValue: readQuality)!, tags: Tag() )
 
                         AppData.sharedInstance.onlineItems?.append(readEntry)
 

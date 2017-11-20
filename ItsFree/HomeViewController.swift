@@ -71,6 +71,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         // AuthenticationHelper.register(withEmail: testEmail, password: testPassword, username: testName)
         AuthenticationHelper.login(withEmail: testEmail, password: testPassword)
+        
+        ReadFirebaseData.read()
     }
 
     override func didReceiveMemoryWarning() {
@@ -86,17 +88,18 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
         else if sender.selectedSegmentIndex == 1 {
             self.view.bringSubview(toFront: homeTableView)
+            homeTableView.reloadData()
         }
     }
     
     //tableView methods
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return ((AppData.sharedInstance.onlineItems?.count) ??  0)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "itemsCellID", for: indexPath)
-        
+        cell.textLabel?.text = AppData.sharedInstance.onlineItems?[indexPath.row].name
         return cell
     }
     

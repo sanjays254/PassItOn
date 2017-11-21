@@ -76,8 +76,8 @@ class ReadFirebaseData: NSObject {
                         
                         let readLocationCoordinate : CLLocationCoordinate2D = CLLocationCoordinate2DMake(readRawLocation["latitude"]!, readRawLocation["longitude"]!)
                         
-//                        let readTags: Tag = Tag()
-//                        readTags.tagsDict = readRawTags
+                        let readTags: Tag = Tag()
+                        readTags.tagsArray = readRawTags
 
                         //change the location AND tAG to read from the online data.
                         let readEntry = Item.init(name: readTitle, category: ItemCategory(rawValue: readCategory)!, description: readDescription, location: readLocationCoordinate, posterUID: readPosterID, quality: ItemQuality(rawValue: readQuality)!, tags: Tag() )

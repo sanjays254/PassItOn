@@ -10,9 +10,11 @@ import Foundation
 
 
 class Tag {
-    var tagsDict:[String:String] = [:]
+   // var tagsDict:[String:String] = [:]
+    var tagsArray:[String] = []
 
     func add(tag:String) {
-        tagsDict[String(tagsDict.count)] = tag
+        //tagsDict[String(tagsDict.count)] = tag
+        tagsArray.append(tag)
     }
 }

@@ -101,8 +101,11 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
     
     @IBAction func postItem(_ sender: UIBarButtonItem) {
         
-        let tag1:Tag = Tag()
-        tag1.add(tag: "blue")
+        let tags:Tag = Tag()
+       
+        tags.add(tag: "blue")
+        tags.add(tag: "Phone")
+        
         
         let testUser:User = User.init(email: "test@gmail.com", name: "John", rating: 39, uid: "testUID")
         testUser.UID = "testUserUID"
@@ -110,7 +113,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
 //        let testItem:Item = Item.init(name: "Hat", category: ItemCategory.clothing, description: "It's a hat", location: (LocationManager.theLocationManager.getLocation().coordinate), posterUID: testUser.UID, quality: ItemQuality.GentlyUsed, and: [tag1])
 //        testItem.UID = "testItemUID"
         
-        let realItem: Item = Item.init(name: titleTextField.text!, category: ItemCategory.clothing, description: descriptionTextField.text!, location: (LocationManager.theLocationManager.getLocation().coordinate), posterUID:  testUser.UID, quality: ItemQuality.GentlyUsed, tags: tag1)
+        let realItem: Item = Item.init(name: titleTextField.text!, category: ItemCategory.clothing, description: descriptionTextField.text!, location: (LocationManager.theLocationManager.getLocation().coordinate), posterUID:  testUser.UID, quality: ItemQuality.GentlyUsed, tags: tags)
         realItem.UID = "realItemUID"
         
         

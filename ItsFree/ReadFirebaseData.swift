@@ -44,9 +44,9 @@ class ReadFirebaseData: NSObject {
             {
                 return
             }
-
-            AppData.sharedInstance.onlineItems = Array<Item>()
-
+            
+            
+            
             let userID = Auth.auth().currentUser?.uid;
 
             AppData.sharedInstance.itemsNode
@@ -82,7 +82,7 @@ class ReadFirebaseData: NSObject {
                         //change the location AND tAG to read from the online data.
                         let readEntry = Item.init(name: readTitle, category: ItemCategory(rawValue: readCategory)!, description: readDescription, location: readLocationCoordinate, posterUID: readPosterID, quality: ItemQuality(rawValue: readQuality)!, tags: Tag() )
 
-                        AppData.sharedInstance.onlineItems?.append(readEntry)
+                        AppData.sharedInstance.onlineItems.append(readEntry)
                         
                     }
                 })

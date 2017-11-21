@@ -9,7 +9,7 @@
 import UIKit
 import MapKit
 
-class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource {
+class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
     var categoryCount: Int!
     
@@ -25,6 +25,35 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
     
     let cellID: String = "categoryCellID"
     
+    var myImage:UIImage?
+    let imagePicker = UIImagePickerController()
+    
+    func addImage() {
+        imagePicker.allowsEditing = false
+        imagePicker.sourceType = .photoLibrary
+        present(imagePicker, animated: true, completion: nil)
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        myImage = info[UIImagePickerControllerOriginalImage] as? UIImage
+        if myImage != nil {
+            print("image loaded: \(myImage!)")
+        }
+        dismiss(animated: true, completion: nil)
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -37,7 +66,8 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         categoryTableView.delegate = self
         categoryTableView.dataSource = self
         
-
+        imagePicker.delegate = self
+        addImage()
     }
 
     override func didReceiveMemoryWarning() {

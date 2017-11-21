@@ -10,8 +10,8 @@ target 'ItsFree' do
   pod 'Firebase'
   pod 'FirebaseDatabase'
   pod 'Firebase/Auth'
+  pod 'FirebaseStorage'
   pod 'FirebaseUI'
-
 
   target 'ItsFreeTests' do
     inherit! :search_paths

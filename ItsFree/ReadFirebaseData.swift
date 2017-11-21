@@ -84,6 +84,8 @@ class ReadFirebaseData: NSObject {
 
                         AppData.sharedInstance.onlineItems?.append(readEntry)
                         
+                     
+                        
                     }
                 })
         }

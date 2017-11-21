@@ -26,6 +26,8 @@
 		CE9683D51FBF8E5700DFA277 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9683D41FBF8E5600DFA277 /* HomeViewController.swift */; };
 		CEF41A1C1FC1000F0044C63E /* MapViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF41A1B1FC1000F0044C63E /* MapViewDelegate.swift */; };
 		CEF41A1E1FC113290044C63E /* ReadFirebaseData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF41A1D1FC113290044C63E /* ReadFirebaseData.swift */; };
+		CEF41A211FC374520044C63E /* ItemHomeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF41A1F1FC374520044C63E /* ItemHomeTableViewCell.swift */; };
+		CEF41A221FC374520044C63E /* ItemHomeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CEF41A201FC374520044C63E /* ItemHomeTableViewCell.xib */; };
 		D09EB17ADD16BC258A842A2F /* Pods_ItsFreeUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D52FC03A3A047C54F34352C /* Pods_ItsFreeUITests.framework */; };
 		D28314DA8D50F5539091E8ED /* Pods_ItsFreeTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C64014BEF220564A2FD0137 /* Pods_ItsFreeTests.framework */; };
 /* End PBXBuildFile section */
@@ -81,6 +83,8 @@
 		CE9683D41FBF8E5600DFA277 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		CEF41A1B1FC1000F0044C63E /* MapViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewDelegate.swift; sourceTree = "<group>"; };
 		CEF41A1D1FC113290044C63E /* ReadFirebaseData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadFirebaseData.swift; sourceTree = "<group>"; };
+		CEF41A1F1FC374520044C63E /* ItemHomeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemHomeTableViewCell.swift; sourceTree = "<group>"; };
+		CEF41A201FC374520044C63E /* ItemHomeTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ItemHomeTableViewCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -173,6 +177,8 @@
 				01BAC9F81FBF6CD10050C891 /* Enums.swift */,
 				CE9683D11FBF6C9700DFA277 /* PostViewController.swift */,
 				CEF41A1D1FC113290044C63E /* ReadFirebaseData.swift */,
+				CEF41A1F1FC374520044C63E /* ItemHomeTableViewCell.swift */,
+				CEF41A201FC374520044C63E /* ItemHomeTableViewCell.xib */,
 				CE5869D51FBE445C0012F774 /* Assets.xcassets */,
 				CE5869D71FBE445C0012F774 /* LaunchScreen.storyboard */,
 				CE5869DA1FBE445C0012F774 /* Info.plist */,
@@ -314,6 +320,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CEF41A221FC374520044C63E /* ItemHomeTableViewCell.xib in Resources */,
 				CE5869D91FBE445C0012F774 /* LaunchScreen.storyboard in Resources */,
 				01BAC9FB1FBF75A70050C891 /* GoogleService-Info.plist in Resources */,
 				CE5869D61FBE445C0012F774 /* Assets.xcassets in Resources */,
@@ -378,15 +385,37 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-ItsFree/Pods-ItsFree-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
+				"${BUILT_PRODUCTS_DIR}/BoringSSL/openssl.framework",
+				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
+				"${BUILT_PRODUCTS_DIR}/FBSDKLoginKit/FBSDKLoginKit.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMOAuth2/GTMOAuth2.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
+				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC/GRPCClient.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC-Core/grpc.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC-ProtoRPC/ProtoRPC.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC-RxLibrary/RxLibrary.framework",
 				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bolts.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/openssl.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKCoreKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKLoginKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMOAuth2.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GRPCClient.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpc.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ProtoRPC.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxLibrary.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
@@ -464,9 +493,19 @@
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-ItsFree/Pods-ItsFree-resources.sh",
+				"$PODS_CONFIGURATION_BUILD_DIR/FirebaseUI/FirebaseAuthUI.bundle",
+				"$PODS_CONFIGURATION_BUILD_DIR/FirebaseUI/FirebaseFacebookAuthUI.bundle",
+				"$PODS_CONFIGURATION_BUILD_DIR/FirebaseUI/FirebaseGoogleAuthUI.bundle",
+				"$PODS_CONFIGURATION_BUILD_DIR/FirebaseUI/FirebasePhoneAuthUI.bundle",
+				"$PODS_CONFIGURATION_BUILD_DIR/FirebaseUI/FirebaseTwitterAuthUI.bundle",
+				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
+				"${PODS_ROOT}/TwitterKit/iOS/TwitterKit.framework/TwitterKitResources.bundle",
+				"${PODS_ROOT}/TwitterKit/iOS/TwitterKit.framework/TwitterShareExtensionUIResources.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -508,6 +547,7 @@
 				CEF41A1E1FC113290044C63E /* ReadFirebaseData.swift in Sources */,
 				CEF41A1C1FC1000F0044C63E /* MapViewDelegate.swift in Sources */,
 				01C1CAEB1FBFCAE900FB636C /* Tag.swift in Sources */,
+				CEF41A211FC374520044C63E /* ItemHomeTableViewCell.swift in Sources */,
 				01D5DF461FBF86F40029A276 /* User.swift in Sources */,
 				CE9683D51FBF8E5700DFA277 /* HomeViewController.swift in Sources */,
 			);

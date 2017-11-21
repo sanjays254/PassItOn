@@ -10,6 +10,7 @@ target 'ItsFree' do
   pod 'Firebase'
   pod 'FirebaseDatabase'
   pod 'Firebase/Auth'
+  pod 'FirebaseUI'
 
 
   target 'ItsFreeTests' do

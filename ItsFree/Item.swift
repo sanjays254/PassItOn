@@ -51,7 +51,7 @@ class Item {
             "location": locationDict,
             "posterID":posterUID,
             "quality":self.quality.rawValue,
-            "tags":self.tags.tagsDict
+            "tags":self.tags.tagsArray
             ]
         
         return itemDict

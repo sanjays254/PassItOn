@@ -13,7 +13,6 @@ import UIKit
 import MapKit
 
 
-
 class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate, MKMapViewDelegate {
 
     var currentLocation: CLLocation!
@@ -25,11 +24,14 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet weak var homeMapView: MKMapView!
     @IBOutlet weak var homeTableView: UITableView!
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.homeTableView.delegate = self
         self.homeTableView.dataSource = self
+        self.homeTableView.rowHeight = 70
+        
         
         //delegating the mapView
         self.homeMapView.delegate = MapViewDelegate.theMapViewDelegate
@@ -43,12 +45,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.mapListSegmentedControl.addTarget(self, action: #selector(mapListSegmentAction), for: .valueChanged)
         
         self.currentLocation =  LocationManager.theLocationManager.getLocation()
-        //self.getLocation()
-        
-//        
-//                if(LocationManager.theLocationManager == nil){
-//                    presentLocationAlert()
-//                }
+
         
         //set region
         let span = MKCoordinateSpanMake(0.007, 0.007)
@@ -74,7 +71,14 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         ReadFirebaseData.read()
     }
-
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+     
+        homeTableView.reloadData()
+    }
+    
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -98,11 +102,21 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "itemsCellID", for: indexPath)
-        cell.textLabel?.text = AppData.sharedInstance.onlineItems?[indexPath.row].name
+        
+        tableView.register(UINib(nibName: "ItemHomeTableViewCell", bundle: nil), forCellReuseIdentifier: "itemHomeTableViewCellID")
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "itemHomeTableViewCellID") as! ItemHomeTableViewCell
+        
+        cell.itemTitleLabel.text = AppData.sharedInstance.onlineItems?[indexPath.row].name
+        cell.itemQualityLabel.text = AppData.sharedInstance.onlineItems?[indexPath.row].quality.rawValue
+        let destinationLocation: CLLocation = CLLocation(latitude: (AppData.sharedInstance.onlineItems?[indexPath.row].location.latitude)!, longitude: (AppData.sharedInstance.onlineItems?[indexPath.row].location.longitude)!)
+        
+        let distance = (destinationLocation.distance(from: self.currentLocation)/1000)
+        
+        cell.itemDistanceLabel.text = String(format: "%.2f", distance) + " kms away"
+        
         return cell
     }
-    
 
     //segues
 

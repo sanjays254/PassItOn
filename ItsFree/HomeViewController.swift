@@ -98,7 +98,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     //tableView methods
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return ((AppData.sharedInstance.onlineItems?.count) ??  0)
+        return AppData.sharedInstance.onlineItems.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -107,9 +107,9 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "itemHomeTableViewCellID") as! ItemHomeTableViewCell
         
-        cell.itemTitleLabel.text = AppData.sharedInstance.onlineItems?[indexPath.row].name
-        cell.itemQualityLabel.text = AppData.sharedInstance.onlineItems?[indexPath.row].quality.rawValue
-        let destinationLocation: CLLocation = CLLocation(latitude: (AppData.sharedInstance.onlineItems?[indexPath.row].location.latitude)!, longitude: (AppData.sharedInstance.onlineItems?[indexPath.row].location.longitude)!)
+        cell.itemTitleLabel.text = AppData.sharedInstance.onlineItems[indexPath.row].name
+        cell.itemQualityLabel.text = AppData.sharedInstance.onlineItems[indexPath.row].quality.rawValue
+        let destinationLocation: CLLocation = CLLocation(latitude: AppData.sharedInstance.onlineItems[indexPath.row].location.latitude, longitude: AppData.sharedInstance.onlineItems[indexPath.row].location.longitude)
         
         let distance = (destinationLocation.distance(from: self.currentLocation)/1000)
         

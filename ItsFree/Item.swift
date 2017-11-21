@@ -8,16 +8,23 @@
 
 import Foundation
 import CoreLocation
+import MapKit
 
 
 
-class Item {
+class Item: NSObject, MKAnnotation {
     
+    
+    var coordinate: CLLocationCoordinate2D
     var UID:String!
     var name:String
     var itemCategory:ItemCategory
     var itemDescription:String
-    var location:CLLocationCoordinate2D
+    var location:CLLocationCoordinate2D {
+        didSet {
+            self.coordinate = self.location
+        }
+    }
     var posterUID:String
     var quality:ItemQuality
     var tags:Tag
@@ -38,6 +45,7 @@ class Item {
         self.quality = quality
         self.tags = tags
         self.posterUID = posterUID
+        self.coordinate = location
     }
     
     func toDictionary() -> [String:Any] {

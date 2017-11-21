@@ -72,6 +72,12 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         ReadFirebaseData.read()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+     
+        homeTableView.reloadData()
+    }
+    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

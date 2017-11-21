@@ -11,7 +11,7 @@ import Foundation
 
 class Tag {
     var tagsDict:[String:String] = [:]
-    
+
     func add(tag:String) {
         tagsDict[String(tagsDict.count)] = tag
     }

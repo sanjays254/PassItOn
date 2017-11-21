@@ -50,8 +50,6 @@ class ReadFirebaseData: NSObject {
             let userID = Auth.auth().currentUser?.uid;
 
             AppData.sharedInstance.itemsNode
-                //.child(userID!)
-                .child("testUserUID")
                 .observeSingleEvent(of: .value, with: { (snapshot) in
 
                     let value = snapshot.value as? NSDictionary;
@@ -74,17 +72,17 @@ class ReadFirebaseData: NSObject {
                         let readRawLocation : [String:Double] = item["location"]! as! [String:Double]
                         let readPosterID : String = item["posterID"] as! String;
                         let readQuality : String = item["quality"] as! String;
-                        let readTags : Array<String> =  item["tags"] as! Array;
+                        let readRawTags : [String] =  item["tags"] as! [String]
                         
                         let readLocationCoordinate : CLLocationCoordinate2D = CLLocationCoordinate2DMake(readRawLocation["latitude"]!, readRawLocation["longitude"]!)
                         
+//                        let readTags: Tag = Tag()
+//                        readTags.tagsDict = readRawTags
 
                         //change the location AND tAG to read from the online data.
                         let readEntry = Item.init(name: readTitle, category: ItemCategory(rawValue: readCategory)!, description: readDescription, location: readLocationCoordinate, posterUID: readPosterID, quality: ItemQuality(rawValue: readQuality)!, tags: Tag() )
 
                         AppData.sharedInstance.onlineItems?.append(readEntry)
-
-                        print (AppData.sharedInstance.onlineItems)
                         
                     }
                 })

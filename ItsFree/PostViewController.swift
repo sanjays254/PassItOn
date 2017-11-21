@@ -116,7 +116,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         
         
         AppData.sharedInstance.usersNode.child(testUser.UID).setValue(testUser.toDictionary())
-        AppData.sharedInstance.itemsNode.child(testUser.UID).child(realItem.UID).setValue(realItem.toDictionary())
+        AppData.sharedInstance.itemsNode.child(realItem.UID).setValue(realItem.toDictionary())
         
         
         

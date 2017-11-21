@@ -44,7 +44,6 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
             print("image loaded: \(myImage!)")
         }
         dismiss(animated: true, completion: nil)
-        PhotoManager.uploadImage(image: myImage!, userUID: "testUserUID", filename: "0")
     }
     
     

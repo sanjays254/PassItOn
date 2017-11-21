@@ -1,5 +1,5 @@
 //
-//  PhotoManager.swift
+//  ImageManager.swift
 //  ItsFree
 //
 //  Created by Nicholas Fung on 2017-11-20.
@@ -11,7 +11,7 @@ import FirebaseStorage
 import UIKit
 
 
-class PhotoManager {
+class ImageManager {
     
     class func uploadImage(image:UIImage, userUID:String, filename:String) -> String {
         let storageRef = Storage.storage().reference()
@@ -24,18 +24,18 @@ class PhotoManager {
         return storagePath
     }
     
-    class func downloadImage(imageReferencePath:String) {
+    class func downloadImage(imagePath:String, into imageView:UIImageView) {
+        let imageRef = Storage.storage().reference().child(imagePath)
         
+        imageRef.getData(maxSize: 1*1024*1024) { (data, error) in
+            if let error = error {
+                print("Error getting image from Firebase Storage: \(error.localizedDescription)")
+            }
+            else {
+                imageView.image = UIImage(data: data!)
+            }
+        }
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
 }
 

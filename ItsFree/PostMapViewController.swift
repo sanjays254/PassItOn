@@ -22,8 +22,6 @@ class PostMapViewController: UIViewController, UISearchBarDelegate, MKMapViewDel
     var pinAnnotationView:MKPinAnnotationView!
     var markerAnnotationView:MKMarkerAnnotationView!
     
-    public var selectedLocationString: String!
-    public var selectedLocationCoordinates: CLLocationCoordinate2D!
     
     @IBOutlet weak var postMapView: MKMapView!
     
@@ -101,6 +99,7 @@ class PostMapViewController: UIViewController, UISearchBarDelegate, MKMapViewDel
         
         let previousVC = self.navigationController?.viewControllers[myVCindex!-1] as! PostViewController
         previousVC.selectedLocationString = self.pointAnnotation.title!
+        previousVC.selectedLocationCoordinates = self.pointAnnotation.coordinate
         
     }
     

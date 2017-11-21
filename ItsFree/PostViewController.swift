@@ -14,6 +14,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
     var categoryCount: Int!
     
     public var selectedLocationString: String = ""
+     public var selectedLocationCoordinates: CLLocationCoordinate2D!
     
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var descriptionTextField: UITextField!

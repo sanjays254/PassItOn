@@ -20,11 +20,13 @@ class AppData: NSObject {
     
     public var usersNode: DatabaseReference
     public var itemsNode: DatabaseReference
+    public var categorizedItemsNode: DatabaseReference
     
     public override init() {
         
         usersNode = Database.database().reference().child("users")
         itemsNode = Database.database().reference().child("items")
+        categorizedItemsNode = Database.database().reference().child("categorizedItems")
     }
     
 }

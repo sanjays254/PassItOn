@@ -1,5 +1,4 @@
 PODS:
-
   - Bolts (1.8.4):
     - Bolts/AppLinks (= 1.8.4)
     - Bolts/Tasks (= 1.8.4)
@@ -182,6 +181,6 @@ SPEC CHECKSUMS:
   TwitterCore: e0420b01e02e7d20e94690e37f43e75de219ab8d
   TwitterKit: 205ac89824bbfe9e85a16c420d30bb7bcbedac45
 
-PODFILE CHECKSUM: 03cd1ac05b7e9acd3edf236fbc6fd73ea88dec26
+PODFILE CHECKSUM: 6489c7192bbf04cec73ebdc4135454575190228e
 
 COCOAPODS: 1.3.1

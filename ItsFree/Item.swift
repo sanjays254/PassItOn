@@ -15,16 +15,19 @@ import MapKit
 class Item: NSObject, MKAnnotation {
     
     
-    var coordinate: CLLocationCoordinate2D
+    var coordinate: CLLocationCoordinate2D {
+        get{
+            return self.location
+        }
+        set {
+            self.location = newValue
+        }
+    }
     var UID:String!
     var name:String
     var itemCategory:ItemCategory
     var itemDescription:String
-    var location:CLLocationCoordinate2D {
-        didSet {
-            self.coordinate = self.location
-        }
-    }
+    var location:CLLocationCoordinate2D
     var posterUID:String
     var quality:ItemQuality
     var tags:Tag
@@ -45,7 +48,44 @@ class Item: NSObject, MKAnnotation {
         self.quality = quality
         self.tags = tags
         self.posterUID = posterUID
-        self.coordinate = location
+    }
+    
+    convenience init?(with inpDict:[String:Any]) {
+        
+        guard
+            let inpName: String = inpDict["name"] as? String,
+            let inpDescription: String = inpDict["itemDescription"] as? String,
+            let inpCategory: String = inpDict["itemCategory"] as? String,
+            let inpItemUID: String = inpDict["UID"] as? String,
+            let inpPosterUID: String = inpDict["posterID"] as? String,
+            let inpQuality: String = inpDict["quality"] as? String,
+            let inpTagsArray: [String] =  inpDict["tags"] as? [String],
+            let inpLocationDict: [String:Double] = inpDict["location"] as? [String:Double] else
+        {
+                print("Error: Dictionary is not in the correct format")
+                return nil
+        }
+        
+        guard
+            let inpLatitude: Double = inpLocationDict["latitude"],
+            let inpLongitude: Double = inpLocationDict["longitude"] else
+        {
+            print("Error: Passed location data is not in the correct format")
+            return nil
+        }
+        
+        let inpLocation: CLLocationCoordinate2D = CLLocationCoordinate2DMake(inpLatitude, inpLongitude)
+        let inpTags = Tag()
+        inpTags.tagsArray = inpTagsArray
+        
+        self.init(name: inpName,
+                  category: ItemCategory(rawValue: inpCategory)!,
+                  description: inpDescription,
+                  location: inpLocation,
+                  posterUID: inpPosterUID,
+                  quality: ItemQuality(rawValue: inpQuality)!,
+                  tags: inpTags)
+        self.UID = inpItemUID
     }
     
     func toDictionary() -> [String:Any] {
@@ -60,7 +100,7 @@ class Item: NSObject, MKAnnotation {
             "posterID":posterUID,
             "quality":self.quality.rawValue,
             "tags":self.tags.tagsArray
-            ]
+        ]
         
         return itemDict
     }

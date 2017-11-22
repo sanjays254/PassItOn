@@ -8,11 +8,21 @@
 
 import Foundation
 import CoreLocation
+import MapKit
 
 
 
-class Item {
+class Item: NSObject, MKAnnotation {
     
+    
+    var coordinate: CLLocationCoordinate2D {
+        get{
+            return self.location
+        }
+        set {
+            self.location = newValue
+        }
+    }
     var UID:String!
     var name:String
     var itemCategory:ItemCategory
@@ -40,6 +50,72 @@ class Item {
         self.posterUID = posterUID
     }
     
+    init(name:String,
+         category:ItemCategory,
+         description:String,
+         location:CLLocationCoordinate2D,
+         posterUID:String,
+         quality:ItemQuality,
+         tags:Tag,
+         itemUID:String?) {
+        
+        self.name = name
+        self.itemCategory = category
+        self.itemDescription = description
+        self.location = location
+        self.posterUID = posterUID
+        self.quality = quality
+        self.tags = tags
+        self.posterUID = posterUID
+        
+        if itemUID == nil {
+            let newItemUID = AppData.sharedInstance.itemsNode.childByAutoId()
+            self.UID = newItemUID.key
+            print("\(self.UID)")
+        }
+        else {
+            self.UID = itemUID
+        }
+    }
+    
+    convenience init?(with inpDict:[String:Any]) {
+        
+        guard
+            let inpName: String = inpDict["name"] as? String,
+            let inpDescription: String = inpDict["itemDescription"] as? String,
+            let inpCategory: String = inpDict["itemCategory"] as? String,
+            let inpItemUID: String = inpDict["UID"] as? String,
+            let inpPosterUID: String = inpDict["posterID"] as? String,
+            let inpQuality: String = inpDict["quality"] as? String,
+            let inpTagsArray: [String] =  inpDict["tags"] as? [String],
+            let inpLocationDict: [String:Double] = inpDict["location"] as? [String:Double] else
+        {
+            print("Error: Dictionary is not in the correct format")
+            return nil
+        }
+        
+        guard
+            let inpLatitude: Double = inpLocationDict["latitude"],
+            let inpLongitude: Double = inpLocationDict["longitude"] else
+        {
+            print("Error: Passed location data is not in the correct format")
+            return nil
+        }
+        
+        let inpLocation: CLLocationCoordinate2D = CLLocationCoordinate2DMake(inpLatitude, inpLongitude)
+        let inpTags = Tag()
+        inpTags.tagsArray = inpTagsArray
+        
+        self.init(name: inpName,
+                  category: ItemCategory(rawValue: inpCategory)!,
+                  description: inpDescription,
+                  location: inpLocation,
+                  posterUID: inpPosterUID,
+                  quality: ItemQuality(rawValue: inpQuality)!,
+                  tags: inpTags,
+                  itemUID:inpItemUID)
+    }
+    
     func toDictionary() -> [String:Any] {
         let locationDict:[String:Double] = ["latitude":self.location.latitude, "longitude":self.location.longitude]
         
@@ -52,7 +128,7 @@ class Item {
             "posterID":posterUID,
             "quality":self.quality.rawValue,
             "tags":self.tags.tagsArray
-            ]
+        ]
         
         return itemDict
     }

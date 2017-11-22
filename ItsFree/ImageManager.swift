@@ -8,7 +8,8 @@
 
 import Foundation
 import FirebaseStorage
-import UIKit
+import UIKit 
+import FirebaseStorageUI
 
 
 class ImageManager {
@@ -26,15 +27,7 @@ class ImageManager {
     
     class func downloadImage(imagePath:String, into imageView:UIImageView) {
         let imageRef = Storage.storage().reference().child(imagePath)
-        
-        imageRef.getData(maxSize: 1*1024*1024) { (data, error) in
-            if let error = error {
-                print("Error getting image from Firebase Storage: \(error.localizedDescription)")
-            }
-            else {
-                imageView.image = UIImage(data: data!)
-            }
-        }
+        imageView.sd_setImage(with: imageRef, placeholderImage: nil)
     }
     
 }

@@ -16,7 +16,8 @@ class AppData: NSObject {
     static let sharedInstance = AppData()
     
     public var currentUser: User? = nil
-    public var onlineItems: Array<Item>? = nil
+    
+    public var onlineItems: [Item] = []
     
     public var usersNode: DatabaseReference
     public var itemsNode: DatabaseReference

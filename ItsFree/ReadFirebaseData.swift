@@ -45,8 +45,6 @@ class ReadFirebaseData: NSObject {
                 return
             }
 
-            AppData.sharedInstance.onlineItems = Array<Item>()
-
             let userID = Auth.auth().currentUser?.uid;
 
             AppData.sharedInstance.itemsNode
@@ -60,33 +58,13 @@ class ReadFirebaseData: NSObject {
 
                     for any in (value?.allValues)!
                     {
-                  
-                            
-                        
-                        let item : [String : Any] = any as! Dictionary <String, Any>;
 
-                        let readTitle : String = item["name"]! as! String;
-                        let readDescription : String = item["itemDescription"]! as! String;
-                        let readCategory : String = item["itemCategory"]! as! String;
-                        let readUid : String = item["UID"]! as! String;
-                        let readRawLocation : [String:Double] = item["location"]! as! [String:Double]
-                        let readPosterID : String = item["posterID"] as! String;
-                        let readQuality : String = item["quality"] as! String;
-                        let readRawTags : [String] =  item["tags"] as! [String]
-                        
-                        let readLocationCoordinate : CLLocationCoordinate2D = CLLocationCoordinate2DMake(readRawLocation["latitude"]!, readRawLocation["longitude"]!)
-                        
-                        let readTags: Tag = Tag()
-                        readTags.tagsArray = readRawTags
+                        let item: [String:Any] = any as! [String:Any]
+                        let readItem = Item(with: item)
 
-                        //change the location AND tAG to read from the online data.
-                        let readEntry = Item.init(name: readTitle, category: ItemCategory(rawValue: readCategory)!, description: readDescription, location: readLocationCoordinate, posterUID: readPosterID, quality: ItemQuality(rawValue: readQuality)!, tags: Tag() )
-
-                        AppData.sharedInstance.onlineItems?.append(readEntry)
-                        
-                     
-                        
+                        AppData.sharedInstance.onlineItems.append(readItem!)
                     }
+                    
                 })
         }
 

@@ -73,7 +73,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         categoryTableView.dataSource = self
         
         imagePicker.delegate = self
-        addImage()
+//        addImage()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -153,8 +153,8 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
 //        let testItem:Item = Item.init(name: "Hat", category: ItemCategory.clothing, description: "It's a hat", location: (LocationManager.theLocationManager.getLocation().coordinate), posterUID: testUser.UID, quality: ItemQuality.GentlyUsed, and: [tag1])
 //        testItem.UID = "testItemUID"
         
-        let realItem: Item = Item.init(name: titleTextField.text!, category: ItemCategory.clothing, description: descriptionTextField.text!, location: (LocationManager.theLocationManager.getLocation().coordinate), posterUID:  testUser.UID, quality: ItemQuality.GentlyUsed, tags: tags)
-        realItem.UID = "realItemUID"
+        let realItem: Item = Item.init(name: titleTextField.text!, category: ItemCategory.clothing, description: descriptionTextField.text!, location: (LocationManager.theLocationManager.getLocation().coordinate), posterUID:  testUser.UID, quality: ItemQuality.GentlyUsed, tags: tags, itemUID: nil)
+        //realItem.UID = "realItemUID"
         
         
         AppData.sharedInstance.usersNode.child(testUser.UID).setValue(testUser.toDictionary())

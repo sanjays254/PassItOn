@@ -112,9 +112,9 @@ class PostMapViewController: UIViewController, UISearchBarDelegate, MKMapViewDel
         locationPlotter()
     }
     
-    class func locationPlotter(){
-        locationPlotter()
-    }
+//    class func locationPlotter(){
+//        locationPlotter()
+//    }
     
     func locationPlotter(){
         

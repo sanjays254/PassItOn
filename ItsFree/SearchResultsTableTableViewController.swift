@@ -12,16 +12,23 @@ import MapKit
 
 class SearchResultsTableViewController: UITableViewController {
     
+    var previousVC: PostMapViewController!
+    
     public var searchResults: [MKLocalSearchCompletion]!
     
     public var placeToSearch: String = ""
     
     override func viewDidLoad() {
+        
+        
         super.viewDidLoad()
+        
         
         tableView.delegate = self
         tableView.dataSource = self
         self.searchResults = [MKLocalSearchCompletion]()
+        
+        
         
     }
     
@@ -43,7 +50,8 @@ class SearchResultsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         placeToSearch = searchResults[indexPath.row].title
         dismiss(animated: true, completion: nil)
-        PostMapViewController.locationPlotter()
+        let presentingViewController = self.presentingViewController as! PostMapViewController
+        presentingViewController.locationPlotter()
     }
     
 

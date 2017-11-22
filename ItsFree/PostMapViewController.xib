@@ -11,7 +11,6 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PostMapViewController" customModule="ItsFree" customModuleProvider="target">
             <connections>
-                <outlet property="postMapView" destination="Ssf-SB-tIS" id="7Iu-HK-bkr"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -30,9 +29,6 @@
                         <constraint firstAttribute="width" constant="34" id="cvy-On-7nI"/>
                     </constraints>
                     <state key="normal" title="Save"/>
-                    <connections>
-                        <action selector="saveLocationButon:" destination="-1" eventType="touchUpInside" id="xGC-eg-gO3"/>
-                    </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PA1-pV-VkA">
                     <rect key="frame" x="291" y="617" width="64" height="30"/>

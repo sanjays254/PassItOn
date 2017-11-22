@@ -168,10 +168,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
     
     @IBAction func selectPostLocationButton(_ sender: UIButton) {
         
-        let postMapViewController = PostMapViewController()
-        self.navigationController?.pushViewController(postMapViewController, animated: true)
-        
-        
+        performSegue(withIdentifier: "showPostMap", sender: self)
         
     }
     

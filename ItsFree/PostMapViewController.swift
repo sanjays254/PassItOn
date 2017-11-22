@@ -10,7 +10,7 @@ import UIKit
 import MapKit
 
 
-class PostMapViewController: UIViewController, UISearchBarDelegate, MKMapViewDelegate, MKLocalSearchCompleterDelegate, UITableViewDelegate,UITableViewDataSource {
+class PostMapViewController: UIViewController, UISearchBarDelegate, MKMapViewDelegate, MKLocalSearchCompleterDelegate {
     
 
     var previousVC: PostViewController!
@@ -22,21 +22,23 @@ class PostMapViewController: UIViewController, UISearchBarDelegate, MKMapViewDel
     var localSearchResponse:MKLocalSearchResponse!
     var error:NSError!
     var pointAnnotation:MKPointAnnotation!
-   // var pinAnnotationView:MKPinAnnotationView!
+   
     var markerAnnotationView:MKMarkerAnnotationView!
     
-    //auto-complete search variables
     var searchCompleter: MKLocalSearchCompleter!
-    var searchResults : [MKLocalSearchCompletion]!
-    var searchResultsTableView: UITableView!
     
-    var placeToSearch: String = ""
+    
+    let searchResultsTableViewController = SearchResultsTableViewController()
+    
+   
     
     @IBOutlet weak var postMapView: MKMapView!
+    
     
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        definesPresentationContext = true
 
         let myVCindex = self.navigationController?.viewControllers.index(of: self)
         previousVC = self.navigationController?.viewControllers[myVCindex!-1] as! PostViewController
@@ -45,18 +47,17 @@ class PostMapViewController: UIViewController, UISearchBarDelegate, MKMapViewDel
         
         self.navigationItem.rightBarButtonItem = searchButton
         
+        //mapView Delegate stuff
         self.postMapView.delegate = MapViewDelegate.theMapViewDelegate
         MapViewDelegate.theMapViewDelegate.theMapView = self.postMapView
         MapViewDelegate.theMapViewDelegate.setMapRegion()
-        
         
         //searchCompleter delegate stuff
         self.searchCompleter = MKLocalSearchCompleter()
         self.searchCompleter.delegate = self
         self.searchCompleter.region = self.postMapView.region
         self.searchCompleter.filterType = MKSearchCompletionFilterType.locationsAndQueries
-        
-        self.searchResults = [MKLocalSearchCompletion]()
+    
     }
 
 
@@ -74,56 +75,28 @@ class PostMapViewController: UIViewController, UISearchBarDelegate, MKMapViewDel
     
     @objc func searchButtonClicked () {
         
-        searchController = UISearchController(searchResultsController: nil)
-        searchController.hidesNavigationBarDuringPresentation = false
-        self.searchController.searchBar.delegate = self
-        //self.searchController.searchBar.text = previousVC.selectedLocationString
+        
+        searchController = UISearchController(searchResultsController: searchResultsTableViewController)
+        
+//        searchController.hidesNavigationBarDuringPresentation = true
+        searchController.searchBar.delegate = self
         present(searchController, animated: true, completion: nil)
-
     }
     
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         
-        //search-completer tableView setup
-        searchResultsTableView = UITableView(frame: CGRect(x: 0, y:50, width: (self.view.window?.frame.width)!, height: (self.view.window?.frame.height)!), style: UITableViewStyle.plain)
-        searchResultsTableView.delegate = self
-        searchResultsTableView.dataSource = self
-        
-        self.searchController.view.addSubview(searchResultsTableView)
-        self.searchController.view.bringSubview(toFront: searchResultsTableView)
-
         self.searchCompleter.queryFragment = self.searchController.searchBar.text!
         
-        self.searchResultsTableView.reloadData()
+        searchResultsTableViewController.tableView.reloadData()
     }
-    
     
 
-    //auto-complete table View methods
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.searchResults.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        let searchResult = searchResults[indexPath.row]
-        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
-        cell.textLabel?.text = searchResult.title
-        cell.detailTextLabel?.text = searchResult.subtitle
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        placeToSearch = searchResults[indexPath.row].title
-        dismiss(animated: true, completion: nil)
-        locationPlotter()
-    }
     
     //search-completer delegate methods
     func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
-        searchResults = completer.results
-        searchResultsTableView.reloadData()
+        searchResultsTableViewController.searchResults = completer.results
+        searchResultsTableViewController.tableView.reloadData()
     }
     
     func completer(_ completer: MKLocalSearchCompleter, didFailWithError error: Error) {
@@ -131,12 +104,15 @@ class PostMapViewController: UIViewController, UISearchBarDelegate, MKMapViewDel
     }
     
     
-    
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar){
         
         searchBar.resignFirstResponder()
         dismiss(animated: true, completion: nil)
-        placeToSearch = searchBar.text!
+        searchResultsTableViewController.placeToSearch = searchBar.text!
+        locationPlotter()
+    }
+    
+    class func locationPlotter(){
         locationPlotter()
     }
     
@@ -148,7 +124,7 @@ class PostMapViewController: UIViewController, UISearchBarDelegate, MKMapViewDel
         }
         
         localSearchRequest = MKLocalSearchRequest()
-        localSearchRequest.naturalLanguageQuery = placeToSearch
+        localSearchRequest.naturalLanguageQuery = searchResultsTableViewController.placeToSearch
         localSearch = MKLocalSearch(request: localSearchRequest)
         localSearch.start { (localSearchResponse, error) -> Void in
             
@@ -160,7 +136,7 @@ class PostMapViewController: UIViewController, UISearchBarDelegate, MKMapViewDel
             }
             
             self.pointAnnotation = MKPointAnnotation()
-            self.pointAnnotation.title = self.placeToSearch
+            self.pointAnnotation.title = self.searchResultsTableViewController.placeToSearch
             
             // self.pointAnnotation = localSearchResponse?.mapItems[0].placemark.thoroughfare
             
@@ -170,7 +146,6 @@ class PostMapViewController: UIViewController, UISearchBarDelegate, MKMapViewDel
             
             self.postMapView.centerCoordinate = self.pointAnnotation.coordinate
             self.postMapView.addAnnotation(self.markerAnnotationView.annotation!)
-            
         }
     }
     
@@ -178,10 +153,9 @@ class PostMapViewController: UIViewController, UISearchBarDelegate, MKMapViewDel
     @IBAction func saveLocationButon(_ sender: UIButton) {
         
         self.navigationController?.popViewController(animated: true)
-   
         previousVC.selectedLocationString = self.pointAnnotation.title ?? ""
         previousVC.selectedLocationCoordinates = self.pointAnnotation.coordinate
         
     }
-    
 }
+

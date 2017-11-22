@@ -31,6 +31,7 @@
 		CEF41A221FC374520044C63E /* ItemHomeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CEF41A201FC374520044C63E /* ItemHomeTableViewCell.xib */; };
 		CEF41A251FC3CF1C0044C63E /* PostMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF41A231FC3CF1C0044C63E /* PostMapViewController.swift */; };
 		CEF41A261FC3CF1C0044C63E /* PostMapViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CEF41A241FC3CF1C0044C63E /* PostMapViewController.xib */; };
+		CEF41A281FC501FA0044C63E /* SearchResultsTableTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF41A271FC501F60044C63E /* SearchResultsTableTableViewController.swift */; };
 		D09EB17ADD16BC258A842A2F /* Pods_ItsFreeUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D52FC03A3A047C54F34352C /* Pods_ItsFreeUITests.framework */; };
 		D28314DA8D50F5539091E8ED /* Pods_ItsFreeTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C64014BEF220564A2FD0137 /* Pods_ItsFreeTests.framework */; };
 /* End PBXBuildFile section */
@@ -91,6 +92,7 @@
 		CEF41A201FC374520044C63E /* ItemHomeTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ItemHomeTableViewCell.xib; sourceTree = "<group>"; };
 		CEF41A231FC3CF1C0044C63E /* PostMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostMapViewController.swift; sourceTree = "<group>"; };
 		CEF41A241FC3CF1C0044C63E /* PostMapViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PostMapViewController.xib; sourceTree = "<group>"; };
+		CEF41A271FC501F60044C63E /* SearchResultsTableTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsTableTableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -178,6 +180,7 @@
 				01C1CAEC1FBFD11E00FB636C /* AuthenticationHelper.swift */,
 				CE5869D21FBE445C0012F774 /* Main.storyboard */,
 				CEF41A231FC3CF1C0044C63E /* PostMapViewController.swift */,
+				CEF41A271FC501F60044C63E /* SearchResultsTableTableViewController.swift */,
 				CEF41A241FC3CF1C0044C63E /* PostMapViewController.xib */,
 				01BAC9F61FBE5C9E0050C891 /* Item.swift */,
 				01C1CAEA1FBFCAE900FB636C /* Tag.swift */,
@@ -560,6 +563,7 @@
 				01C1CAEB1FBFCAE900FB636C /* Tag.swift in Sources */,
 				01F6ADA71FC3A89C00414D96 /* ImageManager.swift in Sources */,
 				CEF41A211FC374520044C63E /* ItemHomeTableViewCell.swift in Sources */,
+				CEF41A281FC501FA0044C63E /* SearchResultsTableTableViewController.swift in Sources */,
 				01D5DF461FBF86F40029A276 /* User.swift in Sources */,
 				CE9683D51FBF8E5700DFA277 /* HomeViewController.swift in Sources */,
 			);

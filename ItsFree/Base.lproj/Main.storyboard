@@ -156,6 +156,50 @@
             </objects>
             <point key="canvasLocation" x="1456.8" y="568.06596701649175"/>
         </scene>
+        <!--Post Map View Controller-->
+        <scene sceneID="ZLj-Bc-Dnr">
+            <objects>
+                <viewController id="52a-eZ-6Ei" customClass="PostMapViewController" customModule="ItsFree" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="1Z1-Kg-wU0">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="VVV-7p-Alr">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            </mapView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ko1-SN-69A">
+                                <rect key="frame" x="16" y="625" width="34" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="30" id="3Iz-m0-7Jw"/>
+                                    <constraint firstAttribute="width" constant="34" id="jz2-KX-Gne"/>
+                                    <constraint firstAttribute="height" constant="30" id="uct-Dl-aV8"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="34" id="xxd-yW-zhF"/>
+                                </constraints>
+                                <state key="normal" title="Save"/>
+                                <connections>
+                                    <action selector="saveLocationButon:" destination="52a-eZ-6Ei" eventType="touchUpInside" id="tkG-hh-IIa"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="T0c-RG-dCC" firstAttribute="bottom" secondItem="ko1-SN-69A" secondAttribute="bottom" constant="12" id="0mC-6V-NQs"/>
+                            <constraint firstItem="VVV-7p-Alr" firstAttribute="bottom" secondItem="T0c-RG-dCC" secondAttribute="bottom" id="JJB-tY-ifW"/>
+                            <constraint firstItem="VVV-7p-Alr" firstAttribute="leading" secondItem="T0c-RG-dCC" secondAttribute="leading" id="OEY-pI-S4M"/>
+                            <constraint firstItem="VVV-7p-Alr" firstAttribute="top" secondItem="1Z1-Kg-wU0" secondAttribute="top" id="PPV-Eq-pvz"/>
+                            <constraint firstItem="ko1-SN-69A" firstAttribute="leading" secondItem="T0c-RG-dCC" secondAttribute="leading" constant="16" id="Vvp-QM-PXQ"/>
+                            <constraint firstItem="VVV-7p-Alr" firstAttribute="trailing" secondItem="T0c-RG-dCC" secondAttribute="trailing" id="nmr-8i-gcK"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="T0c-RG-dCC"/>
+                    </view>
+                    <connections>
+                        <outlet property="postMapView" destination="VVV-7p-Alr" id="xba-8b-Eem"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="HDA-Jj-N7L" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2376.8000000000002" y="-125.4872563718141"/>
+        </scene>
         <!--Title-->
         <scene sceneID="Yb2-qp-hms">
             <objects>
@@ -179,9 +223,6 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textField>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="0P5-Zd-fWl">
-                                <rect key="frame" x="0.0" y="383" width="375" height="284"/>
-                            </mapView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tags:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uyW-vT-TGo">
                                 <rect key="frame" x="167" y="297" width="41" height="21"/>
                                 <constraints>
@@ -229,6 +270,15 @@
                                     <action selector="openCategories:" destination="uu9-5f-Eua" eventType="touchUpInside" id="7bZ-Si-eiy"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1tg-1W-cY8">
+                                <rect key="frame" x="8" y="383" width="359" height="30"/>
+                                <state key="normal" title="Location:">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="selectPostLocationButton:" destination="uu9-5f-Eua" eventType="touchUpInside" id="eK6-ql-K98"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -241,18 +291,17 @@
                             <constraint firstItem="gBU-nq-UfP" firstAttribute="top" secondItem="fNa-OL-1TG" secondAttribute="bottom" constant="45" id="Kh7-NH-jtM"/>
                             <constraint firstItem="ivO-1W-BYH" firstAttribute="trailing" secondItem="HvF-Qc-sIh" secondAttribute="trailing" constant="16" id="LZP-96-Njg"/>
                             <constraint firstItem="HS7-Ws-qQg" firstAttribute="top" secondItem="uyW-vT-TGo" secondAttribute="bottom" constant="7" id="MB6-bC-ysr"/>
-                            <constraint firstItem="0P5-Zd-fWl" firstAttribute="top" secondItem="HS7-Ws-qQg" secondAttribute="bottom" constant="8" id="OP6-gv-BEF"/>
                             <constraint firstItem="fNa-OL-1TG" firstAttribute="top" secondItem="9QC-CH-sNi" secondAttribute="bottom" constant="10" id="Qw2-qs-hml"/>
                             <constraint firstItem="uyW-vT-TGo" firstAttribute="centerX" secondItem="gy0-3i-cNA" secondAttribute="centerX" id="UDU-0t-wN4"/>
                             <constraint firstItem="ivO-1W-BYH" firstAttribute="trailing" secondItem="9QC-CH-sNi" secondAttribute="trailing" constant="43" id="V3I-cx-T5G"/>
-                            <constraint firstItem="0P5-Zd-fWl" firstAttribute="leading" secondItem="ivO-1W-BYH" secondAttribute="leading" id="WZi-kX-U6F"/>
+                            <constraint firstItem="1tg-1W-cY8" firstAttribute="top" secondItem="HS7-Ws-qQg" secondAttribute="bottom" constant="8" id="WW3-Vh-8Eq"/>
                             <constraint firstItem="HvF-Qc-sIh" firstAttribute="leading" secondItem="ivO-1W-BYH" secondAttribute="leading" constant="16" id="Wjk-Mf-kfy"/>
                             <constraint firstItem="HS7-Ws-qQg" firstAttribute="leading" secondItem="ivO-1W-BYH" secondAttribute="leading" constant="20" id="cNN-nP-dbB"/>
+                            <constraint firstItem="1tg-1W-cY8" firstAttribute="leading" secondItem="ivO-1W-BYH" secondAttribute="leading" constant="8" id="cwB-Rm-gst"/>
                             <constraint firstItem="9QC-CH-sNi" firstAttribute="leading" secondItem="ivO-1W-BYH" secondAttribute="leading" constant="43" id="dcx-fn-bR1"/>
                             <constraint firstItem="fNa-OL-1TG" firstAttribute="leading" secondItem="ivO-1W-BYH" secondAttribute="leading" constant="43" id="mdW-Pa-CX4"/>
                             <constraint firstItem="ivO-1W-BYH" firstAttribute="trailing" secondItem="HS7-Ws-qQg" secondAttribute="trailing" constant="20" id="nj7-lS-9Jb"/>
-                            <constraint firstItem="0P5-Zd-fWl" firstAttribute="trailing" secondItem="ivO-1W-BYH" secondAttribute="trailing" id="qhh-EJ-u67"/>
-                            <constraint firstItem="0P5-Zd-fWl" firstAttribute="bottom" secondItem="ivO-1W-BYH" secondAttribute="bottom" id="rw5-Jn-p8m"/>
+                            <constraint firstItem="ivO-1W-BYH" firstAttribute="trailing" secondItem="1tg-1W-cY8" secondAttribute="trailing" constant="8" id="qij-h7-9pM"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="ivO-1W-BYH"/>
                     </view>
@@ -266,10 +315,11 @@
                     <connections>
                         <outlet property="addCategoryButton" destination="gBU-nq-UfP" id="8Cv-Wc-mqS"/>
                         <outlet property="descriptionTextField" destination="fNa-OL-1TG" id="iNr-9h-2ES"/>
-                        <outlet property="itemMapView" destination="0P5-Zd-fWl" id="n3b-xX-zGb"/>
+                        <outlet property="locationButton" destination="1tg-1W-cY8" id="rOf-FT-UAx"/>
                         <outlet property="qualitySegmentedControl" destination="HvF-Qc-sIh" id="8ot-vK-949"/>
                         <outlet property="tagButtonView" destination="HS7-Ws-qQg" id="Mu1-Al-gda"/>
                         <outlet property="titleTextField" destination="9QC-CH-sNi" id="baw-6M-4T4"/>
+                        <segue destination="52a-eZ-6Ei" kind="show" identifier="showPostMap" id="z84-s1-VwO"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OoX-Z2-y19" userLabel="First Responder" sceneMemberID="firstResponder"/>

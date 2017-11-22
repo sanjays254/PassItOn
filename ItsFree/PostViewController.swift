@@ -13,13 +13,19 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
 
     var categoryCount: Int!
     
+    public var selectedLocationString: String = ""
+     public var selectedLocationCoordinates: CLLocationCoordinate2D!
+    
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var descriptionTextField: UITextField!
     @IBOutlet weak var qualitySegmentedControl: UISegmentedControl!
     @IBOutlet weak var tagButtonView: UIView!
-    @IBOutlet weak var itemMapView: MKMapView!
-    
+
     @IBOutlet weak var addCategoryButton: UIButton!
+    
+    
+    
+    @IBOutlet weak var locationButton: UIButton!
     
     var categoryTableView: UITableView!
     
@@ -68,6 +74,10 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         
         imagePicker.delegate = self
 //        addImage()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.locationButton.setTitle("Location: \(self.selectedLocationString)", for: UIControlState.normal)
     }
 
     override func didReceiveMemoryWarning() {
@@ -151,6 +161,14 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         AppData.sharedInstance.itemsNode.child(realItem.UID).setValue(realItem.toDictionary())
         AppData.sharedInstance.categorizedItemsNode.child(String(describing: realItem.itemCategory)).child(String(realItem.name.prefix(2))).setValue(realItem.toDictionary())
         
+        
+    }
+    
+    
+    
+    @IBAction func selectPostLocationButton(_ sender: UIButton) {
+        
+        performSegue(withIdentifier: "showPostMap", sender: self)
         
     }
     

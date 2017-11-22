@@ -58,6 +58,7 @@ class ReadFirebaseData: NSObject {
 
                     for any in (value?.allValues)!
                     {
+
                         let item: [String:Any] = any as! [String:Any]
                         let readItem = Item(with: item)
 

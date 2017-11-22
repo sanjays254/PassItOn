@@ -32,6 +32,11 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.homeTableView.dataSource = self
         self.homeTableView.rowHeight = 70
         
+        self.homeTableView.refreshControl = UIRefreshControl()
+        self.homeTableView.refreshControl?.backgroundColor = UIColor.blue
+        self.homeTableView.refreshControl?.addTarget(self, action: #selector(refreshTableData), for: .valueChanged)
+        
+        
         
         //delegating the mapView
         self.homeMapView.delegate = MapViewDelegate.theMapViewDelegate
@@ -120,6 +125,29 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         cell.itemDistanceLabel.text = String(format: "%.2f", distance) + " kms away"
         
         return cell
+    }
+    
+    @objc func refreshTableData(sender: AnyObject) {
+        
+        //ReadFirebaseData.read()
+        
+        DispatchQueue.main.async {
+            //Update tableView once read
+            
+        }
+        
+        if((self.homeTableView.refreshControl) != nil){
+            let dateFormatter = DateFormatter()
+            dateFormatter.setLocalizedDateFormatFromTemplate("MMM d, h:mm a")
+            let title = String("Last update: \(dateFormatter.string(from: Date()))")
+            let attributesDict = [NSAttributedStringKey.foregroundColor: UIColor.white]
+            let attributedTitle = NSAttributedString(string: title, attributes: attributesDict)
+            self.homeTableView.refreshControl?.attributedTitle = attributedTitle
+        }
+        
+        self.homeTableView.reloadData()
+        self.homeTableView.refreshControl?.endRefreshing()
+        
     }
 
     //segues

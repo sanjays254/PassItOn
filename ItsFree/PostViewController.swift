@@ -9,36 +9,31 @@
 import UIKit
 import MapKit
 
-class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-
-    var categoryCount: Int!
+class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource {
+    
     
     public var selectedLocationString: String = ""
-     public var selectedLocationCoordinates: CLLocationCoordinate2D!
+    public var selectedLocationCoordinates: CLLocationCoordinate2D!
     
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var descriptionTextField: UITextField!
     @IBOutlet weak var qualitySegmentedControl: UISegmentedControl!
     @IBOutlet weak var tagButtonView: UIView!
+    @IBOutlet weak var locationButton: UIButton!
 
     @IBOutlet weak var addCategoryButton: UIButton!
     
-    
-    
-    @IBOutlet weak var locationButton: UIButton!
-    
+    var categoryCount: Int!
     var categoryTableView: UITableView!
-    
     let cellID: String = "categoryCellID"
     
-    var myImage:UIImage?
-    let imagePicker = UIImagePickerController()
+    @IBOutlet weak var photoCollectionView: UICollectionView!
+    var photosArray: Array<UIImage>!
     
-    func addImage() {
-        imagePicker.allowsEditing = false
-        imagePicker.sourceType = .photoLibrary
-        present(imagePicker, animated: true, completion: nil)
-    }
+    let imagePicker = UIImagePickerController()
+    var myImage:UIImage?
+   
+    
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         dismiss(animated: true, completion: nil)
@@ -49,7 +44,9 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         if myImage != nil {
             print("image loaded: \(myImage!)")
         }
+        photosArray.append(myImage!)
         dismiss(animated: true, completion: nil)
+        photoCollectionView.reloadData()
     }
     
     
@@ -72,8 +69,13 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         categoryTableView.delegate = self
         categoryTableView.dataSource = self
         
+        photosArray = []
+
         imagePicker.delegate = self
-//        addImage()
+        
+        photoCollectionView.delegate = self
+        photoCollectionView.dataSource = self
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -173,6 +175,93 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
     }
     
     
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return (photosArray.count+1)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "photoCollectionViewCell", for: indexPath) as! PostPhotoCollectionViewCell
+        
+        if(photosArray.count == indexPath.item){
+           cell.postCollectionViewCellImageView.image = #imageLiteral(resourceName: "addPhotoPlaceholder")
+    
+        }
+        
+        else if(indexPath.item < photosArray.count) {
+            cell.postCollectionViewCellImageView.image = photosArray[indexPath.item]
+        
+        }
+        
+
+        return cell
+        
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        //if we click on the plus picture
+        if ((indexPath.item) + 1 > self.photosArray.count){
+           
+            presentImagePickerAlert()
+            
+        }
+            
+            //else if we click on an image
+            
+        else {
+            
+            let changePhotoAlert = UIAlertController(title: "Change or View Photo?", message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
+            
+            let viewAction = UIAlertAction(title: "View Photo", style: UIAlertActionStyle.default, handler:{ (action) in
+                //open photo
+                
+            })
+            
+            let changeAction = UIAlertAction(title: "Change Photo", style: UIAlertActionStyle.default, handler:{ (action) in
+                self.presentImagePickerAlert()
+            })
+            
+            let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil)
+            
+            changePhotoAlert.addAction(viewAction)
+            changePhotoAlert.addAction(changeAction)
+            changePhotoAlert.addAction(cancelAction)
+            
+            self.present(changePhotoAlert, animated: true, completion: nil)
+        
+            
+        }
+    }
+    
+    
+    func presentImagePickerAlert() {
+        
+        
+        let photoSourceAlert = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
+        
+        let cameraAction = UIAlertAction(title: "Camera", style: UIAlertActionStyle.default, handler:{ (action) in
+            self.imagePicker.sourceType = UIImagePickerControllerSourceType.camera
+            self.present(self.imagePicker, animated: true, completion: nil)
+            
+            
+            
+        })
+        
+        let photoLibraryAction = UIAlertAction(title: "Photo Library", style: UIAlertActionStyle.default, handler:{ (action) in
+            self.imagePicker.sourceType = UIImagePickerControllerSourceType.photoLibrary
+            self.present(self.imagePicker, animated: true, completion: nil)
+        })
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil)
+        
+        photoSourceAlert.addAction(cameraAction)
+        photoSourceAlert.addAction(photoLibraryAction)
+        photoSourceAlert.addAction(cancelAction)
+        
+        self.present(photoSourceAlert, animated: true, completion: nil)
+        
+        
+    }
     
 
     

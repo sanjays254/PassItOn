@@ -17,6 +17,7 @@
 		01D5DF461FBF86F40029A276 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D5DF451FBF86F40029A276 /* User.swift */; };
 		01F6ADA71FC3A89C00414D96 /* ImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01F6ADA61FC3A89C00414D96 /* ImageManager.swift */; };
 		AAE390072D6121EF9B932714 /* Pods_ItsFree.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52500CB0F9C6555890C6A26D /* Pods_ItsFree.framework */; };
+		CE5249DC1FC6184A003F41D8 /* KeyboardLayoutConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5249DB1FC6184A003F41D8 /* KeyboardLayoutConstraint.swift */; };
 		CE5869CF1FBE445C0012F774 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5869CE1FBE445C0012F774 /* AppDelegate.swift */; };
 		CE5869D41FBE445C0012F774 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE5869D21FBE445C0012F774 /* Main.storyboard */; };
 		CE5869D61FBE445C0012F774 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE5869D51FBE445C0012F774 /* Assets.xcassets */; };
@@ -74,6 +75,7 @@
 		9C64014BEF220564A2FD0137 /* Pods_ItsFreeTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ItsFreeTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B18D93946728A6339468F21B /* Pods-ItsFree.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ItsFree.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ItsFree/Pods-ItsFree.debug.xcconfig"; sourceTree = "<group>"; };
 		C21A98A73CD94089A2DFCBB2 /* Pods-ItsFreeUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ItsFreeUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ItsFreeUITests/Pods-ItsFreeUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		CE5249DB1FC6184A003F41D8 /* KeyboardLayoutConstraint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardLayoutConstraint.swift; sourceTree = "<group>"; };
 		CE5869CB1FBE445C0012F774 /* ItsFree.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ItsFree.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE5869CE1FBE445C0012F774 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CE5869D31FBE445C0012F774 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -184,6 +186,7 @@
 				CE9683CF1FBE655600DFA277 /* LocationManager.swift */,
 				01C1CAEC1FBFD11E00FB636C /* AuthenticationHelper.swift */,
 				CE5869D21FBE445C0012F774 /* Main.storyboard */,
+				CE5249DB1FC6184A003F41D8 /* KeyboardLayoutConstraint.swift */,
 				CEF41A231FC3CF1C0044C63E /* PostMapViewController.swift */,
 				CEF41A271FC501F60044C63E /* SearchResultsTableTableViewController.swift */,
 				CEF41A241FC3CF1C0044C63E /* PostMapViewController.xib */,
@@ -561,6 +564,7 @@
 				01BAC9F71FBE5C9E0050C891 /* Item.swift in Sources */,
 				01C1CAED1FBFD11E00FB636C /* AuthenticationHelper.swift in Sources */,
 				01BAC9F91FBF6CD10050C891 /* Enums.swift in Sources */,
+				CE5249DC1FC6184A003F41D8 /* KeyboardLayoutConstraint.swift in Sources */,
 				CEF41A251FC3CF1C0044C63E /* PostMapViewController.swift in Sources */,
 				CE9683D21FBF6C9700DFA277 /* PostViewController.swift in Sources */,
 				01C1CAE91FBFB35500FB636C /* AppData.swift in Sources */,

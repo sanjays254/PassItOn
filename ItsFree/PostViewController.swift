@@ -18,6 +18,8 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var descriptionTextField: UITextField!
     @IBOutlet weak var qualitySegmentedControl: UISegmentedControl!
+    
+    @IBOutlet weak var customTagTextField: UITextField!
     @IBOutlet weak var tagButtonView: UIView!
     @IBOutlet weak var locationButton: UIButton!
 
@@ -33,6 +35,10 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
     let imagePicker = UIImagePickerController()
     var myImage:UIImage?
    
+    
+
+    
+    
     
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
@@ -64,7 +70,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         descriptionTextField.delegate = self
         descriptionTextField.borderStyle = UITextBorderStyle.roundedRect
         
-        categoryTableView = UITableView(frame: CGRect(x: 20, y:20, width: 250, height: 500), style: UITableViewStyle.plain)
+        categoryTableView = UITableView(frame: CGRect(x: 0, y:20, width: self.view.frame.width, height: self.view.frame.height), style: UITableViewStyle.plain)
         
         categoryTableView.delegate = self
         categoryTableView.dataSource = self
@@ -75,7 +81,32 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         
         photoCollectionView.delegate = self
         photoCollectionView.dataSource = self
+        
 
+        addCategoryButton.layer.borderColor = (UIColor.blue).cgColor
+        addCategoryButton.layer.borderWidth = 1
+        addCategoryButton.layer.cornerRadius = 5
+        addCategoryButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 0)
+
+        locationButton.layer.borderColor = (UIColor.blue).cgColor
+        locationButton.layer.borderWidth = 1
+        locationButton.layer.cornerRadius = 5
+        locationButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 0)
+        
+        
+        let photoCollectionViewFlowLayout = UICollectionViewFlowLayout()
+        
+        
+        photoCollectionViewFlowLayout.itemSize = CGSize(width:UIScreen.main.bounds.width/4, height:UIScreen.main.bounds.width/4)
+        
+      // photoCollectionViewFlowLayout.itemSize = CGSize(width:photoCollectionView.frame.height, height: photoCollectionView.frame.height)
+        
+//        photoCollectionViewFlowLayout.sectionInset = UIEdgeInsetsMake(0, 5, 0, 5)
+        photoCollectionViewFlowLayout.scrollDirection = UICollectionViewScrollDirection.horizontal
+        photoCollectionViewFlowLayout.minimumInteritemSpacing = 5.0
+        photoCollectionView.collectionViewLayout = photoCollectionViewFlowLayout
+        
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {

@@ -50,6 +50,34 @@ class Item: NSObject, MKAnnotation {
         self.posterUID = posterUID
     }
     
+    init(name:String,
+         category:ItemCategory,
+         description:String,
+         location:CLLocationCoordinate2D,
+         posterUID:String,
+         quality:ItemQuality,
+         tags:Tag,
+         itemUID:String?) {
+        
+        self.name = name
+        self.itemCategory = category
+        self.itemDescription = description
+        self.location = location
+        self.posterUID = posterUID
+        self.quality = quality
+        self.tags = tags
+        self.posterUID = posterUID
+        
+        if itemUID == nil {
+            let newItemUID = AppData.sharedInstance.itemsNode.childByAutoId()
+            self.UID = newItemUID.key
+            print("\(self.UID)")
+        }
+        else {
+            self.UID = itemUID
+        }
+    }
+    
     convenience init?(with inpDict:[String:Any]) {
         
         guard
@@ -62,8 +90,8 @@ class Item: NSObject, MKAnnotation {
             let inpTagsArray: [String] =  inpDict["tags"] as? [String],
             let inpLocationDict: [String:Double] = inpDict["location"] as? [String:Double] else
         {
-                print("Error: Dictionary is not in the correct format")
-                return nil
+            print("Error: Dictionary is not in the correct format")
+            return nil
         }
         
         guard
@@ -84,8 +112,8 @@ class Item: NSObject, MKAnnotation {
                   location: inpLocation,
                   posterUID: inpPosterUID,
                   quality: ItemQuality(rawValue: inpQuality)!,
-                  tags: inpTags)
-        self.UID = inpItemUID
+                  tags: inpTags,
+                  itemUID:inpItemUID)
     }
     
     func toDictionary() -> [String:Any] {

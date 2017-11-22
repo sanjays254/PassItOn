@@ -76,9 +76,9 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         super.viewWillAppear(true)
      
         homeTableView.reloadData()
-        for any in AppData.sharedInstance.onlineItems {
-            print("\n\nCoordinate: \(any.coordinate)\nLocation: \(any.location)")
-        }
+//        for any in AppData.sharedInstance.onlineItems {
+//            print("\n\nCoordinate: \(any.coordinate)\nLocation: \(any.location)")
+//        }
         self.homeMapView.addAnnotations(AppData.sharedInstance.onlineItems)
     }
     

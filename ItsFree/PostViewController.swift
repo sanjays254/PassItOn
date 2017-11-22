@@ -18,6 +18,8 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var descriptionTextField: UITextField!
     @IBOutlet weak var qualitySegmentedControl: UISegmentedControl!
+    
+    @IBOutlet weak var customTagTextField: UITextField!
     @IBOutlet weak var tagButtonView: UIView!
     @IBOutlet weak var locationButton: UIButton!
 
@@ -75,7 +77,18 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         
         photoCollectionView.delegate = self
         photoCollectionView.dataSource = self
+        
 
+        addCategoryButton.layer.borderColor = (UIColor.blue).cgColor
+        addCategoryButton.layer.borderWidth = 1
+        addCategoryButton.layer.cornerRadius = 5
+        addCategoryButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 0)
+
+        locationButton.layer.borderColor = (UIColor.blue).cgColor
+        locationButton.layer.borderWidth = 1
+        locationButton.layer.cornerRadius = 5
+        locationButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 0)
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {

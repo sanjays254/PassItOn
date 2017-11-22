@@ -60,10 +60,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.homeMapView.showsUserLocation = true
         self.homeMapView.showsPointsOfInterest = false
         
-
-        
-        
-        // Do any additional setup after loading the view, typically from a nib.
         
         let testEmail = "nchlsfung@gmail.com"
         let testPassword = "password"
@@ -166,8 +162,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         }))
         present(alert, animated: true, completion: nil)
     }
-    
-    
-    
+
 }
 

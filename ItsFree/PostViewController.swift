@@ -11,40 +11,29 @@ import MapKit
 
 class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource {
     
-
-
-    var categoryCount: Int!
     
     public var selectedLocationString: String = ""
-     public var selectedLocationCoordinates: CLLocationCoordinate2D!
+    public var selectedLocationCoordinates: CLLocationCoordinate2D!
     
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var descriptionTextField: UITextField!
     @IBOutlet weak var qualitySegmentedControl: UISegmentedControl!
     @IBOutlet weak var tagButtonView: UIView!
+    @IBOutlet weak var locationButton: UIButton!
 
     @IBOutlet weak var addCategoryButton: UIButton!
     
-    
-    var photosArray: Array<UIImage>!
-    
-
-    @IBOutlet weak var photoCollectionView: UICollectionView!
-    
-    @IBOutlet weak var locationButton: UIButton!
-    
+    var categoryCount: Int!
     var categoryTableView: UITableView!
-    
     let cellID: String = "categoryCellID"
     
-    var myImage:UIImage?
-    let imagePicker = UIImagePickerController()
+    @IBOutlet weak var photoCollectionView: UICollectionView!
+    var photosArray: Array<UIImage>!
     
-//    func addImage() {
-//        imagePicker.allowsEditing = false
-//        imagePicker.sourceType = .photoLibrary
-//        present(imagePicker, animated: true, completion: nil)
-//    }
+    let imagePicker = UIImagePickerController()
+    var myImage:UIImage?
+   
+    
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         dismiss(animated: true, completion: nil)
@@ -86,10 +75,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         
         photoCollectionView.delegate = self
         photoCollectionView.dataSource = self
-        
-        
 
-//        addImage()
     }
     
     override func viewWillAppear(_ animated: Bool) {

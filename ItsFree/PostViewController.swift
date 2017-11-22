@@ -36,6 +36,10 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
     var myImage:UIImage?
    
     
+
+    
+    
+    
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         dismiss(animated: true, completion: nil)
@@ -88,6 +92,20 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         locationButton.layer.borderWidth = 1
         locationButton.layer.cornerRadius = 5
         locationButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 0)
+        
+        
+        let photoCollectionViewFlowLayout = UICollectionViewFlowLayout()
+        
+        
+        photoCollectionViewFlowLayout.itemSize = CGSize(width:UIScreen.main.bounds.width/4, height:UIScreen.main.bounds.width/4)
+        
+      // photoCollectionViewFlowLayout.itemSize = CGSize(width:photoCollectionView.frame.height, height: photoCollectionView.frame.height)
+        
+//        photoCollectionViewFlowLayout.sectionInset = UIEdgeInsetsMake(0, 5, 0, 5)
+        photoCollectionViewFlowLayout.scrollDirection = UICollectionViewScrollDirection.horizontal
+        photoCollectionViewFlowLayout.minimumInteritemSpacing = 5.0
+        photoCollectionView.collectionViewLayout = photoCollectionViewFlowLayout
+        
         
     }
     

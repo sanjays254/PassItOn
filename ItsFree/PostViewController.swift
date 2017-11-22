@@ -70,7 +70,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         descriptionTextField.delegate = self
         descriptionTextField.borderStyle = UITextBorderStyle.roundedRect
         
-        categoryTableView = UITableView(frame: CGRect(x: 20, y:20, width: 250, height: 500), style: UITableViewStyle.plain)
+        categoryTableView = UITableView(frame: CGRect(x: 0, y:20, width: self.view.frame.width, height: self.view.frame.height), style: UITableViewStyle.plain)
         
         categoryTableView.delegate = self
         categoryTableView.dataSource = self

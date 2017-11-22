@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0135173C1FC50B3F00977B2E /* AuthenticationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0135173B1FC50B3F00977B2E /* AuthenticationManager.swift */; };
 		01BAC9F71FBE5C9E0050C891 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BAC9F61FBE5C9E0050C891 /* Item.swift */; };
 		01BAC9F91FBF6CD10050C891 /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BAC9F81FBF6CD10050C891 /* Enums.swift */; };
 		01BAC9FB1FBF75A70050C891 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 01BAC9FA1FBF759E0050C891 /* GoogleService-Info.plist */; };
@@ -54,6 +55,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0135173B1FC50B3F00977B2E /* AuthenticationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationManager.swift; sourceTree = "<group>"; };
 		01BAC9F61FBE5C9E0050C891 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		01BAC9F81FBF6CD10050C891 /* Enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
 		01BAC9FA1FBF759E0050C891 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -182,6 +184,7 @@
 				CEF41A231FC3CF1C0044C63E /* PostMapViewController.swift */,
 				CEF41A271FC501F60044C63E /* SearchResultsTableTableViewController.swift */,
 				CEF41A241FC3CF1C0044C63E /* PostMapViewController.xib */,
+				0135173B1FC50B3F00977B2E /* AuthenticationManager.swift */,
 				01BAC9F61FBE5C9E0050C891 /* Item.swift */,
 				01C1CAEA1FBFCAE900FB636C /* Tag.swift */,
 				01D5DF451FBF86F40029A276 /* User.swift */,
@@ -562,6 +565,7 @@
 				CE9683D01FBE655600DFA277 /* LocationManager.swift in Sources */,
 				CEF41A1E1FC113290044C63E /* ReadFirebaseData.swift in Sources */,
 				CEF41A1C1FC1000F0044C63E /* MapViewDelegate.swift in Sources */,
+				0135173C1FC50B3F00977B2E /* AuthenticationManager.swift in Sources */,
 				01C1CAEB1FBFCAE900FB636C /* Tag.swift in Sources */,
 				01F6ADA71FC3A89C00414D96 /* ImageManager.swift in Sources */,
 				CEF41A211FC374520044C63E /* ItemHomeTableViewCell.swift in Sources */,
@@ -737,6 +741,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 48KFD7RJD2;
 				INFOPLIST_FILE = ItsFree/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sanjayshah.ItsFree;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -753,6 +758,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 48KFD7RJD2;
 				INFOPLIST_FILE = ItsFree/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sanjayshah.ItsFree;
 				PRODUCT_NAME = "$(TARGET_NAME)";

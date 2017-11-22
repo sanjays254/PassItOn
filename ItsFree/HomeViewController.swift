@@ -11,6 +11,7 @@
 
 import UIKit
 import MapKit
+import KeychainAccess
 
 
 class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate, MKMapViewDelegate {
@@ -73,9 +74,42 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         // AuthenticationHelper.register(withEmail: testEmail, password: testPassword, username: testName)
         AuthenticationHelper.login(withEmail: testEmail, password: testPassword)
-        
+
         ReadFirebaseData.read()
+        testTouchId()
     }
+    
+    func testTouchId() {
+        let userDefaults = UserDefaults.standard
+        let testEmail = "nchlsfung@gmail.com"
+        let testPassword = "password"
+        let testName = "Nick"
+        
+        if userDefaults.bool(forKey: "hasRunBefore") == false {
+            print("First run of the app")
+            let keychain = Keychain(service:"com.itsFree")
+            try? keychain.removeAll()
+            
+            // remove keychain items here
+            
+            AuthenticationManager.signUp(with: testEmail, password: testPassword, name: testName)
+
+            // update the flag indicator
+            userDefaults.set(true, forKey: "hasRunBefore")
+            userDefaults.synchronize() // forces the app to update the NSUserDefaults
+            
+            return
+        }
+        else {
+            print("App has been opened before")
+            AuthenticationManager.printKeychain()
+            AuthenticationManager.login(with: testEmail, password: testPassword)
+        }
+    }
+    
+    
+    
+    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)

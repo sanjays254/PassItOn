@@ -35,7 +35,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
     @IBOutlet weak var photoCollectionView: UICollectionView!
     var photosArray: Array<UIImage>!
     
-    let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard(_:)))
+    var tapGesture: UITapGestureRecognizer!
 
    
 
@@ -242,7 +242,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
         
-        
+        tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard(_:)))
         self.view.addGestureRecognizer(tapGesture)
     }
     

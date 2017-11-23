@@ -38,11 +38,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var rememberMeSwitch: UISwitch!
     
     
-    
-    
-    
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -102,8 +97,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     
     
     @IBAction func goPressed(_ sender: Any) {
-//        let email = "nchlsfung@gmail.com"
-//        let password = "password"
 
         if titleLabel.text == signupTitleStr {
             print("trying to sign up...")
@@ -191,51 +184,19 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        
-        if string.count == 1 {
-            print("Entered: <\(string)>")
-        }
-        else if string.count == 0 {
-            print("backspace")
-        }
-        else if string.count == 2 {
-            print("Illegal character")
-        }
-        else {
-            print("Unknown case")
-        }
-        
         if textField === passwordTextfield || textField === confirmPasswordTextfield {
             if textField.text!.count + string.count > maxPasswordLength {
                 return false
             }
         }
-        
-        if textField === usernameTextfield {
+        else if textField === usernameTextfield {
             
         }
-        
         return true
     }
     
     func loginSuccess() {
         performSegue(withIdentifier: "continueToHome", sender: self)
     }
-    
-    
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destinationViewController.
-     // Pass the selected object to the new view controller.
-        
-        
-        
-        
-        
-        
-     }
- 
     
 }

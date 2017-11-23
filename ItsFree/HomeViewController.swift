@@ -88,7 +88,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             
             // remove keychain items here
             
-            AuthenticationManager.signUp(with: testEmail, password: testPassword, name: testName)
+            AuthenticationManager.signUp(withEmail: testEmail, password: testPassword, name: testName)
 
             // update the flag indicator
             userDefaults.set(true, forKey: "hasRunBefore")
@@ -99,7 +99,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         else {
             print("App has been opened before")
             AuthenticationManager.printKeychain()
-            AuthenticationManager.login(with: testEmail, password: testPassword)
+            AuthenticationManager.login(withEmail: testEmail, password: testPassword)
         }
     }
     

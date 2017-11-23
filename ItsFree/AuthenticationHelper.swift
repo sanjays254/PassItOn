@@ -12,7 +12,7 @@ import FirebaseAuth
 class AuthenticationHelper: NSObject {
     
     class func register(withEmail email:String, password:String, username:String) -> User? {
-        
+        print("Registering with firebase")
         Auth.auth().createUser(withEmail: email,
                                password: password)
         { (newUser, registerError) in
@@ -33,8 +33,12 @@ class AuthenticationHelper: NSObject {
                             AppData.sharedInstance.usersNode
                                 .child(newUser!.uid)
                                 .setValue(addedUser.toDictionary())
+                            
                         }
                 })
+            }
+            else {
+                print("Error registering with Firebase: \(registerError)")
             }
         }
         

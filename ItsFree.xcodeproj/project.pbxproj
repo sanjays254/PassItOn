@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		0135173C1FC50B3F00977B2E /* AuthenticationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0135173B1FC50B3F00977B2E /* AuthenticationManager.swift */; };
+		0135173E1FC6168700977B2E /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0135173D1FC6168700977B2E /* Login.storyboard */; };
+		013517401FC61F9F00977B2E /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0135173F1FC61F9F00977B2E /* LoginViewController.swift */; };
 		01BAC9F71FBE5C9E0050C891 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BAC9F61FBE5C9E0050C891 /* Item.swift */; };
 		01BAC9F91FBF6CD10050C891 /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BAC9F81FBF6CD10050C891 /* Enums.swift */; };
 		01BAC9FB1FBF75A70050C891 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 01BAC9FA1FBF759E0050C891 /* GoogleService-Info.plist */; };
@@ -58,6 +60,8 @@
 
 /* Begin PBXFileReference section */
 		0135173B1FC50B3F00977B2E /* AuthenticationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationManager.swift; sourceTree = "<group>"; };
+		0135173D1FC6168700977B2E /* Login.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
+		0135173F1FC61F9F00977B2E /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		01BAC9F61FBE5C9E0050C891 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		01BAC9F81FBF6CD10050C891 /* Enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
 		01BAC9FA1FBF759E0050C891 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -188,6 +192,8 @@
 				CE5869D21FBE445C0012F774 /* Main.storyboard */,
 				CE5249DB1FC6184A003F41D8 /* KeyboardLayoutConstraint.swift */,
 				CEF41A231FC3CF1C0044C63E /* PostMapViewController.swift */,
+				0135173F1FC61F9F00977B2E /* LoginViewController.swift */,
+				0135173D1FC6168700977B2E /* Login.storyboard */,
 				CEF41A271FC501F60044C63E /* SearchResultsTableTableViewController.swift */,
 				CEF41A241FC3CF1C0044C63E /* PostMapViewController.xib */,
 				0135173B1FC50B3F00977B2E /* AuthenticationManager.swift */,
@@ -343,6 +349,7 @@
 			files = (
 				CEF41A221FC374520044C63E /* ItemHomeTableViewCell.xib in Resources */,
 				CE5869D91FBE445C0012F774 /* LaunchScreen.storyboard in Resources */,
+				0135173E1FC6168700977B2E /* Login.storyboard in Resources */,
 				01BAC9FB1FBF75A70050C891 /* GoogleService-Info.plist in Resources */,
 				CE5869D61FBE445C0012F774 /* Assets.xcassets in Resources */,
 				CE5869D41FBE445C0012F774 /* Main.storyboard in Resources */,
@@ -566,6 +573,7 @@
 				01BAC9F91FBF6CD10050C891 /* Enums.swift in Sources */,
 				CE5249DC1FC6184A003F41D8 /* KeyboardLayoutConstraint.swift in Sources */,
 				CEF41A251FC3CF1C0044C63E /* PostMapViewController.swift in Sources */,
+				013517401FC61F9F00977B2E /* LoginViewController.swift in Sources */,
 				CE9683D21FBF6C9700DFA277 /* PostViewController.swift in Sources */,
 				01C1CAE91FBFB35500FB636C /* AppData.swift in Sources */,
 				CE5869CF1FBE445C0012F774 /* AppDelegate.swift in Sources */,
@@ -747,7 +755,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = L4XYQHCH99;
+				DEVELOPMENT_TEAM = 48KFD7RJD2;
 				INFOPLIST_FILE = ItsFree/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -764,7 +772,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = L4XYQHCH99;
+				DEVELOPMENT_TEAM = 48KFD7RJD2;
 				INFOPLIST_FILE = ItsFree/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

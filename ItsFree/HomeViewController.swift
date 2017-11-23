@@ -61,59 +61,14 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.homeMapView.showsUserLocation = true
         self.homeMapView.showsPointsOfInterest = false
         
-        
-        let testEmail = "nchlsfung@gmail.com"
-        let testPassword = "password"
-        let testName = "Nick"
-        
-        print("email: \(testEmail), password: \(testPassword), username: \(testName)")
-        
-        // AuthenticationHelper.register(withEmail: testEmail, password: testPassword, username: testName)
-        AuthenticationHelper.login(withEmail: testEmail, password: testPassword)
-
         ReadFirebaseData.read()
-        //testTouchId()
     }
-    
-//    func testTouchId() {
-//        let userDefaults = UserDefaults.standard
-//        let testEmail = "nchlsfung@gmail.com"
-//        let testPassword = "password"
-//        let testName = "Nick"
-//
-//        if userDefaults.bool(forKey: "hasRunBefore") == false {
-//            print("First run of the app")
-//            let keychain = Keychain(service:"com.itsFree")
-//            try? keychain.removeAll()
-//
-//            // remove keychain items here
-//
-//            AuthenticationManager.signUp(withEmail: testEmail, password: testPassword, name: testName)
-//
-//            // update the flag indicator
-//            userDefaults.set(true, forKey: "hasRunBefore")
-//            userDefaults.synchronize() // forces the app to update the NSUserDefaults
-//
-//            return
-//        }
-//        else {
-//            print("App has been opened before")
-//            AuthenticationManager.printKeychain()
-//            AuthenticationManager.login(withEmail: testEmail, password: testPassword)
-//        }
-//    }
-    
-    
-    
-    
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
      
         homeTableView.reloadData()
-//        for any in AppData.sharedInstance.onlineItems {
-//            print("\n\nCoordinate: \(any.coordinate)\nLocation: \(any.location)")
-//        }
+
         self.homeMapView.addAnnotations(AppData.sharedInstance.onlineItems)
     }
     

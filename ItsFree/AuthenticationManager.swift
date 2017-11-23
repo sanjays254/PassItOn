@@ -61,7 +61,6 @@ class AuthenticationManager {
     }
     
     
-    
     class func addToKeychain(email:String, password:String) {
         print("Adding to keychain...")
         let keychain = Keychain(service: "com.itsFree")
@@ -125,13 +124,4 @@ class AuthenticationManager {
         }
     }
     
-    
-    
-    
-    
 }
-
-
-
-
-

@@ -11,6 +11,8 @@ import FirebaseAuth
 
 class LoginViewController: UIViewController, UITextFieldDelegate {
     
+    let rememberMeKey = "rememberMe"
+    
     let maxPasswordLength = 20
     let signupTitleStr = "Sign Up"
     let loginTitleStr = "Log In"
@@ -33,6 +35,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var passwordTextfield: UITextField!
     @IBOutlet weak var confirmPasswordTextfield: UITextField!
     @IBOutlet weak var confirmPasswordLabel: UILabel!
+    @IBOutlet weak var rememberMeSwitch: UISwitch!
     
     
     
@@ -48,10 +51,17 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         // Do any additional setup after loading the view.
         setToSignUp()
         
-        if Auth.auth().currentUser != nil {
+        if Auth.auth().currentUser != nil && UserDefaults.standard.bool(forKey: rememberMeKey) == true {
             print("\((Auth.auth().currentUser?.displayName)!)")
             print ("\((Auth.auth().currentUser?.email)!)")
-            AuthenticationManager.loginWithTouchID(email: (Auth.auth().currentUser?.email)!)
+            AuthenticationManager.loginWithTouchID(email: (Auth.auth().currentUser?.email)!, completionHandler: { (success) -> Void in
+                if success == true {
+                    self.loginSuccess()
+                }
+                else {
+                    print("Error logging in")
+                }
+            })
         }
     }
     
@@ -94,13 +104,22 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     @IBAction func goPressed(_ sender: Any) {
 //        let email = "nchlsfung@gmail.com"
 //        let password = "password"
+
         if titleLabel.text == signupTitleStr {
             print("trying to sign up...")
             if validateInputOf(textfield: usernameTextfield).valid &&
                 validateInputOf(textfield: emailTextfield).valid &&
                 validateInputOf(textfield: passwordTextfield).valid {
                 print("Signing up...")
-                AuthenticationManager.signUp(withEmail: emailTextfield.text!, password: passwordTextfield.text!, name: usernameTextfield.text!)
+                AuthenticationManager.signUp(withEmail: emailTextfield.text!, password: passwordTextfield.text!, name: usernameTextfield.text!, completionHandler: { (success) -> Void in
+                    if success == true {
+                        self.loginSuccess()
+                    }
+                    else {
+                        print("Error logging in")
+                    }
+                })
+                setUserDefaults()
             }
             else {
                 print("Signup failed: invalid input")
@@ -111,7 +130,15 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             if validateInputOf(textfield: emailTextfield).valid &&
                 validateInputOf(textfield: passwordTextfield).valid {
                 print("Logging in...")
-                AuthenticationManager.login(withEmail: emailTextfield.text!, password: passwordTextfield.text!)
+                AuthenticationManager.login(withEmail: emailTextfield.text!, password: passwordTextfield.text!, completionHandler: { (success) -> Void in
+                    if success == true {
+                        self.loginSuccess()
+                    }
+                    else {
+                        print("Error logging in")
+                    }
+                })
+                setUserDefaults()
             }
             else {
                 print("Login failed: invalid input")
@@ -119,6 +146,11 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
+    func setUserDefaults() {
+        if UserDefaults.standard.bool(forKey: rememberMeKey) != rememberMeSwitch.isOn {
+            UserDefaults.standard.set(rememberMeSwitch.isOn, forKey: rememberMeKey)
+        }
+    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -154,9 +186,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                 reason = "Passwords do not match"
             }
         }
-        
-        
-        
         return (validated, reason)
     }
     
@@ -189,16 +218,24 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         return true
     }
     
+    func loginSuccess() {
+        performSegue(withIdentifier: "continueToHome", sender: self)
+    }
     
     
-    /*
      // MARK: - Navigation
      
      // In a storyboard-based application, you will often want to do a little preparation before navigation
      override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
      // Get the new view controller using segue.destinationViewController.
      // Pass the selected object to the new view controller.
+        
+        
+        
+        
+        
+        
      }
-     */
+ 
     
 }

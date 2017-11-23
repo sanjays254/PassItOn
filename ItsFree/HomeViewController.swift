@@ -72,36 +72,36 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         AuthenticationHelper.login(withEmail: testEmail, password: testPassword)
 
         ReadFirebaseData.read()
-        testTouchId()
+        //testTouchId()
     }
     
-    func testTouchId() {
-        let userDefaults = UserDefaults.standard
-        let testEmail = "nchlsfung@gmail.com"
-        let testPassword = "password"
-        let testName = "Nick"
-        
-        if userDefaults.bool(forKey: "hasRunBefore") == false {
-            print("First run of the app")
-            let keychain = Keychain(service:"com.itsFree")
-            try? keychain.removeAll()
-            
-            // remove keychain items here
-            
-            AuthenticationManager.signUp(withEmail: testEmail, password: testPassword, name: testName)
-
-            // update the flag indicator
-            userDefaults.set(true, forKey: "hasRunBefore")
-            userDefaults.synchronize() // forces the app to update the NSUserDefaults
-            
-            return
-        }
-        else {
-            print("App has been opened before")
-            AuthenticationManager.printKeychain()
-            AuthenticationManager.login(withEmail: testEmail, password: testPassword)
-        }
-    }
+//    func testTouchId() {
+//        let userDefaults = UserDefaults.standard
+//        let testEmail = "nchlsfung@gmail.com"
+//        let testPassword = "password"
+//        let testName = "Nick"
+//
+//        if userDefaults.bool(forKey: "hasRunBefore") == false {
+//            print("First run of the app")
+//            let keychain = Keychain(service:"com.itsFree")
+//            try? keychain.removeAll()
+//
+//            // remove keychain items here
+//
+//            AuthenticationManager.signUp(withEmail: testEmail, password: testPassword, name: testName)
+//
+//            // update the flag indicator
+//            userDefaults.set(true, forKey: "hasRunBefore")
+//            userDefaults.synchronize() // forces the app to update the NSUserDefaults
+//
+//            return
+//        }
+//        else {
+//            print("App has been opened before")
+//            AuthenticationManager.printKeychain()
+//            AuthenticationManager.login(withEmail: testEmail, password: testPassword)
+//        }
+//    }
     
     
     

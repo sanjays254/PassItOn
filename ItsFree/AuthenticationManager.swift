@@ -11,21 +11,17 @@ import KeychainAccess
 import FirebaseAuth
 
 
-
-
-
-
-
-
 class AuthenticationManager {
     
-    class func signUp(withEmail email:String, password:String, name:String) {
+    class func signUp(withEmail email:String, password:String, name:String, completionHandler: @escaping (_ success: Bool) -> Void )  {
         print("Signing up with email: \(email), password: \(password), name: \(name)")
         print("Registering with firebase")
         Auth.auth().createUser(withEmail: email,
                                password: password)
         { (newUser, registerError) in
             if registerError == nil {
+                let flag = true
+                completionHandler(flag)
                 Auth.auth().currentUser?.sendEmailVerification(completion: { (verifyError) in
                     if (verifyError != nil) {
                         print("Error sending verification email: \(verifyError)")
@@ -84,21 +80,12 @@ class AuthenticationManager {
         }
     }
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
     class func printKeychain() {
         let keychain = Keychain(service: "com.itsFree")
         print("\(keychain)")
     }
     
-    class func login(withEmail email:String, password:String) {
+    class func login(withEmail email:String, password:String, completionHandler: @escaping (_ success: Bool) -> Void) {
         print("Logging in with email: \(email), password: \(password)")
 
         print("Logging in to Firebase...")
@@ -111,6 +98,8 @@ class AuthenticationManager {
                                                           rating: 0,
                                                           uid: authUser!.uid)
                 print("Login Successful")
+                let flag = true
+                completionHandler(flag)
             }
             else {
                 print("login failed: \(loginError.debugDescription)")
@@ -118,7 +107,7 @@ class AuthenticationManager {
         }
     }
     
-    class func loginWithTouchID(email:String) {
+    class func loginWithTouchID(email:String, completionHandler: @escaping (_ success: Bool) -> Void ) {
         let keychain = Keychain(service: "com.itsFree")
         
         DispatchQueue.global().async {
@@ -128,7 +117,7 @@ class AuthenticationManager {
                     .get(email)
                 
                 print("password: \(password)")
-                AuthenticationManager.login(withEmail: email, password: password!)
+                AuthenticationManager.login(withEmail: email, password: password!, completionHandler: completionHandler)
             } catch let error {
                 // Error handling if needed...
                 print("Error loggin in using TouchID: \(error)")

@@ -83,7 +83,7 @@
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="7C1-ky-8j0">
+                                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="7C1-ky-8j0" userLabel="Remember Switch">
                                                 <rect key="frame" x="286" y="0.0" width="51" height="31"/>
                                             </switch>
                                         </subviews>
@@ -139,6 +139,7 @@
                         <outlet property="goButton" destination="tES-Cu-wq5" id="oBd-8Z-uON"/>
                         <outlet property="passwordLabel" destination="1Qf-Nq-904" id="B9X-WK-0mf"/>
                         <outlet property="passwordTextfield" destination="Elg-M5-erR" id="MZt-5R-g6O"/>
+                        <outlet property="rememberMeSwitch" destination="7C1-ky-8j0" id="6Dr-uA-XBA"/>
                         <outlet property="switchLabel" destination="lgU-y0-iga" id="2ev-Iy-b3V"/>
                         <outlet property="titleLabel" destination="H3x-DL-s2d" id="3uI-20-8oa"/>
                         <outlet property="toggleButton" destination="ZGQ-bV-6dT" id="r5Q-w7-FwD"/>

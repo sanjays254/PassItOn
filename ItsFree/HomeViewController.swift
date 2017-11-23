@@ -18,6 +18,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
 
     var currentLocation: CLLocation!
     var locationManager: CLLocationManager!
+    var compassButton: UIButton!
     
     var mapListSegmentedControl: UISegmentedControl!
     @IBOutlet weak var wantedAvailableSegmentedControl: UISegmentedControl!
@@ -46,6 +47,26 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         homeMapView.register(MKMarkerAnnotationView.self, forAnnotationViewWithReuseIdentifier: "itemMarkerView")
 
+        compassButton = UIButton()
+        homeMapView.addSubview(compassButton)
+        
+        compassButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        let trailingConstraint = NSLayoutConstraint(item: compassButton, attribute: .trailing, relatedBy: .equal, toItem: homeMapView, attribute: .trailing , multiplier: 1, constant: -5)
+        let bottomConstraint = NSLayoutConstraint(item: compassButton, attribute: .bottom, relatedBy: .equal, toItem: homeMapView, attribute: .bottom , multiplier: 1, constant: -5)
+        let widthConstraint = NSLayoutConstraint(item: compassButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute , multiplier: 1, constant: 15)
+        let heightConstraint = NSLayoutConstraint(item: compassButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute , multiplier: 1, constant: 15)
+        
+        NSLayoutConstraint.activate([trailingConstraint, bottomConstraint, widthConstraint, heightConstraint])
+        
+        //self.compassButton.addConstraints([trailingConstraint, bottomConstraint, widthConstraint, heightConstraint])
+        
+        self.compassButton.layer.cornerRadius = self.compassButton.frame.size.width / 2.0
+        self.compassButton.layer.masksToBounds = false
+        self.compassButton.layer.shadowOffset = CGSize.init(width: 0, height: 2.0)
+        self.compassButton.layer.shadowColor = (UIColor.black).cgColor
+        self.compassButton.layer.shadowOpacity = 0.5
+        self.compassButton.layer.shadowRadius = 1.0
         
         //mapList Segment Control setup
         self.mapListSegmentedControl = UISegmentedControl(items: ["Map", "List"])

@@ -35,12 +35,15 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
     @IBOutlet weak var photoCollectionView: UICollectionView!
     var photosArray: Array<UIImage>!
     
+    let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard(_:)))
 
    
 
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        setupUI()
         
         titleTextField.delegate = self
         descriptionTextField.delegate = self
@@ -53,8 +56,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         
         photosArray = []
 
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard(_:)))
-        self.view.addGestureRecognizer(tapGesture)
+
         
     }
     
@@ -236,6 +238,17 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
             
             self.present(changePhotoAlert, animated: true, completion: nil)
         }
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        
+        
+        self.view.addGestureRecognizer(tapGesture)
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        self.view.removeGestureRecognizer(tapGesture)
+        
     }
     
     

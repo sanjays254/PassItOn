@@ -38,7 +38,65 @@ class MapViewDelegate: NSObject, MKMapViewDelegate {
         theMapView.region = MKCoordinateRegionMake(self.currentLocation.coordinate, span)
         theMapView.showsUserLocation = true
         theMapView.showsPointsOfInterest = false
+        
 
+    }
+    
+    func setMarkerPropertiesFor(newMarkerView: MKMarkerAnnotationView, item: Item){
+        //newMarkerView.titleVisibility = MKFeatureVisibility.visible
+        //newMarkerView.canShowCallout = true
+        
+        //newMarkerView.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
+        newMarkerView.glyphText = item.itemCategory.rawValue
+        
+        
+    }
+    
+    func getMarkerFor(annotation: MKAnnotation, mapView: MKMapView) -> MKAnnotationView? {
+        let item = annotation as! Item
+        
+        let newItemMarkerView = mapView.dequeueReusableAnnotationView(withIdentifier: "itemMarkerView", for: annotation) as! MKMarkerAnnotationView
+        
+        setMarkerPropertiesFor(newMarkerView: newItemMarkerView, item: item)
+        
+        return newItemMarkerView
+        
+    }
+    
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        if (annotation is MKUserLocation){
+            return nil
+        }
+        else if (annotation is Item){
+            
+            return self.getMarkerFor(annotation: annotation, mapView: mapView)
+        }
+        else {
+            return nil
+        }
+    }
+    
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+       // mapView.selectAnnotation(view.annotation!, animated: true)
+       
+        if (view.annotation is MKUserLocation){
+           //do nothing
+        }
+        
+        else {
+            
+        
+        let myAppDelegate = UIApplication.shared.delegate as? AppDelegate
+        myAppDelegate?.showDetailOnHomeViewController(annotation: view.annotation as! Item)
+        
+        }
+        
+
+    }
+    
+    func displaySelectedAnnotation(annotation: MKPointAnnotation){
+        theMapView.removeAnnotations(theMapView.annotations)
+        theMapView.addAnnotation(annotation)
     }
 
 }

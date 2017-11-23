@@ -44,6 +44,9 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         MapViewDelegate.theMapViewDelegate.theMapView = homeMapView
         MapViewDelegate.theMapViewDelegate.setMapRegion()
         
+        homeMapView.register(MKMarkerAnnotationView.self, forAnnotationViewWithReuseIdentifier: "itemMarkerView")
+
+        
         //mapList Segment Control setup
         self.mapListSegmentedControl = UISegmentedControl(items: ["Map", "List"])
         self.navigationItem.titleView = mapListSegmentedControl
@@ -152,7 +155,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         let distance = (destinationLocation.distance(from: self.currentLocation)/1000)
         
-        cell.itemDistanceLabel.text = String(format: "%.2f", distance) + " kms away"
+        cell.itemDistanceLabel.text = String(format: "%.2f", distance) + " kms"
         
         return cell
     }
@@ -195,6 +198,40 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             UIApplication.shared.open(URL(string:UIApplicationOpenSettingsURLString)!)
         }))
         present(alert, animated: true, completion: nil)
+    }
+
+    
+    
+    func showItemDetail(item: Item){
+
+       let detailViewController = ItemDetailViewController()
+        //detailViewController.view.alpha = 0.1
+       
+        detailViewController.view.frame = CGRect(x: 0, y: 400, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height)
+        view.addSubview(detailViewController.view)
+         self.addChildViewController(detailViewController)
+       // detailViewController.didMove(toParentViewController: self)
+        
+//        detailViewController.modalPresentationStyle = UIModalPresentationStyle.currentContext
+//        detailViewController.modalTransitionStyle = UIModalTransitionStyle.coverVertical
+//        self.present(detailViewController, animated: true, completion: nil)
+//
+//        addChildViewController(detailViewController)
+//        detailViewController.view.translatesAutoresizingMaskIntoConstraints = false
+        //present(ItemDetailViewController(), animated: true, completion: nil)
+//        detailContainerView.addSubview((detailViewController.view)!)
+//
+//        NSLayoutConstraint.activate([
+//            detailViewController.view.leadingAnchor.constraint(equalTo: detailContainerView.leadingAnchor),
+//            detailViewController.view.trailingAnchor.constraint(equalTo: detailContainerView.trailingAnchor),
+//            detailViewController.view.topAnchor.constraint(equalTo: detailContainerView.topAnchor),
+//            detailViewController.view.bottomAnchor.constraint(equalTo: detailContainerView.bottomAnchor)
+//            ])
+//
+//        detailViewController.didMove(toParentViewController: self)
+
+
+
     }
 
 }

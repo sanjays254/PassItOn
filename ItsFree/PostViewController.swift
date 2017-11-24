@@ -50,6 +50,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         titleTextField.delegate = self
         descriptionTextField.delegate = self
         descriptionTextField.borderStyle = UITextBorderStyle.roundedRect
+        customTagTextField.delegate = self
         categoryTableView.delegate = self
         categoryTableView.dataSource = self
         photoCollectionView.delegate = self

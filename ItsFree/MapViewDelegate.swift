@@ -45,11 +45,16 @@ class MapViewDelegate: NSObject, MKMapViewDelegate {
     }
     
     func setMarkerPropertiesFor(newMarkerView: MKMarkerAnnotationView, item: Item){
-        //newMarkerView.titleVisibility = MKFeatureVisibility.visible
-        //newMarkerView.canShowCallout = true
+
+        // FIXME: Add all categories
         
-        //newMarkerView.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
-        newMarkerView.glyphText = item.itemCategory.rawValue
+        switch(item.itemCategory){
+        case .clothing : newMarkerView.glyphImage = #imageLiteral(resourceName: "clothing")
+        case .electronics : newMarkerView.glyphImage = #imageLiteral(resourceName: "electronics")
+        default :newMarkerView.glyphImage = #imageLiteral(resourceName: "compass")
+            
+        }
+     
         
         
     }

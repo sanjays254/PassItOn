@@ -14,6 +14,8 @@ import CoreLocation
 
 
 class ReadFirebaseData: NSObject {
+    
+    
 
         class func readContinues ()
         {
@@ -64,8 +66,12 @@ class ReadFirebaseData: NSObject {
 
                         AppData.sharedInstance.onlineItems.append(readItem!)
                         print("appending items")
+                        
+                        
+                        
                     }
-                    
+                    let myDownloadNotificationKey = "myDownloadNotificationKey"
+                  NotificationCenter.default.post(name: Notification.Name(rawValue: myDownloadNotificationKey), object: nil)
                 })
         }
 

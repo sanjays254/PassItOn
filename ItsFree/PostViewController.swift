@@ -23,6 +23,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
     @IBOutlet weak var customTagTextField: UITextField!
     @IBOutlet weak var tagButtonView: UIView!
     @IBOutlet weak var locationButton: UIButton!
+    //var chosenLocation: CLLocation!
 
     @IBOutlet weak var addCategoryButton: UIButton!
     var chosenCategory: ItemCategory!
@@ -174,6 +175,8 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
     //thePostMethod
     @IBAction func postItem(_ sender: UIBarButtonItem) {
         
+
+        
         let tags:Tag = Tag()
        
         tags.add(tag: "blue")
@@ -198,14 +201,44 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         //what should our default be
         
         
-        let realItem: Item = Item.init(name: titleTextField.text!, category: chosenCategory, description: descriptionTextField.text!, location: (LocationManager.theLocationManager.getLocation().coordinate), posterUID:  testUser.UID, quality: chosenQuality, tags: tags, itemUID: nil)
+        if(titleTextField.text == "") {
+            if(descriptionTextField.text == "") {
+                if(chosenCategory != nil){
+                    if(selectedLocationCoordinates != nil){
+                        
+                        //if these fields are not nil, then post the item
+                        let realItem: Item = Item.init(name: titleTextField.text!, category: chosenCategory, description: descriptionTextField.text!, location: (LocationManager.theLocationManager.getLocation().coordinate), posterUID:  testUser.UID, quality: chosenQuality, tags: tags, itemUID: nil)
+                        
+                        AppData.sharedInstance.usersNode.child(testUser.UID).setValue(testUser.toDictionary())
+                        AppData.sharedInstance.itemsNode.child(realItem.UID).setValue(realItem.toDictionary())
+                        AppData.sharedInstance.categorizedItemsNode.child(String(describing: realItem.itemCategory)).child(String(realItem.name.prefix(2))).setValue(realItem.toDictionary())
+                        
+                        
+                        self.navigationController?.popToRootViewController(animated: true)
+                        
+                        
+                    }
+                    else {
+                        let alert = UIAlertController(title: "Whoops", message: "You must add a location", preferredStyle: UIAlertControllerStyle.alert)
+                        alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.default, handler: nil))
+                        present(alert, animated: true, completion: nil)}}
+                    
+                else {
+                    let alert = UIAlertController(title: "Whoops", message: "You must add a category", preferredStyle: UIAlertControllerStyle.alert)
+                    alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.default, handler: nil))
+                    present(alert, animated: true, completion: nil)}}
+                
+            else {let alert = UIAlertController(title: "Whoops", message: "You must add a description", preferredStyle: UIAlertControllerStyle.alert)
+                alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.default, handler: nil))
+                present(alert, animated: true, completion: nil)}}
+            
+        else {let alert = UIAlertController(title: "Whoops", message: "You must add a title", preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.default, handler: nil))
+            present(alert, animated: true, completion: nil)}
         
-        AppData.sharedInstance.usersNode.child(testUser.UID).setValue(testUser.toDictionary())
-        AppData.sharedInstance.itemsNode.child(realItem.UID).setValue(realItem.toDictionary())
-        AppData.sharedInstance.categorizedItemsNode.child(String(describing: realItem.itemCategory)).child(String(realItem.name.prefix(2))).setValue(realItem.toDictionary())
     }
-    
-    
+
+
     
     @IBAction func selectPostLocationButton(_ sender: UIButton) {
         performSegue(withIdentifier: "showPostMap", sender: self)

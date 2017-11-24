@@ -92,7 +92,7 @@ class AuthenticationManager {
                                                           rating: 0,
                                                           uid: authUser!.uid)
                 print("Login Successful")
-                addToKeychain(email: email, password: password)
+                //addToKeychain(email: email, password: password)
                 let flag = true
                 completionHandler(flag)
             }
@@ -104,7 +104,6 @@ class AuthenticationManager {
     
     class func loginWithTouchID(email:String, completionHandler: @escaping (_ success: Bool) -> Void ) {
         let keychain = Keychain(service: "com.itsFree")
-        
         DispatchQueue.global().async {
             do {
                 let password = try keychain

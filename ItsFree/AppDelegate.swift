@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import KeychainAccess
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -19,6 +20,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         FirebaseApp.configure()
         
+        if UserDefaults.standard.object(forKey: "FirstRun") == nil {
+            let keychain = Keychain(service: "com.itsFree")
+            do {
+                try keychain.removeAll()
+            } catch {
+                print("Error clearing Keychain")
+            }
+            UserDefaults.standard.set(true, forKey: "FirstRun")
+            UserDefaults.standard.synchronize()
+        }
         return true
     }
 
@@ -43,18 +54,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
-
-//    func showDetailOnHomeViewController(annotation: Item){
-//        
-//        let nav = self.wi
-//        let nav = self.window?.rootViewController as! UINavigationController;
-//        
-//        let myVC = nav.viewControllers[1] as! HomeViewController
-//        //let myVC = nav.topViewController as! HomeViewController
-//        
-//        myVC.showItemDetail(item: annotation)
-//        
-//    }
 
 }
 

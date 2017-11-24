@@ -20,13 +20,15 @@ class AppData: NSObject {
     public var onlineItems: [Item] = []
     
     public var usersNode: DatabaseReference
-    public var itemsNode: DatabaseReference
+    public var offersNode: DatabaseReference
+    public var requestsNode: DatabaseReference
     public var categorizedItemsNode: DatabaseReference
     
     public override init() {
         
         usersNode = Database.database().reference().child("users")
-        itemsNode = Database.database().reference().child("items")
+        offersNode = Database.database().reference().child("offers")
+        requestsNode = Database.database().reference().child("requests")
         categorizedItemsNode = Database.database().reference().child("categorizedItems")
     }
     

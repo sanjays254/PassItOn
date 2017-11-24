@@ -18,6 +18,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
 
     var currentLocation: CLLocation!
     var locationManager: CLLocationManager!
+    
     var compassButton: UIButton!
     
     var mapListSegmentedControl: UISegmentedControl!
@@ -26,6 +27,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet weak var homeMapView: MKMapView!
     @IBOutlet weak var homeTableView: UITableView!
     
+    
+    var containerView: UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,19 +50,21 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         homeMapView.register(MKMarkerAnnotationView.self, forAnnotationViewWithReuseIdentifier: "itemMarkerView")
 
-        compassButton = UIButton()
+        
+        //compassButton
+        compassButton = UIButton(frame: CGRect(x: 20, y: 20, width: 20, height: 20))
+        compassButton.setImage(#imageLiteral(resourceName: "compass"), for: UIControlState.normal)
+       // compassButton.addTarget(self, action: #selector(MapViewDelegate.theMapViewDelegate.setMapRegion), for: .touchUpInside)
         homeMapView.addSubview(compassButton)
         
         compassButton.translatesAutoresizingMaskIntoConstraints = false
         
-        let trailingConstraint = NSLayoutConstraint(item: compassButton, attribute: .trailing, relatedBy: .equal, toItem: homeMapView, attribute: .trailing , multiplier: 1, constant: -5)
-        let bottomConstraint = NSLayoutConstraint(item: compassButton, attribute: .bottom, relatedBy: .equal, toItem: homeMapView, attribute: .bottom , multiplier: 1, constant: -5)
-        let widthConstraint = NSLayoutConstraint(item: compassButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute , multiplier: 1, constant: 15)
-        let heightConstraint = NSLayoutConstraint(item: compassButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute , multiplier: 1, constant: 15)
+        let trailingConstraint = NSLayoutConstraint(item: compassButton, attribute: .trailing, relatedBy: .equal, toItem: homeMapView, attribute: .trailing , multiplier: 1, constant: -10)
+        let bottomConstraint = NSLayoutConstraint(item: compassButton, attribute: .bottom, relatedBy: .equal, toItem: homeMapView, attribute: .bottom , multiplier: 1, constant: -10)
+        let widthConstraint = NSLayoutConstraint(item: compassButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute , multiplier: 1, constant: 30)
+        let heightConstraint = NSLayoutConstraint(item: compassButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute , multiplier: 1, constant: 30)
         
         NSLayoutConstraint.activate([trailingConstraint, bottomConstraint, widthConstraint, heightConstraint])
-        
-        //self.compassButton.addConstraints([trailingConstraint, bottomConstraint, widthConstraint, heightConstraint])
         
         self.compassButton.layer.cornerRadius = self.compassButton.frame.size.width / 2.0
         self.compassButton.layer.masksToBounds = false
@@ -225,12 +230,46 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func showItemDetail(item: Item){
 
-       let detailViewController = ItemDetailViewController()
-        //detailViewController.view.alpha = 0.1
+        
+        containerView = UIView()
+        containerView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(containerView)
+        
+        NSLayoutConstraint.activate([
+            containerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
+            containerView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
+            containerView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0),
+            containerView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0)
+            ])
+        
+        containerView.alpha = 1
+        containerView.backgroundColor = UIColor.clear
+        
+    
+        
+        let detailViewController = ItemDetailViewController()
+        detailViewController.currentItem = item
+        addChildViewController(detailViewController)
+        detailViewController.view.translatesAutoresizingMaskIntoConstraints = false
+        containerView.addSubview(detailViewController.view)
        
-        detailViewController.view.frame = CGRect(x: 0, y: 400, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height)
-        view.addSubview(detailViewController.view)
-         self.addChildViewController(detailViewController)
+       
+        detailViewController.view.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height)
+        
+        NSLayoutConstraint.activate([
+            detailViewController.view.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
+            detailViewController.view.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
+            detailViewController.view.topAnchor.constraint(equalTo: containerView.topAnchor),
+            detailViewController.view.bottomAnchor.constraint(equalTo: containerView.bottomAnchor)
+            ])
+        
+        detailViewController.didMove(toParentViewController: self)
+        
+        
+        
+        
+        
+        
        // detailViewController.didMove(toParentViewController: self)
         
 //        detailViewController.modalPresentationStyle = UIModalPresentationStyle.currentContext

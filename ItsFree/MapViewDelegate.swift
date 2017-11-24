@@ -31,7 +31,7 @@ class MapViewDelegate: NSObject, MKMapViewDelegate {
         }
     }
     
-    func setMapRegion(){
+    @objc func setMapRegion(){
         
         let span = MKCoordinateSpanMake(0.007, 0.007)
         

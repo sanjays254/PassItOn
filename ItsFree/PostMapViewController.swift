@@ -43,9 +43,6 @@ class PostMapViewController: UIViewController, UISearchBarDelegate, MKMapViewDel
         let myVCindex = self.navigationController?.viewControllers.index(of: self)
         previousVC = self.navigationController?.viewControllers[myVCindex!-1] as! PostViewController
         
-//        let searchButton = UIBarButtonItem(image:UIImage(named:"search"), style: .plain, target: self, action: #selector(searchButtonClicked))
-//        
-//        self.navigationItem.rightBarButtonItem = searchButton
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.search, target: self, action: #selector(searchButtonClicked))
         
         //mapView Delegate stuff
@@ -113,9 +110,7 @@ class PostMapViewController: UIViewController, UISearchBarDelegate, MKMapViewDel
         locationPlotter()
     }
     
-//    class func locationPlotter(){
-//        locationPlotter()
-//    }
+
     
     func locationPlotter(){
         

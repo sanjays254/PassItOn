@@ -539,6 +539,19 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ItsFreeUITests/Pods-ItsFreeUITests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		CEAB48281FC7D3B6008FAF80 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "TAGS=\"TODO:|FIXME:|🤗:\"…find \"${SRCROOT}\" \\( -type f -name \"*.swift\" \\) -print0 | xargs -0 egrep";
+		};
 		DB766064DB1829A6235043BD /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;

@@ -15,7 +15,8 @@ import MapKit
 
 class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate, MKMapViewDelegate {
     
-    let myNotificationKey = "com.bobthedeveloper.notificationKey"
+    let myNotificationKey = "theNotificationKey"
+    let myDowloadNotificationKey = "myDownloadNotificationKey"
 
     var currentLocation: CLLocation!
     var locationManager: CLLocationManager!
@@ -94,8 +95,34 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.homeMapView.showsUserLocation = true
         self.homeMapView.showsPointsOfInterest = false
         
-        ReadFirebaseData.read()
+//        DispatchQueue.global(qos: .background).async {
+// 
+            ReadFirebaseData.read()
+            print("Downloading")
+            
+//            DispatchQueue.main.async {
+//
+//                self.homeMapView.addAnnotations(AppData.sharedInstance.onlineItems)
+//                print("Downlaoded")
+//
+//            }
+//        }
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(self.addAnnotationsWhenFinishedDownloadingData),
+            name: NSNotification.Name(rawValue: myDowloadNotificationKey),
+            object: nil)
+
+        
     }
+    
+    @objc func addAnnotationsWhenFinishedDownloadingData(notification: NSNotification){
+        self.homeMapView.addAnnotations(AppData.sharedInstance.onlineItems)
+         print("Downlaoded")
+    }
+    
+
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)

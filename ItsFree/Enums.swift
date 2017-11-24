@@ -58,6 +58,40 @@ public enum ItemCategory:String {
         }
         
     }
+    
+    static func enumName(index: Int) -> ItemCategory {
+        switch index {
+        case 0:
+            return ItemCategory.books
+        case 1:
+            return ItemCategory.clothing
+        case 2:
+            return ItemCategory.furniture
+        case 3:
+            return ItemCategory.artAndCollectables
+        case 4:
+            return ItemCategory.sportingGoods
+        case 5:
+            return ItemCategory.electronics
+        case 6:
+            return ItemCategory.homeAppliances
+        case 7:
+            return ItemCategory.jewelleryAndWatches
+        case 8:
+            return ItemCategory.toys
+        case 9:
+            return ItemCategory.buildingToolsAndSupplies
+        case 10:
+            return ItemCategory.indoorDecor
+        case 11:
+            return ItemCategory.outdoorDecor
+        case 12:
+            return ItemCategory.other
+        default:
+            return ItemCategory.other
+        }
+        
+    }
     //gets count of categories
     static var count: Int { return ItemCategory.other.hashValue + 1
         

@@ -39,7 +39,7 @@ class ItemDetailViewController: UIViewController {
         
 
         itemDetailView.alpha = 1
-        
+        itemDetailView.layer.cornerRadius = 30
         
         itemDetailView.itemTitleLabel.text = currentItem.name
         itemDetailView.categoryLabel.text = currentItem.itemCategory.rawValue
@@ -89,8 +89,11 @@ class ItemDetailViewController: UIViewController {
             
             } else if (swipeGesture.direction == UISwipeGestureRecognizerDirection.up) {
             
+                //nav bar + status bar
+                let yPoint = (self.navigationController?.navigationBar.frame.height)! + (UIApplication.shared.statusBarFrame.size.height)
+                    
                 UIView.animate(withDuration: 0.5, animations: {
-                    self.itemDetailView.frame = CGRect(x: 0, y: (self.navigationController?.navigationBar.frame.height)!, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height)
+                    self.itemDetailView.frame = CGRect(x: 0, y:yPoint, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height)
                     
                 }, completion: {(finished: Bool) in
                     

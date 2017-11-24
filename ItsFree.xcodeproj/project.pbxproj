@@ -250,6 +250,7 @@
 				CE5869C91FBE445C0012F774 /* Resources */,
 				59DEF184B45311ECFA4C6022 /* [CP] Embed Pods Frameworks */,
 				DB766064DB1829A6235043BD /* [CP] Copy Pods Resources */,
+				CEAB48281FC7D3B6008FAF80 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -524,6 +525,19 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ItsFreeUITests/Pods-ItsFreeUITests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		CEAB48281FC7D3B6008FAF80 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "TAGS=\"TODO:|FIXME:\"\nfind \"${SRCROOT}\" ( -name \".h\" -or -name \".m\" -or -name \".swift\" -type f) -print0 | xargs -0 egrep --with-filename --line-number --only-matching \"($TAGS).\\$\" | perl -p -e \"s/($TAGS)/ warning: \\$1/\"";
 		};
 		DB766064DB1829A6235043BD /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;

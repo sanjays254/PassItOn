@@ -16,7 +16,7 @@ import KeychainAccess
 
 class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate, MKMapViewDelegate {
     
-    let myNotificationKey = "com.bobthedeveloper.notificationKey"
+    let myNotificationKey = "theNotificationKey"
 
     var currentLocation: CLLocation!
     var locationManager: CLLocationManager!

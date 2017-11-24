@@ -18,12 +18,14 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var descriptionTextField: UITextField!
     @IBOutlet weak var qualitySegmentedControl: UISegmentedControl!
+    var chosenQuality: ItemQuality!
     
     @IBOutlet weak var customTagTextField: UITextField!
     @IBOutlet weak var tagButtonView: UIView!
     @IBOutlet weak var locationButton: UIButton!
 
     @IBOutlet weak var addCategoryButton: UIButton!
+    var chosenCategory: ItemCategory!
     
     var categoryCount: Int!
     var categoryTableView: UITableView!
@@ -59,6 +61,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
 
         
     }
+    
     
     override func viewWillAppear(_ animated: Bool) {
         self.locationButton.setTitle("Location: \(self.selectedLocationString)", for: UIControlState.normal)
@@ -162,6 +165,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         
         let cell = tableView.cellForRow(at: indexPath)!
         self.addCategoryButton.setTitle("Category: \(cell.textLabel?.text ?? "Unknown")", for: UIControlState.normal)
+        chosenCategory = ItemCategory.enumName(index: indexPath.row)
         categoryTableView.removeFromSuperview()
     }
     
@@ -180,7 +184,20 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
 //        let testItem:Item = Item.init(name: "Hat", category: ItemCategory.clothing, description: "It's a hat", location: (LocationManager.theLocationManager.getLocation().coordinate), posterUID: testUser.UID, quality: ItemQuality.GentlyUsed, and: [tag1])
 //        testItem.UID = "testItemUID"
         
-        let realItem: Item = Item.init(name: titleTextField.text!, category: ItemCategory.clothing, description: descriptionTextField.text!, location: (LocationManager.theLocationManager.getLocation().coordinate), posterUID:  testUser.UID, quality: ItemQuality.GentlyUsed, tags: tags, itemUID: nil)
+        //let theItemToPostCategory = ItemCategory.hashValue(addCategoryButton.titleLabel)
+        
+        switch(qualitySegmentedControl.selectedSegmentIndex){
+        case 0: chosenQuality = ItemQuality.New
+        case 1: chosenQuality = ItemQuality.GentlyUsed
+        case 2: chosenQuality = ItemQuality.NeedsFixing
+        case 3: chosenQuality = ItemQuality.DamagedButFunctional
+        default:
+            chosenQuality = ItemQuality.GentlyUsed
+        }
+        //what should our default be
+        
+        
+        let realItem: Item = Item.init(name: titleTextField.text!, category: chosenCategory, description: descriptionTextField.text!, location: (LocationManager.theLocationManager.getLocation().coordinate), posterUID:  testUser.UID, quality: chosenQuality, tags: tags, itemUID: nil)
         
         AppData.sharedInstance.usersNode.child(testUser.UID).setValue(testUser.toDictionary())
         AppData.sharedInstance.itemsNode.child(realItem.UID).setValue(realItem.toDictionary())

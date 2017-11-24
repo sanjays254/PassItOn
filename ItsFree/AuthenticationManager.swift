@@ -79,11 +79,6 @@ class AuthenticationManager {
         }
     }
     
-    class func printKeychain() {
-        let keychain = Keychain(service: "com.itsFree")
-        print("\(keychain)")
-    }
-    
     class func login(withEmail email:String, password:String, completionHandler: @escaping (_ success: Bool) -> Void) {
         print("Logging in with email: \(email), password: \(password)")
 

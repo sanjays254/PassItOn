@@ -31,6 +31,7 @@ class Item: NSObject, MKAnnotation {
     var posterUID:String
     var quality:ItemQuality
     var tags:Tag
+    var photos:[String]
     
     init(name:String,
          category:ItemCategory,
@@ -48,6 +49,7 @@ class Item: NSObject, MKAnnotation {
         self.quality = quality
         self.tags = tags
         self.posterUID = posterUID
+        self.photos = []
     }
     
     init(name:String,
@@ -67,6 +69,7 @@ class Item: NSObject, MKAnnotation {
         self.quality = quality
         self.tags = tags
         self.posterUID = posterUID
+        self.photos = []
         
         if itemUID == nil {
             let newItemUID = AppData.sharedInstance.itemsNode.childByAutoId()
@@ -88,7 +91,8 @@ class Item: NSObject, MKAnnotation {
             let inpPosterUID: String = inpDict["posterID"] as? String,
             let inpQuality: String = inpDict["quality"] as? String,
             let inpTagsArray: [String] =  inpDict["tags"] as? [String],
-            let inpLocationDict: [String:Double] = inpDict["location"] as? [String:Double] else
+            let inpLocationDict: [String:Double] = inpDict["location"] as? [String:Double],
+            let inpPhotos: [String] = inpDict["photos"] as? [String] else
         {
             print("Error: Dictionary is not in the correct format")
             return nil
@@ -114,6 +118,7 @@ class Item: NSObject, MKAnnotation {
                   quality: ItemQuality(rawValue: inpQuality)!,
                   tags: inpTags,
                   itemUID:inpItemUID)
+        self.photos = inpPhotos
     }
     
     func toDictionary() -> [String:Any] {
@@ -127,7 +132,8 @@ class Item: NSObject, MKAnnotation {
             "location": locationDict,
             "posterID":posterUID,
             "quality":self.quality.rawValue,
-            "tags":self.tags.tagsArray
+            "tags":self.tags.tagsArray,
+            "photos":self.photos
         ]
         
         return itemDict

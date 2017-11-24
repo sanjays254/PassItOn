@@ -62,10 +62,9 @@
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <collectionViewLayout key="collectionViewLayout" id="rdA-oC-IG2"/>
                         </collectionView>
-                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DyT-jM-XSM">
-                            <rect key="frame" x="313" y="8" width="46" height="30"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <state key="normal" title="Button"/>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DyT-jM-XSM">
+                            <rect key="frame" x="329" y="8" width="30" height="30"/>
+                            <state key="normal" title="Call"/>
                         </button>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Poster Username" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="58X-Bu-Kbi">
                             <rect key="frame" x="8" y="618" width="133" height="21"/>
@@ -81,14 +80,28 @@
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0DH-Us-psW">
+                            <rect key="frame" x="329" y="40" width="30" height="30"/>
+                            <state key="normal" title="Text"/>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="D3q-we-ffY">
+                            <rect key="frame" x="326" y="78" width="37" height="30"/>
+                            <state key="normal" title="Email"/>
+                        </button>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstItem="sHA-bN-zLF" firstAttribute="centerX" secondItem="IvU-C1-Sgh" secondAttribute="centerX" id="1wd-el-J6r"/>
+                        <constraint firstItem="D3q-we-ffY" firstAttribute="top" secondItem="0DH-Us-psW" secondAttribute="bottom" constant="8" id="2FH-tK-mgl"/>
+                        <constraint firstAttribute="trailing" secondItem="DyT-jM-XSM" secondAttribute="trailing" constant="16" id="39A-rk-hC7"/>
+                        <constraint firstAttribute="trailing" secondItem="D3q-we-ffY" secondAttribute="trailing" constant="12" id="LdX-vF-SBm"/>
                         <constraint firstItem="0hf-Rx-BJL" firstAttribute="centerX" secondItem="IvU-C1-Sgh" secondAttribute="centerX" id="M96-Ji-jCI"/>
+                        <constraint firstAttribute="trailing" secondItem="0DH-Us-psW" secondAttribute="trailing" constant="16" id="Q3Y-WT-Kbj"/>
                         <constraint firstItem="pyp-ZW-Lc8" firstAttribute="top" secondItem="sHA-bN-zLF" secondAttribute="bottom" constant="8" id="UBl-E1-aPm"/>
                         <constraint firstItem="4bD-P7-jHw" firstAttribute="top" secondItem="IvU-C1-Sgh" secondAttribute="top" constant="8" id="Va1-Xk-9Ey"/>
                         <constraint firstItem="pyp-ZW-Lc8" firstAttribute="centerX" secondItem="IvU-C1-Sgh" secondAttribute="centerX" id="cip-9g-2O7"/>
+                        <constraint firstItem="0DH-Us-psW" firstAttribute="top" secondItem="DyT-jM-XSM" secondAttribute="bottom" constant="2" id="o6U-XA-fFs"/>
+                        <constraint firstItem="DyT-jM-XSM" firstAttribute="top" secondItem="IvU-C1-Sgh" secondAttribute="top" constant="8" id="sxA-wP-22p"/>
                         <constraint firstAttribute="trailing" secondItem="pyp-ZW-Lc8" secondAttribute="trailing" constant="28" id="v62-Gd-lm4"/>
                         <constraint firstItem="sHA-bN-zLF" firstAttribute="top" secondItem="0hf-Rx-BJL" secondAttribute="bottom" constant="8" id="xH5-Xu-iNE"/>
                         <constraint firstItem="0hf-Rx-BJL" firstAttribute="top" secondItem="IvU-C1-Sgh" secondAttribute="top" constant="127" id="yCX-Hd-tZ5"/>

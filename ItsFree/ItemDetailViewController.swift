@@ -26,7 +26,8 @@ class ItemDetailViewController: UIViewController {
         
         itemDetailView.translatesAutoresizingMaskIntoConstraints = false
         
-        detailViewTopAnchorConstant = 250
+        //make this auto constrained
+        detailViewTopAnchorConstant = 325
         detailViewBottomAnchorConstant = 0
         
         NSLayoutConstraint.activate([

@@ -16,6 +16,8 @@ class MapViewDelegate: NSObject, MKMapViewDelegate {
     var theMapView: MKMapView!
     var currentLocation: CLLocation = LocationManager.theLocationManager.getLocation()
     
+    let myNotificationKey = "com.bobthedeveloper.notificationKey"
+    
     static let theMapViewDelegate = MapViewDelegate()
     
     func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
@@ -84,11 +86,12 @@ class MapViewDelegate: NSObject, MKMapViewDelegate {
         }
         
         else {
+            let myItem = view.annotation as! Item
+            NotificationCenter.default.post(name: Notification.Name(rawValue: myNotificationKey), object: nil, userInfo: ["name" : myItem])
             
-        
-        let myAppDelegate = UIApplication.shared.delegate as? AppDelegate
-        myAppDelegate?.showDetailOnHomeViewController(annotation: view.annotation as! Item)
-        
+//        let myAppDelegate = UIApplication.shared.delegate as? AppDelegate
+//        myAppDelegate?.showDetailOnHomeViewController(annotation: view.annotation as! Item)
+//
         }
         
 

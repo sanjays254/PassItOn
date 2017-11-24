@@ -15,6 +15,8 @@ import KeychainAccess
 
 
 class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate, MKMapViewDelegate {
+    
+    let myNotificationKey = "com.bobthedeveloper.notificationKey"
 
     var currentLocation: CLLocation!
     var locationManager: CLLocationManager!
@@ -41,6 +43,9 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.homeTableView.refreshControl?.backgroundColor = UIColor.blue
         self.homeTableView.refreshControl?.addTarget(self, action: #selector(refreshTableData), for: .valueChanged)
         
+        
+        //let userUpdateNotification = Notification.Name("userUpdate")
+        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: myNotificationKey), object: nil, queue: nil, using: catchNotification)
         
         
         //delegating the mapView
@@ -99,6 +104,14 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         homeTableView.reloadData()
 
         self.homeMapView.addAnnotations(AppData.sharedInstance.onlineItems)
+    }
+    
+    
+    func catchNotification(notification:Notification) -> Void {
+        guard let name = notification.userInfo!["name"] as? Item else { return }
+        self.showItemDetail(item: name)
+        
+       // FirstVCLabel.text = "My name, \(name) has been passed! 😄"
     }
     
     
@@ -183,7 +196,9 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
 
     
     
-    func showItemDetail(item: Item){
+
+    
+    @objc func showItemDetail(item: Item){
 
         
         containerView = UIView()

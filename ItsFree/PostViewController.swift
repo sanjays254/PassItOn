@@ -180,7 +180,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
 //        let testItem:Item = Item.init(name: "Hat", category: ItemCategory.clothing, description: "It's a hat", location: (LocationManager.theLocationManager.getLocation().coordinate), posterUID: testUser.UID, quality: ItemQuality.GentlyUsed, and: [tag1])
 //        testItem.UID = "testItemUID"
         
-        let realItem: Item = Item.init(name: titleTextField.text!, category: ItemCategory.clothing, description: descriptionTextField.text!, location: (LocationManager.theLocationManager.getLocation().coordinate), posterUID:  testUser.UID, quality: ItemQuality.GentlyUsed, tags: tags, itemUID: nil)
+        let realItem: Item = Item.init(name: titleTextField.text!, category: ItemCategory.clothing, description: descriptionTextField.text!, location: (LocationManager.theLocationManager.getLocation().coordinate), posterUID:  testUser.UID, quality: ItemQuality.GentlyUsed, tags: tags, photos: [""], itemUID: nil)
         
         AppData.sharedInstance.usersNode.child(testUser.UID).setValue(testUser.toDictionary())
         AppData.sharedInstance.itemsNode.child(realItem.UID).setValue(realItem.toDictionary())

@@ -104,7 +104,6 @@ class AuthenticationManager {
     
     class func loginWithTouchID(email:String, completionHandler: @escaping (_ success: Bool) -> Void ) {
         let keychain = Keychain(service: "com.itsFree")
-        
         DispatchQueue.global().async {
             do {
                 let password = try keychain

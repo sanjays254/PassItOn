@@ -19,12 +19,16 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     var currentLocation: CLLocation!
     var locationManager: CLLocationManager!
     
+    var compassButton: UIButton!
+    
     var mapListSegmentedControl: UISegmentedControl!
     @IBOutlet weak var wantedAvailableSegmentedControl: UISegmentedControl!
     
     @IBOutlet weak var homeMapView: MKMapView!
     @IBOutlet weak var homeTableView: UITableView!
     
+    
+    var containerView: UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,6 +47,31 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.homeMapView.delegate = MapViewDelegate.theMapViewDelegate
         MapViewDelegate.theMapViewDelegate.theMapView = homeMapView
         MapViewDelegate.theMapViewDelegate.setMapRegion()
+        
+        homeMapView.register(MKMarkerAnnotationView.self, forAnnotationViewWithReuseIdentifier: "itemMarkerView")
+
+        
+        //compassButton
+        compassButton = UIButton(frame: CGRect(x: 20, y: 20, width: 20, height: 20))
+        compassButton.setImage(#imageLiteral(resourceName: "compass"), for: UIControlState.normal)
+       // compassButton.addTarget(self, action: #selector(MapViewDelegate.theMapViewDelegate.setMapRegion), for: .touchUpInside)
+        homeMapView.addSubview(compassButton)
+        
+        compassButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        let trailingConstraint = NSLayoutConstraint(item: compassButton, attribute: .trailing, relatedBy: .equal, toItem: homeMapView, attribute: .trailing , multiplier: 1, constant: -10)
+        let bottomConstraint = NSLayoutConstraint(item: compassButton, attribute: .bottom, relatedBy: .equal, toItem: homeMapView, attribute: .bottom , multiplier: 1, constant: -10)
+        let widthConstraint = NSLayoutConstraint(item: compassButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute , multiplier: 1, constant: 30)
+        let heightConstraint = NSLayoutConstraint(item: compassButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute , multiplier: 1, constant: 30)
+        
+        NSLayoutConstraint.activate([trailingConstraint, bottomConstraint, widthConstraint, heightConstraint])
+        
+        self.compassButton.layer.cornerRadius = self.compassButton.frame.size.width / 2.0
+        self.compassButton.layer.masksToBounds = false
+        self.compassButton.layer.shadowOffset = CGSize.init(width: 0, height: 2.0)
+        self.compassButton.layer.shadowColor = (UIColor.black).cgColor
+        self.compassButton.layer.shadowOpacity = 0.5
+        self.compassButton.layer.shadowRadius = 1.0
         
         //mapList Segment Control setup
         self.mapListSegmentedControl = UISegmentedControl(items: ["Map", "List"])
@@ -107,7 +136,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         let distance = (destinationLocation.distance(from: self.currentLocation)/1000)
         
-        cell.itemDistanceLabel.text = String(format: "%.2f", distance) + " kms away"
+        cell.itemDistanceLabel.text = String(format: "%.2f", distance) + " kms"
         
         return cell
     }
@@ -150,6 +179,74 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             UIApplication.shared.open(URL(string:UIApplicationOpenSettingsURLString)!)
         }))
         present(alert, animated: true, completion: nil)
+    }
+
+    
+    
+    func showItemDetail(item: Item){
+
+        
+        containerView = UIView()
+        containerView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(containerView)
+        
+        NSLayoutConstraint.activate([
+            containerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
+            containerView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
+            containerView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0),
+            containerView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0)
+            ])
+        
+        containerView.alpha = 1
+        containerView.backgroundColor = UIColor.clear
+        
+    
+        
+        let detailViewController = ItemDetailViewController()
+        detailViewController.currentItem = item
+        addChildViewController(detailViewController)
+        detailViewController.view.translatesAutoresizingMaskIntoConstraints = false
+        containerView.addSubview(detailViewController.view)
+       
+       
+        detailViewController.view.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height)
+        
+        NSLayoutConstraint.activate([
+            detailViewController.view.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
+            detailViewController.view.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
+            detailViewController.view.topAnchor.constraint(equalTo: containerView.topAnchor),
+            detailViewController.view.bottomAnchor.constraint(equalTo: containerView.bottomAnchor)
+            ])
+        
+        detailViewController.didMove(toParentViewController: self)
+        
+        
+        
+        
+        
+        
+       // detailViewController.didMove(toParentViewController: self)
+        
+//        detailViewController.modalPresentationStyle = UIModalPresentationStyle.currentContext
+//        detailViewController.modalTransitionStyle = UIModalTransitionStyle.coverVertical
+//        self.present(detailViewController, animated: true, completion: nil)
+//
+//        addChildViewController(detailViewController)
+//        detailViewController.view.translatesAutoresizingMaskIntoConstraints = false
+        //present(ItemDetailViewController(), animated: true, completion: nil)
+//        detailContainerView.addSubview((detailViewController.view)!)
+//
+//        NSLayoutConstraint.activate([
+//            detailViewController.view.leadingAnchor.constraint(equalTo: detailContainerView.leadingAnchor),
+//            detailViewController.view.trailingAnchor.constraint(equalTo: detailContainerView.trailingAnchor),
+//            detailViewController.view.topAnchor.constraint(equalTo: detailContainerView.topAnchor),
+//            detailViewController.view.bottomAnchor.constraint(equalTo: detailContainerView.bottomAnchor)
+//            ])
+//
+//        detailViewController.didMove(toParentViewController: self)
+
+
+
     }
 
 }

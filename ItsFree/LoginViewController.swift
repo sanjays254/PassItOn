@@ -52,12 +52,13 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         
         
         // Do any additional setup after loading the view.
-        setToSignUp()
+        setToLogIn()
         
         if Auth.auth().currentUser != nil && UserDefaults.standard.bool(forKey: rememberMeKey) == true {
             print("\((Auth.auth().currentUser?.displayName)!)")
             print ("\((Auth.auth().currentUser?.email)!)")
-            AuthenticationManager.loginWithTouchID(email: (Auth.auth().currentUser?.email)!, completionHandler: { (success) -> Void in
+            AuthenticationManager.loginWithTouchID(email: (Auth.auth().currentUser?.email)!,
+                                                   completionHandler: { (success) -> Void in
                 if success == true {
                     self.loginSuccess()
                 }

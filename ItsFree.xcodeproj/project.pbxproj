@@ -537,7 +537,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "TAGS=\"TODO:|FIXME:\"\nfind \"${SRCROOT}\" ( -name \".h\" -or -name \".m\" -or -name \".swift\" -type f) -print0 | xargs -0 egrep --with-filename --line-number --only-matching \"($TAGS).\\$\" | perl -p -e \"s/($TAGS)/ warning: \\$1/\"";
+			shellScript = "TAGS=\"TODO:|FIXME:|🤗:\"…find \"${SRCROOT}\" \\( -type f -name \"*.swift\" \\) -print0 | xargs -0 egrep";
 		};
 		DB766064DB1829A6235043BD /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;

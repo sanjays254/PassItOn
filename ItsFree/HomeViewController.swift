@@ -95,8 +95,21 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.homeMapView.showsUserLocation = true
         self.homeMapView.showsPointsOfInterest = false
         
-        ReadFirebaseData.read()
+        DispatchQueue.global(qos: .background).async {
+ 
+            ReadFirebaseData.read()
+            print("Downloading")
+            
+            DispatchQueue.main.async {
+       
+                self.homeMapView.addAnnotations(AppData.sharedInstance.onlineItems)
+                print("Downlaoded")
+                
+            }
+        }
+        
     }
+
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)

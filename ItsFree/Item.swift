@@ -33,24 +33,25 @@ class Item: NSObject, MKAnnotation {
     var tags:Tag
     var photos:[String]
     
-    init(name:String,
-         category:ItemCategory,
-         description:String,
-         location:CLLocationCoordinate2D,
-         posterUID:String,
-         quality:ItemQuality,
-         tags:Tag) {
-        
-        self.name = name
-        self.itemCategory = category
-        self.itemDescription = description
-        self.location = location
-        self.posterUID = posterUID
-        self.quality = quality
-        self.tags = tags
-        self.posterUID = posterUID
-        self.photos = []
-    }
+//    init(name:String,
+//         category:ItemCategory,
+//         description:String,
+//         location:CLLocationCoordinate2D,
+//         posterUID:String,
+//         quality:ItemQuality,
+//         tags:Tag,
+//         photos:[String]) {
+//
+//        self.name = name
+//        self.itemCategory = category
+//        self.itemDescription = description
+//        self.location = location
+//        self.posterUID = posterUID
+//        self.quality = quality
+//        self.tags = tags
+//        self.posterUID = posterUID
+//        self.photos = photos
+//    }
     
     init(name:String,
          category:ItemCategory,
@@ -59,6 +60,7 @@ class Item: NSObject, MKAnnotation {
          posterUID:String,
          quality:ItemQuality,
          tags:Tag,
+         photos:[String],
          itemUID:String?) {
         
         self.name = name
@@ -69,7 +71,7 @@ class Item: NSObject, MKAnnotation {
         self.quality = quality
         self.tags = tags
         self.posterUID = posterUID
-        self.photos = []
+        self.photos = photos
         
         if itemUID == nil {
             let newItemUID = AppData.sharedInstance.itemsNode.childByAutoId()
@@ -117,8 +119,8 @@ class Item: NSObject, MKAnnotation {
                   posterUID: inpPosterUID,
                   quality: ItemQuality(rawValue: inpQuality)!,
                   tags: inpTags,
+                  photos: inpPhotos,
                   itemUID:inpItemUID)
-        self.photos = inpPhotos
     }
     
     func toDictionary() -> [String:Any] {

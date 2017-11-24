@@ -16,7 +16,12 @@ class ItemDetailView: UIView {
     @IBOutlet weak var categoryLabel: UILabel!
     
     
+    @IBOutlet weak var descriptionLabel: UILabel!
+    
     @IBOutlet weak var qualityLabel: UILabel!
+    
+    @IBOutlet weak var mainImageView: UIImageView!
+    
     
     
     

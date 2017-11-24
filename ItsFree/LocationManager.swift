@@ -23,7 +23,12 @@ class LocationManager: CLLocationManager {
         self.requestWhenInUseAuthorization()
         self.startUpdatingLocation()
         
-        currentLocation = self.location
+        if(self.location != nil){
+            currentLocation = self.location
+        }
+        else {
+            currentLocation = CLLocation.init(latitude: CLLocationDegrees(49.246292), longitude: CLLocationDegrees(-123.116226))
+        }
         return currentLocation
         
         

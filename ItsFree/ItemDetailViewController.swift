@@ -26,7 +26,7 @@ class ItemDetailViewController: UIViewController {
         
         itemDetailView.translatesAutoresizingMaskIntoConstraints = false
         
-        detailViewTopAnchorConstant = 450
+        detailViewTopAnchorConstant = 250
         detailViewBottomAnchorConstant = 0
         
         NSLayoutConstraint.activate([
@@ -38,10 +38,13 @@ class ItemDetailViewController: UIViewController {
         
 
         itemDetailView.alpha = 1
-        //itemDetailView.backgroundColor = UIColor.blue
+        
+        
         itemDetailView.itemTitleLabel.text = currentItem.name
         itemDetailView.categoryLabel.text = currentItem.itemCategory.rawValue
         itemDetailView.qualityLabel.text = currentItem.quality.rawValue
+        itemDetailView.descriptionLabel.text = currentItem.itemDescription
+        //itemDetailView.mainImageView = currentItem.
         
         
 

@@ -185,12 +185,9 @@
 		CE5869CD1FBE445C0012F774 /* ItsFree */ = {
 			isa = PBXGroup;
 			children = (
-				CE9683D41FBF8E5600DFA277 /* HomeViewController.swift */,
 				CEFC19901FC65C320082CB55 /* ItemDetailViewController.swift */,
 				CEFC19911FC65C320082CB55 /* ItemDetailViewController.xib */,
 				CEFC19941FC75E510082CB55 /* ItemDetailView.swift */,
-				CEF41A291FC51D380044C63E /* PostPhotoCollectionViewCell.swift */,
-				CEF41A1B1FC1000F0044C63E /* MapViewDelegate.swift */,
 				01BAC9FA1FBF759E0050C891 /* GoogleService-Info.plist */,
 				CE5869DA1FBE445C0012F774 /* Info.plist */,
 				0135173D1FC6168700977B2E /* Login.storyboard */,
@@ -766,7 +763,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 48KFD7RJD2;
+				DEVELOPMENT_TEAM = L4XYQHCH99;
 				INFOPLIST_FILE = ItsFree/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -783,7 +780,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 48KFD7RJD2;
+				DEVELOPMENT_TEAM = L4XYQHCH99;
 				INFOPLIST_FILE = ItsFree/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

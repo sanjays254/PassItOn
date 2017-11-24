@@ -37,11 +37,19 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var confirmPasswordLabel: UILabel!
     @IBOutlet weak var rememberMeSwitch: UISwitch!
     
+    var tapGesture: UITapGestureRecognizer!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
+        
+        usernameTextfield.delegate = self
         passwordTextfield.delegate = self
+        emailTextfield.delegate = self
+        confirmPasswordTextfield.delegate = self
+        
+        
         
         // Do any additional setup after loading the view.
         setToSignUp()
@@ -198,5 +206,34 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     func loginSuccess() {
         performSegue(withIdentifier: "continueToHome", sender: self)
     }
+    
+    
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        
+        tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard(_:)))
+        self.view.addGestureRecognizer(tapGesture)
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        self.view.removeGestureRecognizer(tapGesture)
+        
+    }
+    
+    
+    @objc func dismissKeyboard (_ sender: UITapGestureRecognizer) {
+        usernameTextfield.resignFirstResponder()
+        passwordTextfield.resignFirstResponder()
+        confirmPasswordTextfield.resignFirstResponder()
+        emailTextfield.resignFirstResponder()
+        
+        //self.view.endEditing(true)
+    }
+    
     
 }

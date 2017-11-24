@@ -8,12 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		0135173C1FC50B3F00977B2E /* AuthenticationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0135173B1FC50B3F00977B2E /* AuthenticationManager.swift */; };
+		0135173E1FC6168700977B2E /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0135173D1FC6168700977B2E /* Login.storyboard */; };
+		013517401FC61F9F00977B2E /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0135173F1FC61F9F00977B2E /* LoginViewController.swift */; };
 		01BAC9F71FBE5C9E0050C891 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BAC9F61FBE5C9E0050C891 /* Item.swift */; };
 		01BAC9F91FBF6CD10050C891 /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BAC9F81FBF6CD10050C891 /* Enums.swift */; };
 		01BAC9FB1FBF75A70050C891 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 01BAC9FA1FBF759E0050C891 /* GoogleService-Info.plist */; };
 		01C1CAE91FBFB35500FB636C /* AppData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C1CAE81FBFB35500FB636C /* AppData.swift */; };
 		01C1CAEB1FBFCAE900FB636C /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C1CAEA1FBFCAE900FB636C /* Tag.swift */; };
-		01C1CAED1FBFD11E00FB636C /* AuthenticationHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C1CAEC1FBFD11E00FB636C /* AuthenticationHelper.swift */; };
 		01D5DF461FBF86F40029A276 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D5DF451FBF86F40029A276 /* User.swift */; };
 		01F6ADA71FC3A89C00414D96 /* ImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01F6ADA61FC3A89C00414D96 /* ImageManager.swift */; };
 		AAE390072D6121EF9B932714 /* Pods_ItsFree.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52500CB0F9C6555890C6A26D /* Pods_ItsFree.framework */; };
@@ -61,12 +62,13 @@
 
 /* Begin PBXFileReference section */
 		0135173B1FC50B3F00977B2E /* AuthenticationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationManager.swift; sourceTree = "<group>"; };
+		0135173D1FC6168700977B2E /* Login.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
+		0135173F1FC61F9F00977B2E /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		01BAC9F61FBE5C9E0050C891 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		01BAC9F81FBF6CD10050C891 /* Enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
 		01BAC9FA1FBF759E0050C891 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		01C1CAE81FBFB35500FB636C /* AppData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppData.swift; sourceTree = "<group>"; };
 		01C1CAEA1FBFCAE900FB636C /* Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
-		01C1CAEC1FBFD11E00FB636C /* AuthenticationHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationHelper.swift; sourceTree = "<group>"; };
 		01D5DF451FBF86F40029A276 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		01F6ADA61FC3A89C00414D96 /* ImageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageManager.swift; sourceTree = "<group>"; };
 		19703A4DE107F8BC8775279E /* Pods-ItsFree.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ItsFree.release.xcconfig"; path = "Pods/Target Support Files/Pods-ItsFree/Pods-ItsFree.release.xcconfig"; sourceTree = "<group>"; };
@@ -190,28 +192,32 @@
 				CEF41A291FC51D380044C63E /* PostPhotoCollectionViewCell.swift */,
 				CEF41A1B1FC1000F0044C63E /* MapViewDelegate.swift */,
 				01BAC9FA1FBF759E0050C891 /* GoogleService-Info.plist */,
-				CE5869CE1FBE445C0012F774 /* AppDelegate.swift */,
+				CE5869DA1FBE445C0012F774 /* Info.plist */,
+				0135173D1FC6168700977B2E /* Login.storyboard */,
 				01C1CAE81FBFB35500FB636C /* AppData.swift */,
-				CE9683CF1FBE655600DFA277 /* LocationManager.swift */,
-				01C1CAEC1FBFD11E00FB636C /* AuthenticationHelper.swift */,
-				CE5869D21FBE445C0012F774 /* Main.storyboard */,
-				CE5249DB1FC6184A003F41D8 /* KeyboardLayoutConstraint.swift */,
-				CEF41A231FC3CF1C0044C63E /* PostMapViewController.swift */,
-				CEF41A271FC501F60044C63E /* SearchResultsTableTableViewController.swift */,
-				CEF41A241FC3CF1C0044C63E /* PostMapViewController.xib */,
+				CE5869CE1FBE445C0012F774 /* AppDelegate.swift */,
 				0135173B1FC50B3F00977B2E /* AuthenticationManager.swift */,
+				01BAC9F81FBF6CD10050C891 /* Enums.swift */,
+				CE9683D41FBF8E5600DFA277 /* HomeViewController.swift */,
+				01F6ADA61FC3A89C00414D96 /* ImageManager.swift */,
 				01BAC9F61FBE5C9E0050C891 /* Item.swift */,
+				CEF41A1F1FC374520044C63E /* ItemHomeTableViewCell.swift */,
+				CE5249DB1FC6184A003F41D8 /* KeyboardLayoutConstraint.swift */,
+				CE9683CF1FBE655600DFA277 /* LocationManager.swift */,
+				0135173F1FC61F9F00977B2E /* LoginViewController.swift */,
+				CEF41A1B1FC1000F0044C63E /* MapViewDelegate.swift */,
+				CEF41A231FC3CF1C0044C63E /* PostMapViewController.swift */,
+				CEF41A291FC51D380044C63E /* PostPhotoCollectionViewCell.swift */,
+				CE9683D11FBF6C9700DFA277 /* PostViewController.swift */,
+				CEF41A1D1FC113290044C63E /* ReadFirebaseData.swift */,
+				CEF41A271FC501F60044C63E /* SearchResultsTableTableViewController.swift */,
 				01C1CAEA1FBFCAE900FB636C /* Tag.swift */,
 				01D5DF451FBF86F40029A276 /* User.swift */,
-				01BAC9F81FBF6CD10050C891 /* Enums.swift */,
-				CE9683D11FBF6C9700DFA277 /* PostViewController.swift */,
-				01F6ADA61FC3A89C00414D96 /* ImageManager.swift */,
-				CEF41A1D1FC113290044C63E /* ReadFirebaseData.swift */,
-				CEF41A1F1FC374520044C63E /* ItemHomeTableViewCell.swift */,
-				CEF41A201FC374520044C63E /* ItemHomeTableViewCell.xib */,
 				CE5869D51FBE445C0012F774 /* Assets.xcassets */,
+				CEF41A201FC374520044C63E /* ItemHomeTableViewCell.xib */,
+				CEF41A241FC3CF1C0044C63E /* PostMapViewController.xib */,
 				CE5869D71FBE445C0012F774 /* LaunchScreen.storyboard */,
-				CE5869DA1FBE445C0012F774 /* Info.plist */,
+				CE5869D21FBE445C0012F774 /* Main.storyboard */,
 			);
 			path = ItsFree;
 			sourceTree = "<group>";
@@ -352,6 +358,7 @@
 			files = (
 				CEF41A221FC374520044C63E /* ItemHomeTableViewCell.xib in Resources */,
 				CE5869D91FBE445C0012F774 /* LaunchScreen.storyboard in Resources */,
+				0135173E1FC6168700977B2E /* Login.storyboard in Resources */,
 				01BAC9FB1FBF75A70050C891 /* GoogleService-Info.plist in Resources */,
 				CE5869D61FBE445C0012F774 /* Assets.xcassets in Resources */,
 				CE5869D41FBE445C0012F774 /* Main.storyboard in Resources */,
@@ -572,10 +579,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				01BAC9F71FBE5C9E0050C891 /* Item.swift in Sources */,
-				01C1CAED1FBFD11E00FB636C /* AuthenticationHelper.swift in Sources */,
 				01BAC9F91FBF6CD10050C891 /* Enums.swift in Sources */,
 				CE5249DC1FC6184A003F41D8 /* KeyboardLayoutConstraint.swift in Sources */,
 				CEF41A251FC3CF1C0044C63E /* PostMapViewController.swift in Sources */,
+				013517401FC61F9F00977B2E /* LoginViewController.swift in Sources */,
 				CE9683D21FBF6C9700DFA277 /* PostViewController.swift in Sources */,
 				01C1CAE91FBFB35500FB636C /* AppData.swift in Sources */,
 				CE5869CF1FBE445C0012F774 /* AppDelegate.swift in Sources */,
@@ -759,7 +766,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = L4XYQHCH99;
+				DEVELOPMENT_TEAM = 48KFD7RJD2;
 				INFOPLIST_FILE = ItsFree/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -776,7 +783,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = L4XYQHCH99;
+				DEVELOPMENT_TEAM = 48KFD7RJD2;
 				INFOPLIST_FILE = ItsFree/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

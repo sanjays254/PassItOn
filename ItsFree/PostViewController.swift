@@ -207,7 +207,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
                     if(selectedLocationCoordinates != nil){
                         
                         //if these fields are not nil, then post the item
-                        let realItem: Item = Item.init(name: titleTextField.text!, category: chosenCategory, description: descriptionTextField.text!, location: (LocationManager.theLocationManager.getLocation().coordinate), posterUID:  testUser.UID, quality: chosenQuality, tags: tags, itemUID: nil)
+                        let realItem: Item = Item.init(name: titleTextField.text!, category: chosenCategory, description: descriptionTextField.text!, location: (LocationManager.theLocationManager.getLocation().coordinate), posterUID:  testUser.UID, quality: chosenQuality, tags: tags, photos: [""], itemUID: nil)
                         
                         AppData.sharedInstance.usersNode.child(testUser.UID).setValue(testUser.toDictionary())
                         AppData.sharedInstance.itemsNode.child(realItem.UID).setValue(realItem.toDictionary())
@@ -234,8 +234,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
             
         else {let alert = UIAlertController(title: "Whoops", message: "You must add a title", preferredStyle: UIAlertControllerStyle.alert)
             alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.default, handler: nil))
-            present(alert, animated: true, completion: nil)}
-        
+            present(alert, animated: true, completion: nil)}        
     }
 
 

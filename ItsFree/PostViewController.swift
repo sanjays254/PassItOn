@@ -11,10 +11,6 @@ import MapKit
 
 class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource {
     
-    
-    public var selectedLocationString: String = ""
-    public var selectedLocationCoordinates: CLLocationCoordinate2D!
-    
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var descriptionTextField: UITextField!
     @IBOutlet weak var qualitySegmentedControl: UISegmentedControl!
@@ -23,7 +19,6 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
     @IBOutlet weak var customTagTextField: UITextField!
     @IBOutlet weak var tagButtonView: UIView!
     @IBOutlet weak var locationButton: UIButton!
-    //var chosenLocation: CLLocation!
 
     @IBOutlet weak var addCategoryButton: UIButton!
     var chosenCategory: ItemCategory!
@@ -31,6 +26,9 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
     var categoryCount: Int!
     var categoryTableView: UITableView!
     let cellID: String = "categoryCellID"
+    
+    public var selectedLocationString: String = ""
+    public var selectedLocationCoordinates: CLLocationCoordinate2D!
     
     let imagePicker = UIImagePickerController()
     var myImage:UIImage?
@@ -43,10 +41,12 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
     var offerRequestSegmentedControl: UISegmentedControl!
 
     
+ 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupUI()
+        setupOfferRequestSegmentedControl()
         
         titleTextField.delegate = self
         descriptionTextField.delegate = self
@@ -58,18 +58,16 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         photoCollectionView.dataSource = self
         imagePicker.delegate = self
         
-        
-        
         photosArray = []
-
-
+    }
+    
+    fileprivate func setupOfferRequestSegmentedControl() {
         offerRequestSegmentedControl = UISegmentedControl()
         offerRequestSegmentedControl.insertSegment(withTitle: "Offer", at: 0, animated: true)
         offerRequestSegmentedControl.insertSegment(withTitle: "Request", at: 1, animated: true)
         self.navigationItem.titleView = offerRequestSegmentedControl
-        
-        
     }
+    
     
     
     override func viewWillAppear(_ animated: Bool) {
@@ -182,8 +180,6 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
     //thePostMethod
     @IBAction func postItem(_ sender: UIBarButtonItem) {
         
-
-        
         let tags:Tag = Tag()
        
         tags.add(tag: "blue")
@@ -191,11 +187,6 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         
         let testUser:User = User.init(email: "test@gmail.com", name: "John", rating: 39, uid: "testUID", profileImage: "")
         testUser.UID = "testUserUID"
-        
-//        let testItem:Item = Item.init(name: "Hat", category: ItemCategory.clothing, description: "It's a hat", location: (LocationManager.theLocationManager.getLocation().coordinate), posterUID: testUser.UID, quality: ItemQuality.GentlyUsed, and: [tag1])
-//        testItem.UID = "testItemUID"
-        
-        //let theItemToPostCategory = ItemCategory.hashValue(addCategoryButton.titleLabel)
         
         switch(qualitySegmentedControl.selectedSegmentIndex){
         case 0: chosenQuality = ItemQuality.New
@@ -205,8 +196,8 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         default:
             chosenQuality = ItemQuality.GentlyUsed
         }
-        //what should our default be
         
+// TODO: what should our default be
         
         if(titleTextField.text != "") {
             if(descriptionTextField.text != "") {
@@ -285,14 +276,15 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         }
         //else if we click on an image
         else {
-            let changePhotoAlert = UIAlertController(title: "Change or View Photo?", message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
+            let changePhotoAlert = UIAlertController(title: "View or Delete Photo?", message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
             
             let viewAction = UIAlertAction(title: "View Photo", style: UIAlertActionStyle.default, handler:{ (action) in
                 //open photo
             })
             
-            let changeAction = UIAlertAction(title: "Change Photo", style: UIAlertActionStyle.default, handler:{ (action) in
-                self.presentImagePickerAlert()
+            let changeAction = UIAlertAction(title: "Delete Photo", style: UIAlertActionStyle.destructive, handler:{ (action) in
+                self.photosArray.remove(at: indexPath.item)
+                self.photoCollectionView.reloadData()
             })
             
             let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil)
@@ -306,7 +298,6 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        
         tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard(_:)))
         self.view.addGestureRecognizer(tapGesture)
     }
@@ -316,13 +307,10 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         
     }
     
-    
     @objc func dismissKeyboard (_ sender: UITapGestureRecognizer) {
         titleTextField.resignFirstResponder()
         descriptionTextField.resignFirstResponder()
         customTagTextField.resignFirstResponder()
-        
-        //self.view.endEditing(true)
     }
 
 }

@@ -59,7 +59,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         //compassButton
         compassButton = UIButton(frame: CGRect(x: 20, y: 20, width: 20, height: 20))
         compassButton.setImage(#imageLiteral(resourceName: "compass"), for: UIControlState.normal)
-       // compassButton.addTarget(self, action: #selector(MapViewDelegate.theMapViewDelegate.setMapRegion), for: .touchUpInside)
+        compassButton.addTarget(self, action: #selector(setMapRegion), for: .touchUpInside)
         homeMapView.addSubview(compassButton)
         
         compassButton.translatesAutoresizingMaskIntoConstraints = false
@@ -122,6 +122,9 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
          print("Downlaoded")
     }
     
+    @objc func setMapRegion(){
+        MapViewDelegate.theMapViewDelegate.setMapRegion()
+    }
 
 
     override func viewWillAppear(_ animated: Bool) {

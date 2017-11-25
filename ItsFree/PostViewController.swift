@@ -58,9 +58,16 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         photoCollectionView.dataSource = self
         imagePicker.delegate = self
         
+        
+        
         photosArray = []
 
 
+        let offerRequestSegmentedControl = UISegmentedControl()
+        offerRequestSegmentedControl.insertSegment(withTitle: "Offer", at: 0, animated: true)
+        offerRequestSegmentedControl.insertSegment(withTitle: "Request", at: 1, animated: true)
+        self.navigationItem.titleView = offerRequestSegmentedControl
+        
         
     }
     
@@ -78,12 +85,12 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         
         categoryTableView = UITableView(frame: CGRect(x: 0, y:20, width: self.view.frame.width, height: self.view.frame.height), style: UITableViewStyle.plain)
         
-        addCategoryButton.layer.borderColor = (UIColor.blue).cgColor
+        addCategoryButton.layer.borderColor = UIColor(red: 0, green: 122.0/255.0, blue: 1.0, alpha: 1.0).cgColor
         addCategoryButton.layer.borderWidth = 1
         addCategoryButton.layer.cornerRadius = 5
         addCategoryButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 0)
         
-        locationButton.layer.borderColor = (UIColor.blue).cgColor
+        locationButton.layer.borderColor = UIColor(red: 0, green: 122.0/255.0, blue: 1.0, alpha: 1.0).cgColor
         locationButton.layer.borderWidth = 1
         locationButton.layer.cornerRadius = 5
         locationButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 0)
@@ -201,8 +208,8 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         //what should our default be
         
         
-        if(titleTextField.text == "") {
-            if(descriptionTextField.text == "") {
+        if(titleTextField.text != "") {
+            if(descriptionTextField.text != "") {
                 if(chosenCategory != nil){
                     if(selectedLocationCoordinates != nil){
                         
@@ -212,6 +219,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
                         AppData.sharedInstance.usersNode.child(testUser.UID).setValue(testUser.toDictionary())
                         AppData.sharedInstance.itemsNode.child(realItem.UID).setValue(realItem.toDictionary())
                         AppData.sharedInstance.categorizedItemsNode.child(String(describing: realItem.itemCategory)).child(String(realItem.name.prefix(2))).setValue(realItem.toDictionary())
+                        
                         
                         
                         self.navigationController?.popToRootViewController(animated: true)

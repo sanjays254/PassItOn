@@ -11,27 +11,67 @@ import CoreLocation
 import MobileCoreServices
 
 
-class LocationManager: CLLocationManager {
+class LocationManager: CLLocationManager{
     
     var currentLocation: CLLocation!
     
     static let theLocationManager = LocationManager()
-    
+
+
     func getLocation() -> CLLocation {
         
-        self.desiredAccuracy = kCLLocationAccuracyBest
-        self.requestWhenInUseAuthorization()
-        self.startUpdatingLocation()
+        LocationManager.theLocationManager.desiredAccuracy = kCLLocationAccuracyBest
+        LocationManager.theLocationManager.requestWhenInUseAuthorization()
+ 
         
-        if(self.location != nil){
-            currentLocation = self.location
+        if CLLocationManager.locationServicesEnabled() {
+            switch(CLLocationManager.authorizationStatus()) {
+            case .notDetermined, .restricted, .denied:
+                print("No access")
+                           currentLocation = CLLocation.init(latitude: CLLocationDegrees(49.246292), longitude: CLLocationDegrees(-123.116226))
+            case .authorizedAlways, .authorizedWhenInUse:
+                
+                currentLocation = self.location
+                LocationManager.theLocationManager.startUpdatingLocation()
+                print("Access")
+            }
+        } else {
+           currentLocation = CLLocation.init(latitude: CLLocationDegrees(49.246292), longitude: CLLocationDegrees(-123.116226))
+            print("Location services are not enabled")
         }
-        else {
-            currentLocation = CLLocation.init(latitude: CLLocationDegrees(49.246292), longitude: CLLocationDegrees(-123.116226))
-        }
+        
         return currentLocation
         
         
+    }
+
+
+    
+    func locationManager(manager: CLLocationManager!, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
+        switch status {
+        case .notDetermined:
+            // If status has not yet been determied, ask for authorization
+            manager.requestWhenInUseAuthorization()
+            break
+        case .authorizedWhenInUse:
+            // If authorized when in use
+            currentLocation = self.location
+            manager.startUpdatingLocation()
+            break
+        case .authorizedAlways:
+            // If always authorized
+            currentLocation = self.location
+            manager.startUpdatingLocation()
+            break
+        case .restricted:
+            // If restricted by e.g. parental controls. User can't enable Location Services
+            break
+        case .denied:
+            // If user denied your app access to Location Services, but can grant access from Settings.app
+            break
+        default:
+            break
+        }
     }
     
 

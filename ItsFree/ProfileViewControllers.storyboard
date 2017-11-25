@@ -50,6 +50,11 @@
                         <viewLayoutGuide key="safeArea" id="apo-xE-xyy"/>
                     </view>
                     <navigationItem key="navigationItem" id="njC-ck-3J6">
+                        <barButtonItem key="leftBarButtonItem" systemItem="done" id="PZ6-5Z-HGL">
+                            <connections>
+                                <action selector="donePressed:" destination="9wv-wn-pjM" id="t3E-lO-kui"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="edit" id="oUZ-Am-cj6"/>
                     </navigationItem>
                     <connections>

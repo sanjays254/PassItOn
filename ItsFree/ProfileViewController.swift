@@ -19,6 +19,10 @@ class ProfileViewController: UIViewController {
     var email:String = "example@mail.com"
     var photoRef = "testUserUID/testImage"
 
+    @IBAction func donePressed(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()

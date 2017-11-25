@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="9V3-22-K9S">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="9V3-22-K9S">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -39,7 +39,11 @@
                                         </segmentedControl>
                                     </barButtonItem>
                                     <barButtonItem width="111" style="plain" systemItem="flexibleSpace" id="iCz-K5-qax"/>
-                                    <barButtonItem title="Profile" id="a38-PY-6fy"/>
+                                    <barButtonItem title="Profile" id="a38-PY-6fy">
+                                        <connections>
+                                            <action selector="toProfile:" destination="BYZ-38-t0r" id="nLD-28-oOP"/>
+                                        </connections>
+                                    </barButtonItem>
                                 </items>
                             </toolbar>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="PJe-Ph-xUe">
@@ -89,11 +93,20 @@
                         <outlet property="wantedAvailableSegmentedControl" destination="kVJ-lR-ADn" id="BwG-Mp-ZZP"/>
                         <segue destination="uu9-5f-Eua" kind="show" identifier="postSegue" id="Ief-IJ-IS6"/>
                         <segue destination="Pfb-Mb-cP8" kind="presentation" identifier="profileSegue" id="w9S-Qu-0Ss"/>
+                        <segue destination="7I6-kj-hON" kind="presentation" identifier="toProfileSegue" id="fQC-9c-mf1"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="628" y="133.5832083958021"/>
+        </scene>
+        <!--ProfileViewControllers-->
+        <scene sceneID="smV-5J-oFJ">
+            <objects>
+                <viewControllerPlaceholder storyboardName="ProfileViewControllers" id="7I6-kj-hON" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="MQ3-tW-VaA" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="708" y="602"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="bgn-gR-lfg">

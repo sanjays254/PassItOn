@@ -30,6 +30,11 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet weak var homeTableView: UITableView!
     
     
+    @IBAction func toProfile(_ sender: Any) {
+        performSegue(withIdentifier: "toProfileSegue", sender: self)
+    }
+    
+    
     var containerView: UIView!
     
     override func viewDidLoad() {

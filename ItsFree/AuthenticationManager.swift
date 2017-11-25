@@ -39,7 +39,8 @@ class AuthenticationManager {
                             let addedUser = User(email: newUser!.email!,
                                                  name: newUser!.displayName!,
                                                  rating: 0,
-                                                 uid: newUser!.uid)
+                                                 uid: newUser!.uid,
+                                                 )
                             
                             AppData.sharedInstance.currentUser = addedUser
                             

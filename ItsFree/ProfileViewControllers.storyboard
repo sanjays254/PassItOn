@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Profile View Controller-->
+        <scene sceneID="ytn-0q-nbP">
+            <objects>
+                <viewController id="9wv-wn-pjM" customClass="ProfileViewController" customModule="ItsFree" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8f5-Z4-td5">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="xP3-iM-nzo">
+                                <rect key="frame" x="50" y="40" width="275" height="275"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="xP3-iM-nzo" secondAttribute="height" multiplier="1:1" id="0Mj-TB-X6P"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="apo-xE-xyy" firstAttribute="trailing" secondItem="xP3-iM-nzo" secondAttribute="trailing" constant="50" id="3Zq-IJ-AlT"/>
+                            <constraint firstItem="xP3-iM-nzo" firstAttribute="leading" secondItem="apo-xE-xyy" secondAttribute="leading" constant="50" id="SIy-UO-2gn"/>
+                            <constraint firstItem="xP3-iM-nzo" firstAttribute="top" secondItem="apo-xE-xyy" secondAttribute="top" constant="20" id="tIg-Dw-fyX"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="apo-xE-xyy"/>
+                    </view>
+                    <connections>
+                        <outlet property="profileImageView" destination="xP3-iM-nzo" id="FlW-r2-dtd"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="azI-e2-bBJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-140" y="91"/>
+        </scene>
+    </scenes>
+</document>

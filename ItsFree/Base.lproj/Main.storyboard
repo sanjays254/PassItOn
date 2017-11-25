@@ -33,6 +33,9 @@
                                                 <segment title="Wanted" width="70"/>
                                                 <segment title="Available" width="70"/>
                                             </segments>
+                                            <connections>
+                                                <action selector="changedWantedAvailableSegmnent:" destination="BYZ-38-t0r" eventType="valueChanged" id="BqY-BC-Wab"/>
+                                            </connections>
                                         </segmentedControl>
                                     </barButtonItem>
                                     <barButtonItem width="111" style="plain" systemItem="flexibleSpace" id="iCz-K5-qax"/>

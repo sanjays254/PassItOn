@@ -46,9 +46,6 @@
                         <constraint firstAttribute="width" constant="115" id="zV3-xb-xnR"/>
                     </constraints>
                     <state key="normal" title="Use My Location"/>
-                    <connections>
-                        <action selector="useMyLocationButton:" destination="-1" eventType="touchUpInside" id="4Fd-yR-tAU"/>
-                    </connections>
                 </button>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

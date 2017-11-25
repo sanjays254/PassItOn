@@ -220,6 +220,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
                         if(offerRequestSegmentedControl.selectedSegmentIndex == 0){
                         AppData.sharedInstance.usersNode.child(testUser.UID).setValue(testUser.toDictionary())
                         AppData.sharedInstance.offersNode.child(realItem.UID).setValue(realItem.toDictionary())
+
                             AppData.sharedInstance.categorizedItemsNode.child(String(describing: realItem.itemCategory)).child(String(realItem.name.prefix(2))).setValue(realItem.toDictionary())
                         }
                         else if (offerRequestSegmentedControl.selectedSegmentIndex == 1){
@@ -227,6 +228,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
                             AppData.sharedInstance.requestsNode.child(realItem.UID).setValue(realItem.toDictionary())
                             AppData.sharedInstance.categorizedItemsNode.child(String(describing: realItem.itemCategory)).child(String(realItem.name.prefix(2))).setValue(realItem.toDictionary())
                         }
+
                         
                         
                         

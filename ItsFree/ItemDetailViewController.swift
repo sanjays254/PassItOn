@@ -79,7 +79,7 @@ class ItemDetailViewController: UIViewController {
                 
                 self.willMove(toParentViewController: nil)
                 let theParentViewController = self.parent as! HomeViewController
-                theParentViewController.containerView.removeFromSuperview()
+                theParentViewController.itemDetailContainerView.removeFromSuperview()
                 //self.itemDetailView.removeFromSuperview()
                 self.removeFromParentViewController()
 

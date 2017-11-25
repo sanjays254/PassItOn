@@ -265,11 +265,14 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "photoCollectionViewCell", for: indexPath) as! PostPhotoCollectionViewCell
         
             if(photosArray.count == indexPath.item){
-                cell.postCollectionViewCellImageView.image = #imageLiteral(resourceName: "addPhotoPlaceholder")
+                cell.postCollectionViewCellImageView.image = #imageLiteral(resourceName: "addImage")
             }
         
             else if(indexPath.item < photosArray.count) {
                 cell.postCollectionViewCellImageView.image = photosArray[indexPath.item]
+                cell.postCollectionViewCellImageView.layer.cornerRadius = 20
+                cell.postCollectionViewCellImageView.layer.masksToBounds = true
+                cell.postCollectionViewCellImageView.contentMode = .scaleAspectFill
             }
         
         return cell

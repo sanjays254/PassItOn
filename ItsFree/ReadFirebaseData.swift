@@ -28,10 +28,10 @@ class ReadFirebaseData: NSObject {
 
             var myHandle : UInt = 0;
 
-            myHandle =  AppData.sharedInstance.itemsNode
+            myHandle =  AppData.sharedInstance.offersNode
                 .child(userID!).observe(DataEventType.value) { (snapshot) in
 
-                    AppData.sharedInstance.itemsNode
+                    AppData.sharedInstance.offersNode
                         .child(userID!)
                         .removeObserver(withHandle: myHandle)
 
@@ -49,7 +49,7 @@ class ReadFirebaseData: NSObject {
 
             let userID = Auth.auth().currentUser?.uid;
 
-            AppData.sharedInstance.itemsNode
+            AppData.sharedInstance.offersNode
                 .observeSingleEvent(of: .value, with: { (snapshot) in
 
                     let value = snapshot.value as? NSDictionary;

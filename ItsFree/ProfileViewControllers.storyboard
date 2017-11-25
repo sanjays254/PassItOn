@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ZoS-aW-eUe">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -19,27 +19,66 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="xP3-iM-nzo">
-                                <rect key="frame" x="50" y="40" width="275" height="275"/>
+                                <rect key="frame" x="50" y="84" width="275" height="275"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="xP3-iM-nzo" secondAttribute="height" multiplier="1:1" id="0Mj-TB-X6P"/>
                                 </constraints>
                             </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="User's display name" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="n16-cV-pxw">
+                                <rect key="frame" x="65.5" y="379" width="244" height="36"/>
+                                <fontDescription key="fontDescription" type="system" weight="thin" pointSize="30"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="email" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Dm-5y-SA3">
+                                <rect key="frame" x="166" y="435" width="43.5" height="24"/>
+                                <fontDescription key="fontDescription" type="system" weight="thin" pointSize="20"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="apo-xE-xyy" firstAttribute="trailing" secondItem="xP3-iM-nzo" secondAttribute="trailing" constant="50" id="3Zq-IJ-AlT"/>
+                            <constraint firstItem="n16-cV-pxw" firstAttribute="top" secondItem="xP3-iM-nzo" secondAttribute="bottom" constant="20" id="F6T-W0-HoU"/>
                             <constraint firstItem="xP3-iM-nzo" firstAttribute="leading" secondItem="apo-xE-xyy" secondAttribute="leading" constant="50" id="SIy-UO-2gn"/>
+                            <constraint firstItem="8Dm-5y-SA3" firstAttribute="centerX" secondItem="8f5-Z4-td5" secondAttribute="centerX" id="gdc-37-Hgy"/>
+                            <constraint firstItem="8Dm-5y-SA3" firstAttribute="top" secondItem="n16-cV-pxw" secondAttribute="bottom" constant="20" id="haE-gq-4Ah"/>
                             <constraint firstItem="xP3-iM-nzo" firstAttribute="top" secondItem="apo-xE-xyy" secondAttribute="top" constant="20" id="tIg-Dw-fyX"/>
+                            <constraint firstItem="n16-cV-pxw" firstAttribute="centerX" secondItem="8f5-Z4-td5" secondAttribute="centerX" id="ySG-cg-ecc"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="apo-xE-xyy"/>
                     </view>
+                    <navigationItem key="navigationItem" id="njC-ck-3J6">
+                        <barButtonItem key="rightBarButtonItem" systemItem="edit" id="oUZ-Am-cj6"/>
+                    </navigationItem>
                     <connections>
+                        <outlet property="emailLabel" destination="8Dm-5y-SA3" id="gBU-be-e20"/>
                         <outlet property="profileImageView" destination="xP3-iM-nzo" id="FlW-r2-dtd"/>
+                        <outlet property="usernameLabel" destination="n16-cV-pxw" id="7o6-b8-3Kn"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="azI-e2-bBJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-140" y="91"/>
+            <point key="canvasLocation" x="399" y="65"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="4aC-06-soy">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="ZoS-aW-eUe" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="gnt-9B-xBc">
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="9wv-wn-pjM" kind="relationship" relationship="rootViewController" id="XUb-GT-0XF"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="qlb-lR-kmq" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-511" y="95"/>
         </scene>
     </scenes>
 </document>

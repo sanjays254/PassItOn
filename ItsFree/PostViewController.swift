@@ -189,7 +189,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         tags.add(tag: "blue")
         tags.add(tag: "Phone")
         
-        let testUser:User = User.init(email: "test@gmail.com", name: "John", rating: 39, uid: "testUID")
+        let testUser:User = User.init(email: "test@gmail.com", name: "John", rating: 39, uid: "testUID", profileImage: "")
         testUser.UID = "testUserUID"
         
 //        let testItem:Item = Item.init(name: "Hat", category: ItemCategory.clothing, description: "It's a hat", location: (LocationManager.theLocationManager.getLocation().coordinate), posterUID: testUser.UID, quality: ItemQuality.GentlyUsed, and: [tag1])
@@ -217,7 +217,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
                         let realItem: Item = Item.init(name: titleTextField.text!, category: chosenCategory, description: descriptionTextField.text!, location: (LocationManager.theLocationManager.getLocation().coordinate), posterUID:  testUser.UID, quality: chosenQuality, tags: tags, photos: [""], itemUID: nil)
                         
                         AppData.sharedInstance.usersNode.child(testUser.UID).setValue(testUser.toDictionary())
-                        AppData.sharedInstance.itemsNode.child(realItem.UID).setValue(realItem.toDictionary())
+                        AppData.sharedInstance.offersNode.child(realItem.UID).setValue(realItem.toDictionary())
                         AppData.sharedInstance.categorizedItemsNode.child(String(describing: realItem.itemCategory)).child(String(realItem.name.prefix(2))).setValue(realItem.toDictionary())
                         
                         

@@ -9,10 +9,11 @@
 import UIKit
 import FirebaseAuth
 
+public let rememberMeKey = "rememberMe"
+
 class LoginViewController: UIViewController, UITextFieldDelegate {
     
-    let rememberMeKey = "rememberMe"
-    
+
     let maxPasswordLength = 20
     let signupTitleStr = "Sign Up"
     let loginTitleStr = "Log In"

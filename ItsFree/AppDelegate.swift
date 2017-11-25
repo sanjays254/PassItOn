@@ -19,15 +19,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         FirebaseApp.configure()
+        let key = "FirstRun"
         
-        if UserDefaults.standard.object(forKey: "FirstRun") == nil {
+        if UserDefaults.standard.object(forKey: key) == nil {
             let keychain = Keychain(service: "com.itsFree")
             do {
                 try keychain.removeAll()
             } catch {
                 print("Error clearing Keychain")
             }
-            UserDefaults.standard.set(true, forKey: "FirstRun")
+            UserDefaults.standard.set(true, forKey: key)
+            UserDefaults.standard.set(false, forKey: rememberMeKey)
             UserDefaults.standard.synchronize()
         }
         return true

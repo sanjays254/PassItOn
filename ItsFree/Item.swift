@@ -74,7 +74,7 @@ class Item: NSObject, MKAnnotation {
         self.photos = photos
         
         if itemUID == nil {
-            let newItemUID = AppData.sharedInstance.itemsNode.childByAutoId()
+            let newItemUID = AppData.sharedInstance.offersNode.childByAutoId()
             self.UID = newItemUID.key
             print("\(self.UID)")
         }

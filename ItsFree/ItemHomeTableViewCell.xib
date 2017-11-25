@@ -55,7 +55,7 @@
                 <constraints>
                     <constraint firstItem="7Qj-Be-pdK" firstAttribute="leading" secondItem="ktN-AR-rEF" secondAttribute="trailing" constant="11.5" id="18M-P1-KjQ"/>
                     <constraint firstItem="g2B-PB-j23" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="1VN-Kb-RzV"/>
-                    <constraint firstItem="ktN-AR-rEF" firstAttribute="width" secondItem="H2p-sc-9uM" secondAttribute="width" multiplier="0.55" priority="750" id="2ZS-h6-V1e"/>
+                    <constraint firstItem="ktN-AR-rEF" firstAttribute="width" secondItem="H2p-sc-9uM" secondAttribute="width" multiplier="0.55" priority="500" id="2ZS-h6-V1e"/>
                     <constraint firstItem="ktN-AR-rEF" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" id="DpA-9k-vxc"/>
                     <constraint firstItem="7PZ-mV-kmm" firstAttribute="leading" secondItem="g2B-PB-j23" secondAttribute="trailing" constant="8" id="Gfq-bs-58D"/>
                     <constraint firstAttribute="trailing" secondItem="7Qj-Be-pdK" secondAttribute="trailing" constant="4" id="H1m-w1-dde"/>

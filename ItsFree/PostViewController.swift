@@ -40,7 +40,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
     
     var tapGesture: UITapGestureRecognizer!
 
-   
+    var offerRequestSegmentedControl: UISegmentedControl!
 
     
     override func viewDidLoad() {
@@ -63,7 +63,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         photosArray = []
 
 
-        let offerRequestSegmentedControl = UISegmentedControl()
+        offerRequestSegmentedControl = UISegmentedControl()
         offerRequestSegmentedControl.insertSegment(withTitle: "Offer", at: 0, animated: true)
         offerRequestSegmentedControl.insertSegment(withTitle: "Request", at: 1, animated: true)
         self.navigationItem.titleView = offerRequestSegmentedControl
@@ -216,9 +216,19 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
                         //if these fields are not nil, then post the item
                         let realItem: Item = Item.init(name: titleTextField.text!, category: chosenCategory, description: descriptionTextField.text!, location: (LocationManager.theLocationManager.getLocation().coordinate), posterUID:  testUser.UID, quality: chosenQuality, tags: tags, photos: [""], itemUID: nil)
                         
+                       
+                        if(offerRequestSegmentedControl.selectedSegmentIndex == 0){
                         AppData.sharedInstance.usersNode.child(testUser.UID).setValue(testUser.toDictionary())
                         AppData.sharedInstance.offersNode.child(realItem.UID).setValue(realItem.toDictionary())
-                        AppData.sharedInstance.categorizedItemsNode.child(String(describing: realItem.itemCategory)).child(String(realItem.name.prefix(2))).setValue(realItem.toDictionary())
+
+                            AppData.sharedInstance.categorizedItemsNode.child(String(describing: realItem.itemCategory)).child(String(realItem.name.prefix(2))).setValue(realItem.toDictionary())
+                        }
+                        else if (offerRequestSegmentedControl.selectedSegmentIndex == 1){
+                            AppData.sharedInstance.usersNode.child(testUser.UID).setValue(testUser.toDictionary())
+                            AppData.sharedInstance.requestsNode.child(realItem.UID).setValue(realItem.toDictionary())
+                            AppData.sharedInstance.categorizedItemsNode.child(String(describing: realItem.itemCategory)).child(String(realItem.name.prefix(2))).setValue(realItem.toDictionary())
+                        }
+
                         
                         
                         

@@ -30,7 +30,8 @@ class PostMapViewController: UIViewController, UISearchBarDelegate, MKMapViewDel
     
     let searchResultsTableViewController = SearchResultsTableViewController()
     
-   
+    var tapGestureRecognizer: UITapGestureRecognizer!
+    var selectedAnnotation: MKPointAnnotation!
     
     @IBOutlet weak var postMapView: MKMapView!
     
@@ -39,11 +40,18 @@ class PostMapViewController: UIViewController, UISearchBarDelegate, MKMapViewDel
     override func viewDidLoad() {
         super.viewDidLoad()
         definesPresentationContext = true
+        
+        selectedAnnotation = MKPointAnnotation()
+        tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tappedALocation(sender:)))
+        postMapView.addGestureRecognizer(tapGestureRecognizer)
+        
+        
 
         let myVCindex = self.navigationController?.viewControllers.index(of: self)
         previousVC = self.navigationController?.viewControllers[myVCindex!-1] as! PostViewController
         
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.search, target: self, action: #selector(searchButtonClicked))
+        self.navigationItem.title = "Select Location"
         
         //mapView Delegate stuff
         self.postMapView.delegate = MapViewDelegate.theMapViewDelegate
@@ -153,5 +161,81 @@ class PostMapViewController: UIViewController, UISearchBarDelegate, MKMapViewDel
         previousVC.selectedLocationCoordinates = self.pointAnnotation.coordinate
         
     }
+    
+    
+    @objc func tappedALocation(sender: UITapGestureRecognizer) {
+        
+        //if sender.state != UIGestureRecognizerState.began { return }
+        let touchLocation = sender.location(in: postMapView)
+        let locationCoordinate = postMapView.convert(touchLocation, toCoordinateFrom: postMapView)
+        
+        if (self.pointAnnotation != nil) {
+            self.postMapView.removeAnnotation(self.pointAnnotation)
+        }
+        
+        pointAnnotation = MKPointAnnotation()
+        
+       
+        
+        pointAnnotation.coordinate = locationCoordinate
+        
+        
+        CLGeocoder().reverseGeocodeLocation(CLLocation(latitude: locationCoordinate.latitude, longitude: locationCoordinate.longitude), completionHandler: {(placemarks, error) -> Void in
+            if error != nil {
+                print("Reverse geocoder failed with error" + (error?.localizedDescription)!)
+                return
+            }
+            
+            if (placemarks!.count > 0) {
+                let pm = placemarks![0]
+                
+                // not all places have thoroughfare & subThoroughfare so validate those values
+                self.pointAnnotation.title = pm.thoroughfare! + ", " + pm.subThoroughfare!
+                self.pointAnnotation.subtitle = pm.subLocality
+                self.postMapView.addAnnotation(self.pointAnnotation)
+                print(pm)
+            }
+            else {
+                self.pointAnnotation.title = "Unknown Place"
+                self.postMapView.addAnnotation(self.pointAnnotation)
+                print("Problem with the data received from geocoder")
+            }
+           // places.append(["name":annotation.title,"latitude":"\(locationCoordinate.latitude)","longitude":"\(locationCoordinate.longitude)"])
+        })
+        
+        
+        print("Tapped at lat: \(locationCoordinate.latitude) long: \(locationCoordinate.longitude)")
+        
+    }
+    
+    
+    @IBAction func useMyLocationButton(_ sender: UIButton) {
+        
+        
+        CLGeocoder().reverseGeocodeLocation(LocationManager.theLocationManager.getLocation(), completionHandler: {(placemarks, error) -> Void in
+            if error != nil {
+                print("Reverse geocoder failed with error" + (error?.localizedDescription)!)
+                return
+            }
+            
+            if (placemarks!.count > 0) {
+                let pm = placemarks![0]
+                
+                self.navigationController?.popViewController(animated: true)
+                self.previousVC.selectedLocationString = pm.thoroughfare! + ", " + pm.subThoroughfare!
+                self.previousVC.selectedLocationCoordinates = LocationManager.theLocationManager.getLocation().coordinate
+                
+                // not all places have thoroughfare & subThoroughfare so validate those values
+            }
+            else {
+                self.pointAnnotation.title = "Unknown Place"
+                self.postMapView.addAnnotation(self.pointAnnotation)
+                print("Problem with the data received from geocoder")
+            }
+            // places.append(["name":annotation.title,"latitude":"\(locationCoordinate.latitude)","longitude":"\(locationCoordinate.longitude)"])
+        })
+    }
+    
+    
 }
 

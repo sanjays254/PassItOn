@@ -40,7 +40,7 @@ class ReadFirebaseData: NSObject {
 
 
 
-        class func read()
+        class func readOffers()
         {
             if ( Auth.auth().currentUser == nil)
             {
@@ -64,7 +64,7 @@ class ReadFirebaseData: NSObject {
                         let item: [String:Any] = any as! [String:Any]
                         let readItem = Item(with: item)
 
-                        AppData.sharedInstance.onlineItems.append(readItem!)
+                        AppData.sharedInstance.onlineOfferedItems.append(readItem!)
                         print("appending items")
                         
                         
@@ -74,6 +74,44 @@ class ReadFirebaseData: NSObject {
                   NotificationCenter.default.post(name: Notification.Name(rawValue: myDownloadNotificationKey), object: nil)
                 })
         }
+    
+    
+    class func readRequests()
+    {
+        if ( Auth.auth().currentUser == nil)
+        {
+            return
+        }
+        
+        let userID = Auth.auth().currentUser?.uid;
+        
+        AppData.sharedInstance.requestsNode
+            .observeSingleEvent(of: .value, with: { (snapshot) in
+                
+                let value = snapshot.value as? NSDictionary;
+                
+                if ( value == nil) {
+                    return
+                }
+                
+                for any in (value?.allValues)!
+                {
+                    
+                    let item: [String:Any] = any as! [String:Any]
+                    let readItem = Item(with: item)
+                    
+                    AppData.sharedInstance.onlineRequestedItems.append(readItem!)
+                    print("appending items")
+                    
+                    
+                    
+                }
+                let myDownloadNotificationKey = "myDownloadNotificationKey"
+                NotificationCenter.default.post(name: Notification.Name(rawValue: myDownloadNotificationKey), object: nil)
+            })
+    }
+    
+    
 
 }
 

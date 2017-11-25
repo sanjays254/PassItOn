@@ -189,11 +189,26 @@ class PostMapViewController: UIViewController, UISearchBarDelegate, MKMapViewDel
             if (placemarks!.count > 0) {
                 let pm = placemarks![0]
                 
-                // not all places have thoroughfare & subThoroughfare so validate those values
-                self.pointAnnotation.title = pm.thoroughfare! + ", " + pm.subThoroughfare!
-                self.pointAnnotation.subtitle = pm.subLocality
-                self.postMapView.addAnnotation(self.pointAnnotation)
-                print(pm)
+                if(pm.thoroughfare != nil && pm.subThoroughfare != nil){
+                    // not all places have thoroughfare & subThoroughfare so validate those values
+                    self.pointAnnotation.title = pm.thoroughfare! + ", " + pm.subThoroughfare!
+                    self.pointAnnotation.subtitle = pm.subLocality
+                    self.postMapView.addAnnotation(self.pointAnnotation)
+                    print(pm)
+                }
+                else if(pm.subThoroughfare != nil) {
+                    self.pointAnnotation.title = pm.thoroughfare!
+                    self.pointAnnotation.subtitle = pm.subLocality
+                    self.postMapView.addAnnotation(self.pointAnnotation)
+                    print(pm)
+                }
+                    
+                else {
+                    self.pointAnnotation.title = "Unknown Place"
+                    self.postMapView.addAnnotation(self.pointAnnotation)
+                    print("Problem with the data received from geocoder")
+                    
+                }
             }
             else {
                 self.pointAnnotation.title = "Unknown Place"

@@ -17,7 +17,8 @@ class AppData: NSObject {
     
     public var currentUser: User? = nil
     
-    public var onlineItems: [Item] = []
+    public var onlineOfferedItems: [Item] = []
+    public var onlineRequestedItems: [Item] = []
     
     public var usersNode: DatabaseReference
     public var offersNode: DatabaseReference

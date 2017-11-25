@@ -95,18 +95,10 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.homeMapView.showsUserLocation = true
         self.homeMapView.showsPointsOfInterest = false
         
-//        DispatchQueue.global(qos: .background).async {
-// 
-            ReadFirebaseData.read()
-            print("Downloading")
-            
-//            DispatchQueue.main.async {
-//
-//                self.homeMapView.addAnnotations(AppData.sharedInstance.onlineItems)
-//                print("Downlaoded")
-//
-//            }
-//        }
+    
+        ReadFirebaseData.readOffers()
+        ReadFirebaseData.readRequests()
+        print("Downloading")
         
         NotificationCenter.default.addObserver(
             self,
@@ -117,9 +109,32 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
     }
     
+    
+    
+    @IBAction func changedWantedAvailableSegmnent(_ sender: UISegmentedControl) {
+        
+        if(sender.selectedSegmentIndex == 0){
+            self.homeMapView.removeAnnotations(AppData.sharedInstance.onlineOfferedItems)
+            self.homeMapView.addAnnotations(AppData.sharedInstance.onlineRequestedItems)
+            homeTableView.reloadData()
+        }
+        else if (sender.selectedSegmentIndex == 1){
+            self.homeMapView.removeAnnotations(AppData.sharedInstance.onlineRequestedItems)
+            self.homeMapView.addAnnotations(AppData.sharedInstance.onlineOfferedItems)
+            homeTableView.reloadData()
+        }
+        
+    }
     @objc func addAnnotationsWhenFinishedDownloadingData(notification: NSNotification){
-        self.homeMapView.addAnnotations(AppData.sharedInstance.onlineItems)
-         print("Downlaoded")
+        
+        if(wantedAvailableSegmentedControl.selectedSegmentIndex == 0){
+            self.homeMapView.addAnnotations(AppData.sharedInstance.onlineOfferedItems)
+        }
+        else if (wantedAvailableSegmentedControl.selectedSegmentIndex == 1){
+            self.homeMapView.addAnnotations(AppData.sharedInstance.onlineRequestedItems)
+        }
+        
+        
     }
     
     @objc func setMapRegion(){
@@ -132,7 +147,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
      
         homeTableView.reloadData()
 
-        self.homeMapView.addAnnotations(AppData.sharedInstance.onlineItems)
+       // self.homeMapView.addAnnotations(AppData.sharedInstance.onlineItems)
     }
     
     
@@ -163,22 +178,45 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     //tableView methods
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return AppData.sharedInstance.onlineItems.count
+        
+        if(wantedAvailableSegmentedControl.selectedSegmentIndex == 0){
+            return AppData.sharedInstance.onlineOfferedItems.count
+        }
+        else if (wantedAvailableSegmentedControl.selectedSegmentIndex == 1){
+            return AppData.sharedInstance.onlineRequestedItems.count
+        }
+        
+        else { return 0 }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         tableView.register(UINib(nibName: "ItemHomeTableViewCell", bundle: nil), forCellReuseIdentifier: "itemHomeTableViewCellID")
         
+
         let cell = tableView.dequeueReusableCell(withIdentifier: "itemHomeTableViewCellID") as! ItemHomeTableViewCell
         
-        cell.itemTitleLabel.text = AppData.sharedInstance.onlineItems[indexPath.row].name
-        cell.itemQualityLabel.text = AppData.sharedInstance.onlineItems[indexPath.row].quality.rawValue
-        let destinationLocation: CLLocation = CLLocation(latitude: AppData.sharedInstance.onlineItems[indexPath.row].location.latitude, longitude: AppData.sharedInstance.onlineItems[indexPath.row].location.longitude)
+        if(wantedAvailableSegmentedControl.selectedSegmentIndex == 0){
+            cell.itemTitleLabel.text = AppData.sharedInstance.onlineOfferedItems[indexPath.row].name
+            cell.itemQualityLabel.text = AppData.sharedInstance.onlineOfferedItems[indexPath.row].quality.rawValue
+            let destinationLocation: CLLocation = CLLocation(latitude: AppData.sharedInstance.onlineOfferedItems[indexPath.row].location.latitude, longitude: AppData.sharedInstance.onlineOfferedItems[indexPath.row].location.longitude)
+            
+            let distance = (destinationLocation.distance(from: self.currentLocation)/1000)
+            
+            cell.itemDistanceLabel.text = String(format: "%.2f", distance) + " kms"
+            
+        }
+        else if (wantedAvailableSegmentedControl.selectedSegmentIndex == 1){
+            cell.itemTitleLabel.text = AppData.sharedInstance.onlineRequestedItems[indexPath.row].name
+            cell.itemQualityLabel.text = AppData.sharedInstance.onlineRequestedItems[indexPath.row].quality.rawValue
+            let destinationLocation: CLLocation = CLLocation(latitude: AppData.sharedInstance.onlineRequestedItems[indexPath.row].location.latitude, longitude: AppData.sharedInstance.onlineRequestedItems[indexPath.row].location.longitude)
+            
+            let distance = (destinationLocation.distance(from: self.currentLocation)/1000)
+            
+            cell.itemDistanceLabel.text = String(format: "%.2f", distance) + " kms"
+        }
         
-        let distance = (destinationLocation.distance(from: self.currentLocation)/1000)
-        
-        cell.itemDistanceLabel.text = String(format: "%.2f", distance) + " kms"
+
         
         return cell
     }

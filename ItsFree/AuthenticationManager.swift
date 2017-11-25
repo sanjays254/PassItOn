@@ -67,21 +67,32 @@ class AuthenticationManager {
         
         DispatchQueue.global().async {
             do {
-                // Should be the secret invalidated when passcode is removed? If not then use `.WhenUnlocked`
-                try keychain
-                    .accessibility(.whenUnlocked, authenticationPolicy: .userPresence)
-                    .set(password, key: email)
-                print("Item added to keychain")
+                print("checking if keychain has key already")
+                let alreadyInKeychain = try keychain.get("_\(email)")
+                print("alreadyInKeychain: \(alreadyInKeychain)")
+                if alreadyInKeychain == nil {
+                    do {
+                        try keychain
+                            .accessibility(.whenUnlocked, authenticationPolicy: .userPresence)
+                            .set(password, key: email)
+                        try keychain.set("yes", key: "_\(email)")
+                        
+                        print("Item added to keychain")
+                    } catch let error {
+                        // Error handling if needed...
+                        print("Keychain Error: \(error)")
+                    }
+                }
             } catch let error {
-                // Error handling if needed...
-                print("Keychain Error: \(error)")
+                print("Keychain item existence check error: \(error)")
             }
+            
         }
     }
     
     class func login(withEmail email:String, password:String, completionHandler: @escaping (_ success: Bool) -> Void) {
         print("Logging in with email: \(email), password: \(password)")
-
+        
         print("Logging in to Firebase...")
         Auth.auth().signIn(withEmail: email,
                            password: password)
@@ -93,7 +104,7 @@ class AuthenticationManager {
                                                           uid: authUser!.uid,
                                                           profileImage: "")
                 print("Login Successful")
-                //addToKeychain(email: email, password: password)
+                addToKeychain(email: email, password: password)
                 let flag = true
                 completionHandler(flag)
             }

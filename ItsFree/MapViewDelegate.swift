@@ -87,11 +87,15 @@ class MapViewDelegate: NSObject, MKMapViewDelegate {
        // mapView.selectAnnotation(view.annotation!, animated: true)
        
         if (view.annotation is MKUserLocation){
-           //do nothing
+           return
         }
         
         else {
-            let myItem = view.annotation as! Item
+            guard let myItem = view.annotation as? Item
+                else {
+                    return
+            }
+            
             NotificationCenter.default.post(name: Notification.Name(rawValue: myNotificationKey), object: nil, userInfo: ["name" : myItem])
 
         }

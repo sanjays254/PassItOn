@@ -189,7 +189,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         tags.add(tag: "blue")
         tags.add(tag: "Phone")
         
-        let testUser:User = User.init(email: "test@gmail.com", name: "John", rating: 39, uid: "testUID")
+        let testUser:User = User.init(email: "test@gmail.com", name: "John", rating: 39, uid: "testUID", profileImage: "")
         testUser.UID = "testUserUID"
         
 //        let testItem:Item = Item.init(name: "Hat", category: ItemCategory.clothing, description: "It's a hat", location: (LocationManager.theLocationManager.getLocation().coordinate), posterUID: testUser.UID, quality: ItemQuality.GentlyUsed, and: [tag1])
@@ -220,8 +220,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
                         if(offerRequestSegmentedControl.selectedSegmentIndex == 0){
                         AppData.sharedInstance.usersNode.child(testUser.UID).setValue(testUser.toDictionary())
                         AppData.sharedInstance.offersNode.child(realItem.UID).setValue(realItem.toDictionary())
-
-                            AppData.sharedInstance.categorizedItemsNode.child(String(describing: realItem.itemCategory)).child(String(realItem.name.prefix(2))).setValue(realItem.toDictionary())
+                        AppData.sharedInstance.categorizedItemsNode.child(String(describing: realItem.itemCategory)).child(String(realItem.name.prefix(2))).setValue(realItem.toDictionary())
                         }
                         else if (offerRequestSegmentedControl.selectedSegmentIndex == 1){
                             AppData.sharedInstance.usersNode.child(testUser.UID).setValue(testUser.toDictionary())
@@ -229,12 +228,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
                             AppData.sharedInstance.categorizedItemsNode.child(String(describing: realItem.itemCategory)).child(String(realItem.name.prefix(2))).setValue(realItem.toDictionary())
                         }
 
-                        
-                        
-                        
                         self.navigationController?.popToRootViewController(animated: true)
-                        
-                        
                     }
                     else {
                         let alert = UIAlertController(title: "Whoops", message: "You must add a location", preferredStyle: UIAlertControllerStyle.alert)

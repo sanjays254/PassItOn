@@ -24,7 +24,7 @@ class AuthenticationManager {
                 completionHandler(flag)
                 Auth.auth().currentUser?.sendEmailVerification(completion: { (verifyError) in
                     if (verifyError != nil) {
-                        print("Error sending verification email: \(verifyError)")
+                        print("Error sending verification email: \(String(describing: verifyError))")
                     }
                     else {
                         print("Email sent")
@@ -39,7 +39,7 @@ class AuthenticationManager {
                             let addedUser = User(email: newUser!.email!,
                                                  name: newUser!.displayName!,
                                                  rating: 0,
-                                                 uid: newUser!.uid)
+                                                 uid: newUser!.uid, profileImage: "")
                             
                             AppData.sharedInstance.currentUser = addedUser
                             
@@ -50,12 +50,12 @@ class AuthenticationManager {
                             AuthenticationManager.addToKeychain(email: email, password: password)
                         }
                         else {
-                            print("Error setting profile name: \(profileError)")
+                            print("Error setting profile name: \(String(describing: profileError))")
                         }
                 })
             }
             else {
-                print("Error registering with Firebase: \(registerError)")
+                print("Error registering with Firebase: \(String(describing: registerError))")
             }
         }
     }
@@ -101,7 +101,8 @@ class AuthenticationManager {
                 AppData.sharedInstance.currentUser = User(email: authUser!.email!,
                                                           name: authUser!.displayName!,
                                                           rating: 0,
-                                                          uid: authUser!.uid)
+                                                          uid: authUser!.uid,
+                                                          profileImage: "")
                 print("Login Successful")
                 addToKeychain(email: email, password: password)
                 let flag = true
@@ -121,7 +122,7 @@ class AuthenticationManager {
                     .authenticationPrompt("Authenticate to login to server")
                     .get(email)
                 
-                print("password: \(password)")
+                print("password: \(String(describing: password))")
                 AuthenticationManager.login(withEmail: email, password: password!, completionHandler: completionHandler)
             } catch let error {
                 // Error handling if needed...

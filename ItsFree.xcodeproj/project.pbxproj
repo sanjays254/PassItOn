@@ -12,6 +12,7 @@
 		013517401FC61F9F00977B2E /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0135173F1FC61F9F00977B2E /* LoginViewController.swift */; };
 		013517451FC8F1FD00977B2E /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013517441FC8F1FD00977B2E /* ProfileViewController.swift */; };
 		013517471FC8F29D00977B2E /* ProfileViewControllers.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 013517461FC8F29D00977B2E /* ProfileViewControllers.storyboard */; };
+		018716231FC9227C00BE1361 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 018716221FC9227C00BE1361 /* StoreKit.framework */; };
 		01BAC9F71FBE5C9E0050C891 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BAC9F61FBE5C9E0050C891 /* Item.swift */; };
 		01BAC9F91FBF6CD10050C891 /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BAC9F81FBF6CD10050C891 /* Enums.swift */; };
 		01BAC9FB1FBF75A70050C891 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 01BAC9FA1FBF759E0050C891 /* GoogleService-Info.plist */; };
@@ -68,6 +69,7 @@
 		0135173F1FC61F9F00977B2E /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		013517441FC8F1FD00977B2E /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		013517461FC8F29D00977B2E /* ProfileViewControllers.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ProfileViewControllers.storyboard; sourceTree = "<group>"; };
+		018716221FC9227C00BE1361 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		01BAC9F61FBE5C9E0050C891 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		01BAC9F81FBF6CD10050C891 /* Enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
 		01BAC9FA1FBF759E0050C891 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -119,6 +121,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AAE390072D6121EF9B932714 /* Pods_ItsFree.framework in Frameworks */,
+				018716231FC9227C00BE1361 /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -144,6 +147,7 @@
 		3AED0DEB0ADC245A684653E4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				018716221FC9227C00BE1361 /* StoreKit.framework */,
 				52500CB0F9C6555890C6A26D /* Pods_ItsFree.framework */,
 				9C64014BEF220564A2FD0137 /* Pods_ItsFreeTests.framework */,
 				8D52FC03A3A047C54F34352C /* Pods_ItsFreeUITests.framework */,
@@ -322,6 +326,14 @@
 					CE5869CA1FBE445C0012F774 = {
 						CreatedOnToolsVersion = 9.0;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.InAppPurchase = {
+								enabled = 1;
+							};
+							com.apple.Maps.iOS = {
+								enabled = 0;
+							};
+						};
 					};
 					CE5869DE1FBE445C0012F774 = {
 						CreatedOnToolsVersion = 9.0;

@@ -68,15 +68,13 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         self.navigationItem.titleView = offerRequestSegmentedControl
     }
     
-    
-    
+
     override func viewWillAppear(_ animated: Bool) {
         self.locationButton.setTitle("Location: \(self.selectedLocationString)", for: UIControlState.normal)
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     func setupUI(){
@@ -178,10 +176,67 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
     
     
     //thePostMethod
+    fileprivate func emptyFieldsChecker(_ testUser: User, _ tags: Tag) {
+        
+        guard (offerRequestSegmentedControl.selectedSegmentIndex != -1) else {
+            let alert = UIAlertController(title: "Whoops", message: "You must offer or request this", preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.default, handler: nil))
+            present(alert, animated: true, completion: nil)
+            return
+        }
+        
+        guard (titleTextField.text != "") else {
+            let alert = UIAlertController(title: "Whoops", message: "You must add a title", preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.default, handler: nil))
+            present(alert, animated: true, completion: nil)
+            return
+        }
+        
+        guard (descriptionTextField.text != "") else {
+            let alert = UIAlertController(title: "Whoops", message: "You must add a description", preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.default, handler: nil))
+            present(alert, animated: true, completion: nil)
+            return
+            
+        }
+        
+        guard (chosenCategory != nil) else {
+            let alert = UIAlertController(title: "Whoops", message: "You must add a category", preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.default, handler: nil))
+            present(alert, animated: true, completion: nil)
+            return
+            
+        }
+        
+        guard (selectedLocationCoordinates != nil) else {
+            let alert = UIAlertController(title: "Whoops", message: "You must add a location", preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.default, handler: nil))
+            present(alert, animated: true, completion: nil)
+            return
+        }
+        
+        //if these fields are not nil, then post the item
+        let realItem: Item = Item.init(name: titleTextField.text!, category: chosenCategory, description: descriptionTextField.text!, location: (LocationManager.theLocationManager.getLocation().coordinate), posterUID:  testUser.UID, quality: chosenQuality, tags: tags, photos: [""], itemUID: nil)
+        
+        
+        if(offerRequestSegmentedControl.selectedSegmentIndex == 0){
+            AppData.sharedInstance.usersNode.child(testUser.UID).setValue(testUser.toDictionary())
+            AppData.sharedInstance.offersNode.child(realItem.UID).setValue(realItem.toDictionary())
+            AppData.sharedInstance.categorizedItemsNode.child(String(describing: realItem.itemCategory)).child(String(realItem.name.prefix(2))).setValue(realItem.toDictionary())
+        }
+        else if (offerRequestSegmentedControl.selectedSegmentIndex == 1){
+            AppData.sharedInstance.usersNode.child(testUser.UID).setValue(testUser.toDictionary())
+            AppData.sharedInstance.requestsNode.child(realItem.UID).setValue(realItem.toDictionary())
+            AppData.sharedInstance.categorizedItemsNode.child(String(describing: realItem.itemCategory)).child(String(realItem.name.prefix(2))).setValue(realItem.toDictionary())
+        }
+        
+        self.navigationController?.popToRootViewController(animated: true)
+        
+    }
+    
     @IBAction func postItem(_ sender: UIBarButtonItem) {
         
         let tags:Tag = Tag()
-       
         tags.add(tag: "blue")
         tags.add(tag: "Phone")
         
@@ -197,47 +252,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
             chosenQuality = ItemQuality.GentlyUsed
         }
         
-// TODO: what should our default be
-        
-        if(titleTextField.text != "") {
-            if(descriptionTextField.text != "") {
-                if(chosenCategory != nil){
-                    if(selectedLocationCoordinates != nil){
-                        
-                        //if these fields are not nil, then post the item
-                        let realItem: Item = Item.init(name: titleTextField.text!, category: chosenCategory, description: descriptionTextField.text!, location: (LocationManager.theLocationManager.getLocation().coordinate), posterUID:  testUser.UID, quality: chosenQuality, tags: tags, photos: [""], itemUID: nil)
-                        
-                       
-                        if(offerRequestSegmentedControl.selectedSegmentIndex == 0){
-                        AppData.sharedInstance.usersNode.child(testUser.UID).setValue(testUser.toDictionary())
-                        AppData.sharedInstance.offersNode.child(realItem.UID).setValue(realItem.toDictionary())
-                        AppData.sharedInstance.categorizedItemsNode.child(String(describing: realItem.itemCategory)).child(String(realItem.name.prefix(2))).setValue(realItem.toDictionary())
-                        }
-                        else if (offerRequestSegmentedControl.selectedSegmentIndex == 1){
-                            AppData.sharedInstance.usersNode.child(testUser.UID).setValue(testUser.toDictionary())
-                            AppData.sharedInstance.requestsNode.child(realItem.UID).setValue(realItem.toDictionary())
-                            AppData.sharedInstance.categorizedItemsNode.child(String(describing: realItem.itemCategory)).child(String(realItem.name.prefix(2))).setValue(realItem.toDictionary())
-                        }
-
-                        self.navigationController?.popToRootViewController(animated: true)
-                    }
-                    else {
-                        let alert = UIAlertController(title: "Whoops", message: "You must add a location", preferredStyle: UIAlertControllerStyle.alert)
-                        alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.default, handler: nil))
-                        present(alert, animated: true, completion: nil)}}
-                    
-                else {
-                    let alert = UIAlertController(title: "Whoops", message: "You must add a category", preferredStyle: UIAlertControllerStyle.alert)
-                    alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.default, handler: nil))
-                    present(alert, animated: true, completion: nil)}}
-                
-            else {let alert = UIAlertController(title: "Whoops", message: "You must add a description", preferredStyle: UIAlertControllerStyle.alert)
-                alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.default, handler: nil))
-                present(alert, animated: true, completion: nil)}}
-            
-        else {let alert = UIAlertController(title: "Whoops", message: "You must add a title", preferredStyle: UIAlertControllerStyle.alert)
-            alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.default, handler: nil))
-            present(alert, animated: true, completion: nil)}        
+        emptyFieldsChecker(testUser, tags)
     }
 
 
@@ -280,6 +295,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
             
             let viewAction = UIAlertAction(title: "View Photo", style: UIAlertActionStyle.default, handler:{ (action) in
                 //open photo
+                self.fullscreenImage(image: self.photosArray[indexPath.item])
             })
             
             let changeAction = UIAlertAction(title: "Delete Photo", style: UIAlertActionStyle.destructive, handler:{ (action) in
@@ -311,6 +327,26 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         titleTextField.resignFirstResponder()
         descriptionTextField.resignFirstResponder()
         customTagTextField.resignFirstResponder()
+    }
+    
+    func fullscreenImage(image: UIImage) {
+       // let imageView = sender.view as! UIImageView
+        let newImageView = UIImageView(image: image)
+        newImageView.frame = UIScreen.main.bounds
+        newImageView.backgroundColor = .black
+        newImageView.contentMode = .scaleAspectFit
+        newImageView.isUserInteractionEnabled = true
+        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissFullscreenImage))
+        newImageView.addGestureRecognizer(tap)
+        self.view.addSubview(newImageView)
+        self.navigationController?.isNavigationBarHidden = true
+        self.tabBarController?.tabBar.isHidden = true
+    }
+    
+    @objc func dismissFullscreenImage(_ sender: UITapGestureRecognizer) {
+        self.navigationController?.isNavigationBarHidden = false
+        self.tabBarController?.tabBar.isHidden = false
+        sender.view?.removeFromSuperview()
     }
 
 }

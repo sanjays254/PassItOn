@@ -15,8 +15,8 @@ import MapKit
 
 class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate, MKMapViewDelegate {
     
-    let myNotificationKey = "theNotificationKey"
-    let myDowloadNotificationKey = "myDownloadNotificationKey"
+    let mySelectedItemNotificationKey = "theNotificationKey"
+    let myDowloadCompletedNotificationKey = "myDownloadNotificationKey"
 
     var currentLocation: CLLocation!
     var locationManager: CLLocationManager!
@@ -29,17 +29,15 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet weak var homeMapView: MKMapView!
     @IBOutlet weak var homeTableView: UITableView!
     
-    
-    @IBAction func toProfile(_ sender: Any) {
-        performSegue(withIdentifier: "toProfileSegue", sender: self)
-    }
+    var itemDetailContainerView: UIView!
     
     
-    var containerView: UIView!
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //delegating the tableView
         self.homeTableView.delegate = self
         self.homeTableView.dataSource = self
         self.homeTableView.rowHeight = 70
@@ -48,20 +46,40 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.homeTableView.refreshControl?.backgroundColor = UIColor.blue
         self.homeTableView.refreshControl?.addTarget(self, action: #selector(refreshTableData), for: .valueChanged)
         
-        
-        //let userUpdateNotification = Notification.Name("userUpdate")
-        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: myNotificationKey), object: nil, queue: nil, using: catchNotification)
-        
-        
         //delegating the mapView
         self.homeMapView.delegate = MapViewDelegate.theMapViewDelegate
         MapViewDelegate.theMapViewDelegate.theMapView = homeMapView
-        MapViewDelegate.theMapViewDelegate.setMapRegion()
-        
-        homeMapView.register(MKMarkerAnnotationView.self, forAnnotationViewWithReuseIdentifier: "itemMarkerView")
+        setMapRegion()
 
+        setupCompassButton()
+        setupMapListSegmentedControl()
         
-        //compassButton
+        ReadFirebaseData.readOffers()
+        ReadFirebaseData.readRequests()
+   
+        NotificationCenter.default.addObserver(self, selector: #selector(self.addAnnotationsWhenFinishedDownloadingData), name: NSNotification.Name(rawValue: myDowloadCompletedNotificationKey), object: nil)
+
+        homeMapView.register(MKMarkerAnnotationView.self, forAnnotationViewWithReuseIdentifier: "itemMarkerView")
+        
+        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: mySelectedItemNotificationKey), object: nil, queue: nil, using: catchNotification)
+        
+    }
+    
+    fileprivate func getLocation() -> CLLocation {
+        self.currentLocation =  LocationManager.theLocationManager.getLocation()
+        return self.currentLocation
+    }
+    
+    fileprivate func setupMapListSegmentedControl() {
+
+        self.mapListSegmentedControl = UISegmentedControl(items: ["Map", "List"])
+        self.navigationItem.titleView = mapListSegmentedControl
+        self.mapListSegmentedControl.selectedSegmentIndex = 0
+        self.mapListSegmentedControl.addTarget(self, action: #selector(mapListSegmentAction), for: .valueChanged)
+    }
+    
+    fileprivate func setupCompassButton() {
+  
         compassButton = UIButton(frame: CGRect(x: 20, y: 20, width: 20, height: 20))
         compassButton.setImage(#imageLiteral(resourceName: "compass"), for: UIControlState.normal)
         compassButton.addTarget(self, action: #selector(setMapRegion), for: .touchUpInside)
@@ -82,40 +100,33 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.compassButton.layer.shadowColor = (UIColor.black).cgColor
         self.compassButton.layer.shadowOpacity = 0.5
         self.compassButton.layer.shadowRadius = 1.0
-        
-        //mapList Segment Control setup
-        self.mapListSegmentedControl = UISegmentedControl(items: ["Map", "List"])
-        self.navigationItem.titleView = mapListSegmentedControl
-        self.mapListSegmentedControl.selectedSegmentIndex = 0
-        self.mapListSegmentedControl.addTarget(self, action: #selector(mapListSegmentAction), for: .valueChanged)
-        
-        self.currentLocation =  LocationManager.theLocationManager.getLocation()
-
-        
-        //set region
-        let span = MKCoordinateSpanMake(0.007, 0.007)
-        
-        self.homeMapView.region = MKCoordinateRegionMake(self.currentLocation.coordinate, span)
-        
-        self.homeMapView.showsUserLocation = true
-        self.homeMapView.showsPointsOfInterest = false
-        
-    
-        ReadFirebaseData.readOffers()
-        ReadFirebaseData.readRequests()
-        print("Downloading")
-        
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(self.addAnnotationsWhenFinishedDownloadingData),
-            name: NSNotification.Name(rawValue: myDowloadNotificationKey),
-            object: nil)
-
-        
     }
     
     
+    @objc func setMapRegion(){
+        MapViewDelegate.theMapViewDelegate.setMapRegion()
+    }
+
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        homeTableView.reloadData()
+    }
     
+    //receives info from mapViewDelegate about which itemAnnotation was clicked on
+    func catchNotification(notification:Notification) -> Void {
+        guard let name = notification.userInfo!["name"] as? Item else { return }
+        self.showItemDetail(item: name)
+    }
+    
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+    
+    //wantedAvailable segmenetd control
     @IBAction func changedWantedAvailableSegmnent(_ sender: UISegmentedControl) {
         
         if(sender.selectedSegmentIndex == 0){
@@ -133,41 +144,15 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     @objc func addAnnotationsWhenFinishedDownloadingData(notification: NSNotification){
         
         if(wantedAvailableSegmentedControl.selectedSegmentIndex == 0){
-            self.homeMapView.addAnnotations(AppData.sharedInstance.onlineOfferedItems)
-        }
-        else if (wantedAvailableSegmentedControl.selectedSegmentIndex == 1){
             self.homeMapView.addAnnotations(AppData.sharedInstance.onlineRequestedItems)
         }
+        else if (wantedAvailableSegmentedControl.selectedSegmentIndex == 1){
+            self.homeMapView.addAnnotations(AppData.sharedInstance.onlineOfferedItems)
+        }
         
         
     }
     
-    @objc func setMapRegion(){
-        MapViewDelegate.theMapViewDelegate.setMapRegion()
-    }
-
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
-     
-        homeTableView.reloadData()
-
-       // self.homeMapView.addAnnotations(AppData.sharedInstance.onlineItems)
-    }
-    
-    
-    func catchNotification(notification:Notification) -> Void {
-        guard let name = notification.userInfo!["name"] as? Item else { return }
-        self.showItemDetail(item: name)
-        
-       // FirstVCLabel.text = "My name, \(name) has been passed! 😄"
-    }
-    
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
     
     //mapList segmented control
     @objc func mapListSegmentAction(sender: UISegmentedControl) {
@@ -181,6 +166,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
     
+    
     //tableView methods
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
@@ -190,15 +176,15 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         else if (wantedAvailableSegmentedControl.selectedSegmentIndex == 1){
             return AppData.sharedInstance.onlineRequestedItems.count
         }
-        
-        else { return 0 }
+        else {
+            return 0
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         tableView.register(UINib(nibName: "ItemHomeTableViewCell", bundle: nil), forCellReuseIdentifier: "itemHomeTableViewCellID")
-        
-
+    
         let cell = tableView.dequeueReusableCell(withIdentifier: "itemHomeTableViewCellID") as! ItemHomeTableViewCell
         
         if(wantedAvailableSegmentedControl.selectedSegmentIndex == 0){
@@ -206,7 +192,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             cell.itemQualityLabel.text = AppData.sharedInstance.onlineOfferedItems[indexPath.row].quality.rawValue
             let destinationLocation: CLLocation = CLLocation(latitude: AppData.sharedInstance.onlineOfferedItems[indexPath.row].location.latitude, longitude: AppData.sharedInstance.onlineOfferedItems[indexPath.row].location.longitude)
             
-            let distance = (destinationLocation.distance(from: self.currentLocation)/1000)
+            let distance = (destinationLocation.distance(from: getLocation())/1000)
             
             cell.itemDistanceLabel.text = String(format: "%.2f", distance) + " kms"
             
@@ -216,23 +202,18 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             cell.itemQualityLabel.text = AppData.sharedInstance.onlineRequestedItems[indexPath.row].quality.rawValue
             let destinationLocation: CLLocation = CLLocation(latitude: AppData.sharedInstance.onlineRequestedItems[indexPath.row].location.latitude, longitude: AppData.sharedInstance.onlineRequestedItems[indexPath.row].location.longitude)
             
-            let distance = (destinationLocation.distance(from: self.currentLocation)/1000)
+            let distance = (destinationLocation.distance(from: getLocation())/1000)
             
             cell.itemDistanceLabel.text = String(format: "%.2f", distance) + " kms"
         }
-        
-
-        
         return cell
     }
     
     @objc func refreshTableData(sender: AnyObject) {
         
         //ReadFirebaseData.read()
-        
         DispatchQueue.main.async {
             //Update tableView once read
-            
         }
         
         if((self.homeTableView.refreshControl) != nil){
@@ -250,10 +231,14 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
 
     //segues
-
     @IBAction func postItem(_ sender: UIBarButtonItem) {
         performSegue(withIdentifier: "postSegue", sender: self)
     }
+    
+    @IBAction func toProfile(_ sender: Any) {
+        performSegue(withIdentifier: "toProfileSegue", sender: self)
+    }
+    
     
 
     //location authorization
@@ -266,74 +251,42 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         present(alert, animated: true, completion: nil)
     }
 
-    
-    
 
     
     @objc func showItemDetail(item: Item){
 
-        
-        containerView = UIView()
-        containerView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(containerView)
+        //make the container view
+        itemDetailContainerView = UIView()
+        itemDetailContainerView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(itemDetailContainerView)
         
         NSLayoutConstraint.activate([
-            containerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
-            containerView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
-            containerView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0),
-            containerView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0)
+            itemDetailContainerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
+            itemDetailContainerView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
+            itemDetailContainerView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0),
+            itemDetailContainerView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0)
             ])
         
-        containerView.alpha = 1
-        containerView.backgroundColor = UIColor.clear
+        itemDetailContainerView.alpha = 1
+        itemDetailContainerView.backgroundColor = UIColor.clear
         
-    
-        
+        //make the childViewController and add it into the containerView
         let detailViewController = ItemDetailViewController()
         detailViewController.currentItem = item
         addChildViewController(detailViewController)
         detailViewController.view.translatesAutoresizingMaskIntoConstraints = false
-        containerView.addSubview(detailViewController.view)
-       
+        itemDetailContainerView.addSubview(detailViewController.view)
        
         detailViewController.view.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height)
         
         NSLayoutConstraint.activate([
-            detailViewController.view.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
-            detailViewController.view.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
-            detailViewController.view.topAnchor.constraint(equalTo: containerView.topAnchor),
-            detailViewController.view.bottomAnchor.constraint(equalTo: containerView.bottomAnchor)
+            detailViewController.view.leadingAnchor.constraint(equalTo: itemDetailContainerView.leadingAnchor),
+            detailViewController.view.trailingAnchor.constraint(equalTo: itemDetailContainerView.trailingAnchor),
+            detailViewController.view.topAnchor.constraint(equalTo: itemDetailContainerView.topAnchor),
+            detailViewController.view.bottomAnchor.constraint(equalTo: itemDetailContainerView.bottomAnchor)
             ])
         
         detailViewController.didMove(toParentViewController: self)
-        
-        
-        
-        
-        
-        
-       // detailViewController.didMove(toParentViewController: self)
-        
-//        detailViewController.modalPresentationStyle = UIModalPresentationStyle.currentContext
-//        detailViewController.modalTransitionStyle = UIModalTransitionStyle.coverVertical
-//        self.present(detailViewController, animated: true, completion: nil)
-//
-//        addChildViewController(detailViewController)
-//        detailViewController.view.translatesAutoresizingMaskIntoConstraints = false
-        //present(ItemDetailViewController(), animated: true, completion: nil)
-//        detailContainerView.addSubview((detailViewController.view)!)
-//
-//        NSLayoutConstraint.activate([
-//            detailViewController.view.leadingAnchor.constraint(equalTo: detailContainerView.leadingAnchor),
-//            detailViewController.view.trailingAnchor.constraint(equalTo: detailContainerView.trailingAnchor),
-//            detailViewController.view.topAnchor.constraint(equalTo: detailContainerView.topAnchor),
-//            detailViewController.view.bottomAnchor.constraint(equalTo: detailContainerView.bottomAnchor)
-//            ])
-//
-//        detailViewController.didMove(toParentViewController: self)
-
-
-
     }
 
 }

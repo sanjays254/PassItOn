@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FirebaseStorage
 
 class ItemDetailViewController: UIViewController {
     
@@ -39,12 +40,14 @@ class ItemDetailViewController: UIViewController {
         itemDetailView.alpha = 1
         itemDetailView.layer.cornerRadius = 30
         
+        let storageRef = Storage.storage().reference()
+        let previewPhotoRef: String = currentItem.photos[0]
         itemDetailView.itemTitleLabel.text = currentItem.name
         itemDetailView.categoryLabel.text = currentItem.itemCategory.rawValue
         itemDetailView.qualityLabel.text = currentItem.quality.rawValue
         itemDetailView.descriptionLabel.text = currentItem.itemDescription
-        //itemDetailView.mainImageView = currentItem.
-        
+        itemDetailView.mainImageView.sd_setImage(with: storageRef.child(previewPhotoRef), placeholderImage: UIImage.init(named: "addImage"))
+        print("Storage Location: \(storageRef.child(previewPhotoRef))")
         
 
         //gestures

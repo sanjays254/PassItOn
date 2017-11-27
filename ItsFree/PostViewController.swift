@@ -18,6 +18,12 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
     
     @IBOutlet weak var customTagTextField: UITextField!
     @IBOutlet weak var tagButtonView: UIView!
+    
+    @IBOutlet weak var defaultTagStackView: UIStackView!
+    
+    @IBOutlet weak var customTagStackView: UIStackView!
+    var chosenTagsArray: [String] = []
+    
     @IBOutlet weak var locationButton: UIButton!
 
     @IBOutlet weak var addCategoryButton: UIButton!
@@ -35,9 +41,9 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
     
     @IBOutlet weak var photoCollectionView: UICollectionView!
     var photosArray: Array<UIImage>!
-    
-    var tapGesture: UITapGestureRecognizer!
 
+    var tapGesture: UITapGestureRecognizer!
+    
     var offerRequestSegmentedControl: UISegmentedControl!
 
     
@@ -47,6 +53,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         
         setupUI()
         setupOfferRequestSegmentedControl()
+        setupTagButtonsView()
         
         titleTextField.delegate = self
         descriptionTextField.delegate = self
@@ -59,6 +66,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         imagePicker.delegate = self
         
         photosArray = []
+    
     }
     
     fileprivate func setupOfferRequestSegmentedControl() {
@@ -76,6 +84,40 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
+
+    
+    func setupTagButtonsView(){
+        
+        let defaultTags = ["black", "white", "small", "nike", "samsung"]
+        
+        for defaultTag in defaultTags {
+            
+            let currentButton = UIButton(frame: CGRect(x: 5, y: 8, width: 50, height: 20))
+            
+            currentButton.setTitle(defaultTag, for: .normal)
+            currentButton.setTitleColor(UIColor.gray, for: UIControlState.normal)
+            currentButton.addTarget(self, action: #selector(addOrRemoveThisDefaultTag), for: UIControlEvents.touchUpInside)
+            
+            currentButton.titleLabel?.font = UIFont.systemFont(ofSize: 10, weight: UIFont.Weight.light)
+            currentButton.sizeToFit()
+            
+            currentButton.layer.borderWidth = 1
+            currentButton.layer.borderColor = UIColor.gray.cgColor
+            currentButton.layer.cornerRadius = 10
+            
+            defaultTagStackView.addArrangedSubview(currentButton)
+            
+        }
+    
+        defaultTagStackView.alignment = .center
+        defaultTagStackView.spacing = 1
+        defaultTagStackView.distribution = .fillProportionally
+        
+        customTagStackView.alignment = .leading
+        customTagStackView.spacing = 1
+        customTagStackView.distribution = .fillProportionally
+    }
+
     
     func setupUI(){
         
@@ -151,6 +193,57 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
     }
     
     
+    @IBAction func addCustomTagButton(_ sender: UIButton) {
+        
+        let newCustomTag =  customTagTextField.text
+        
+        if (newCustomTag != ""){
+            
+            let newButton = UIButton(frame: CGRect(x: 5, y: 8, width: 50, height: 20))
+            
+            newButton.setTitle(newCustomTag, for: .normal)
+            newButton.setTitleColor(UIColor(red: 0, green: 122.0/255.0, blue: 1.0, alpha: 1.0), for: UIControlState.normal)
+            newButton.addTarget(self, action: #selector(addOrRemoveThisDefaultTag), for: UIControlEvents.touchUpInside)
+            
+            newButton.titleLabel?.font = UIFont.systemFont(ofSize: 10, weight: UIFont.Weight.light)
+            newButton.sizeToFit()
+            
+            newButton.layer.borderWidth = 1
+            newButton.layer.borderColor = UIColor(red: 0, green: 122.0/255.0, blue: 1.0, alpha: 1.0).cgColor
+            newButton.layer.cornerRadius = 10
+            
+            customTagStackView.addArrangedSubview(newButton)
+            
+            chosenTagsArray.append(newCustomTag!)
+            
+            customTagTextField.resignFirstResponder()
+            customTagTextField.text = ""
+        }
+    }
+    
+    @objc func addOrRemoveThisDefaultTag(sender: UIButton){
+        
+        if(sender.titleColor(for: UIControlState.normal) == UIColor.gray){
+            
+            sender.setTitleColor(UIColor(red: 0, green: 122.0/255.0, blue: 1.0, alpha: 1.0), for: UIControlState.normal)
+            sender.layer.borderColor = UIColor(red: 0, green: 122.0/255.0, blue: 1.0, alpha: 1.0).cgColor
+            
+            chosenTagsArray.append((sender.titleLabel?.text)!)
+        }
+            
+        else if(sender.titleColor(for: UIControlState.normal) == UIColor(red: 0, green: 122.0/255.0, blue: 1.0, alpha: 1.0)){
+            
+            sender.setTitleColor(UIColor.gray, for: UIControlState.normal)
+            sender.layer.borderColor = UIColor.gray.cgColor
+            
+            chosenTagsArray.remove(at:chosenTagsArray.index(of:((sender.titleLabel?.text)!))!)
+            
+            print("REMOVE")
+        }
+        
+    }
+    
+    
     //category chooser table views
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -176,7 +269,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
     
     
     //thePostMethod
-    fileprivate func emptyFieldsChecker(_ testUser: User, _ tags: Tag) {
+    fileprivate func emptyFieldsChecker(_ testUser: User) {
         
         guard (offerRequestSegmentedControl.selectedSegmentIndex != -1) else {
             let alert = UIAlertController(title: "Whoops", message: "You must offer or request this", preferredStyle: UIAlertControllerStyle.alert)
@@ -215,6 +308,9 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
             return
         }
         
+        let tags:Tag = Tag()
+        tags.tagsArray = chosenTagsArray
+        
         //if these fields are not nil, then post the item
         let realItem: Item = Item.init(name: titleTextField.text!, category: chosenCategory, description: descriptionTextField.text!, location: (LocationManager.theLocationManager.getLocation().coordinate), posterUID:  testUser.UID, quality: chosenQuality, tags: tags, photos: [""], itemUID: nil)
         
@@ -252,7 +348,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
             chosenQuality = ItemQuality.GentlyUsed
         }
         
-        emptyFieldsChecker(testUser, tags)
+        emptyFieldsChecker(testUser)
     }
 
 
@@ -314,6 +410,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
+        
         tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard(_:)))
         self.view.addGestureRecognizer(tapGesture)
     }

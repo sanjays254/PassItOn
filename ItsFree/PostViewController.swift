@@ -310,6 +310,16 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         //if these fields are not nil, then post the item
         let realItem: Item = Item.init(name: titleTextField.text!, category: chosenCategory, description: descriptionTextField.text!, location: selectedLocationCoordinates, posterUID:  testUser.UID, quality: chosenQuality, tags: tags, photos: [""], itemUID: nil)
         
+        var photoRefs:[String] = []
+        for index in 0..<photosArray.count {
+            let storagePath = "\(realItem.UID!)/\(index)"
+            let photoRefStr = ImageManager.uploadImage(image: photosArray[index],
+                                                       userUID: (AppData.sharedInstance.currentUser?.UID)!,
+                                                       filename: storagePath)
+            photoRefs.append(photoRefStr)
+            print("\(realItem.UID)/\(photoRefStr)")
+        }
+        realItem.photos = photoRefs
         
         if(offerRequestSegmentedControl.selectedSegmentIndex == 0){
             AppData.sharedInstance.usersNode.child(testUser.UID).setValue(testUser.toDictionary())

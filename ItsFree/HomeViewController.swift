@@ -280,7 +280,16 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        let itemToShow = AppData.sharedInstance.onlineOfferedItems[indexPath.row]
+        let itemToShow: Item
+        
+        switch(wantedAvailableSegmentedControl.selectedSegmentIndex){
+        case 0:  itemToShow = AppData.sharedInstance.onlineRequestedItems[indexPath.row]
+        case 1:  itemToShow = AppData.sharedInstance.onlineOfferedItems[indexPath.row]
+        default:
+            return
+        }
+        
+        
         //mapListSegmentedControl.sendActions(for: UIControlEvents.valueChanged)
         mapListSegmentedControl.selectedSegmentIndex = 0
         mapListSegmentedControl.sendActions(for: UIControlEvents.valueChanged)
@@ -289,7 +298,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         homeMapView.selectAnnotation(itemToShow, animated: true)
         
 //        let span = MKCoordinateSpanMake(0.007, 0.007)
-//        
+//
 //        homeMapView.setRegion(MKCoordinateRegionMake(itemToShow.coordinate, span) , animated: true)
 //        showItemDetail(item: itemToShow)
     }

@@ -306,6 +306,13 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         
         let tags:Tag = Tag()
         tags.tagsArray = chosenTagsArray
+        var photoRefs:[String] = []
+        for index in 0..<photosArray.count {
+            let photoRefStr = ImageManager.uploadImage(image: photosArray[index],
+                                     userUID: (AppData.sharedInstance.currentUser?.UID)!,
+                                     filename: "\(index)")
+            photoRefs.append(photoRefStr)
+        }
         
         //if these fields are not nil, then post the item
         let realItem: Item = Item.init(name: titleTextField.text!, category: chosenCategory, description: descriptionTextField.text!, location: selectedLocationCoordinates, posterUID:  testUser.UID, quality: chosenQuality, tags: tags, photos: [""], itemUID: nil)

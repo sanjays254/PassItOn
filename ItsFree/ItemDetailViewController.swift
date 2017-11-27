@@ -57,8 +57,10 @@ class ItemDetailViewController: UIViewController {
         itemDetailView.addGestureRecognizer(swipeDown)
         
         let tapOutside: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tappedOutside))
+        let tapNavBar: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tappedOutside))
         self.view.addGestureRecognizer(tapOutside)
-        self.navigationController?.navigationBar.addGestureRecognizer(tapOutside)
+        self.navigationController?.navigationBar.addGestureRecognizer(tapNavBar)
+        //self.navigationController?.navigationBar.ite
         
     }
     

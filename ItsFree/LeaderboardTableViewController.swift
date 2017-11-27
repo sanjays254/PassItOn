@@ -43,7 +43,7 @@ class LeaderboardTableViewController: UIViewController, UITableViewDataSource, U
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        ReadFirebaseData.readUsers()
+
         
         leaderboardTableView.delegate = self
         leaderboardTableView.dataSource = self

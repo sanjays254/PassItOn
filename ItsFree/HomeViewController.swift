@@ -72,12 +72,15 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         ReadFirebaseData.readOffers()
         ReadFirebaseData.readRequests()
+        ReadFirebaseData.readUsers()
    
         NotificationCenter.default.addObserver(self, selector: #selector(self.addAnnotationsWhenFinishedDownloadingData), name: NSNotification.Name(rawValue: myDowloadCompletedNotificationKey), object: nil)
 
         homeMapView.register(MKMarkerAnnotationView.self, forAnnotationViewWithReuseIdentifier: "itemMarkerView")
         
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: mySelectedItemNotificationKey), object: nil, queue: nil, using: catchNotification)
+        
+        
         
     }
     
@@ -172,6 +175,12 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     //mapList segmented control
     @objc func mapListSegmentAction(sender: UISegmentedControl) {
+        
+        if(!self.childViewControllers.isEmpty){
+        let itemDetailViewController = self.childViewControllers[0] as! ItemDetailViewController
+        itemDetailViewController.removeFromParentViewController()
+            itemDetailContainerView.removeFromSuperview()
+        }
         
         if sender.selectedSegmentIndex == 0 {
             self.view.bringSubview(toFront: homeMapView)
@@ -276,10 +285,13 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         mapListSegmentedControl.selectedSegmentIndex = 0
         mapListSegmentedControl.sendActions(for: UIControlEvents.valueChanged)
         //view.bringSubview(toFront: homeMapView)
-        let span = MKCoordinateSpanMake(0.007, 0.007)
         
-        homeMapView.setRegion(MKCoordinateRegionMake(itemToShow.coordinate, span) , animated: true)
-        showItemDetail(item: itemToShow)
+        homeMapView.selectAnnotation(itemToShow, animated: true)
+        
+//        let span = MKCoordinateSpanMake(0.007, 0.007)
+//        
+//        homeMapView.setRegion(MKCoordinateRegionMake(itemToShow.coordinate, span) , animated: true)
+//        showItemDetail(item: itemToShow)
     }
     
     @objc func showItemDetail(item: Item){

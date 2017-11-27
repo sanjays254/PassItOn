@@ -168,10 +168,10 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         if(wantedAvailableSegmentedControl.selectedSegmentIndex == 0){
-            return AppData.sharedInstance.onlineOfferedItems.count
+            return AppData.sharedInstance.onlineRequestedItems.count
         }
         else if (wantedAvailableSegmentedControl.selectedSegmentIndex == 1){
-            return AppData.sharedInstance.onlineRequestedItems.count
+            return AppData.sharedInstance.onlineOfferedItems.count
         }
         else {
             return 0
@@ -185,9 +185,9 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         let cell = tableView.dequeueReusableCell(withIdentifier: "itemHomeTableViewCellID") as! ItemHomeTableViewCell
         
         if(wantedAvailableSegmentedControl.selectedSegmentIndex == 0){
-            cell.itemTitleLabel.text = AppData.sharedInstance.onlineOfferedItems[indexPath.row].name
-            cell.itemQualityLabel.text = AppData.sharedInstance.onlineOfferedItems[indexPath.row].quality.rawValue
-            let destinationLocation: CLLocation = CLLocation(latitude: AppData.sharedInstance.onlineOfferedItems[indexPath.row].location.latitude, longitude: AppData.sharedInstance.onlineOfferedItems[indexPath.row].location.longitude)
+            cell.itemTitleLabel.text = AppData.sharedInstance.onlineRequestedItems[indexPath.row].name
+            cell.itemQualityLabel.text = AppData.sharedInstance.onlineRequestedItems[indexPath.row].quality.rawValue
+            let destinationLocation: CLLocation = CLLocation(latitude: AppData.sharedInstance.onlineRequestedItems[indexPath.row].location.latitude, longitude: AppData.sharedInstance.onlineRequestedItems[indexPath.row].location.longitude)
             
             let distance = (destinationLocation.distance(from: getLocation())/1000)
             
@@ -195,9 +195,9 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             
         }
         else if (wantedAvailableSegmentedControl.selectedSegmentIndex == 1){
-            cell.itemTitleLabel.text = AppData.sharedInstance.onlineRequestedItems[indexPath.row].name
-            cell.itemQualityLabel.text = AppData.sharedInstance.onlineRequestedItems[indexPath.row].quality.rawValue
-            let destinationLocation: CLLocation = CLLocation(latitude: AppData.sharedInstance.onlineRequestedItems[indexPath.row].location.latitude, longitude: AppData.sharedInstance.onlineRequestedItems[indexPath.row].location.longitude)
+            cell.itemTitleLabel.text = AppData.sharedInstance.onlineOfferedItems[indexPath.row].name
+            cell.itemQualityLabel.text = AppData.sharedInstance.onlineOfferedItems[indexPath.row].quality.rawValue
+            let destinationLocation: CLLocation = CLLocation(latitude: AppData.sharedInstance.onlineOfferedItems[indexPath.row].location.latitude, longitude: AppData.sharedInstance.onlineOfferedItems[indexPath.row].location.longitude)
             
             let distance = (destinationLocation.distance(from: getLocation())/1000)
             
@@ -249,6 +249,19 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
 
 
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        let itemToShow = AppData.sharedInstance.onlineOfferedItems[indexPath.row]
+        //mapListSegmentedControl.sendActions(for: UIControlEvents.valueChanged)
+        mapListSegmentedControl.selectedSegmentIndex = 0
+        mapListSegmentedControl.sendActions(for: UIControlEvents.valueChanged)
+        //view.bringSubview(toFront: homeMapView)
+        let span = MKCoordinateSpanMake(0.007, 0.007)
+        
+        homeMapView.setRegion(MKCoordinateRegionMake(itemToShow.coordinate, span) , animated: true)
+        showItemDetail(item: itemToShow)
+    }
     
     @objc func showItemDetail(item: Item){
 

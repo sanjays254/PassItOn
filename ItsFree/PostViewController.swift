@@ -308,7 +308,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         tags.tagsArray = chosenTagsArray
         
         //if these fields are not nil, then post the item
-        let realItem: Item = Item.init(name: titleTextField.text!, category: chosenCategory, description: descriptionTextField.text!, location: (LocationManager.theLocationManager.getLocation().coordinate), posterUID:  testUser.UID, quality: chosenQuality, tags: tags, photos: [""], itemUID: nil)
+        let realItem: Item = Item.init(name: titleTextField.text!, category: chosenCategory, description: descriptionTextField.text!, location: selectedLocationCoordinates, posterUID:  testUser.UID, quality: chosenQuality, tags: tags, photos: [""], itemUID: nil)
         
         
         if(offerRequestSegmentedControl.selectedSegmentIndex == 0){

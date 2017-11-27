@@ -46,7 +46,7 @@ class ItemDetailViewController: UIViewController {
         itemDetailView.categoryLabel.text = currentItem.itemCategory.rawValue
         itemDetailView.qualityLabel.text = currentItem.quality.rawValue
         itemDetailView.descriptionLabel.text = currentItem.itemDescription
-        itemDetailView.mainImageView.sd_setImage(with: storageRef.child("testUserUID/testImage"), placeholderImage: UIImage.init(named: "addImage"))
+        itemDetailView.mainImageView.sd_setImage(with: storageRef.child(previewPhotoRef), placeholderImage: UIImage.init(named: "addImage"))
         print("Storage Location: \(storageRef.child(previewPhotoRef))")
         
 

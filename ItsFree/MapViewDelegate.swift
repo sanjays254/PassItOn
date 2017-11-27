@@ -10,7 +10,6 @@ import UIKit
 import MapKit
 
 
-
 class MapViewDelegate: NSObject, MKMapViewDelegate {
     
     var theMapView: MKMapView!
@@ -34,14 +33,11 @@ class MapViewDelegate: NSObject, MKMapViewDelegate {
     }
     
     @objc func setMapRegion(){
-        
         let span = MKCoordinateSpanMake(0.007, 0.007)
         
         theMapView.region = MKCoordinateRegionMake(self.currentLocation.coordinate, span)
         theMapView.showsUserLocation = true
         theMapView.showsPointsOfInterest = false
-        
-
     }
     
     func setMarkerPropertiesFor(newMarkerView: MKMarkerAnnotationView, item: Item){
@@ -52,22 +48,15 @@ class MapViewDelegate: NSObject, MKMapViewDelegate {
         case .clothing : newMarkerView.glyphImage = #imageLiteral(resourceName: "clothing")
         case .electronics : newMarkerView.glyphImage = #imageLiteral(resourceName: "electronics")
         default :newMarkerView.glyphImage = #imageLiteral(resourceName: "compass")
-            
         }
-     
-        
-        
     }
     
     func getMarkerFor(annotation: MKAnnotation, mapView: MKMapView) -> MKAnnotationView? {
         let item = annotation as! Item
         
         let newItemMarkerView = mapView.dequeueReusableAnnotationView(withIdentifier: "itemMarkerView", for: annotation) as! MKMarkerAnnotationView
-        
         setMarkerPropertiesFor(newMarkerView: newItemMarkerView, item: item)
-        
         return newItemMarkerView
-        
     }
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
@@ -89,7 +78,6 @@ class MapViewDelegate: NSObject, MKMapViewDelegate {
         if (view.annotation is MKUserLocation){
            return
         }
-        
         else {
             guard let myItem = view.annotation as? Item
                 else {
@@ -97,10 +85,7 @@ class MapViewDelegate: NSObject, MKMapViewDelegate {
             }
             
             NotificationCenter.default.post(name: Notification.Name(rawValue: myNotificationKey), object: nil, userInfo: ["name" : myItem])
-
         }
-        
-
     }
     
     func displaySelectedAnnotation(annotation: MKPointAnnotation){

@@ -13,7 +13,6 @@ public let rememberMeKey = "rememberMe"
 
 class LoginViewController: UIViewController, UITextFieldDelegate {
     
-
     let maxPasswordLength = 20
     let signupTitleStr = "Sign Up"
     let loginTitleStr = "Log In"
@@ -42,17 +41,10 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
-        
         usernameTextfield.delegate = self
         passwordTextfield.delegate = self
         emailTextfield.delegate = self
         confirmPasswordTextfield.delegate = self
-        
-        
-        
-        // Do any additional setup after loading the view.
         setToLogIn()
         
         if Auth.auth().currentUser != nil && UserDefaults.standard.bool(forKey: rememberMeKey) == true {
@@ -70,7 +62,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-    
     @IBAction func toggleScreen(_ sender: Any) {
         print("Toggling...")
         if titleLabel.text == signupTitleStr {
@@ -80,7 +71,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             setToSignUp()
         }
     }
-    
     
     func setToSignUp() {
         titleLabel.text = signupTitleStr
@@ -93,7 +83,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         confirmPasswordLabel.isHidden = false
     }
     
-    
     func setToLogIn() {
         titleLabel.text = loginTitleStr
         switchLabel.text = loginSwitchStr
@@ -104,7 +93,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         confirmPasswordTextfield.isHidden = true
         confirmPasswordLabel.isHidden = true
     }
-    
     
     @IBAction func goPressed(_ sender: Any) {
 
@@ -160,7 +148,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         // Dispose of any resources that can be recreated.
     }
     
-    
     func validateInputOf(textfield:UITextField) -> (valid: Bool, reason: String?) {
         var validated = false
         var reason: String?
@@ -192,7 +179,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         return (validated, reason)
     }
     
-    
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         if textField === passwordTextfield || textField === confirmPasswordTextfield {
             if textField.text!.count + string.count > maxPasswordLength {
@@ -209,24 +195,19 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         performSegue(withIdentifier: "continueToHome", sender: self)
     }
     
-    
-    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        
         tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard(_:)))
         self.view.addGestureRecognizer(tapGesture)
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         self.view.removeGestureRecognizer(tapGesture)
-        
     }
-    
     
     @objc func dismissKeyboard (_ sender: UITapGestureRecognizer) {
         usernameTextfield.resignFirstResponder()
@@ -236,6 +217,4 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         
         //self.view.endEditing(true)
     }
-    
-    
 }

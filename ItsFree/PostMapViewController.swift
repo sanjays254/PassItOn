@@ -24,9 +24,7 @@ class PostMapViewController: UIViewController, UISearchBarDelegate, MKMapViewDel
     var pointAnnotation:MKPointAnnotation!
    
     var markerAnnotationView:MKMarkerAnnotationView!
-    
     var searchCompleter: MKLocalSearchCompleter!
-    
     
     let searchResultsTableViewController = SearchResultsTableViewController()
     
@@ -34,8 +32,6 @@ class PostMapViewController: UIViewController, UISearchBarDelegate, MKMapViewDel
     var selectedAnnotation: MKPointAnnotation!
     
     @IBOutlet weak var postMapView: MKMapView!
-    
-    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,8 +40,6 @@ class PostMapViewController: UIViewController, UISearchBarDelegate, MKMapViewDel
         selectedAnnotation = MKPointAnnotation()
         tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tappedALocation(sender:)))
         postMapView.addGestureRecognizer(tapGestureRecognizer)
-        
-        
 
         let myVCindex = self.navigationController?.viewControllers.index(of: self)
         previousVC = self.navigationController?.viewControllers[myVCindex!-1] as! PostViewController
@@ -63,21 +57,17 @@ class PostMapViewController: UIViewController, UISearchBarDelegate, MKMapViewDel
         self.searchCompleter.delegate = self
         self.searchCompleter.region = self.postMapView.region
         self.searchCompleter.filterType = MKSearchCompletionFilterType.locationsAndQueries
-    
     }
-
 
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
         
          self.searchCompleter.region = self.postMapView.region
     }
-
  
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
     
     @objc func searchButtonClicked () {
         
@@ -118,8 +108,6 @@ class PostMapViewController: UIViewController, UISearchBarDelegate, MKMapViewDel
         searchResultsTableViewController.placeToSearch = searchBar.text!
         locationPlotter()
     }
-    
-
     
     func locationPlotter(){
         
@@ -251,7 +239,6 @@ class PostMapViewController: UIViewController, UISearchBarDelegate, MKMapViewDel
             // places.append(["name":annotation.title,"latitude":"\(locationCoordinate.latitude)","longitude":"\(locationCoordinate.longitude)"])
         })
     }
-    
     
 }
 

@@ -69,7 +69,7 @@ class AuthenticationManager {
             do {
                 print("checking if keychain has key already")
                 let alreadyInKeychain = try keychain.get("_\(email)")
-                print("alreadyInKeychain: \(alreadyInKeychain)")
+                print("alreadyInKeychain: \(String(describing: alreadyInKeychain))")
                 if alreadyInKeychain == nil {
                     do {
                         try keychain

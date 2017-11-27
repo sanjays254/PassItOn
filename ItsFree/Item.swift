@@ -11,17 +11,11 @@ import CoreLocation
 import MapKit
 
 
-
 class Item: NSObject, MKAnnotation {
     
-    
     var coordinate: CLLocationCoordinate2D {
-        get{
-            return self.location
-        }
-        set {
-            self.location = newValue
-        }
+        get { return self.location }
+        set { self.location = newValue }
     }
     var UID:String!
     var name:String
@@ -32,26 +26,6 @@ class Item: NSObject, MKAnnotation {
     var quality:ItemQuality
     var tags:Tag
     var photos:[String]
-    
-//    init(name:String,
-//         category:ItemCategory,
-//         description:String,
-//         location:CLLocationCoordinate2D,
-//         posterUID:String,
-//         quality:ItemQuality,
-//         tags:Tag,
-//         photos:[String]) {
-//
-//        self.name = name
-//        self.itemCategory = category
-//        self.itemDescription = description
-//        self.location = location
-//        self.posterUID = posterUID
-//        self.quality = quality
-//        self.tags = tags
-//        self.posterUID = posterUID
-//        self.photos = photos
-//    }
     
     init(name:String,
          category:ItemCategory,
@@ -140,8 +114,5 @@ class Item: NSObject, MKAnnotation {
         
         return itemDict
     }
-    
-    
-    
     
 }

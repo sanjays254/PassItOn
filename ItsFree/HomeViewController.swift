@@ -31,9 +31,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     var itemDetailContainerView: UIView!
     
-    
-
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         

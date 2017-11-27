@@ -96,7 +96,6 @@ public enum ItemCategory:String {
     static var count: Int { return ItemCategory.other.hashValue + 1
         
     }
-    
 }
 
 public enum ItemQuality:String {

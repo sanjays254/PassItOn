@@ -15,12 +15,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
         FirebaseApp.configure()
         let key = "FirstRun"
-        
         if UserDefaults.standard.object(forKey: key) == nil {
             let keychain = Keychain(service: "com.itsFree")
             do {

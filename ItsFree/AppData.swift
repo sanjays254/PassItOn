@@ -26,7 +26,6 @@ class AppData: NSObject {
     public var categorizedItemsNode: DatabaseReference
     
     public override init() {
-        
         usersNode = Database.database().reference().child("users")
         offersNode = Database.database().reference().child("offers")
         requestsNode = Database.database().reference().child("requests")

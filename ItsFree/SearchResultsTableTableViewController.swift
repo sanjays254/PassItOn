@@ -15,23 +15,14 @@ class SearchResultsTableViewController: UITableViewController {
     var previousVC: PostMapViewController!
     
     public var searchResults: [MKLocalSearchCompletion]!
-    
     public var placeToSearch: String = ""
     
     override func viewDidLoad() {
-        
-        
         super.viewDidLoad()
-        
-        
         tableView.delegate = self
         tableView.dataSource = self
         self.searchResults = [MKLocalSearchCompletion]()
-        
-        
-        
     }
-    
     
     //auto-complete table View methods
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -39,7 +30,6 @@ class SearchResultsTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         let searchResult = searchResults[indexPath.row]
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
         cell.textLabel?.text = searchResult.title
@@ -54,6 +44,4 @@ class SearchResultsTableViewController: UITableViewController {
         presentingViewController.locationPlotter()
     }
     
-
 }
-

@@ -13,7 +13,6 @@ class ItemDetailViewController: UIViewController {
     var detailViewTopAnchorConstant: CGFloat!
     var detailViewBottomAnchorConstant: CGFloat!
     
-    
     @IBOutlet var contentView: UIView!
     @IBOutlet weak var itemDetailView: ItemDetailView!
         
@@ -36,7 +35,6 @@ class ItemDetailViewController: UIViewController {
             itemDetailView.topAnchor.constraint(equalTo: view.topAnchor, constant: detailViewTopAnchorConstant),
             itemDetailView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: detailViewBottomAnchorConstant)
             ])
-        
 
         itemDetailView.alpha = 1
         itemDetailView.layer.cornerRadius = 30
@@ -64,8 +62,6 @@ class ItemDetailViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-
-    
     @objc func swipe(gesture: UIGestureRecognizer) {
         
         if let swipeGesture = gesture as? UISwipeGestureRecognizer {
@@ -85,8 +81,6 @@ class ItemDetailViewController: UIViewController {
 
             })
                 
-              
-            
             } else if (swipeGesture.direction == UISwipeGestureRecognizerDirection.up) {
             
                 //nav bar + status bar

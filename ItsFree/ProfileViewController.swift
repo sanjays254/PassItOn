@@ -26,10 +26,6 @@ class ProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        let storageRef = Storage.storage().reference()
-//        let photoRef = "testUserUID/testImage"
-        
-        // Do any additional setup after loading the view.
         setUpProfilePicture()
         setUpProfileText()
     }
@@ -53,18 +49,5 @@ class ProfileViewController: UIViewController {
         profileImageView.layer.borderWidth = 5.0
         profileImageView.sd_setImage(with: storageRef.child(photoRef))
     }
-    
-    
-    
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

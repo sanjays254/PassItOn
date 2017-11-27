@@ -17,12 +17,9 @@ class LocationManager: CLLocationManager{
     
     static let theLocationManager = LocationManager()
 
-
     func getLocation() -> CLLocation {
-        
         LocationManager.theLocationManager.desiredAccuracy = kCLLocationAccuracyBest
         LocationManager.theLocationManager.requestWhenInUseAuthorization()
- 
         
         if CLLocationManager.locationServicesEnabled() {
             switch(CLLocationManager.authorizationStatus()) {
@@ -41,11 +38,7 @@ class LocationManager: CLLocationManager{
         }
         
         return currentLocation
-        
-        
     }
-
-
     
     func locationManager(manager: CLLocationManager!, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
         switch status {
@@ -73,7 +66,5 @@ class LocationManager: CLLocationManager{
             break
         }
     }
-    
-
     
 }

@@ -19,6 +19,7 @@ class AppData: NSObject {
     
     public var onlineOfferedItems: [Item] = []
     public var onlineRequestedItems: [Item] = []
+    public var onlineUsers: [User] = []
     
     public var usersNode: DatabaseReference
     public var offersNode: DatabaseReference

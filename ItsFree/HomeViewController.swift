@@ -31,6 +31,9 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     var itemDetailContainerView: UIView!
     
+    //@IBOutlet weak var leaderboardButton: UIBarButtonItem!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -47,9 +50,25 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.homeMapView.delegate = MapViewDelegate.theMapViewDelegate
         MapViewDelegate.theMapViewDelegate.theMapView = homeMapView
         setMapRegion()
+        
 
+        let leaderboardImage = UIImage(named: "leaderboard")?.withRenderingMode(.alwaysTemplate)
+        
+        
+        let leaderboardButton  = UIButton(type: .custom)
+        leaderboardButton.setImage(leaderboardImage, for: .normal)
+        leaderboardButton.tintColor = UIColor(red: 0, green: 122.0/255.0, blue: 1.0, alpha: 1.0)
+        leaderboardButton.addTarget(self, action: #selector(leaderboardButtonAction), for: .touchUpInside)
+        leaderboardButton.widthAnchor.constraint(equalToConstant: 32.0).isActive = true
+        leaderboardButton.heightAnchor.constraint(equalToConstant: 32.0).isActive = true
+        
+        let barButton = UIBarButtonItem(customView: leaderboardButton)
+        self.navigationItem.leftBarButtonItem = barButton
+        //self.navigationController?.navigationBar.setNeedsLayout()
+        
         setupCompassButton()
         setupMapListSegmentedControl()
+        //self.navigationController?.navigationBar.se
         
         ReadFirebaseData.readOffers()
         ReadFirebaseData.readRequests()
@@ -298,6 +317,12 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         detailViewController.didMove(toParentViewController: self)
     }
-
+    
+    
+     @objc func leaderboardButtonAction() {
+  
+        performSegue(withIdentifier: "leaderboardSegue", sender: self)
+    }
+    
 }
 

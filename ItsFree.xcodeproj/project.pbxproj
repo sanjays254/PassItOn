@@ -76,6 +76,7 @@
 		01C1CAE81FBFB35500FB636C /* AppData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppData.swift; sourceTree = "<group>"; };
 		01C1CAEA1FBFCAE900FB636C /* Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
 		01D5DF451FBF86F40029A276 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		01EA0BFA1FCBD20500AC54AC /* ItsFree.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ItsFree.entitlements; sourceTree = "<group>"; };
 		01F6ADA61FC3A89C00414D96 /* ImageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageManager.swift; sourceTree = "<group>"; };
 		19703A4DE107F8BC8775279E /* Pods-ItsFree.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ItsFree.release.xcconfig"; path = "Pods/Target Support Files/Pods-ItsFree/Pods-ItsFree.release.xcconfig"; sourceTree = "<group>"; };
 		3B7CE68F6A926C3412F77907 /* Pods-ItsFreeUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ItsFreeUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-ItsFreeUITests/Pods-ItsFreeUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -193,6 +194,7 @@
 		CE5869CD1FBE445C0012F774 /* ItsFree */ = {
 			isa = PBXGroup;
 			children = (
+				01EA0BFA1FCBD20500AC54AC /* ItsFree.entitlements */,
 				01BAC9FA1FBF759E0050C891 /* GoogleService-Info.plist */,
 				CE5869DA1FBE445C0012F774 /* Info.plist */,
 				0135173D1FC6168700977B2E /* Login.storyboard */,
@@ -332,6 +334,9 @@
 							};
 							com.apple.Maps.iOS = {
 								enabled = 0;
+							};
+							com.apple.Push = {
+								enabled = 1;
 							};
 						};
 					};
@@ -796,8 +801,9 @@
 			baseConfigurationReference = B18D93946728A6339468F21B /* Pods-ItsFree.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = ItsFree/ItsFree.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = L4XYQHCH99;
+				DEVELOPMENT_TEAM = 48KFD7RJD2;
 				INFOPLIST_FILE = ItsFree/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -813,8 +819,9 @@
 			baseConfigurationReference = 19703A4DE107F8BC8775279E /* Pods-ItsFree.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = ItsFree/ItsFree.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = L4XYQHCH99;
+				DEVELOPMENT_TEAM = 48KFD7RJD2;
 				INFOPLIST_FILE = ItsFree/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

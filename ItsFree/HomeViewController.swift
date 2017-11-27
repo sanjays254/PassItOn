@@ -31,6 +31,9 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     var itemDetailContainerView: UIView!
     
+    //@IBOutlet weak var leaderboardButton: UIBarButtonItem!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -47,18 +50,37 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.homeMapView.delegate = MapViewDelegate.theMapViewDelegate
         MapViewDelegate.theMapViewDelegate.theMapView = homeMapView
         setMapRegion()
+        
 
+        let leaderboardImage = UIImage(named: "leaderboard")?.withRenderingMode(.alwaysTemplate)
+        
+        
+        let leaderboardButton  = UIButton(type: .custom)
+        leaderboardButton.setImage(leaderboardImage, for: .normal)
+        leaderboardButton.tintColor = UIColor(red: 0, green: 122.0/255.0, blue: 1.0, alpha: 1.0)
+        leaderboardButton.addTarget(self, action: #selector(leaderboardButtonAction), for: .touchUpInside)
+        leaderboardButton.widthAnchor.constraint(equalToConstant: 32.0).isActive = true
+        leaderboardButton.heightAnchor.constraint(equalToConstant: 32.0).isActive = true
+        
+        let barButton = UIBarButtonItem(customView: leaderboardButton)
+        self.navigationItem.leftBarButtonItem = barButton
+        //self.navigationController?.navigationBar.setNeedsLayout()
+        
         setupCompassButton()
         setupMapListSegmentedControl()
+        //self.navigationController?.navigationBar.se
         
         ReadFirebaseData.readOffers()
         ReadFirebaseData.readRequests()
+        ReadFirebaseData.readUsers()
    
         NotificationCenter.default.addObserver(self, selector: #selector(self.addAnnotationsWhenFinishedDownloadingData), name: NSNotification.Name(rawValue: myDowloadCompletedNotificationKey), object: nil)
 
         homeMapView.register(MKMarkerAnnotationView.self, forAnnotationViewWithReuseIdentifier: "itemMarkerView")
         
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: mySelectedItemNotificationKey), object: nil, queue: nil, using: catchNotification)
+        
+        
         
     }
     
@@ -153,6 +175,12 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     //mapList segmented control
     @objc func mapListSegmentAction(sender: UISegmentedControl) {
+        
+        if(!self.childViewControllers.isEmpty){
+        let itemDetailViewController = self.childViewControllers[0] as! ItemDetailViewController
+        itemDetailViewController.removeFromParentViewController()
+            itemDetailContainerView.removeFromSuperview()
+        }
         
         if sender.selectedSegmentIndex == 0 {
             self.view.bringSubview(toFront: homeMapView)
@@ -252,15 +280,27 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        let itemToShow = AppData.sharedInstance.onlineOfferedItems[indexPath.row]
+        let itemToShow: Item
+        
+        switch(wantedAvailableSegmentedControl.selectedSegmentIndex){
+        case 0:  itemToShow = AppData.sharedInstance.onlineRequestedItems[indexPath.row]
+        case 1:  itemToShow = AppData.sharedInstance.onlineOfferedItems[indexPath.row]
+        default:
+            return
+        }
+        
+        
         //mapListSegmentedControl.sendActions(for: UIControlEvents.valueChanged)
         mapListSegmentedControl.selectedSegmentIndex = 0
         mapListSegmentedControl.sendActions(for: UIControlEvents.valueChanged)
         //view.bringSubview(toFront: homeMapView)
-        let span = MKCoordinateSpanMake(0.007, 0.007)
         
-        homeMapView.setRegion(MKCoordinateRegionMake(itemToShow.coordinate, span) , animated: true)
-        showItemDetail(item: itemToShow)
+        homeMapView.selectAnnotation(itemToShow, animated: true)
+        
+//        let span = MKCoordinateSpanMake(0.007, 0.007)
+//
+//        homeMapView.setRegion(MKCoordinateRegionMake(itemToShow.coordinate, span) , animated: true)
+//        showItemDetail(item: itemToShow)
     }
     
     @objc func showItemDetail(item: Item){
@@ -298,6 +338,12 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         detailViewController.didMove(toParentViewController: self)
     }
-
+    
+    
+     @objc func leaderboardButtonAction() {
+  
+        performSegue(withIdentifier: "leaderboardSegue", sender: self)
+    }
+    
 }
 

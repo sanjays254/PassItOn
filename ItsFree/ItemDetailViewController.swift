@@ -55,6 +55,23 @@ class ItemDetailViewController: UIViewController {
         let swipeDown: UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(swipe))
         swipeDown.direction = UISwipeGestureRecognizerDirection.down
         itemDetailView.addGestureRecognizer(swipeDown)
+        
+        let tapOutside: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tappedOutside))
+        let tapNavBar: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tappedOutside))
+        self.view.addGestureRecognizer(tapOutside)
+        self.navigationController?.navigationBar.addGestureRecognizer(tapNavBar)
+        //self.navigationController?.navigationBar.ite
+        
+    }
+    
+    @objc func tappedOutside(gesture: UIGestureRecognizer){
+        if (gesture.location(in: view).y < detailViewTopAnchorConstant) {
+            self.willMove(toParentViewController: nil)
+            let theParentViewController = self.parent as! HomeViewController
+            theParentViewController.itemDetailContainerView.removeFromSuperview()
+            //self.itemDetailView.removeFromSuperview()
+            self.removeFromParentViewController()
+        }
     }
 
     override func didReceiveMemoryWarning() {

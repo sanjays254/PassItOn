@@ -89,5 +89,33 @@ class ReadFirebaseData: NSObject {
             })
     }
     
+    class func readUsers() {
+        if ( Auth.auth().currentUser == nil) {
+            return
+        }
+        
+        let userID = Auth.auth().currentUser?.uid;
+        
+        AppData.sharedInstance.usersNode
+            .observeSingleEvent(of: .value, with: { (snapshot) in
+                
+                let value = snapshot.value as? NSDictionary;
+                
+                if ( value == nil) {
+                    return
+                }
+                
+                for any in (value?.allValues)! {
+                    let user: [String:Any] = any as! [String:Any]
+                    let readUser = User(email: (user["email"] ?? "no email") as! String, name: user["name"] as! String, rating: (user["rating"] ?? 0) as! Int, uid: (user["UID"] ?? "no UID") as! String, profileImage: (user["profileImage"] ?? "no profileImage") as! String)
+                    
+                    AppData.sharedInstance.onlineUsers.append(readUser)
+                    print("appending items")
+                }
+                let myDownloadNotificationKey = "myDownloadNotificationKey"
+                NotificationCenter.default.post(name: Notification.Name(rawValue: myDownloadNotificationKey), object: nil)
+            })
+    }
+    
 }
 

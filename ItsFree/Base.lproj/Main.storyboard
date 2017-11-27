@@ -82,6 +82,7 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" id="XWZ-QN-ahw">
+                        <barButtonItem key="leftBarButtonItem" title="Item" id="9Yo-MC-Js1"/>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="S6y-j2-V3P">
                             <connections>
                                 <action selector="postItem:" destination="BYZ-38-t0r" id="Orx-tv-lPr"/>
@@ -95,6 +96,7 @@
                         <segue destination="uu9-5f-Eua" kind="show" identifier="postSegue" id="Ief-IJ-IS6"/>
                         <segue destination="Pfb-Mb-cP8" kind="presentation" identifier="profileSegue" id="w9S-Qu-0Ss"/>
                         <segue destination="7I6-kj-hON" kind="presentation" identifier="toProfileSegue" id="fQC-9c-mf1"/>
+                        <segue destination="kIu-Ah-Ywq" kind="presentation" identifier="leaderboardSegue" modalTransitionStyle="flipHorizontal" id="ZiN-xd-WxH"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -225,6 +227,61 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HDA-Jj-N7L" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2376.8000000000002" y="-125.4872563718141"/>
+        </scene>
+        <!--Leaderboard Table View Controller-->
+        <scene sceneID="mB8-sK-dgD">
+            <objects>
+                <viewController id="kIu-Ah-Ywq" customClass="LeaderboardTableViewController" customModule="ItsFree" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8Du-Ua-HPw">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hP7-W6-agT">
+                                <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                                <items>
+                                    <navigationItem title="Leaderboard" id="cZP-Vg-wVG">
+                                        <barButtonItem key="leftBarButtonItem" style="plain" systemItem="done" id="cir-KO-GXI">
+                                            <connections>
+                                                <action selector="dismissLeaderboard:" destination="kIu-Ah-Ywq" id="Jan-Jh-JPX"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="QEo-Ed-ca2">
+                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="leaderboardTableViewCell" id="SYI-VU-tcH">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="SYI-VU-tcH" id="B8G-Dw-YSO">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="QEo-Ed-ca2" firstAttribute="trailing" secondItem="Qyz-70-Yw4" secondAttribute="trailing" id="OmM-Kk-iec"/>
+                            <constraint firstItem="hP7-W6-agT" firstAttribute="trailing" secondItem="Qyz-70-Yw4" secondAttribute="trailing" id="QgT-fH-knm"/>
+                            <constraint firstItem="QEo-Ed-ca2" firstAttribute="leading" secondItem="Qyz-70-Yw4" secondAttribute="leading" id="VVD-AS-Bhw"/>
+                            <constraint firstItem="hP7-W6-agT" firstAttribute="leading" secondItem="Qyz-70-Yw4" secondAttribute="leading" id="dTL-qy-vfQ"/>
+                            <constraint firstItem="QEo-Ed-ca2" firstAttribute="bottom" secondItem="Qyz-70-Yw4" secondAttribute="bottom" id="et4-jg-clz"/>
+                            <constraint firstItem="hP7-W6-agT" firstAttribute="top" secondItem="Qyz-70-Yw4" secondAttribute="top" id="s82-eD-Ke7"/>
+                            <constraint firstItem="QEo-Ed-ca2" firstAttribute="top" secondItem="hP7-W6-agT" secondAttribute="bottom" id="zZv-x4-xDk"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Qyz-70-Yw4"/>
+                    </view>
+                    <connections>
+                        <outlet property="leaderboardTableView" destination="QEo-Ed-ca2" id="dD3-6D-zsM"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="qBz-Ro-hOD" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="644" y="-657.12143928035982"/>
         </scene>
         <!--New Item-->
         <scene sceneID="Yb2-qp-hms">

@@ -31,6 +31,7 @@
 		CE9683D01FBE655600DFA277 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9683CF1FBE655600DFA277 /* LocationManager.swift */; };
 		CE9683D21FBF6C9700DFA277 /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9683D11FBF6C9700DFA277 /* PostViewController.swift */; };
 		CE9683D51FBF8E5700DFA277 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9683D41FBF8E5600DFA277 /* HomeViewController.swift */; };
+		CEBD48A11FCC949800C5267F /* LeaderboardTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBD48A01FCC949800C5267F /* LeaderboardTableViewController.swift */; };
 		CEF41A1C1FC1000F0044C63E /* MapViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF41A1B1FC1000F0044C63E /* MapViewDelegate.swift */; };
 		CEF41A1E1FC113290044C63E /* ReadFirebaseData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF41A1D1FC113290044C63E /* ReadFirebaseData.swift */; };
 		CEF41A211FC374520044C63E /* ItemHomeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF41A1F1FC374520044C63E /* ItemHomeTableViewCell.swift */; };
@@ -103,6 +104,7 @@
 		CE9683CF1FBE655600DFA277 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		CE9683D11FBF6C9700DFA277 /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
 		CE9683D41FBF8E5600DFA277 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		CEBD48A01FCC949800C5267F /* LeaderboardTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderboardTableViewController.swift; sourceTree = "<group>"; };
 		CEF41A1B1FC1000F0044C63E /* MapViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewDelegate.swift; sourceTree = "<group>"; };
 		CEF41A1D1FC113290044C63E /* ReadFirebaseData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadFirebaseData.swift; sourceTree = "<group>"; };
 		CEF41A1F1FC374520044C63E /* ItemHomeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemHomeTableViewCell.swift; sourceTree = "<group>"; };
@@ -227,6 +229,7 @@
 				CEF41A241FC3CF1C0044C63E /* PostMapViewController.xib */,
 				CE5869D71FBE445C0012F774 /* LaunchScreen.storyboard */,
 				CE5869D21FBE445C0012F774 /* Main.storyboard */,
+				CEBD48A01FCC949800C5267F /* LeaderboardTableViewController.swift */,
 			);
 			path = ItsFree;
 			sourceTree = "<group>";
@@ -625,6 +628,7 @@
 				CE9683D01FBE655600DFA277 /* LocationManager.swift in Sources */,
 				CEFC19951FC75E510082CB55 /* ItemDetailView.swift in Sources */,
 				CEF41A1E1FC113290044C63E /* ReadFirebaseData.swift in Sources */,
+				CEBD48A11FCC949800C5267F /* LeaderboardTableViewController.swift in Sources */,
 				CEFC19921FC65C320082CB55 /* ItemDetailViewController.swift in Sources */,
 				CEF41A1C1FC1000F0044C63E /* MapViewDelegate.swift in Sources */,
 				0135173C1FC50B3F00977B2E /* AuthenticationManager.swift in Sources */,
@@ -803,11 +807,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = ItsFree/ItsFree.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 48KFD7RJD2;
+				DEVELOPMENT_TEAM = L4XYQHCH99;
 				INFOPLIST_FILE = ItsFree/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.sanjayshah.ItsFree;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sanjayshah.Cats;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -821,11 +825,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = ItsFree/ItsFree.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 48KFD7RJD2;
+				DEVELOPMENT_TEAM = L4XYQHCH99;
 				INFOPLIST_FILE = ItsFree/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.sanjayshah.ItsFree;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sanjayshah.Cats;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

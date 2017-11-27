@@ -79,7 +79,11 @@ class MapViewDelegate: NSObject, MKMapViewDelegate {
            return
         }
         else {
+            let span = MKCoordinateSpanMake(0.007, 0.007)
+            theMapView.setRegion(MKCoordinateRegionMake((view.annotation?.coordinate)!, span) , animated: true)
+            
             guard let myItem = view.annotation as? Item
+                
                 else {
                     return
             }

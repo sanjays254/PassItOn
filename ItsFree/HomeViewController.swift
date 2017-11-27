@@ -11,6 +11,7 @@
 
 import UIKit
 import MapKit
+import FirebaseStorage
 
 
 class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate, MKMapViewDelegate {
@@ -211,8 +212,10 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         tableView.register(UINib(nibName: "ItemHomeTableViewCell", bundle: nil), forCellReuseIdentifier: "itemHomeTableViewCellID")
     
         let cell = tableView.dequeueReusableCell(withIdentifier: "itemHomeTableViewCellID") as! ItemHomeTableViewCell
-        
+        let storageRef = Storage.storage().reference()
+        let sourceArray:[Item]!
         if(wantedAvailableSegmentedControl.selectedSegmentIndex == 0){
+            sourceArray = AppData.sharedInstance.onlineRequestedItems
             cell.itemTitleLabel.text = AppData.sharedInstance.onlineRequestedItems[indexPath.row].name
             cell.itemQualityLabel.text = AppData.sharedInstance.onlineRequestedItems[indexPath.row].quality.rawValue
             let destinationLocation: CLLocation = CLLocation(latitude: AppData.sharedInstance.onlineRequestedItems[indexPath.row].location.latitude, longitude: AppData.sharedInstance.onlineRequestedItems[indexPath.row].location.longitude)
@@ -220,9 +223,9 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             let distance = (destinationLocation.distance(from: getLocation())/1000)
             
             cell.itemDistanceLabel.text = String(format: "%.2f", distance) + " kms"
-            
         }
         else if (wantedAvailableSegmentedControl.selectedSegmentIndex == 1){
+            sourceArray = AppData.sharedInstance.onlineOfferedItems
             cell.itemTitleLabel.text = AppData.sharedInstance.onlineOfferedItems[indexPath.row].name
             cell.itemQualityLabel.text = AppData.sharedInstance.onlineOfferedItems[indexPath.row].quality.rawValue
             let destinationLocation: CLLocation = CLLocation(latitude: AppData.sharedInstance.onlineOfferedItems[indexPath.row].location.latitude, longitude: AppData.sharedInstance.onlineOfferedItems[indexPath.row].location.longitude)
@@ -231,6 +234,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             
             cell.itemDistanceLabel.text = String(format: "%.2f", distance) + " kms"
         }
+        
+        
         return cell
     }
     

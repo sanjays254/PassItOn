@@ -69,14 +69,6 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
     
     }
     
-    fileprivate func setupOfferRequestSegmentedControl() {
-        offerRequestSegmentedControl = UISegmentedControl()
-        offerRequestSegmentedControl.insertSegment(withTitle: "Offer", at: 0, animated: true)
-        offerRequestSegmentedControl.insertSegment(withTitle: "Request", at: 1, animated: true)
-        self.navigationItem.titleView = offerRequestSegmentedControl
-    }
-    
-
     override func viewWillAppear(_ animated: Bool) {
         self.locationButton.setTitle("Location: \(self.selectedLocationString)", for: UIControlState.normal)
     }
@@ -85,6 +77,14 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         super.didReceiveMemoryWarning()
     }
 
+    
+    fileprivate func setupOfferRequestSegmentedControl() {
+        offerRequestSegmentedControl = UISegmentedControl()
+        offerRequestSegmentedControl.insertSegment(withTitle: "Offer", at: 0, animated: true)
+        offerRequestSegmentedControl.insertSegment(withTitle: "Request", at: 1, animated: true)
+        self.navigationItem.titleView = offerRequestSegmentedControl
+    }
+    
     
     func setupTagButtonsView(){
         
@@ -106,7 +106,6 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
             currentButton.layer.cornerRadius = 10
             
             defaultTagStackView.addArrangedSubview(currentButton)
-            
         }
     
         defaultTagStackView.alignment = .center
@@ -237,15 +236,12 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
             sender.layer.borderColor = UIColor.gray.cgColor
             
             chosenTagsArray.remove(at:chosenTagsArray.index(of:((sender.titleLabel?.text)!))!)
-            
-            print("REMOVE")
         }
         
     }
     
     
     //category chooser table views
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return ItemCategory.count
     }
@@ -351,7 +347,6 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         emptyFieldsChecker(testUser)
     }
 
-
     
     @IBAction func selectPostLocationButton(_ sender: UIButton) {
         performSegue(withIdentifier: "showPostMap", sender: self)
@@ -427,7 +422,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
     }
     
     func fullscreenImage(image: UIImage) {
-       // let imageView = sender.view as! UIImageView
+
         let newImageView = UIImageView(image: image)
         newImageView.frame = UIScreen.main.bounds
         newImageView.backgroundColor = .black

@@ -25,7 +25,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
     var chosenTagsArray: [String] = []
     
     @IBOutlet weak var locationButton: UIButton!
-
+    
     @IBOutlet weak var addCategoryButton: UIButton!
     var chosenCategory: ItemCategory!
     
@@ -41,13 +41,13 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
     
     @IBOutlet weak var photoCollectionView: UICollectionView!
     var photosArray: Array<UIImage>!
-
+    
     var tapGesture: UITapGestureRecognizer!
     
     var offerRequestSegmentedControl: UISegmentedControl!
-
     
- 
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -66,17 +66,17 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         imagePicker.delegate = self
         
         photosArray = []
-    
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         self.locationButton.setTitle("Location: \(self.selectedLocationString)", for: UIControlState.normal)
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-
+    
     
     fileprivate func setupOfferRequestSegmentedControl() {
         offerRequestSegmentedControl = UISegmentedControl()
@@ -107,7 +107,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
             
             defaultTagStackView.addArrangedSubview(currentButton)
         }
-    
+        
         defaultTagStackView.alignment = .center
         defaultTagStackView.spacing = 1
         defaultTagStackView.distribution = .fillProportionally
@@ -116,7 +116,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         customTagStackView.spacing = 1
         customTagStackView.distribution = .fillProportionally
     }
-
+    
     
     func setupUI(){
         
@@ -311,15 +311,22 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         let realItem: Item = Item.init(name: titleTextField.text!, category: chosenCategory, description: descriptionTextField.text!, location: selectedLocationCoordinates, posterUID:  testUser.UID, quality: chosenQuality, tags: tags, photos: [""], itemUID: nil)
         
         var photoRefs:[String] = []
-        for index in 0..<photosArray.count {
-            let storagePath = "\(realItem.UID!)/\(index)"
-            let photoRefStr = ImageManager.uploadImage(image: photosArray[index],
-                                                       userUID: (AppData.sharedInstance.currentUser?.UID)!,
-                                                       filename: storagePath)
-            photoRefs.append(photoRefStr)
-            print("\(realItem.UID)/\(photoRefStr)")
+        if photosArray.count == 0 {
+            photoRefs.append("")
+        }
+            
+        else {
+            for index in 0..<photosArray.count {
+                let storagePath = "\(realItem.UID!)/\(index)"
+                let photoRefStr = ImageManager.uploadImage(image: photosArray[index],
+                                                           userUID: (AppData.sharedInstance.currentUser?.UID)!,
+                                                           filename: storagePath)
+                photoRefs.append(photoRefStr)
+                print("\(realItem.UID)/\(photoRefStr)")
+            }
         }
         realItem.photos = photoRefs
+        
         
         if(offerRequestSegmentedControl.selectedSegmentIndex == 0){
             AppData.sharedInstance.usersNode.child(testUser.UID).setValue(testUser.toDictionary())
@@ -329,7 +336,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         else if (offerRequestSegmentedControl.selectedSegmentIndex == 1){
             AppData.sharedInstance.usersNode.child(testUser.UID).setValue(testUser.toDictionary())
             AppData.sharedInstance.requestsNode.child(realItem.UID).setValue(realItem.toDictionary())
-           // AppData.sharedInstance.categorizedItemsNode.child(String(describing: realItem.itemCategory)).child(String(realItem.name.prefix(2))).setValue(realItem.toDictionary())
+            // AppData.sharedInstance.categorizedItemsNode.child(String(describing: realItem.itemCategory)).child(String(realItem.name.prefix(2))).setValue(realItem.toDictionary())
         }
         
         self.navigationController?.popToRootViewController(animated: true)
@@ -356,7 +363,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         
         emptyFieldsChecker(testUser)
     }
-
+    
     
     @IBAction func selectPostLocationButton(_ sender: UIButton) {
         performSegue(withIdentifier: "showPostMap", sender: self)
@@ -371,16 +378,16 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "photoCollectionViewCell", for: indexPath) as! PostPhotoCollectionViewCell
         
-            if(photosArray.count == indexPath.item){
-                cell.postCollectionViewCellImageView.image = #imageLiteral(resourceName: "addImage")
-            }
-        
-            else if(indexPath.item < photosArray.count) {
-                cell.postCollectionViewCellImageView.image = photosArray[indexPath.item]
-                cell.postCollectionViewCellImageView.layer.cornerRadius = 20
-                cell.postCollectionViewCellImageView.layer.masksToBounds = true
-                cell.postCollectionViewCellImageView.contentMode = .scaleAspectFill
-            }
+        if(photosArray.count == indexPath.item){
+            cell.postCollectionViewCellImageView.image = #imageLiteral(resourceName: "addImage")
+        }
+            
+        else if(indexPath.item < photosArray.count) {
+            cell.postCollectionViewCellImageView.image = photosArray[indexPath.item]
+            cell.postCollectionViewCellImageView.layer.cornerRadius = 20
+            cell.postCollectionViewCellImageView.layer.masksToBounds = true
+            cell.postCollectionViewCellImageView.contentMode = .scaleAspectFill
+        }
         
         return cell
     }
@@ -390,7 +397,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         if ((indexPath.item) + 1 > self.photosArray.count){
             presentImagePickerAlert()
         }
-        //else if we click on an image
+            //else if we click on an image
         else {
             let changePhotoAlert = UIAlertController(title: "View or Delete Photo?", message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
             
@@ -432,7 +439,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
     }
     
     func fullscreenImage(image: UIImage) {
-
+        
         let newImageView = UIImageView(image: image)
         newImageView.frame = UIScreen.main.bounds
         newImageView.backgroundColor = .black
@@ -450,5 +457,5 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         self.tabBarController?.tabBar.isHidden = false
         sender.view?.removeFromSuperview()
     }
-
+    
 }

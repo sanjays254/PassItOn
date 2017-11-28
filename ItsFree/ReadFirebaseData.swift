@@ -54,7 +54,7 @@ class ReadFirebaseData: NSObject {
                     let readItem = Item(with: item)
                     
                     AppData.sharedInstance.onlineOfferedItems.append(readItem!)
-                    print("appending items")
+                    print("appending offered items")
                 }
                 let myDownloadNotificationKey = "myDownloadNotificationKey"
                 NotificationCenter.default.post(name: Notification.Name(rawValue: myDownloadNotificationKey), object: nil)
@@ -68,8 +68,7 @@ class ReadFirebaseData: NSObject {
         
         let userID = Auth.auth().currentUser?.uid;
         
-        AppData.sharedInstance.requestsNode
-            .observeSingleEvent(of: .value, with: { (snapshot) in
+        AppData.sharedInstance.requestsNode.observe(DataEventType.value, with: { (snapshot) in
                 
                 let value = snapshot.value as? NSDictionary;
                 
@@ -82,7 +81,7 @@ class ReadFirebaseData: NSObject {
                     let readItem = Item(with: item)
                     
                     AppData.sharedInstance.onlineRequestedItems.append(readItem!)
-                    print("appending items")
+                    print("appending requested items")
                 }
                 let myDownloadNotificationKey = "myDownloadNotificationKey"
                 NotificationCenter.default.post(name: Notification.Name(rawValue: myDownloadNotificationKey), object: nil)

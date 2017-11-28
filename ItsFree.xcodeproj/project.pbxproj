@@ -32,6 +32,8 @@
 		CE9683D21FBF6C9700DFA277 /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9683D11FBF6C9700DFA277 /* PostViewController.swift */; };
 		CE9683D51FBF8E5700DFA277 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9683D41FBF8E5600DFA277 /* HomeViewController.swift */; };
 		CEBD48A11FCC949800C5267F /* LeaderboardTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBD48A01FCC949800C5267F /* LeaderboardTableViewController.swift */; };
+		CEBD48A41FCCD02600C5267F /* LeaderboardTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBD48A21FCCD02600C5267F /* LeaderboardTableViewCell.swift */; };
+		CEBD48A51FCCD02600C5267F /* LeaderboardTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CEBD48A31FCCD02600C5267F /* LeaderboardTableViewCell.xib */; };
 		CEF41A1C1FC1000F0044C63E /* MapViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF41A1B1FC1000F0044C63E /* MapViewDelegate.swift */; };
 		CEF41A1E1FC113290044C63E /* ReadFirebaseData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF41A1D1FC113290044C63E /* ReadFirebaseData.swift */; };
 		CEF41A211FC374520044C63E /* ItemHomeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF41A1F1FC374520044C63E /* ItemHomeTableViewCell.swift */; };
@@ -105,6 +107,8 @@
 		CE9683D11FBF6C9700DFA277 /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
 		CE9683D41FBF8E5600DFA277 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		CEBD48A01FCC949800C5267F /* LeaderboardTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderboardTableViewController.swift; sourceTree = "<group>"; };
+		CEBD48A21FCCD02600C5267F /* LeaderboardTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderboardTableViewCell.swift; sourceTree = "<group>"; };
+		CEBD48A31FCCD02600C5267F /* LeaderboardTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LeaderboardTableViewCell.xib; sourceTree = "<group>"; };
 		CEF41A1B1FC1000F0044C63E /* MapViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewDelegate.swift; sourceTree = "<group>"; };
 		CEF41A1D1FC113290044C63E /* ReadFirebaseData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadFirebaseData.swift; sourceTree = "<group>"; };
 		CEF41A1F1FC374520044C63E /* ItemHomeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemHomeTableViewCell.swift; sourceTree = "<group>"; };
@@ -218,6 +222,8 @@
 				013517461FC8F29D00977B2E /* ProfileViewControllers.storyboard */,
 				CEF41A231FC3CF1C0044C63E /* PostMapViewController.swift */,
 				CEF41A291FC51D380044C63E /* PostPhotoCollectionViewCell.swift */,
+				CEBD48A21FCCD02600C5267F /* LeaderboardTableViewCell.swift */,
+				CEBD48A31FCCD02600C5267F /* LeaderboardTableViewCell.xib */,
 				CE9683D11FBF6C9700DFA277 /* PostViewController.swift */,
 				CEF41A1D1FC113290044C63E /* ReadFirebaseData.swift */,
 				CEF41A271FC501F60044C63E /* SearchResultsTableTableViewController.swift */,
@@ -383,6 +389,7 @@
 				CEF41A221FC374520044C63E /* ItemHomeTableViewCell.xib in Resources */,
 				CE5869D91FBE445C0012F774 /* LaunchScreen.storyboard in Resources */,
 				0135173E1FC6168700977B2E /* Login.storyboard in Resources */,
+				CEBD48A51FCCD02600C5267F /* LeaderboardTableViewCell.xib in Resources */,
 				01BAC9FB1FBF75A70050C891 /* GoogleService-Info.plist in Resources */,
 				CE5869D61FBE445C0012F774 /* Assets.xcassets in Resources */,
 				CE5869D41FBE445C0012F774 /* Main.storyboard in Resources */,
@@ -625,6 +632,7 @@
 				013517451FC8F1FD00977B2E /* ProfileViewController.swift in Sources */,
 				01C1CAE91FBFB35500FB636C /* AppData.swift in Sources */,
 				CE5869CF1FBE445C0012F774 /* AppDelegate.swift in Sources */,
+				CEBD48A41FCCD02600C5267F /* LeaderboardTableViewCell.swift in Sources */,
 				CE9683D01FBE655600DFA277 /* LocationManager.swift in Sources */,
 				CEFC19951FC75E510082CB55 /* ItemDetailView.swift in Sources */,
 				CEF41A1E1FC113290044C63E /* ReadFirebaseData.swift in Sources */,

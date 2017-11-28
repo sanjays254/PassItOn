@@ -54,8 +54,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
 
         let leaderboardImage = UIImage(named: "leaderboard")?.withRenderingMode(.alwaysTemplate)
-        
-        
+    
         let leaderboardButton  = UIButton(type: .custom)
         leaderboardButton.setImage(leaderboardImage, for: .normal)
         leaderboardButton.tintColor = UIColor(red: 0, green: 122.0/255.0, blue: 1.0, alpha: 1.0)
@@ -63,9 +62,13 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         leaderboardButton.widthAnchor.constraint(equalToConstant: 32.0).isActive = true
         leaderboardButton.heightAnchor.constraint(equalToConstant: 32.0).isActive = true
         
-        let barButton = UIBarButtonItem(customView: leaderboardButton)
-        self.navigationItem.leftBarButtonItem = barButton
-        //self.navigationController?.navigationBar.setNeedsLayout()
+        let leaderboardBarButton = UIBarButtonItem(customView: leaderboardButton)
+        self.navigationItem.leftBarButtonItem = leaderboardBarButton
+        
+        
+        let addPostBarButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.add, target: self, action: #selector(postItem))
+        self.navigationItem.rightBarButtonItem = addPostBarButton
+        
         
         setupCompassButton()
         setupMapListSegmentedControl()
@@ -265,7 +268,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
 
     //segues
-    @IBAction func postItem(_ sender: UIBarButtonItem) {
+    @objc func postItem() {
         performSegue(withIdentifier: "postSegue", sender: self)
     }
     

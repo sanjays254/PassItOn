@@ -57,6 +57,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
 
+    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+        
+        print("Scheme is: \(url.scheme!)")
+        print("Query is: \(url.query!)")
+        
+        let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        
+        var homeViewController: UIViewController = mainStoryboard.instantiateViewController(withIdentifier: "homeVC") as! HomeViewController
+        
+        let fullQueryitemIDToShow = String("\(url.query!)")
+        
+        let index = fullQueryitemIDToShow.index(fullQueryitemIDToShow.startIndex, offsetBy: 10)
+        let substringitemIDToShow = fullQueryitemIDToShow.suffix(from: index)
+        
+        print(substringitemIDToShow)
+        
+        //homeViewController.showItemDetail()
+        
+        return true
+    }
 
 }
 

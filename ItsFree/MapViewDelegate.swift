@@ -47,6 +47,16 @@ class MapViewDelegate: NSObject, MKMapViewDelegate {
         switch(item.itemCategory){
         case .clothing : newMarkerView.glyphImage = #imageLiteral(resourceName: "clothing")
         case .electronics : newMarkerView.glyphImage = #imageLiteral(resourceName: "electronics")
+        case .furniture : newMarkerView.glyphImage = #imageLiteral(resourceName: "furniture")
+        case .sportingGoods : newMarkerView.glyphImage = #imageLiteral(resourceName: "sports")
+        case .artAndCollectables : newMarkerView.glyphImage = #imageLiteral(resourceName: "art")
+        case .homeAppliances : newMarkerView.glyphImage = #imageLiteral(resourceName: "homeApplicance")
+        case .toys :newMarkerView.glyphImage = #imageLiteral(resourceName: "toys")
+        case .buildingToolsAndSupplies : newMarkerView.glyphImage = #imageLiteral(resourceName: "tools")
+        case .jewelleryAndWatches : newMarkerView.glyphImage = #imageLiteral(resourceName: "jewellery")
+        case .indoorDecor : newMarkerView.glyphImage = #imageLiteral(resourceName: "indoorDecor")
+        case .outdoorDecor : newMarkerView.glyphImage = #imageLiteral(resourceName: "outdoorDecor")
+        case .other : newMarkerView.glyphImage = #imageLiteral(resourceName: "random")
         default :newMarkerView.glyphImage = #imageLiteral(resourceName: "compass")
         }
     }

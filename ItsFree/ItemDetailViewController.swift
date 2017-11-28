@@ -71,6 +71,7 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
     @objc func tappedOutside(gesture: UIGestureRecognizer){
         if (gesture.location(in: view).y < detailViewTopAnchorConstant) {
             self.view.removeGestureRecognizer(gesture)
+            self.navigationController?.navigationBar.removeGestureRecognizer(gesture)
             self.willMove(toParentViewController: nil)
             let theParentViewController = self.parent as! HomeViewController
             theParentViewController.itemDetailContainerView.removeFromSuperview()
@@ -181,11 +182,27 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
         
         let currentUserName = AppData.sharedInstance.currentUser!.name
         let currentItemName = currentItem.name
+        let currentItemID = currentItem.UID
+        
+       // var cookedString: String!
+        let linkString = NSMutableAttributedString(string: "iOSAnotherLifeApp://?itemID=\(currentItemID!)")
+        linkString.addAttribute(NSAttributedStringKey.link, value: NSURL(string: "iOSAnotherLifeApp://")! , range: NSMakeRange(0, linkString.length))
+        
+        
+        var htmlString: String! = ""
+        
+        do {
+            let data = try linkString.data(from: NSMakeRange(0, linkString.length), documentAttributes: [NSAttributedString.DocumentAttributeKey.documentType : NSAttributedString.DocumentType.html])
+            htmlString = String(data: data, encoding: String.Encoding.utf8)
+        }catch {
+            print("error creating HTML from Attributed String")
+        }
         
         //mailVC properties
         mailComposerVC.setToRecipients([destinationEmail])
         mailComposerVC.setSubject("Second Life: \(currentUserName) wants your item")
-        mailComposerVC.setMessageBody("Hey \(destinationName),\n\n I want your \(currentItemName).\n\n Please click this link if you give it to \(currentUserName), to auto-delete your item and so that he/she can rate you!\n\nThanks! :) ", isHTML: false)
+        mailComposerVC.setMessageBody(htmlString, isHTML: true)
+        //mailComposerVC.setMessageBody("Hey \(destinationName),\n\n I want your \(currentItemName).\n\n Please click this link if you give it to \(currentUserName), to auto-delete your item and so that he/she can rate you!\n\nThanks! :)\n\niOSAnotherLifeApp://?queryisnull=1", isHTML: true)
     }
     
     func requestMessage(mailComposerVC: MFMailComposeViewController){

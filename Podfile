@@ -12,6 +12,7 @@ target 'ItsFree' do
   pod 'Firebase/Auth'
   pod 'FirebaseStorage'
   pod 'FirebaseUI'
+  pod 'Firebase/DynamicLinks'
   pod 'KeychainAccess'
 
   target 'ItsFreeTests' do

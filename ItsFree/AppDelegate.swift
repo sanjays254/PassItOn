@@ -16,6 +16,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        
+        //FirebaseOptions.defaultOptions()?.deepLinkURLScheme = self.customURLScheme
         FirebaseApp.configure()
         let key = "FirstRun"
         if UserDefaults.standard.object(forKey: key) == nil {
@@ -52,6 +54,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    }
+    
+
+    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+        
+        print("Scheme is: \(url.scheme!)")
+        print("Query is: \(url.query!)")
+        
+        let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        
+        var homeViewController: UIViewController = mainStoryboard.instantiateViewController(withIdentifier: "homeVC") as! HomeViewController
+        
+        let fullQueryitemIDToShow = String("\(url.query!)")
+        
+        let index = fullQueryitemIDToShow.index(fullQueryitemIDToShow.startIndex, offsetBy: 10)
+        let substringitemIDToShow = fullQueryitemIDToShow.suffix(from: index)
+        
+        print(substringitemIDToShow)
+        
+        //homeViewController.showItemDetail()
+        
+        return true
     }
 
 }

@@ -27,6 +27,29 @@ class User {
         self.requestedItems = requests
     }
     
+    convenience init?(with inpDict:[String:Any]) {
+        guard
+            let inpName: String = inpDict["name"] as? String,
+            let inpEmail: String = inpDict["email"] as? String,
+            let inpRating: NSNumber = inpDict["rating"] as? NSNumber,
+            let inpUID: String = inpDict["UID"] as? String,
+            let inpProfileImage: String = inpDict["profileImage"] as? String,
+            let inpOffers:[String] = inpDict["offers"] as? [String],
+            let inpRequests:[String] = inpDict["requests"] as? [String] else
+        {
+            print("Error: Dictionary is not in the correct format")
+            return nil
+        }
+        
+        self.init(email: inpEmail,
+                  name: inpName,
+                  rating: inpRating.intValue,
+                  uid: inpUID,
+                  profileImage: inpProfileImage,
+                  offers: inpOffers,
+                  requests: inpRequests)
+    }
+    
     func toDictionary() -> [String:Any] {
         let userDict:[String:Any] = [ "UID":self.UID,
                                       "email":self.email,

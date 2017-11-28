@@ -52,9 +52,13 @@ class ReadFirebaseData: NSObject {
             for any in (value?.allValues)! {
                 let item: [String:Any] = any as! [String:Any]
                 let readItem = Item(with: item)
-                
-                AppData.sharedInstance.onlineOfferedItems.append(readItem!)
-                print("appending offered items")
+                if readItem != nil{
+                    AppData.sharedInstance.onlineOfferedItems.append(readItem!)
+                    print("appending offered items")
+                }
+                else {
+                    print("Nil found in offered items")
+                }
             }
             let myDownloadNotificationKey = "myDownloadNotificationKey"
             NotificationCenter.default.post(name: Notification.Name(rawValue: myDownloadNotificationKey), object: nil)
@@ -83,8 +87,13 @@ class ReadFirebaseData: NSObject {
                 let item: [String:Any] = any as! [String:Any]
                 let readItem = Item(with: item)
                 
-                AppData.sharedInstance.onlineRequestedItems.append(readItem!)
-                print("appending requested items")
+                if readItem != nil {
+                    AppData.sharedInstance.onlineRequestedItems.append(readItem!)
+                    print("appending requested items")
+                }
+                else {
+                    print("Nil found in requested items")
+                }
             }
             let myDownloadNotificationKey = "myDownloadNotificationKey"
             NotificationCenter.default.post(name: Notification.Name(rawValue: myDownloadNotificationKey), object: nil)

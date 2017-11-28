@@ -16,7 +16,7 @@ class WriteFirebaseData {
     
     class func write(item:Item, ref:DatabaseReference) {
         let user = AppData.sharedInstance.currentUser!
-        ref.child(item.UID).setValue(item.toDictionary())
+        ref.child(item.itemCategory.rawValue).child(item.UID).setValue(item.toDictionary())
     
     }
     

@@ -59,24 +59,72 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
         
+        if(url.scheme == "iosanotherlifeapp"){
         print("Scheme is: \(url.scheme!)")
         print("Query is: \(url.query!)")
         
         let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         
-        var homeViewController: UIViewController = mainStoryboard.instantiateViewController(withIdentifier: "homeVC") as! HomeViewController
+        var homeViewController: HomeViewController = mainStoryboard.instantiateViewController(withIdentifier: "homeVC") as! HomeViewController
+            
+        self.window?.rootViewController?.present(homeViewController, animated: true, completion: nil)
+            
+
+         
+
+////
+//
+//
+//        let profileStoryboard: UIStoryboard = UIStoryboard(name: "ProfileViewControllers", bundle: nil)
+////
+//        var myPostsVC : MyPostsTableViewController = profileStoryboard.instantiateViewController(withIdentifier: "myPostsVC") as! MyPostsTableViewController
+
+
+        
+        
+        
         
         let fullQueryitemIDToShow = String("\(url.query!)")
         
-        let index = fullQueryitemIDToShow.index(fullQueryitemIDToShow.startIndex, offsetBy: 10)
+        let responderID: String!
+        let itemID: String!
+        
+        let index = fullQueryitemIDToShow.index(fullQueryitemIDToShow.startIndex, offsetBy: 12)
         let substringitemIDToShow = fullQueryitemIDToShow.suffix(from: index)
         
         print(substringitemIDToShow)
         
-        //homeViewController.showItemDetail()
+        //if it was a wanted Item
+        //Alert - Did you like the product? Use responderID to find the username Yes upvotes, no downvotes
+        
+        let alert = UIAlertController(title: "Do you like what you got?", message: "Upvote or downvote responderName", preferredStyle: UIAlertControllerStyle.alert)
+        
+        let upvoteAction = UIAlertAction(title: "Upvote", style: UIAlertActionStyle.default, handler:{(alert:UIAlertAction!) in         homeViewController.performSegue(withIdentifier: "toProfileSegue", sender: homeViewController)
+            
+        })
+            let downvoteAction = UIAlertAction(title: "Downvote", style: UIAlertActionStyle.destructive, handler:{(alert:UIAlertAction!) in UIApplication.shared.keyWindow?.rootViewController?.dismiss(animated: true, completion: nil)})
+        
+        alert.addAction(upvoteAction)
+        alert.addAction(downvoteAction)
+        
+        homeViewController.present(alert, animated: true, completion: nil)
+            
+        
+        //if it was a available item
+        //if link is clicked, send an email to seller saying thanks, and take me to the post to delete the item,
+        
+     
+        
+       // homeViewController.showItemDetail(item: <#T##Item#>)
+        
         
         return true
+        }
+        else {
+            return false
+            
+        }
     }
-
+    
 }
 

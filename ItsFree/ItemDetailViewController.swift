@@ -61,9 +61,9 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
         itemDetailView.addGestureRecognizer(swipeDown)
         
         let tapOutside: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tappedOutside))
-        let tapNavBar: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tappedOutside))
+        //let tapNavBar: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tappedOutside))
         self.view.addGestureRecognizer(tapOutside)
-        self.navigationController?.navigationBar.addGestureRecognizer(tapNavBar)
+        //self.navigationController?.navigationBar.addGestureRecognizer(tapNavBar)
         //self.navigationController?.navigationBar.ite
         
     }
@@ -181,19 +181,18 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
         let destinationName = destinationUser!.name
         
         let currentUserName = AppData.sharedInstance.currentUser!.name
+        let currentUserID = AppData.sharedInstance.currentUser!.UID
         let currentItemName = currentItem.name
         let currentItemID = currentItem.UID
         
-       // var cookedString: String!
-        let linkString = NSMutableAttributedString(string: "iOSAnotherLifeApp://?itemID=\(currentItemID!)")
-        linkString.addAttribute(NSAttributedStringKey.link, value: NSURL(string: "iOSAnotherLifeApp://")! , range: NSMakeRange(0, linkString.length))
+        let attrLinkString = NSMutableAttributedString(string: "link")
+        attrLinkString.addAttribute(NSAttributedStringKey.link, value: NSURL(string: "iOSAnotherLifeApp://?itemID=\(currentItemID!)")! , range: NSMakeRange(0, attrLinkString.length))
         
-        
-        var htmlString: String! = ""
+        var linkString: String! = ""
         
         do {
-            let data = try linkString.data(from: NSMakeRange(0, linkString.length), documentAttributes: [NSAttributedString.DocumentAttributeKey.documentType : NSAttributedString.DocumentType.html])
-            htmlString = String(data: data, encoding: String.Encoding.utf8)
+            let data = try attrLinkString.data(from: NSMakeRange(0, attrLinkString.length), documentAttributes: [NSAttributedString.DocumentAttributeKey.documentType : NSAttributedString.DocumentType.html])
+            linkString = String(data: data, encoding: String.Encoding.utf8)
         }catch {
             print("error creating HTML from Attributed String")
         }
@@ -201,8 +200,7 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
         //mailVC properties
         mailComposerVC.setToRecipients([destinationEmail])
         mailComposerVC.setSubject("Second Life: \(currentUserName) wants your item")
-        mailComposerVC.setMessageBody(htmlString, isHTML: true)
-        //mailComposerVC.setMessageBody("Hey \(destinationName),\n\n I want your \(currentItemName).\n\n Please click this link if you give it to \(currentUserName), to auto-delete your item and so that he/she can rate you!\n\nThanks! :)\n\niOSAnotherLifeApp://?queryisnull=1", isHTML: true)
+        mailComposerVC.setMessageBody("Hey \(destinationName),\n\n I want your \(currentItemName).\n\nAdmin Message: Please click this \(linkString!) if you give it to \(currentUserName), to delete your item and so that he/she can rate you!\n\nThanks! :)\n\n", isHTML: true)
     }
     
     func requestMessage(mailComposerVC: MFMailComposeViewController){
@@ -212,12 +210,27 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
         let destinationName = destinationUser!.name
         
         let currentUserName = AppData.sharedInstance.currentUser!.name
+        let currentUserID = AppData.sharedInstance.currentUser!.UID
         let currentItemName = currentItem.name
+        let currentItemID = currentItem.UID
+        
+        
+        let attrLinkString = NSMutableAttributedString(string: "link")
+        attrLinkString.addAttribute(NSAttributedStringKey.link, value: NSURL(string: "iOSAnotherLifeApp://?itemID=\(currentItemID!)")! , range: NSMakeRange(0, attrLinkString.length))
+        
+        var linkString: String! = ""
+        
+        do {
+            let data = try attrLinkString.data(from: NSMakeRange(0, attrLinkString.length), documentAttributes: [NSAttributedString.DocumentAttributeKey.documentType : NSAttributedString.DocumentType.html])
+            linkString = String(data: data, encoding: String.Encoding.utf8)
+        }catch {
+            print("error creating HTML from Attributed String")
+        }
         
         //mailVC properties
         mailComposerVC.setToRecipients([destinationEmail])
         mailComposerVC.setSubject("Second Life: \(currentUserName) has something you want")
-        mailComposerVC.setMessageBody("Hey \(destinationName),\n\n I have a \(currentItemName).\n\n Please click this link if \(currentUserName) gives you the item, to auto-delete your post from the app and so that you can rate him/her!\n\nThanks! :) ", isHTML: false)
+        mailComposerVC.setMessageBody("Hey \(destinationName),\n\n I have a \(currentItemName).\n\nAdmin message: Please click this \(linkString!) if \(currentUserName) gives you the item, to delete your post from the app and so that you can rate him/her!\n\nThanks! :) ", isHTML: true)
     }
     
 }

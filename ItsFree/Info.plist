@@ -19,12 +19,12 @@
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
+			<key>CFBundleURLName</key>
+			<string>com.sanjayshah.anotherLife</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>iOSAnotherLifeApp</string>
 			</array>
-			<key>CFBundleURLName</key>
-			<string>com.sanjayshah.anotherLife</string>
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>

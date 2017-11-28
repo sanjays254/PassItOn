@@ -223,6 +223,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             let distance = (destinationLocation.distance(from: getLocation())/1000)
             
             cell.itemDistanceLabel.text = String(format: "%.2f", distance) + " kms"
+            
+            cell.itemImageView.sd_setImage(with: storageRef.child(AppData.sharedInstance.onlineRequestedItems[indexPath.row].photos[0]), placeholderImage: UIImage.init(named: "placeholder"))
         }
         else if (wantedAvailableSegmentedControl.selectedSegmentIndex == 1){
             sourceArray = AppData.sharedInstance.onlineOfferedItems
@@ -233,6 +235,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             let distance = (destinationLocation.distance(from: getLocation())/1000)
             
             cell.itemDistanceLabel.text = String(format: "%.2f", distance) + " kms"
+            cell.itemImageView.sd_setImage(with: storageRef.child(AppData.sharedInstance.onlineOfferedItems[indexPath.row].photos[0]), placeholderImage: UIImage.init(named: "placeholder"))
+
         }
         
         

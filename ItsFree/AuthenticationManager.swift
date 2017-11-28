@@ -100,6 +100,8 @@ class AuthenticationManager {
                            password: password)
         { (authUser, loginError) in
             if loginError == nil {
+                let userUID = Auth.auth().currentUser?.uid
+                
                 AppData.sharedInstance.currentUser = User(email: authUser!.email!,
                                                           name: authUser!.displayName!,
                                                           rating: 0,

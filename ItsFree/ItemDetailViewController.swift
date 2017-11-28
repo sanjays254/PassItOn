@@ -136,20 +136,14 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
             self.showSendMailErrorAlert()
         }
         
-        let destinationUser = AppData.sharedInstance.onlineUsers.filter{ $0.UID == currentItem.posterUID }.first
-        
-        
-        
-        let destinationEmail = destinationUser!.email
-        
-        let destinationName = destinationUser!.name
-        
-        
-        //mailVC properties
-        mailComposerVC.setToRecipients([destinationEmail])
-        mailComposerVC.setSubject("Second Life: \(destinationName) wants your item")
-        mailComposerVC.setMessageBody("Hey, I want your item.\n\n Please click this link if you give it to \(destinationName), to auto-delete your item and so that he/she can rate you! :) ", isHTML: false)
-        
+        if(AppData.sharedInstance.onlineOfferedItems.contains(currentItem)){
+            offerMessage(mailComposerVC: mailComposerVC)
+            
+        }
+        else if(AppData.sharedInstance.onlineRequestedItems.contains(currentItem)){
+            requestMessage(mailComposerVC: mailComposerVC)
+        }
+
     }
     
     func showSendMailErrorAlert() {
@@ -162,7 +156,9 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
     func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
         
         switch result {
-        case .cancelled: self.presentingViewController!.dismiss(animated: true)
+        case .cancelled:
+           break
+            
         case .saved:
             //self.performSegue(withIdentifier: "unwindToInitialVC", sender: self)
             print ("Go back to mapView")
@@ -174,6 +170,37 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
         case .failed:
             print ("Mail sent failure: \([error!.localizedDescription])")
         }
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    func offerMessage(mailComposerVC: MFMailComposeViewController){
+        let destinationUser = AppData.sharedInstance.onlineUsers.filter{ $0.UID == currentItem.posterUID }.first
+        
+        let destinationEmail = destinationUser!.email
+        let destinationName = destinationUser!.name
+        
+        let currentUserName = AppData.sharedInstance.currentUser!.name
+        let currentItemName = currentItem.name
+        
+        //mailVC properties
+        mailComposerVC.setToRecipients([destinationEmail])
+        mailComposerVC.setSubject("Second Life: \(currentUserName) wants your item")
+        mailComposerVC.setMessageBody("Hey \(destinationName),\n\n I want your \(currentItemName).\n\n Please click this link if you give it to \(currentUserName), to auto-delete your item and so that he/she can rate you!\n\nThanks! :) ", isHTML: false)
+    }
+    
+    func requestMessage(mailComposerVC: MFMailComposeViewController){
+        let destinationUser = AppData.sharedInstance.onlineUsers.filter{ $0.UID == currentItem.posterUID }.first
+        
+        let destinationEmail = destinationUser!.email
+        let destinationName = destinationUser!.name
+        
+        let currentUserName = AppData.sharedInstance.currentUser!.name
+        let currentItemName = currentItem.name
+        
+        //mailVC properties
+        mailComposerVC.setToRecipients([destinationEmail])
+        mailComposerVC.setSubject("Second Life: \(currentUserName) has something you want")
+        mailComposerVC.setMessageBody("Hey \(destinationName),\n\n I have a \(currentItemName).\n\n Please click this link if \(currentUserName) gives you the item, to auto-delete your post from the app and so that you can rate him/her!\n\nThanks! :) ", isHTML: false)
     }
     
 }

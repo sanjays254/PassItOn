@@ -71,6 +71,7 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
     @objc func tappedOutside(gesture: UIGestureRecognizer){
         if (gesture.location(in: view).y < detailViewTopAnchorConstant) {
             self.view.removeGestureRecognizer(gesture)
+            self.navigationController?.navigationBar.removeGestureRecognizer(gesture)
             self.willMove(toParentViewController: nil)
             let theParentViewController = self.parent as! HomeViewController
             theParentViewController.itemDetailContainerView.removeFromSuperview()

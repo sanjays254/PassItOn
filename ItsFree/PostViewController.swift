@@ -305,8 +305,9 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         }
         
         let tags:Tag = Tag()
-        tags.tagsArray = chosenTagsArray
-        
+        if chosenTagsArray.count > 0 {
+            tags.tagsArray = chosenTagsArray
+        }
         //if these fields are not nil, then post the item
         let realItem: Item = Item.init(name: titleTextField.text!, category: chosenCategory, description: descriptionTextField.text!, location: selectedLocationCoordinates, posterUID:  testUser.UID, quality: chosenQuality, tags: tags, photos: [""], itemUID: nil)
         

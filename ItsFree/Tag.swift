@@ -10,9 +10,12 @@ import Foundation
 
 
 class Tag {
-    var tagsArray:[String] = []
+    var tagsArray:[String] = [""]
 
     func add(tag:String) {
+        if tagsArray.first == "" {
+            tagsArray.remove(at: 0)
+        }
         tagsArray.append(tag)
     }
 }

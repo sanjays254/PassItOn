@@ -265,7 +265,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
     
     
     //thePostMethod
-    fileprivate func emptyFieldsChecker(_ testUser: User) {
+    fileprivate func validateFields() {
         
         guard (offerRequestSegmentedControl.selectedSegmentIndex != -1) else {
             let alert = UIAlertController(title: "Whoops", message: "You must offer or request this", preferredStyle: UIAlertControllerStyle.alert)
@@ -304,12 +304,14 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
             return
         }
         
+        let user = AppData.sharedInstance.currentUser!
+        
         let tags:Tag = Tag()
         if chosenTagsArray.count > 0 {
             tags.tagsArray = chosenTagsArray
         }
         //if these fields are not nil, then post the item
-        let realItem: Item = Item.init(name: titleTextField.text!, category: chosenCategory, description: descriptionTextField.text!, location: selectedLocationCoordinates, posterUID:  testUser.UID, quality: chosenQuality, tags: tags, photos: [""], itemUID: nil)
+        let realItem: Item = Item.init(name: titleTextField.text!, category: chosenCategory, description: descriptionTextField.text!, location: selectedLocationCoordinates, posterUID:  user.UID, quality: chosenQuality, tags: tags, photos: [""], itemUID: nil)
         
         var photoRefs:[String] = []
         if photosArray.count == 0 {
@@ -329,14 +331,14 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         
         
         if(offerRequestSegmentedControl.selectedSegmentIndex == 0){
-            AppData.sharedInstance.usersNode.child(testUser.UID).setValue(testUser.toDictionary())
-            AppData.sharedInstance.offersNode.child(realItem.UID).setValue(realItem.toDictionary())
-            //AppData.sharedInstance.categorizedItemsNode.child(String(describing: realItem.itemCategory)).child(String(realItem.name.prefix(2))).setValue(realItem.toDictionary())
+            let reference = AppData.sharedInstance.offersNode
+            WriteFirebaseData.write(item: realItem, ref: reference)
+//            AppData.sharedInstance.offersNode.child(realItem.UID).setValue(realItem.toDictionary())
         }
         else if (offerRequestSegmentedControl.selectedSegmentIndex == 1){
-            AppData.sharedInstance.usersNode.child(testUser.UID).setValue(testUser.toDictionary())
-            AppData.sharedInstance.requestsNode.child(realItem.UID).setValue(realItem.toDictionary())
-            // AppData.sharedInstance.categorizedItemsNode.child(String(describing: realItem.itemCategory)).child(String(realItem.name.prefix(2))).setValue(realItem.toDictionary())
+            let reference = AppData.sharedInstance.requestsNode
+            WriteFirebaseData.write(item: realItem, ref: reference)
+//            AppData.sharedInstance.requestsNode.child(realItem.UID).setValue(realItem.toDictionary())
         }
         
         self.navigationController?.popToRootViewController(animated: true)
@@ -344,14 +346,6 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
     }
     
     @IBAction func postItem(_ sender: UIBarButtonItem) {
-        
-        let tags:Tag = Tag()
-        tags.add(tag: "blue")
-        tags.add(tag: "Phone")
-        
-        let testUser:User = User.init(email: "test@gmail.com", name: "John", rating: 39, uid: "testUID", profileImage: "")
-        testUser.UID = "testUserUID"
-        
         switch(qualitySegmentedControl.selectedSegmentIndex){
         case 0: chosenQuality = ItemQuality.New
         case 1: chosenQuality = ItemQuality.GentlyUsed
@@ -361,7 +355,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
             chosenQuality = ItemQuality.GentlyUsed
         }
         
-        emptyFieldsChecker(testUser)
+        validateFields()
     }
     
     

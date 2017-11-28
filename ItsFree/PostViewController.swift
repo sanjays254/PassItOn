@@ -315,7 +315,6 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         if photosArray.count == 0 {
             photoRefs.append("")
         }
-            
         else {
             for index in 0..<photosArray.count {
                 let storagePath = "\(realItem.UID!)/\(index)"

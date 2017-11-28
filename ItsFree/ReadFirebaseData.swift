@@ -40,25 +40,25 @@ class ReadFirebaseData: NSObject {
         
         let userID = Auth.auth().currentUser?.uid;
         
-        AppData.sharedInstance.offersNode
-            .observeSingleEvent(of: .value, with: { (snapshot) in
+        AppData.sharedInstance.offersNode.observe(DataEventType.value, with: { (snapshot) in
+            
+            let value = snapshot.value as? NSDictionary;
+            
+            if ( value == nil) {
+                return
+            }
+            AppData.sharedInstance.onlineOfferedItems.removeAll()
+            
+            for any in (value?.allValues)! {
+                let item: [String:Any] = any as! [String:Any]
+                let readItem = Item(with: item)
                 
-                let value = snapshot.value as? NSDictionary;
-                
-                if ( value == nil) {
-                    return
-                }
-                
-                for any in (value?.allValues)! {
-                    let item: [String:Any] = any as! [String:Any]
-                    let readItem = Item(with: item)
-                    
-                    AppData.sharedInstance.onlineOfferedItems.append(readItem!)
-                    print("appending items")
-                }
-                let myDownloadNotificationKey = "myDownloadNotificationKey"
-                NotificationCenter.default.post(name: Notification.Name(rawValue: myDownloadNotificationKey), object: nil)
-            })
+                AppData.sharedInstance.onlineOfferedItems.append(readItem!)
+                print("appending offered items")
+            }
+            let myDownloadNotificationKey = "myDownloadNotificationKey"
+            NotificationCenter.default.post(name: Notification.Name(rawValue: myDownloadNotificationKey), object: nil)
+        })
     }
     
     class func readRequests() {
@@ -68,25 +68,27 @@ class ReadFirebaseData: NSObject {
         
         let userID = Auth.auth().currentUser?.uid;
         
-        AppData.sharedInstance.requestsNode
-            .observeSingleEvent(of: .value, with: { (snapshot) in
+        AppData.sharedInstance.requestsNode.observe(DataEventType.value, with: { (snapshot) in
+            
+            let value = snapshot.value as? NSDictionary;
+            
+            if ( value == nil) {
+                return
+            }
+            
+            AppData.sharedInstance.onlineRequestedItems.removeAll()
+            
+            
+            for any in (value?.allValues)! {
+                let item: [String:Any] = any as! [String:Any]
+                let readItem = Item(with: item)
                 
-                let value = snapshot.value as? NSDictionary;
-                
-                if ( value == nil) {
-                    return
-                }
-                
-                for any in (value?.allValues)! {
-                    let item: [String:Any] = any as! [String:Any]
-                    let readItem = Item(with: item)
-                    
-                    AppData.sharedInstance.onlineRequestedItems.append(readItem!)
-                    print("appending items")
-                }
-                let myDownloadNotificationKey = "myDownloadNotificationKey"
-                NotificationCenter.default.post(name: Notification.Name(rawValue: myDownloadNotificationKey), object: nil)
-            })
+                AppData.sharedInstance.onlineRequestedItems.append(readItem!)
+                print("appending requested items")
+            }
+            let myDownloadNotificationKey = "myDownloadNotificationKey"
+            NotificationCenter.default.post(name: Notification.Name(rawValue: myDownloadNotificationKey), object: nil)
+        })
     }
     
     class func readUsers() {

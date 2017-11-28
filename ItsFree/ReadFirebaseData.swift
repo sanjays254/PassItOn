@@ -14,23 +14,23 @@ import CoreLocation
 
 class ReadFirebaseData: NSObject {
     
-    class func readContinues () {
-        if ( Auth.auth().currentUser == nil)
-        {
-            return
-        }
-        
-        let userID = Auth.auth().currentUser?.uid;
-        var myHandle : UInt = 0;
-        
-        myHandle =  AppData.sharedInstance.offersNode
-            .child(userID!).observe(DataEventType.value) { (snapshot) in
-                
-                AppData.sharedInstance.offersNode
-                    .child(userID!)
-                    .removeObserver(withHandle: myHandle)
-        }
-    }
+//    class func readContinues () {
+//        if ( Auth.auth().currentUser == nil)
+//        {
+//            return
+//        }
+//
+//        let userID = Auth.auth().currentUser?.uid;
+//        var myHandle : UInt = 0;
+//
+//        myHandle =  AppData.sharedInstance.offersNode
+//            .child(userID!).observe(DataEventType.value) { (snapshot) in
+//
+//                AppData.sharedInstance.offersNode
+//                    .child(userID!)
+//                    .removeObserver(withHandle: myHandle)
+//        }
+//    }
     
     class func readOffers() {
         if ( Auth.auth().currentUser == nil)
@@ -38,7 +38,7 @@ class ReadFirebaseData: NSObject {
             return
         }
         
-        let userID = Auth.auth().currentUser?.uid;
+//        let userID = Auth.auth().currentUser?.uid;
         
         AppData.sharedInstance.offersNode.observe(DataEventType.value, with: { (snapshot) in
             
@@ -70,7 +70,7 @@ class ReadFirebaseData: NSObject {
             return
         }
         
-        let userID = Auth.auth().currentUser?.uid;
+//        let userID = Auth.auth().currentUser?.uid;
         
         AppData.sharedInstance.requestsNode.observe(DataEventType.value, with: { (snapshot) in
             
@@ -118,7 +118,7 @@ class ReadFirebaseData: NSObject {
                 
                 for any in (value?.allValues)! {
                     let user: [String:Any] = any as! [String:Any]
-                    let readUser = User(email: (user["email"] ?? "no email") as! String, name: user["name"] as! String, rating: (user["rating"] ?? 0) as! Int, uid: (user["UID"] ?? "no UID") as! String, profileImage: (user["profileImage"] ?? "no profileImage") as! String)
+                    let readUser = User(email: (user["email"] ?? "no email") as! String, name: user["name"] as! String, rating: (user["rating"] ?? 0) as! Int, uid: (user["UID"] ?? "no UID") as! String, profileImage: (user["profileImage"] ?? "no profileImage") as! String, offers: <#[String]#>, requests: <#[String]#>)
                     
                     AppData.sharedInstance.onlineUsers.append(readUser)
                     print("appending items")

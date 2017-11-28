@@ -14,13 +14,17 @@ class User {
     var name:String
     var rating:Int
     var profileImage:String
+    var offeredItems:[String]
+    var requestedItems:[String]
     
-    init(email:String, name:String, rating:Int, uid:String, profileImage:String) {
+    init(email:String, name:String, rating:Int, uid:String, profileImage:String, offers:[String], requests:[String]) {
         self.UID = uid
         self.email = email
         self.name = name
         self.rating = rating
         self.profileImage = profileImage
+        self.offeredItems = offers
+        self.requestedItems = requests
     }
     
     func toDictionary() -> [String:Any] {
@@ -28,7 +32,9 @@ class User {
                                       "email":self.email,
                                       "name":self.name,
                                       "rating":self.rating,
-                                      "profileImage":self.profileImage ]
+                                      "profileImage":self.profileImage,
+                                      "offers":self.offeredItems,
+                                      "requessts":self.requestedItems ]
         return userDict
     }
 

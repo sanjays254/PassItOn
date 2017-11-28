@@ -32,9 +32,23 @@ class LeaderboardTableViewController: UIViewController, UITableViewDataSource, U
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "leaderboardTableViewCell", for: indexPath)
         
-        cell.textLabel?.text = AppData.sharedInstance.onlineUsers[indexPath.row].name
+        let sortedUsers = AppData.sharedInstance.onlineUsers.sorted(by: { $0.rating > $1.rating })
+        
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "leaderboardTableViewCell", for: indexPath) as! LeaderboardTableViewCell
+        
+        cell.nameLabel.text = sortedUsers[indexPath.row].name
+        
+        if(indexPath.row == 0){
+            let crownImageView = UIImageView(image: #imageLiteral(resourceName: "crown"))
+            crownImageView.frame = CGRect(x: 0, y: 0, width: 30, height: 20)
+            cell.positionLabel.addSubview(crownImageView)
+            cell.positionLabel.text = ""
+        }
+        else { cell.positionLabel.text = String(indexPath.row+1) }
+        //cell.profileImageView.image = sortedUsers[indexPath.row].profileImage
+        cell.ratingLabel.text = String(sortedUsers[indexPath.row].rating)
         
         return cell
         
@@ -47,6 +61,7 @@ class LeaderboardTableViewController: UIViewController, UITableViewDataSource, U
         
         leaderboardTableView.delegate = self
         leaderboardTableView.dataSource = self
+        leaderboardTableView.rowHeight = 50
 
         // Do any additional setup after loading the view.
     }

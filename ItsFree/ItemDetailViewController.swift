@@ -27,7 +27,7 @@ class ItemDetailViewController: UIViewController {
         itemDetailView.translatesAutoresizingMaskIntoConstraints = false
         
         //make this auto constrained
-        detailViewTopAnchorConstant = 325
+        detailViewTopAnchorConstant = UIScreen.main.bounds.height/1.7
         detailViewBottomAnchorConstant = 0
         
         NSLayoutConstraint.activate([
@@ -72,6 +72,7 @@ class ItemDetailViewController: UIViewController {
             self.willMove(toParentViewController: nil)
             let theParentViewController = self.parent as! HomeViewController
             theParentViewController.itemDetailContainerView.removeFromSuperview()
+            theParentViewController.homeMapView.deselectAnnotation(currentItem, animated: true)
             //self.itemDetailView.removeFromSuperview()
             self.removeFromParentViewController()
         }
@@ -96,6 +97,7 @@ class ItemDetailViewController: UIViewController {
                 self.willMove(toParentViewController: nil)
                 let theParentViewController = self.parent as! HomeViewController
                 theParentViewController.itemDetailContainerView.removeFromSuperview()
+                theParentViewController.homeMapView.deselectAnnotation(self.currentItem, animated: true)
                 //self.itemDetailView.removeFromSuperview()
                 self.removeFromParentViewController()
 

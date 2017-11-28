@@ -7,9 +7,10 @@
 //
 
 import UIKit
+import MessageUI
 import FirebaseStorage
 
-class ItemDetailViewController: UIViewController {
+class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDelegate {
     
     var detailViewTopAnchorConstant: CGFloat!
     var detailViewBottomAnchorConstant: CGFloat!
@@ -69,12 +70,14 @@ class ItemDetailViewController: UIViewController {
     
     @objc func tappedOutside(gesture: UIGestureRecognizer){
         if (gesture.location(in: view).y < detailViewTopAnchorConstant) {
+            self.view.removeGestureRecognizer(gesture)
             self.willMove(toParentViewController: nil)
             let theParentViewController = self.parent as! HomeViewController
             theParentViewController.itemDetailContainerView.removeFromSuperview()
             theParentViewController.homeMapView.deselectAnnotation(currentItem, animated: true)
             //self.itemDetailView.removeFromSuperview()
             self.removeFromParentViewController()
+            
         }
     }
 
@@ -118,4 +121,59 @@ class ItemDetailViewController: UIViewController {
         }
         itemDetailView.updateConstraints()
     }
+    
+    
+    @IBAction func sendEmail(_ sender: UIButton) {
+        
+        let mailComposerVC = MFMailComposeViewController()
+        mailComposerVC.mailComposeDelegate = self
+        
+        //show error if the VC cant send mail
+        if MFMailComposeViewController.canSendMail()
+        {
+            self.present(mailComposerVC, animated: true, completion: nil)
+        } else {
+            self.showSendMailErrorAlert()
+        }
+        
+        let destinationUser = AppData.sharedInstance.onlineUsers.filter{ $0.UID == currentItem.posterUID }.first
+        
+        
+        
+        let destinationEmail = destinationUser!.email
+        
+        let destinationName = destinationUser!.name
+        
+        
+        //mailVC properties
+        mailComposerVC.setToRecipients([destinationEmail])
+        mailComposerVC.setSubject("Second Life: \(destinationName) wants your item")
+        mailComposerVC.setMessageBody("Hey, I want your item.\n\n Please click this link if you give it to \(destinationName), to auto-delete your item and so that he/she can rate you! :) ", isHTML: false)
+        
+    }
+    
+    func showSendMailErrorAlert() {
+        let sendMailErrorAlert = UIAlertController.init(title: "Could Not Send Email", message: "Your device could not send e-mail.  Please check e-mail configuration and try again.", preferredStyle: UIAlertControllerStyle.actionSheet)
+        
+        self.present(sendMailErrorAlert, animated: true, completion: nil)
+    }
+    
+    
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        
+        switch result {
+        case .cancelled: self.presentingViewController!.dismiss(animated: true)
+        case .saved:
+            //self.performSegue(withIdentifier: "unwindToInitialVC", sender: self)
+            print ("Go back to mapView")
+            
+        case .sent:
+            //self.performSegue(withIdentifier: "unwindToInitialVC", sender: self)
+            print ("Go back to mapView")
+            
+        case .failed:
+            print ("Mail sent failure: \([error!.localizedDescription])")
+        }
+    }
+    
 }

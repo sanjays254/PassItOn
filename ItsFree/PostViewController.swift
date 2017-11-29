@@ -329,20 +329,8 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         }
         realItem.photos = photoRefs
         
-        
-//        if(offerRequestSegmentedControl.selectedSegmentIndex == 0){
-//            let reference = AppData.sharedInstance.offersNode
-            WriteFirebaseData.write(item: realItem, type: offerRequestSegmentedControl.selectedSegmentIndex)
-//            AppData.sharedInstance.offersNode.child(realItem.UID).setValue(realItem.toDictionary())
-//        }
-//        else if (offerRequestSegmentedControl.selectedSegmentIndex == 1){
-//            let reference = AppData.sharedInstance.requestsNode
-//            WriteFirebaseData.write(item: realItem, ref: reference)
-//            AppData.sharedInstance.requestsNode.child(realItem.UID).setValue(realItem.toDictionary())
-//        }
-        
+        WriteFirebaseData.write(item: realItem, type: offerRequestSegmentedControl.selectedSegmentIndex)
         self.navigationController?.popToRootViewController(animated: true)
-        
     }
     
     @IBAction func postItem(_ sender: UIBarButtonItem) {
@@ -354,8 +342,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         default:
             chosenQuality = ItemQuality.GentlyUsed
         }
-        WriteFirebaseData.delete(itemUID: "-L-8SWnzUPZtjLXjkeNY")
-
+        
         validateFields()
     }
     

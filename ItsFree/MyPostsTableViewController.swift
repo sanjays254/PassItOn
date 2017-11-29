@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import FirebaseStorage
+import FirebaseDatabase
 
 class MyPostsTableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
@@ -28,16 +30,25 @@ class MyPostsTableViewController: UIViewController, UITableViewDelegate, UITable
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        switch section {
+        case 1:
+            return (AppData.sharedInstance.currentUser?.offeredItems.count)!
+        case 2:
+            return (AppData.sharedInstance.currentUser?.requestedItems.count)!
+        default:
+            return 0
+        }
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 2
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "myPostsTableViewCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "myPostsTableViewCell")
         
-        return cell
-        
-        
+        return cell!
     }
     
     

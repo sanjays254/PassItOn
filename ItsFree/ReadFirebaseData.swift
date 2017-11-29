@@ -123,6 +123,7 @@ class ReadFirebaseData: NSObject {
             return
         }
         
+        AppData.sharedInstance.onlineUsers.removeAll()
         let userID = Auth.auth().currentUser?.uid;
         
         AppData.sharedInstance.usersNode

@@ -186,7 +186,7 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
         let currentItemID = currentItem.UID
         
         let attrLinkString = NSMutableAttributedString(string: "link")
-        attrLinkString.addAttribute(NSAttributedStringKey.link, value: NSURL(string: "iOSAnotherLifeApp://?itemID=\(currentItemID!)")! , range: NSMakeRange(0, attrLinkString.length))
+        attrLinkString.addAttribute(NSAttributedStringKey.link, value: NSURL(string: "iOSAnotherLifeApp://?itemID=\(currentItemID!)&userID=\(currentUserID!)")! , range: NSMakeRange(0, attrLinkString.length))
         
         var linkString: String! = ""
         
@@ -216,7 +216,7 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
         
         
         let attrLinkString = NSMutableAttributedString(string: "link")
-        attrLinkString.addAttribute(NSAttributedStringKey.link, value: NSURL(string: "iOSAnotherLifeApp://?itemID=\(currentItemID!)")! , range: NSMakeRange(0, attrLinkString.length))
+        attrLinkString.addAttribute(NSAttributedStringKey.link, value: NSURL(string: "iOSAnotherLifeApp://?itemID=\(currentItemID!)&userID=\(currentUserID!)")! , range: NSMakeRange(0, attrLinkString.length))
         
         var linkString: String! = ""
         

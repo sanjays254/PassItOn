@@ -33,9 +33,9 @@ class User {
             let inpEmail: String = inpDict["email"] as? String,
             let inpRating: NSNumber = inpDict["rating"] as? NSNumber,
             let inpUID: String = inpDict["UID"] as? String,
-            let inpProfileImage: String = inpDict["profileImage"] as? String,
-            let inpOffers:[String] = inpDict["offers"] as? [String],
-            let inpRequests:[String] = inpDict["requests"] as? [String] else
+            let inpProfileImage: String = inpDict["profileImage"] as? String ?? "",
+            let inpOffers:[String] = inpDict["offers"] as? [String] ?? [""],
+            let inpRequests:[String] = inpDict["requests"] as? [String] ?? [""] else
         {
             print("Error: Dictionary is not in the correct format")
             return nil
@@ -57,7 +57,7 @@ class User {
                                       "rating":self.rating,
                                       "profileImage":self.profileImage,
                                       "offers":self.offeredItems,
-                                      "requessts":self.requestedItems ]
+                                      "requests":self.requestedItems ]
         return userDict
     }
 

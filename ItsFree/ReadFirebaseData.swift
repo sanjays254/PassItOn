@@ -14,23 +14,23 @@ import CoreLocation
 
 class ReadFirebaseData: NSObject {
     
-//    class func readContinues () {
-//        if ( Auth.auth().currentUser == nil)
-//        {
-//            return
-//        }
-//
-//        let userID = Auth.auth().currentUser?.uid;
-//        var myHandle : UInt = 0;
-//
-//        myHandle =  AppData.sharedInstance.offersNode
-//            .child(userID!).observe(DataEventType.value) { (snapshot) in
-//
-//                AppData.sharedInstance.offersNode
-//                    .child(userID!)
-//                    .removeObserver(withHandle: myHandle)
-//        }
-//    }
+    //    class func readContinues () {
+    //        if ( Auth.auth().currentUser == nil)
+    //        {
+    //            return
+    //        }
+    //
+    //        let userID = Auth.auth().currentUser?.uid;
+    //        var myHandle : UInt = 0;
+    //
+    //        myHandle =  AppData.sharedInstance.offersNode
+    //            .child(userID!).observe(DataEventType.value) { (snapshot) in
+    //
+    //                AppData.sharedInstance.offersNode
+    //                    .child(userID!)
+    //                    .removeObserver(withHandle: myHandle)
+    //        }
+    //    }
     
     class func readOffers() {
         if ( Auth.auth().currentUser == nil)
@@ -38,7 +38,7 @@ class ReadFirebaseData: NSObject {
             return
         }
         
-//        let userID = Auth.auth().currentUser?.uid;
+        //        let userID = Auth.auth().currentUser?.uid;
         
         AppData.sharedInstance.offersNode.observe(DataEventType.value, with: { (snapshot) in
             
@@ -49,15 +49,21 @@ class ReadFirebaseData: NSObject {
             }
             AppData.sharedInstance.onlineOfferedItems.removeAll()
             
-            for any in (value?.allValues)! {
-                let item: [String:Any] = any as! [String:Any]
-                let readItem = Item(with: item)
-                if readItem != nil{
-                    AppData.sharedInstance.onlineOfferedItems.append(readItem!)
-                    print("appending offered items")
-                }
-                else {
-                    print("Nil found in offered items")
+            for category in value! {
+                print("\n\n\(category.key)")
+                let data = category.value as! [String:Any]
+                    
+                for any in data {
+                    let item: [String:Any] = any.value as! [String:Any]
+                    let readItem = Item(with: item)
+                    if readItem != nil{
+                        AppData.sharedInstance.onlineOfferedItems.append(readItem!)
+                        print("appending offered items")
+                    }
+                    else {
+                        print("Nil found in offered items")
+                    }
+                    
                 }
             }
             let myDownloadNotificationKey = "myDownloadNotificationKey"
@@ -70,7 +76,7 @@ class ReadFirebaseData: NSObject {
             return
         }
         
-//        let userID = Auth.auth().currentUser?.uid;
+        //        let userID = Auth.auth().currentUser?.uid;
         
         AppData.sharedInstance.requestsNode.observe(DataEventType.value, with: { (snapshot) in
             
@@ -83,16 +89,21 @@ class ReadFirebaseData: NSObject {
             AppData.sharedInstance.onlineRequestedItems.removeAll()
             
             
-            for any in (value?.allValues)! {
-                let item: [String:Any] = any as! [String:Any]
-                let readItem = Item(with: item)
+            for category in value! {
+                print("\n\n\(category.key)")
+                let data = category.value as! [String:Any]
                 
-                if readItem != nil {
-                    AppData.sharedInstance.onlineRequestedItems.append(readItem!)
-                    print("appending requested items")
-                }
-                else {
-                    print("Nil found in requested items")
+                for any in data {
+                    let item: [String:Any] = any.value as! [String:Any]
+                    let readItem = Item(with: item)
+                    if readItem != nil{
+                        AppData.sharedInstance.onlineRequestedItems.append(readItem!)
+                        print("appending requested items")
+                    }
+                    else {
+                        print("Nil found in requested items")
+                    }
+                    
                 }
             }
             let myDownloadNotificationKey = "myDownloadNotificationKey"

@@ -9,6 +9,7 @@
 import Foundation
 import KeychainAccess
 import FirebaseAuth
+import Firebase
 
 
 class AuthenticationManager {
@@ -39,7 +40,9 @@ class AuthenticationManager {
                             let addedUser = User(email: newUser!.email!,
                                                  name: newUser!.displayName!,
                                                  rating: 0,
-                                                 uid: newUser!.uid, profileImage: "")
+                                                 uid: newUser!.uid, profileImage: "",
+                                                 offers: [""],
+                                                 requests: [""])
                             
                             AppData.sharedInstance.currentUser = addedUser
                             
@@ -98,11 +101,26 @@ class AuthenticationManager {
                            password: password)
         { (authUser, loginError) in
             if loginError == nil {
-                AppData.sharedInstance.currentUser = User(email: authUser!.email!,
-                                                          name: authUser!.displayName!,
-                                                          rating: 0,
-                                                          uid: authUser!.uid,
-                                                          profileImage: "")
+                let userUID = Auth.auth().currentUser?.uid
+                AppData.sharedInstance.usersNode.child(userUID!)
+                    .observeSingleEvent(of: .value, with: { (snapshot) in
+                    let data = snapshot.value as? NSDictionary
+                        
+                        if data == nil {
+                            return
+                        }
+                        
+                        let userData: [String:Any] = data as! [String : Any]
+                        
+                        AppData.sharedInstance.currentUser = User(with: userData)
+                })
+//                AppData.sharedInstance.currentUser = User(email: authUser!.email!,
+//                                                          name: authUser!.displayName!,
+//                                                          rating: 0,
+//                                                          uid: authUser!.uid,
+//                                                          profileImage: "",
+//                                                          offers: [""],
+//                                                          requests: [""])
                 print("Login Successful")
                 addToKeychain(email: email, password: password)
                 let flag = true

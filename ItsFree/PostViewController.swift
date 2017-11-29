@@ -330,16 +330,16 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         realItem.photos = photoRefs
         
         
-        if(offerRequestSegmentedControl.selectedSegmentIndex == 0){
-            let reference = AppData.sharedInstance.offersNode
-            WriteFirebaseData.write(item: realItem, ref: reference)
+//        if(offerRequestSegmentedControl.selectedSegmentIndex == 0){
+//            let reference = AppData.sharedInstance.offersNode
+            WriteFirebaseData.write(item: realItem, type: offerRequestSegmentedControl.selectedSegmentIndex)
 //            AppData.sharedInstance.offersNode.child(realItem.UID).setValue(realItem.toDictionary())
-        }
-        else if (offerRequestSegmentedControl.selectedSegmentIndex == 1){
-            let reference = AppData.sharedInstance.requestsNode
-            WriteFirebaseData.write(item: realItem, ref: reference)
+//        }
+//        else if (offerRequestSegmentedControl.selectedSegmentIndex == 1){
+//            let reference = AppData.sharedInstance.requestsNode
+//            WriteFirebaseData.write(item: realItem, ref: reference)
 //            AppData.sharedInstance.requestsNode.child(realItem.UID).setValue(realItem.toDictionary())
-        }
+//        }
         
         self.navigationController?.popToRootViewController(animated: true)
         

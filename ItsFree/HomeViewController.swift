@@ -32,6 +32,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     var itemDetailContainerView: UIView!
     
+    @IBOutlet weak var toolbar: UIToolbar!
+    
     //@IBOutlet weak var leaderboardButton: UIBarButtonItem!
     
     
@@ -71,6 +73,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         
         setupCompassButton()
+        setupToolbarButtons()
         setupMapListSegmentedControl()
         //self.navigationController?.navigationBar.se
         
@@ -100,6 +103,29 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.mapListSegmentedControl.addTarget(self, action: #selector(mapListSegmentAction), for: .valueChanged)
     }
     
+    func setupToolbarButtons(){
+        
+//        let btn1 = UIButton(type: .custom)
+//        btn1.setImage(UIImage(named: "filter"), for: .normal)
+//        btn1.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+//        btn1.addTarget(self, action: #selector(toProfile), for: .touchUpInside)
+//        let item1 = UIBarButtonItem(customView: btn1)
+//
+//
+//        self.wantedAvailableSegmentedControl = UISegmentedControl(items: ["Wanted", "Available"])
+//        self.wantedAvailableSegmentedControl.selectedSegmentIndex = 0
+//        self.wantedAvailableSegmentedControl.addTarget(self, action: #selector(changedWantedAvailableSegmnent(_:)), for: .valueChanged)
+//        let item2 = UIBarButtonItem(customView: wantedAvailableSegmentedControl)
+//
+//
+//        let btn3 = UIButton(type: .custom)
+//        btn3.setImage(UIImage(named: "userImage"), for: .normal)
+//        btn3.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+//        btn3.addTarget(self, action: #selector(toProfile), for: .touchUpInside)
+//        let item3 = UIBarButtonItem(customView: btn3)
+//
+//        self.toolbar.setItems([item1, item2, item3], animated: true)
+    }
     fileprivate func setupCompassButton() {
   
         compassButton = UIButton(frame: CGRect(x: 20, y: 20, width: 20, height: 20))

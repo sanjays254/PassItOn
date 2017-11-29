@@ -19,6 +19,10 @@ class ProfileViewController: UIViewController {
     var email:String = "example@mail.com"
     var photoRef = "testUserUID/testImage"
 
+    
+    
+    @IBOutlet weak var myPostsButton: UIButton!
+    
     @IBAction func donePressed(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
     }
@@ -28,6 +32,12 @@ class ProfileViewController: UIViewController {
         super.viewDidLoad()
         setUpProfilePicture()
         setUpProfileText()
+        
+        myPostsButton.layer.borderColor = UIColor(red: 0, green: 122.0/255.0, blue: 1.0, alpha: 1.0).cgColor
+        myPostsButton.layer.borderWidth = 1
+        myPostsButton.layer.cornerRadius = 5
+        myPostsButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 0)
+        
     }
 
     override func didReceiveMemoryWarning() {

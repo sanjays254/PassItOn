@@ -49,18 +49,54 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         print("Name: \(responder!.name)")
         
+        var alert: UIAlertController!
         
-        let alert = UIAlertController(title: "Do you like the \(item.name)?", message: "Upvote or downvote \(responder!.name)", preferredStyle: UIAlertControllerStyle.alert)
+        //if its an offered item, currentUser cannot vote if = respsonder
+        if(AppData.sharedInstance.onlineOfferedItems.filter{ $0.UID == itemID}.first != nil){
+            if(responderID == item.posterUID){
+                 alert = UIAlertController(title: "You cannot vote yourself", message: "Upvote or downvote \(responder!.name)", preferredStyle: UIAlertControllerStyle.alert)
+                let okayAction = UIAlertAction(title: "Okay Lol", style: UIAlertActionStyle.default, handler: nil)
+                alert.addAction(okayAction)
+                
+            }
         
-        let upvoteAction = UIAlertAction(title: "Upvote", style: UIAlertActionStyle.default, handler: {(alert: UIAlertAction!) in responder?.rating = (responder?.rating)!+1
+            
+        else {
+        
+            alert = UIAlertController(title: "Do you like the \(item.name)?", message: "Upvote or downvote \(responder!.name)", preferredStyle: UIAlertControllerStyle.alert)
+        
+            let upvoteAction = UIAlertAction(title: "Upvote", style: UIAlertActionStyle.default, handler: {(alert: UIAlertAction!) in responder?.rating = (responder?.rating)!+1
             AppData.sharedInstance.usersNode.child("\(responderID!)/rating").setValue(responder?.rating)
-        })
-        let downvoteAction = UIAlertAction(title: "Downvote", style: UIAlertActionStyle.destructive, handler: {(alert: UIAlertAction!) in responder?.rating = (responder?.rating)!-1
+            })
+            let downvoteAction = UIAlertAction(title: "Downvote", style: UIAlertActionStyle.destructive, handler: {(alert: UIAlertAction!) in responder?.rating = (responder?.rating)!-1
             AppData.sharedInstance.usersNode.child("\(responderID!)/rating").setValue(responder?.rating)
-        })
+            })
         
-        alert.addAction(upvoteAction)
-        alert.addAction(downvoteAction)
+            alert.addAction(upvoteAction)
+            alert.addAction(downvoteAction)
+            }
+        }
+            //if its a requested item, can only vote if posterID is currentID
+        else {
+            if(AppData.sharedInstance.currentUser?.UID == item.posterUID){
+                alert = UIAlertController(title: "Do you like the \(item.name)?", message: "Upvote or downvote \(responder!.name)", preferredStyle: UIAlertControllerStyle.alert)
+                
+                let upvoteAction = UIAlertAction(title: "Upvote", style: UIAlertActionStyle.default, handler: {(alert: UIAlertAction!) in responder?.rating = (responder?.rating)!+1
+                    AppData.sharedInstance.usersNode.child("\(responderID!)/rating").setValue(responder?.rating)
+                })
+                let downvoteAction = UIAlertAction(title: "Downvote", style: UIAlertActionStyle.destructive, handler: {(alert: UIAlertAction!) in responder?.rating = (responder?.rating)!-1
+                    AppData.sharedInstance.usersNode.child("\(responderID!)/rating").setValue(responder?.rating)
+                })
+                
+                alert.addAction(upvoteAction)
+                alert.addAction(downvoteAction)
+            }
+            else{
+                alert = UIAlertController(title: "You cannot vote yourself", message: "Upvote or downvote \(responder!.name)", preferredStyle: UIAlertControllerStyle.alert)
+                let okayAction = UIAlertAction(title: "Okay Lol", style: UIAlertActionStyle.default, handler: nil)
+                alert.addAction(okayAction)
+            }
+        }
         
         let mainVC = self.window?.rootViewController as! LoginViewController
         let presentedVC = mainVC.presentedViewController as! UINavigationController
@@ -78,7 +114,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         if(url != nil){
             //print(url)
-            //self.application(application, open: url!)
+            return self.application(application, open: url!)
             //openedThroughSchema(url!)
         }
         

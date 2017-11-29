@@ -14,6 +14,8 @@ import CoreLocation
 
 class ReadFirebaseData: NSObject {
     
+    
+    
     //    class func readContinues () {
     //        if ( Auth.auth().currentUser == nil)
     //        {
@@ -32,55 +34,66 @@ class ReadFirebaseData: NSObject {
     //        }
     //    }
     
-    class func readOffers() {
+    class func readOffers(category:ItemCategory?) {
         if ( Auth.auth().currentUser == nil)
         {
             return
         }
         
         //        let userID = Auth.auth().currentUser?.uid;
+        var ref:DatabaseReference
+        if category == nil {
+            ref = AppData.sharedInstance.offersNode
+        }
+        else {
+            ref = AppData.sharedInstance.offersNode.child("\(category!.rawValue)")
+        }
         
-        AppData.sharedInstance.offersNode.observe(DataEventType.value, with: { (snapshot) in
+        
+        ref.observe(DataEventType.value, with: { (snapshot) in
             
             let value = snapshot.value as? NSDictionary;
-            
             if ( value == nil) {
                 return
             }
             AppData.sharedInstance.onlineOfferedItems.removeAll()
             
-            for category in value! {
-                print("\n\n\(category.key)")
-                let data = category.value as! [String:Any]
+            if category == nil {
+                for thisCategory in value! {
+                    print("\n\n\(thisCategory.key)")
+                    let data = thisCategory.value as! [String:Any]
                     
-                for any in data {
-                    let item: [String:Any] = any.value as! [String:Any]
-                    let readItem = Item(with: item)
-                    if readItem != nil{
-                        AppData.sharedInstance.onlineOfferedItems.append(readItem!)
-                        print("appending offered items")
-                    }
-                    else {
-                        print("Nil found in offered items")
-                    }
-                    
+                    readOffer(data: data)
                 }
+            }
+            else {
+                let data = value as? [String:Any]
+                readOffer(data: data!)
             }
             let myDownloadNotificationKey = "myDownloadNotificationKey"
             NotificationCenter.default.post(name: Notification.Name(rawValue: myDownloadNotificationKey), object: nil)
         })
     }
     
-    class func readRequests() {
+    class func readRequests(category:ItemCategory?) {
         if ( Auth.auth().currentUser == nil) {
             return
         }
         
         //        let userID = Auth.auth().currentUser?.uid;
         
-        AppData.sharedInstance.requestsNode.observe(DataEventType.value, with: { (snapshot) in
+        
+        var ref:DatabaseReference
+        if category == nil {
+            ref = AppData.sharedInstance.requestsNode
+        }
+        else {
+            ref = AppData.sharedInstance.requestsNode.child("\(category!.rawValue)")
+        }
+        
+        ref.observe(DataEventType.value, with: { (snapshot) in
             
-            let value = snapshot.value as? NSDictionary;
+            let value = snapshot.value as? NSDictionary
             
             if ( value == nil) {
                 return
@@ -88,23 +101,17 @@ class ReadFirebaseData: NSObject {
             
             AppData.sharedInstance.onlineRequestedItems.removeAll()
             
-            
-            for category in value! {
-                print("\n\n\(category.key)")
-                let data = category.value as! [String:Any]
-                
-                for any in data {
-                    let item: [String:Any] = any.value as! [String:Any]
-                    let readItem = Item(with: item)
-                    if readItem != nil{
-                        AppData.sharedInstance.onlineRequestedItems.append(readItem!)
-                        print("appending requested items")
-                    }
-                    else {
-                        print("Nil found in requested items")
-                    }
+            if category == nil {
+                for thisCategory in value! {
+                    print("\n\n\(thisCategory.key)")
+                    let data = thisCategory.value as! [String:Any]
                     
+                    readRequest(data: data)
                 }
+            }
+            else {
+                let data = value as? [String:Any]
+                readRequest(data: data!)
             }
             let myDownloadNotificationKey = "myDownloadNotificationKey"
             NotificationCenter.default.post(name: Notification.Name(rawValue: myDownloadNotificationKey), object: nil)
@@ -121,7 +128,7 @@ class ReadFirebaseData: NSObject {
         AppData.sharedInstance.usersNode
             .observeSingleEvent(of: .value, with: { (snapshot) in
                 
-                let value = snapshot.value as? NSDictionary;
+                let value = snapshot.value as? NSDictionary
                 
                 if ( value == nil) {
                     return
@@ -138,6 +145,36 @@ class ReadFirebaseData: NSObject {
                 let myDownloadNotificationKey = "myDownloadNotificationKey"
                 NotificationCenter.default.post(name: Notification.Name(rawValue: myDownloadNotificationKey), object: nil)
             })
+    }
+    
+    fileprivate class func readOffer(data:[String:Any]) {
+        for any in data {
+            let item: [String:Any] = any.value as! [String:Any]
+            let readItem = Item(with: item)
+            if readItem != nil {
+                AppData.sharedInstance.onlineOfferedItems.append(readItem!)
+                print("appending offered items")
+            }
+            else {
+                print("Nil found in offered items")
+            }
+            
+        }
+    }
+    
+    fileprivate class func readRequest(data:[String:Any]) {
+        for any in data {
+            let item: [String:Any] = any.value as! [String:Any]
+            let readItem = Item(with: item)
+            if readItem != nil {
+                AppData.sharedInstance.onlineRequestedItems.append(readItem!)
+                print("appending requested items")
+            }
+            else {
+                print("Nil found in requested items")
+            }
+            
+        }
     }
     
 }

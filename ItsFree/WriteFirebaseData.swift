@@ -39,12 +39,42 @@ class WriteFirebaseData {
             print("Error: Invalid argument passed for 'type'")
             return
         }
-        
 
-        
-        
         print("# of offered items: \(user.offeredItems.count), # of requested items: \(user.requestedItems.count), itemPath: \(itemPath)")
         AppData.sharedInstance.usersNode.child(user.UID).setValue(AppData.sharedInstance.currentUser?.toDictionary())
     }
+    
+    class func delete(itemUID: String) {
+        let user = AppData.sharedInstance.currentUser!
+        var itemPath:String? = nil
+        for post in user.offeredItems {
+            if post.range(of: itemUID) != nil {
+                itemPath = post
+                break
+            }
+        }
+        if itemPath == nil {
+            for post in user.requestedItems {
+                if post.range(of: itemUID) != nil {
+                    itemPath = post
+                    break
+                }
+            }
+        }
+        
+        if itemPath == nil {
+            return
+        }
+        print("itemPath found: \(itemPath!)")
+        Database.database().reference()
+        //AppData.sharedInstance.usersNode.child(AppData.sharedInstance.currentUser?.UID).
+    }
+    
+    
+    
+    
+    
+    
+    
     
 }

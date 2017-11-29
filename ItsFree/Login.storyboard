@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="vvg-N4-Ees">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="vvg-N4-Ees">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -145,7 +145,7 @@
                         <outlet property="toggleButton" destination="ZGQ-bV-6dT" id="r5Q-w7-FwD"/>
                         <outlet property="usernameLabel" destination="0If-so-uRA" id="iHP-ds-c1i"/>
                         <outlet property="usernameTextfield" destination="lnn-ue-Vo4" id="fhW-z4-QsQ"/>
-                        <segue destination="RFQ-9e-1Er" kind="show" identifier="continueToHome" id="KaF-Mk-6Gz"/>
+                        <segue destination="RFQ-9e-1Er" kind="presentation" identifier="continueToHome" id="KaF-Mk-6Gz"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jYJ-4X-RoM" userLabel="First Responder" sceneMemberID="firstResponder"/>

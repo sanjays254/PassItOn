@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ZoS-aW-eUe">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ZoS-aW-eUe">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -36,6 +36,13 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ooB-kc-sy8">
+                                <rect key="frame" x="156" y="571" width="63" height="30"/>
+                                <state key="normal" title="My Posts"/>
+                                <connections>
+                                    <segue destination="eNz-m7-GPC" kind="show" id="06J-qN-KUw"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -44,7 +51,10 @@
                             <constraint firstItem="xP3-iM-nzo" firstAttribute="leading" secondItem="apo-xE-xyy" secondAttribute="leading" constant="50" id="SIy-UO-2gn"/>
                             <constraint firstItem="8Dm-5y-SA3" firstAttribute="centerX" secondItem="8f5-Z4-td5" secondAttribute="centerX" id="gdc-37-Hgy"/>
                             <constraint firstItem="8Dm-5y-SA3" firstAttribute="top" secondItem="n16-cV-pxw" secondAttribute="bottom" constant="20" id="haE-gq-4Ah"/>
+                            <constraint firstItem="ooB-kc-sy8" firstAttribute="leading" secondItem="apo-xE-xyy" secondAttribute="leading" constant="156" id="sKs-hb-Fr9"/>
                             <constraint firstItem="xP3-iM-nzo" firstAttribute="top" secondItem="apo-xE-xyy" secondAttribute="top" constant="20" id="tIg-Dw-fyX"/>
+                            <constraint firstItem="apo-xE-xyy" firstAttribute="bottom" secondItem="ooB-kc-sy8" secondAttribute="bottom" constant="66" id="vsZ-bR-PBw"/>
+                            <constraint firstItem="apo-xE-xyy" firstAttribute="trailing" secondItem="ooB-kc-sy8" secondAttribute="trailing" constant="156" id="wiD-cK-H9O"/>
                             <constraint firstItem="n16-cV-pxw" firstAttribute="centerX" secondItem="8f5-Z4-td5" secondAttribute="centerX" id="ySG-cg-ecc"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="apo-xE-xyy"/>
@@ -66,6 +76,58 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="azI-e2-bBJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="399" y="65"/>
+        </scene>
+        <!--My Posts Table View Controller-->
+        <scene sceneID="9nT-5n-zCW">
+            <objects>
+                <viewController storyboardIdentifier="myPostsVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="eNz-m7-GPC" customClass="MyPostsTableViewController" customModule="ItsFree" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="SKu-Ie-MgH">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="YKp-xr-oAx">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="623"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="myPostsTableViewCell" id="62X-1Q-Bk2">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="62X-1Q-Bk2" id="GwX-H8-EdY">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KLG-l5-uDR">
+                                <rect key="frame" x="0.0" y="623" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                <items>
+                                    <barButtonItem title="Item" id="guy-rd-Fs3"/>
+                                    <barButtonItem style="plain" id="0nl-3F-Mbq">
+                                        <segmentedControl key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="G0N-Kw-ezx">
+                                            <rect key="frame" x="61" y="7.5" width="121" height="29"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <segments>
+                                                <segment title="First"/>
+                                                <segment title="Second"/>
+                                            </segments>
+                                        </segmentedControl>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <viewLayoutGuide key="safeArea" id="QWW-pR-4tT"/>
+                    </view>
+                    <connections>
+                        <outlet property="myPostsTableView" destination="YKp-xr-oAx" id="cqc-VM-vuH"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Wk8-aF-gHm" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1191.2" y="60.719640179910051"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="4aC-06-soy">

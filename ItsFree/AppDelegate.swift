@@ -14,11 +14,74 @@ import KeychainAccess
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    
+    fileprivate func openedThroughSchema(_ url: URL) {
+        
+        let fullQuery = String("\(url.query!)")
+        
+        let itemStartIndex = fullQuery.index(fullQuery.startIndex, offsetBy: 7)
+        let itemEndIndex = fullQuery.index(fullQuery.endIndex, offsetBy: -36)
+        let itemRange = itemStartIndex..<itemEndIndex
+        
+        let substringitemID = fullQuery[itemRange]
+        print(substringitemID)
+        let itemID: String! = String(substringitemID)
+        var item: Item
+        
+        if(AppData.sharedInstance.onlineOfferedItems.filter{ $0.UID == itemID}.first != nil){
+            item = AppData.sharedInstance.onlineOfferedItems.filter{ $0.UID == itemID}.first!
+        }
+        else {
+            item = AppData.sharedInstance.onlineRequestedItems.filter{ $0.UID == itemID}.first!
+        }
+        
+        print("Name: \(item.name)")
+        
+        let userStartIndex = fullQuery.index(fullQuery.startIndex, offsetBy: 35)
+        let userEndIndex = fullQuery.index(fullQuery.endIndex, offsetBy: 0)
+        let userRange = userStartIndex..<userEndIndex
+        
+        let substringUserID = fullQuery[userRange]
+        print(substringUserID)
+        let responderID: String! = String(substringUserID)
+        
+        let responder = AppData.sharedInstance.onlineUsers.filter{ $0.UID == responderID}.first
+        
+        print("Name: \(responder!.name)")
+        
+        
+        let alert = UIAlertController(title: "Do you like the \(item.name)?", message: "Upvote or downvote \(responder!.name)", preferredStyle: UIAlertControllerStyle.alert)
+        
+        let upvoteAction = UIAlertAction(title: "Upvote", style: UIAlertActionStyle.default, handler: {(alert: UIAlertAction!) in responder?.rating = (responder?.rating)!+1
+            AppData.sharedInstance.usersNode.child("\(responderID!)/rating").setValue(responder?.rating)
+        })
+        let downvoteAction = UIAlertAction(title: "Downvote", style: UIAlertActionStyle.destructive, handler: {(alert: UIAlertAction!) in responder?.rating = (responder?.rating)!-1
+            AppData.sharedInstance.usersNode.child("\(responderID!)/rating").setValue(responder?.rating)
+        })
+        
+        alert.addAction(upvoteAction)
+        alert.addAction(downvoteAction)
+        
+        let mainVC = self.window?.rootViewController as! LoginViewController
+        let presentedVC = mainVC.presentedViewController as! UINavigationController
+        let currentVC = presentedVC.viewControllers[0] as! HomeViewController
+        
+        currentVC.present(alert, animated: true, completion: nil)
+    }
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
         //FirebaseOptions.defaultOptions()?.deepLinkURLScheme = self.customURLScheme
         FirebaseApp.configure()
+        
+        let url = launchOptions?[UIApplicationLaunchOptionsKey.url] as? URL
+
+        if(url != nil){
+            //print(url)
+            //self.application(application, open: url!)
+            //openedThroughSchema(url!)
+        }
+        
         let key = "FirstRun"
         if UserDefaults.standard.object(forKey: key) == nil {
             let keychain = Keychain(service: "com.itsFree")
@@ -57,26 +120,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
 
+  
+    
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
         
+        if(url.scheme == "iosanotherlifeapp"){
         print("Scheme is: \(url.scheme!)")
         print("Query is: \(url.query!)")
         
-        let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        openedThroughSchema(url)
+            
         
-        var homeViewController: UIViewController = mainStoryboard.instantiateViewController(withIdentifier: "homeVC") as! HomeViewController
+        //if it was a available item
+        //if link is clicked, send an email to seller saying thanks, and take me to the post to delete the item,
         
-        let fullQueryitemIDToShow = String("\(url.query!)")
-        
-        let index = fullQueryitemIDToShow.index(fullQueryitemIDToShow.startIndex, offsetBy: 10)
-        let substringitemIDToShow = fullQueryitemIDToShow.suffix(from: index)
-        
-        print(substringitemIDToShow)
-        
-        //homeViewController.showItemDetail()
+
         
         return true
+        }
+        else {
+            return false
+            
+        }
+        
     }
-
+    
 }
 

@@ -49,8 +49,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         print("Name: \(responder!.name)")
         
-        //if it was a wanted Item
-        //Alert - Did you like the product? Use responderID to find the username Yes upvotes, no downvotes
         
         let alert = UIAlertController(title: "Do you like the \(item.name)?", message: "Upvote or downvote \(responder!.name)", preferredStyle: UIAlertControllerStyle.alert)
         
@@ -77,10 +75,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FirebaseApp.configure()
         
         let url = launchOptions?[UIApplicationLaunchOptionsKey.url] as? URL
-        
+
         if(url != nil){
             //print(url)
-            openedThroughSchema(url!)
+            //self.application(application, open: url!)
+            //openedThroughSchema(url!)
         }
         
         let key = "FirstRun"

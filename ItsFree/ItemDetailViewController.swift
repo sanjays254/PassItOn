@@ -200,7 +200,7 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
         //mailVC properties
         mailComposerVC.setToRecipients([destinationEmail])
         mailComposerVC.setSubject("Second Life: \(currentUserName) wants your item")
-        mailComposerVC.setMessageBody("Hey \(destinationName),\n\n I want your \(currentItemName).\n\nAdmin Message: Please click this \(linkString!) if you give it to \(currentUserName), to delete your item and so that he/she can rate you!\n\nThanks! :)\n\n", isHTML: true)
+        mailComposerVC.setMessageBody("Hey \(destinationName),<br><br> I want your \(currentItemName).<br><br>Admin Message: Please include this \(linkString!), in your reply so that \(currentUserName) can rate you!<br><br>Thanks! :)", isHTML: true)
     }
     
     func requestMessage(mailComposerVC: MFMailComposeViewController){

@@ -114,13 +114,6 @@ class AuthenticationManager {
                         
                         AppData.sharedInstance.currentUser = User(with: userData)
                 })
-//                AppData.sharedInstance.currentUser = User(email: authUser!.email!,
-//                                                          name: authUser!.displayName!,
-//                                                          rating: 0,
-//                                                          uid: authUser!.uid,
-//                                                          profileImage: "",
-//                                                          offers: [""],
-//                                                          requests: [""])
                 print("Login Successful")
                 addToKeychain(email: email, password: password)
                 let flag = true

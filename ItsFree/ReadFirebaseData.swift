@@ -14,33 +14,12 @@ import CoreLocation
 
 class ReadFirebaseData: NSObject {
     
-    
-    
-    //    class func readContinues () {
-    //        if ( Auth.auth().currentUser == nil)
-    //        {
-    //            return
-    //        }
-    //
-    //        let userID = Auth.auth().currentUser?.uid;
-    //        var myHandle : UInt = 0;
-    //
-    //        myHandle =  AppData.sharedInstance.offersNode
-    //            .child(userID!).observe(DataEventType.value) { (snapshot) in
-    //
-    //                AppData.sharedInstance.offersNode
-    //                    .child(userID!)
-    //                    .removeObserver(withHandle: myHandle)
-    //        }
-    //    }
-    
     class func readOffers(category:ItemCategory?) {
         if ( Auth.auth().currentUser == nil)
         {
             return
         }
         
-        //        let userID = Auth.auth().currentUser?.uid;
         var ref:DatabaseReference
         if category == nil {
             ref = AppData.sharedInstance.offersNode
@@ -49,9 +28,7 @@ class ReadFirebaseData: NSObject {
             ref = AppData.sharedInstance.offersNode.child("\(category!.rawValue)")
         }
         
-        
         ref.observe(DataEventType.value, with: { (snapshot) in
-            
             let value = snapshot.value as? NSDictionary;
             if ( value == nil) {
                 return
@@ -80,9 +57,6 @@ class ReadFirebaseData: NSObject {
             return
         }
         
-        //        let userID = Auth.auth().currentUser?.uid;
-        
-        
         var ref:DatabaseReference
         if category == nil {
             ref = AppData.sharedInstance.requestsNode
@@ -92,7 +66,6 @@ class ReadFirebaseData: NSObject {
         }
         
         ref.observe(DataEventType.value, with: { (snapshot) in
-            
             let value = snapshot.value as? NSDictionary
             
             if ( value == nil) {
@@ -100,7 +73,6 @@ class ReadFirebaseData: NSObject {
             }
             
             AppData.sharedInstance.onlineRequestedItems.removeAll()
-            
             if category == nil {
                 for thisCategory in value! {
                     print("\n\n\(thisCategory.key)")
@@ -123,9 +95,7 @@ class ReadFirebaseData: NSObject {
             return
         }
         
-        AppData.sharedInstance.onlineUsers.removeAll()
-        let userID = Auth.auth().currentUser?.uid;
-        
+        AppData.sharedInstance.onlineUsers.removeAll()        
         AppData.sharedInstance.usersNode
             .observeSingleEvent(of: .value, with: { (snapshot) in
                 

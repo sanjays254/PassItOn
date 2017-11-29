@@ -74,7 +74,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         setupMapListSegmentedControl()
         //self.navigationController?.navigationBar.se
         
-        ReadFirebaseData.readOffers(category: ItemCategory.homeAppliances)
+        ReadFirebaseData.readOffers(category: nil)
         ReadFirebaseData.readRequests(category: nil)
         ReadFirebaseData.readUsers()
    

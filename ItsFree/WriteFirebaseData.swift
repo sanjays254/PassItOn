@@ -18,29 +18,33 @@ class WriteFirebaseData {
         let user = AppData.sharedInstance.currentUser!
         print("# of offered items: \(user.offeredItems.count), # of requested items: \(user.requestedItems.count)")
         let itemPath:String = "\(item.itemCategory.rawValue)/\(item.UID!)"
-
+        var itemRef:String
         
         switch type {
         case 0:
-            AppData.sharedInstance.offersNode.child(itemPath).setValue(item.toDictionary())
+            itemRef = "offers/"
+            itemRef.append(itemPath)
             if AppData.sharedInstance.currentUser!.offeredItems.first == "" {
                 AppData.sharedInstance.currentUser!.offeredItems.remove(at: 0)
             }
-            AppData.sharedInstance.currentUser!.offeredItems.append(itemPath)
+            AppData.sharedInstance.currentUser!.offeredItems.append(itemRef)
             break
         case 1:
-            AppData.sharedInstance.requestsNode.child(itemPath).setValue(item.toDictionary())
+            itemRef = "requests/"
+            itemRef.append(itemPath)
             if AppData.sharedInstance.currentUser!.requestedItems.first == "" {
                 AppData.sharedInstance.currentUser!.requestedItems.remove(at: 0)
             }
-            AppData.sharedInstance.currentUser!.requestedItems.append(itemPath)
+            AppData.sharedInstance.currentUser!.requestedItems.append(itemRef)
             break
         default:
             print("Error: Invalid argument passed for 'type'")
             return
         }
-
-        print("# of offered items: \(user.offeredItems.count), # of requested items: \(user.requestedItems.count), itemPath: \(itemPath)")
+        Database.database().reference().child(itemRef).setValue(item.toDictionary())
+        
+        
+        print("# of offered items: \(user.offeredItems.count), # of requested items: \(user.requestedItems.count), itemPath: \(itemRef)")
         AppData.sharedInstance.usersNode.child(user.UID).setValue(AppData.sharedInstance.currentUser?.toDictionary())
     }
     
@@ -50,6 +54,9 @@ class WriteFirebaseData {
         for post in user.offeredItems {
             if post.range(of: itemUID) != nil {
                 itemPath = post
+                if let index = user.offeredItems.index(of: post) {
+                    user.offeredItems.remove(at: index)
+                }
                 break
             }
         }
@@ -57,19 +64,32 @@ class WriteFirebaseData {
             for post in user.requestedItems {
                 if post.range(of: itemUID) != nil {
                     itemPath = post
+                    if let index = user.requestedItems.index(of: post) {
+                        user.requestedItems.remove(at: index)
+                    }
                     break
                 }
             }
         }
         
         if itemPath == nil {
+            print("Error: Cannot delete item; Item not found")
             return
         }
-        print("itemPath found: \(itemPath!)")
-        Database.database().reference()
-        //AppData.sharedInstance.usersNode.child(AppData.sharedInstance.currentUser?.UID).
+        else {
+            print("itemPath found: \(Database.database().reference().child(itemPath!))")
+            
+            Database.database().reference().child(itemPath!).observe(DataEventType.value) { (snapshot) in
+                print(snapshot.value)
+            }
+            Database.database().reference().child(itemPath!).removeValue()
+            WriteFirebaseData.write(user: AppData.sharedInstance.currentUser!)
+        }
     }
     
+    class func write(user:User) {
+        AppData.sharedInstance.usersNode.child(user.UID).setValue(user.toDictionary())
+    }
     
     
     

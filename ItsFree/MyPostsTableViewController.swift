@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import FirebaseStorage
+import FirebaseDatabase
 
 class MyPostsTableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
@@ -28,13 +30,69 @@ class MyPostsTableViewController: UIViewController, UITableViewDelegate, UITable
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        switch section {
+        case 1:
+            return (AppData.sharedInstance.currentUser?.offeredItems.count)!
+        case 2:
+            return (AppData.sharedInstance.currentUser?.requestedItems.count)!
+        default:
+            return 0
+        }
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 2
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
+        let storageRef = Storage.storage().reference()
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: "myPostsTableViewCell", for: indexPath)
         
+        var itemPath: String = ""
+        var item: [String:Any]!
+        
+        
+        switch indexPath.section {
+        case 1:
+            itemPath = (AppData.sharedInstance.currentUser?.offeredItems[indexPath.row])!
+            if(itemPath != ""){
+           
+            AppData.sharedInstance.offersNode.child(itemPath).observe(DataEventType.value, with: { (snapshot) in
+                
+                item = (snapshot.value as? [String:Any])!
+                print(snapshot.value ?? "nothing")
+                
+            })
+            }
+            else {
+                break
+
+            }
+        case 2:
+            
+            itemPath = (AppData.sharedInstance.currentUser?.requestedItems[indexPath.row])!
+            
+            if(itemPath != ""){
+            itemPath = (AppData.sharedInstance.currentUser?.requestedItems[indexPath.row])!
+            AppData.sharedInstance.requestsNode.child(itemPath).observe(DataEventType.value, with: { (snapshot) in
+                
+                item = (snapshot.value as? [String:Any])!
+                
+            })
+            }
+            else {
+                break
+            }
+        default:
+            return cell
+            
+        }
+ 
+        
+        //cell.textLabel?.text = item["name"] as? String
+        //cell.imageView?.sd_setImage(with: storageRef.child(AppData.sharedInstance.onlineOfferedItems[indexPath.row].photos[0]), placeholderImage: UIImage.init(named: "placeholder"))
         return cell
         
         

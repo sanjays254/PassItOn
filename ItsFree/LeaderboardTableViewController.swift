@@ -13,7 +13,7 @@ import UIKit
 class LeaderboardTableViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
 
-    
+    let myDowloadCompletedNotificationKey = "myDownloadNotificationKey"
     
     
     
@@ -57,13 +57,19 @@ class LeaderboardTableViewController: UIViewController, UITableViewDataSource, U
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        ReadFirebaseData.readUsers()
 
+       NotificationCenter.default.addObserver(self, selector: #selector(reload), name: NSNotification.Name(rawValue: myDowloadCompletedNotificationKey), object: nil)
         
         leaderboardTableView.delegate = self
         leaderboardTableView.dataSource = self
         leaderboardTableView.rowHeight = 50
 
         // Do any additional setup after loading the view.
+    }
+    
+    @objc func reload(){
+        leaderboardTableView.reloadData()
     }
 
     override func didReceiveMemoryWarning() {

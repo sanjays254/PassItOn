@@ -74,8 +74,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         setupMapListSegmentedControl()
         //self.navigationController?.navigationBar.se
         
-        ReadFirebaseData.readOffers()
-        ReadFirebaseData.readRequests()
+        ReadFirebaseData.readOffers(category: ItemCategory.homeAppliances)
+        ReadFirebaseData.readRequests(category: nil)
         ReadFirebaseData.readUsers()
    
         NotificationCenter.default.addObserver(self, selector: #selector(self.addAnnotationsWhenFinishedDownloadingData), name: NSNotification.Name(rawValue: myDowloadCompletedNotificationKey), object: nil)
@@ -83,7 +83,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         homeMapView.register(MKMarkerAnnotationView.self, forAnnotationViewWithReuseIdentifier: "itemMarkerView")
         
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: mySelectedItemNotificationKey), object: nil, queue: nil, using: catchNotification)
-        
         
         
     }

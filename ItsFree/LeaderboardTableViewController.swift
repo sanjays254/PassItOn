@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FirebaseStorage
 
 
 
@@ -36,17 +37,23 @@ class LeaderboardTableViewController: UIViewController, UITableViewDataSource, U
         let sortedUsers = AppData.sharedInstance.onlineUsers.sorted(by: { $0.rating > $1.rating })
         
         
+        let storageRef = Storage.storage().reference()
+        let photoRef: String = sortedUsers[indexPath.row].profileImage
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: "leaderboardTableViewCell", for: indexPath) as! LeaderboardTableViewCell
         
         cell.nameLabel.text = sortedUsers[indexPath.row].name
         
         if(indexPath.row == 0){
             let crownImageView = UIImageView(image: #imageLiteral(resourceName: "crown"))
-            crownImageView.frame = CGRect(x: 0, y: 0, width: 30, height: 20)
+            crownImageView.frame = CGRect(x: -8, y: -12, width: 30, height: 20)
             cell.positionLabel.addSubview(crownImageView)
             cell.positionLabel.text = ""
         }
         else { cell.positionLabel.text = String(indexPath.row+1) }
+        
+        cell.profileImageView.sd_setImage(with: storageRef.child(photoRef), placeholderImage: UIImage.init(named: "userImage"))
+        //print("Storage Location: \(storageRef.child(previewPhotoRef))")
         //cell.profileImageView.image = sortedUsers[indexPath.row].profileImage
         cell.ratingLabel.text = String(sortedUsers[indexPath.row].rating)
         

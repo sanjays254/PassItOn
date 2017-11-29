@@ -10,10 +10,12 @@ import UIKit
 
 class ItemDetailView: UIView {
     
+    @IBOutlet weak var collectionContentView: UIView!
     @IBOutlet weak var itemTitleLabel: UILabel!
     @IBOutlet weak var categoryLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var qualityLabel: UILabel!
     @IBOutlet weak var mainImageView: UIImageView!
+    
     
 }

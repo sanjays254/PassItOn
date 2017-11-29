@@ -10,18 +10,21 @@ import UIKit
 import MessageUI
 import FirebaseStorage
 
-class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDelegate {
+class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource {
     
+
     var detailViewTopAnchorConstant: CGFloat!
     var detailViewBottomAnchorConstant: CGFloat!
     
     @IBOutlet var contentView: UIView!
     @IBOutlet weak var itemDetailView: ItemDetailView!
         
+    //@IBOutlet weak var collectionViewContentView: UIView!
     var currentItem: Item!
    
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupCollectionView()
         
         view.backgroundColor = UIColor.clear
         
@@ -43,10 +46,15 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
         
         let storageRef = Storage.storage().reference()
         let previewPhotoRef: String = currentItem.photos[0]
+        
         itemDetailView.itemTitleLabel.text = currentItem.name
         itemDetailView.categoryLabel.text = currentItem.itemCategory.rawValue
         itemDetailView.qualityLabel.text = currentItem.quality.rawValue
         itemDetailView.descriptionLabel.text = currentItem.itemDescription
+        itemDetailView.mainImageView.layer.borderColor = UIColor.black.cgColor
+        itemDetailView.mainImageView.layer.borderWidth = 5
+        itemDetailView.mainImageView.layer.cornerRadius = 5
+        
         itemDetailView.mainImageView.sd_setImage(with: storageRef.child(previewPhotoRef), placeholderImage: UIImage.init(named: "placeholder"))
         print("Storage Location: \(storageRef.child(previewPhotoRef))")
         
@@ -61,10 +69,58 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
         itemDetailView.addGestureRecognizer(swipeDown)
         
         let tapOutside: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tappedOutside))
-        //let tapNavBar: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tappedOutside))
+
         self.view.addGestureRecognizer(tapOutside)
-        //self.navigationController?.navigationBar.addGestureRecognizer(tapNavBar)
-        //self.navigationController?.navigationBar.ite
+
+        
+    }
+    
+    func setupCollectionView(){
+        
+        let flowLayout = UICollectionViewFlowLayout()
+        flowLayout.itemSize = CGSize(width: itemDetailView.collectionContentView.frame.height, height: itemDetailView.collectionContentView.frame.height)
+        flowLayout.scrollDirection = .horizontal
+
+        
+        let photoCollectionView = UICollectionView(frame: CGRect(x:0, y:0, width: itemDetailView.collectionContentView.frame.width, height: itemDetailView.collectionContentView.frame.height), collectionViewLayout: flowLayout)
+        
+        
+        photoCollectionView.delegate = self
+        photoCollectionView.dataSource = self
+        
+        photoCollectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "itemPhotoCollectionViewCell")
+        
+        photoCollectionView.backgroundColor = UIColor.black
+        
+        
+        
+        itemDetailView.collectionContentView.addSubview(photoCollectionView)
+        
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+       
+        let photoRef: [String] = currentItem.photos
+        return photoRef.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "itemPhotoCollectionViewCell", for: indexPath)
+        
+   
+        let storageRef = Storage.storage().reference()
+        let photoRef: [String] = currentItem.photos
+    
+        let imageView = UIImageView.init(image: #imageLiteral(resourceName: "compass"))
+        
+        imageView.sd_setImage(with: storageRef.child(photoRef[indexPath.item]), placeholderImage: UIImage.init(named: "placeholder"))
+        print("Storage Location: \(storageRef.child(photoRef[indexPath.row]))")
+        
+     
+        cell.contentView.addSubview(imageView)
+        
+        return cell
         
     }
     

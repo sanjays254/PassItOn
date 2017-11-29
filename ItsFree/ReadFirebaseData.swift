@@ -89,16 +89,21 @@ class ReadFirebaseData: NSObject {
             AppData.sharedInstance.onlineRequestedItems.removeAll()
             
             
-            for any in (value?.allValues)! {
-                let item: [String:Any] = any as! [String:Any]
-                let readItem = Item(with: item)
+            for category in value! {
+                print("\n\n\(category.key)")
+                let data = category.value as! [String:Any]
                 
-                if readItem != nil {
-                    AppData.sharedInstance.onlineRequestedItems.append(readItem!)
-                    print("appending requested items")
-                }
-                else {
-                    print("Nil found in requested items")
+                for any in data {
+                    let item: [String:Any] = any.value as! [String:Any]
+                    let readItem = Item(with: item)
+                    if readItem != nil{
+                        AppData.sharedInstance.onlineRequestedItems.append(readItem!)
+                        print("appending requested items")
+                    }
+                    else {
+                        print("Nil found in requested items")
+                    }
+                    
                 }
             }
             let myDownloadNotificationKey = "myDownloadNotificationKey"

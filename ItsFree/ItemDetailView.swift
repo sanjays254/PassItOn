@@ -17,5 +17,8 @@ class ItemDetailView: UIView {
     @IBOutlet weak var qualityLabel: UILabel!
     @IBOutlet weak var mainImageView: UIImageView!
     
+    @IBOutlet weak var posterUsername: UILabel!
+    @IBOutlet weak var posterRating: UILabel!
+    
     
 }

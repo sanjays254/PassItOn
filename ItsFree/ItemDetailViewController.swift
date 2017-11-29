@@ -24,7 +24,7 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
    
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupCollectionView()
+        //setupCollectionView()
         
         view.backgroundColor = UIColor.clear
         
@@ -57,6 +57,10 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
         
         itemDetailView.mainImageView.sd_setImage(with: storageRef.child(previewPhotoRef), placeholderImage: UIImage.init(named: "placeholder"))
         print("Storage Location: \(storageRef.child(previewPhotoRef))")
+        
+        itemDetailView.posterUsername.text = AppData.sharedInstance.onlineUsers.filter{ $0.UID == currentItem.posterUID }.first?.name
+        itemDetailView.posterRating.text = "Rating: \(AppData.sharedInstance.onlineUsers.filter{ $0.UID == currentItem.posterUID }.first?.rating ?? 0)"
+        
         
 
         //gestures

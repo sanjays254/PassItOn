@@ -14,6 +14,11 @@ import CoreLocation
 
 class ReadFirebaseData: NSObject {
     
+    static var offersHandle:UInt? = nil
+    static var requestsHandle:UInt? = nil
+    
+    
+    
     class func readOffers(category:ItemCategory?) {
         if ( Auth.auth().currentUser == nil)
         {
@@ -27,8 +32,10 @@ class ReadFirebaseData: NSObject {
         else {
             ref = AppData.sharedInstance.offersNode.child("\(category!.rawValue)")
         }
-        
-        ref.observe(DataEventType.value, with: { (snapshot) in
+        let tempHandle = ref.observe(DataEventType.value, with: { (snapshot) in
+            if offersHandle != nil {
+                ref.removeObserver(withHandle: offersHandle!)
+            }
             let value = snapshot.value as? NSDictionary;
             if ( value == nil) {
                 return
@@ -50,6 +57,9 @@ class ReadFirebaseData: NSObject {
             let myDownloadNotificationKey = "myDownloadNotificationKey"
             NotificationCenter.default.post(name: Notification.Name(rawValue: myDownloadNotificationKey), object: nil)
         })
+        
+        offersHandle = tempHandle
+        
     }
     
     class func readRequests(category:ItemCategory?) {
@@ -65,12 +75,17 @@ class ReadFirebaseData: NSObject {
             ref = AppData.sharedInstance.requestsNode.child("\(category!.rawValue)")
         }
         
-        ref.observe(DataEventType.value, with: { (snapshot) in
+        let tempHandle = ref.observe(DataEventType.value, with: { (snapshot) in
+            if requestsHandle != nil {
+                ref.removeObserver(withHandle: requestsHandle!)
+            }
+            
             let value = snapshot.value as? NSDictionary
             
             if ( value == nil) {
                 return
             }
+
             
             AppData.sharedInstance.onlineRequestedItems.removeAll()
             if category == nil {
@@ -88,6 +103,7 @@ class ReadFirebaseData: NSObject {
             let myDownloadNotificationKey = "myDownloadNotificationKey"
             NotificationCenter.default.post(name: Notification.Name(rawValue: myDownloadNotificationKey), object: nil)
         })
+        requestsHandle = tempHandle
     }
     
     class func readUsers() {

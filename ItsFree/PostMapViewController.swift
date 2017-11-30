@@ -12,7 +12,9 @@ import MapKit
 
 class PostMapViewController: UIViewController, UISearchBarDelegate, MKMapViewDelegate, MKLocalSearchCompleterDelegate {
     
-
+    @IBOutlet weak var myLocationButton: UIButton!
+    
+    @IBOutlet weak var saveButton: UIButton!
     var previousVC: PostViewController!
     
     var searchController: UISearchController!
@@ -57,6 +59,24 @@ class PostMapViewController: UIViewController, UISearchBarDelegate, MKMapViewDel
         self.searchCompleter.delegate = self
         self.searchCompleter.region = self.postMapView.region
         self.searchCompleter.filterType = MKSearchCompletionFilterType.locationsAndQueries
+        
+        
+        
+        self.saveButton.layer.backgroundColor = UIColor.white.cgColor
+        self.saveButton.layer.cornerRadius = 8
+        self.saveButton.layer.masksToBounds = false
+        self.saveButton.layer.shadowOffset = CGSize.init(width: 0, height: 2.0)
+        self.saveButton.layer.shadowColor = (UIColor.black).cgColor
+        self.saveButton.layer.shadowOpacity = 0.5
+        self.saveButton.layer.shadowRadius = 1.0
+        
+        self.myLocationButton.layer.backgroundColor = UIColor.white.cgColor
+        self.myLocationButton.layer.cornerRadius = 8
+        self.myLocationButton.layer.masksToBounds = false
+        self.myLocationButton.layer.shadowOffset = CGSize.init(width: 0, height: 2.0)
+        self.myLocationButton.layer.shadowColor = (UIColor.black).cgColor
+        self.myLocationButton.layer.shadowOpacity = 0.5
+        self.myLocationButton.layer.shadowRadius = 1.0
     }
 
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {

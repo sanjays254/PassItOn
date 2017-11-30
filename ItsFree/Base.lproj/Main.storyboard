@@ -190,21 +190,27 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </mapView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ko1-SN-69A">
-                                <rect key="frame" x="325" y="80" width="34" height="30"/>
+                                <rect key="frame" x="316" y="608" width="43" height="43"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="30" id="3Iz-m0-7Jw"/>
-                                    <constraint firstAttribute="width" constant="34" id="jz2-KX-Gne"/>
-                                    <constraint firstAttribute="height" constant="30" id="uct-Dl-aV8"/>
+                                    <constraint firstAttribute="width" constant="43" id="jz2-KX-Gne"/>
+                                    <constraint firstAttribute="height" constant="43" id="uct-Dl-aV8"/>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="34" id="xxd-yW-zhF"/>
                                 </constraints>
-                                <state key="normal" title="Save"/>
+                                <state key="normal" image="done"/>
                                 <connections>
                                     <action selector="saveLocationButon:" destination="52a-eZ-6Ei" eventType="touchUpInside" id="tkG-hh-IIa"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="990-Zn-daR">
-                                <rect key="frame" x="16" y="80" width="114" height="30"/>
-                                <state key="normal" title="Use my Location"/>
+                                <rect key="frame" x="16" y="608" width="43" height="43"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="43" id="5Ke-Oz-0G4"/>
+                                    <constraint firstAttribute="height" constant="43" id="VP4-BJ-2HK"/>
+                                </constraints>
+                                <state key="normal" image="userlocation"/>
                                 <connections>
                                     <action selector="useMyLocationButton:" destination="52a-eZ-6Ei" eventType="touchUpInside" id="aRR-bL-mb1"/>
                                 </connections>
@@ -212,19 +218,21 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="990-Zn-daR" firstAttribute="top" secondItem="T0c-RG-dCC" secondAttribute="top" constant="16" id="24R-de-2Sq"/>
+                            <constraint firstItem="T0c-RG-dCC" firstAttribute="trailing" secondItem="ko1-SN-69A" secondAttribute="trailing" constant="16" id="C1r-SL-B0r"/>
                             <constraint firstItem="VVV-7p-Alr" firstAttribute="bottom" secondItem="T0c-RG-dCC" secondAttribute="bottom" id="JJB-tY-ifW"/>
+                            <constraint firstItem="T0c-RG-dCC" firstAttribute="bottom" secondItem="ko1-SN-69A" secondAttribute="bottom" constant="16" id="MT1-6J-hc5"/>
                             <constraint firstItem="VVV-7p-Alr" firstAttribute="leading" secondItem="T0c-RG-dCC" secondAttribute="leading" id="OEY-pI-S4M"/>
                             <constraint firstItem="VVV-7p-Alr" firstAttribute="top" secondItem="1Z1-Kg-wU0" secondAttribute="top" id="PPV-Eq-pvz"/>
                             <constraint firstItem="990-Zn-daR" firstAttribute="leading" secondItem="T0c-RG-dCC" secondAttribute="leading" constant="16" id="cwF-qd-LxP"/>
-                            <constraint firstItem="T0c-RG-dCC" firstAttribute="trailing" secondItem="ko1-SN-69A" secondAttribute="trailing" constant="16" id="lhf-Ao-a47"/>
+                            <constraint firstItem="T0c-RG-dCC" firstAttribute="bottom" secondItem="990-Zn-daR" secondAttribute="bottom" constant="16" id="eHa-U4-1nB"/>
                             <constraint firstItem="VVV-7p-Alr" firstAttribute="trailing" secondItem="T0c-RG-dCC" secondAttribute="trailing" id="nmr-8i-gcK"/>
-                            <constraint firstItem="ko1-SN-69A" firstAttribute="top" secondItem="T0c-RG-dCC" secondAttribute="top" constant="16" id="zWV-uJ-0T7"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="T0c-RG-dCC"/>
                     </view>
                     <connections>
+                        <outlet property="myLocationButton" destination="990-Zn-daR" id="FN9-sh-B8W"/>
                         <outlet property="postMapView" destination="VVV-7p-Alr" id="xba-8b-Eem"/>
+                        <outlet property="saveButton" destination="ko1-SN-69A" id="drV-ug-oTh"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HDA-Jj-N7L" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -263,7 +271,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y79-dV-TwE">
-                                                    <rect key="frame" x="109.5" y="19.5" width="210.5" height="21"/>
+                                                    <rect key="frame" x="111.5" y="19.5" width="208.5" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -298,7 +306,7 @@
                                                 <constraint firstItem="Kee-9y-UfQ" firstAttribute="leading" secondItem="B8G-Dw-YSO" secondAttribute="leadingMargin" constant="5" id="PfI-DT-QHE"/>
                                                 <constraint firstItem="ZWX-8d-wP2" firstAttribute="leading" secondItem="Kee-9y-UfQ" secondAttribute="trailing" constant="5" id="T89-nf-vMf"/>
                                                 <constraint firstItem="UxI-ZT-GY8" firstAttribute="trailing" secondItem="B8G-Dw-YSO" secondAttribute="trailingMargin" constant="5" id="Wjg-jm-VVe"/>
-                                                <constraint firstItem="Y79-dV-TwE" firstAttribute="leading" secondItem="ZWX-8d-wP2" secondAttribute="trailing" constant="12" id="f7C-EO-UDg"/>
+                                                <constraint firstItem="Y79-dV-TwE" firstAttribute="leading" secondItem="ZWX-8d-wP2" secondAttribute="trailing" constant="14" id="f7C-EO-UDg"/>
                                                 <constraint firstItem="ZWX-8d-wP2" firstAttribute="centerY" secondItem="B8G-Dw-YSO" secondAttribute="centerY" id="igj-cH-gh5"/>
                                                 <constraint firstItem="ZWX-8d-wP2" firstAttribute="top" secondItem="B8G-Dw-YSO" secondAttribute="top" constant="5" id="nzS-tW-faS"/>
                                                 <constraint firstItem="Kee-9y-UfQ" firstAttribute="centerY" secondItem="B8G-Dw-YSO" secondAttribute="centerY" id="wxc-Iy-3js"/>
@@ -539,7 +547,9 @@
         </scene>
     </scenes>
     <resources>
+        <image name="done" width="26" height="26"/>
         <image name="filter" width="25" height="25"/>
         <image name="userImage" width="25" height="25"/>
+        <image name="userlocation" width="24" height="24"/>
     </resources>
 </document>

@@ -61,7 +61,7 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
         print("Storage Location: \(storageRef.child(previewPhotoRef))")
         
         itemDetailView.posterUsername.text = AppData.sharedInstance.onlineUsers.filter{ $0.UID == currentItem.posterUID }.first?.name
-        itemDetailView.posterRating.text = "Rating: \(AppData.sharedInstance.onlineUsers.filter{ $0.UID == currentItem.posterUID }.first?.rating ?? 0)"
+        itemDetailView.posterRating.text = "Score: \(AppData.sharedInstance.onlineUsers.filter{ $0.UID == currentItem.posterUID }.first?.rating ?? 0)"
         
         
 
@@ -172,7 +172,9 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
             } else if (swipeGesture.direction == UISwipeGestureRecognizerDirection.up) {
             
                 //nav bar + status bar
-                let yPoint = (self.navigationController?.navigationBar.frame.height)! + (UIApplication.shared.statusBarFrame.size.height)
+                let yPoint = (self.navigationController?.navigationBar.frame.height)! + (UIApplication.shared.statusBarFrame.size.height) + UIScreen.main.bounds.size.height/3
+                
+       
                     
                 UIView.animate(withDuration: 0.5, animations: {
                     self.itemDetailView.frame = CGRect(x: 0, y:yPoint, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height)
@@ -263,6 +265,8 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
         mailComposerVC.setToRecipients([destinationEmail])
         mailComposerVC.setSubject("Second Life: \(currentUserName) wants your item")
         mailComposerVC.setMessageBody("Hey \(destinationName),<br><br> I want your \(currentItemName).<br><br>Admin Message: Please include this \(linkString!), in your reply so that \(currentUserName) can rate you!<br><br>Thanks! :)", isHTML: true)
+        
+        //send an email to current user with link instead of putting link in here
     }
     
     func requestMessage(mailComposerVC: MFMailComposeViewController){
@@ -277,7 +281,7 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
         let currentItemID = currentItem.UID
         
         
-        let attrLinkString = NSMutableAttributedString(string: "link")
+        let attrLinkString = NSMutableAttributedString(string: "Click Here to Rate")
         attrLinkString.addAttribute(NSAttributedStringKey.link, value: NSURL(string: "iOSAnotherLifeApp://?itemID=\(currentItemID!)&userID=\(currentUserID!)")! , range: NSMakeRange(0, attrLinkString.length))
         
         var linkString: String! = ""
@@ -291,8 +295,8 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
         
         //mailVC properties
         mailComposerVC.setToRecipients([destinationEmail])
-        mailComposerVC.setSubject("Second Life: \(currentUserName) has something you want")
-        mailComposerVC.setMessageBody("Hey \(destinationName),<br><br> I have a \(currentItemName).<br><br>Admin message: Please click this \(linkString!) if \(currentUserName) gives you the item, to easily delete your post from the app and so that you can rate him/her!<br><br>Thanks! :) ", isHTML: true)
+        mailComposerVC.setSubject("Another Life: \(currentUserName) has something you want")
+        mailComposerVC.setMessageBody("Hey \(destinationName),<br><br> I have a \(currentItemName).<br><br><br><br>Admin message: Please click the link below if \(currentUserName) gives you the item, to easily delete your post from the app and so that you can rate him/her!<br><br>\(linkString!)<br><brThanks! :) ", isHTML: true)
     }
     
 }

@@ -50,7 +50,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.homeTableView.rowHeight = 70
         
         self.homeTableView.refreshControl = UIRefreshControl()
-        self.homeTableView.refreshControl?.backgroundColor = UIColor.blue
+        self.homeTableView.refreshControl?.backgroundColor = UIColor(red: 0, green: 122.0/255.0, blue: 1.0, alpha: 1.0)
         self.homeTableView.refreshControl?.addTarget(self, action: #selector(refreshTableData), for: .valueChanged)
         
         //delegating the mapView
@@ -110,21 +110,23 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
  
     fileprivate func setupCompassButton() {
   
-        compassButton = UIButton(frame: CGRect(x: 20, y: 20, width: 20, height: 20))
+        compassButton = UIButton(type: .system)
+        compassButton.frame = CGRect(x: 25, y: 25, width: 20, height: 20)
         compassButton.setImage(#imageLiteral(resourceName: "compass"), for: UIControlState.normal)
         compassButton.addTarget(self, action: #selector(setMapRegion), for: .touchUpInside)
         homeMapView.addSubview(compassButton)
         
         compassButton.translatesAutoresizingMaskIntoConstraints = false
         
-        let trailingConstraint = NSLayoutConstraint(item: compassButton, attribute: .trailing, relatedBy: .equal, toItem: homeMapView, attribute: .trailing , multiplier: 1, constant: -10)
-        let bottomConstraint = NSLayoutConstraint(item: compassButton, attribute: .bottom, relatedBy: .equal, toItem: homeMapView, attribute: .bottom , multiplier: 1, constant: -10)
+        let trailingConstraint = NSLayoutConstraint(item: compassButton, attribute: .trailing, relatedBy: .equal, toItem: homeMapView, attribute: .trailing , multiplier: 1, constant: -13)
+        let bottomConstraint = NSLayoutConstraint(item: compassButton, attribute: .bottom, relatedBy: .equal, toItem: homeMapView, attribute: .bottom , multiplier: 1, constant: -15)
         let widthConstraint = NSLayoutConstraint(item: compassButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute , multiplier: 1, constant: 30)
         let heightConstraint = NSLayoutConstraint(item: compassButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute , multiplier: 1, constant: 30)
         
         NSLayoutConstraint.activate([trailingConstraint, bottomConstraint, widthConstraint, heightConstraint])
         
-        self.compassButton.layer.cornerRadius = self.compassButton.frame.size.width / 2.0
+        self.compassButton.layer.backgroundColor = UIColor.white.cgColor
+        self.compassButton.layer.cornerRadius = 8
         self.compassButton.layer.masksToBounds = false
         self.compassButton.layer.shadowOffset = CGSize.init(width: 0, height: 2.0)
         self.compassButton.layer.shadowColor = (UIColor.black).cgColor
@@ -270,7 +272,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             let distance = (destinationLocation.distance(from: getLocation())/1000)
             
             cell.itemDistanceLabel.text = String(format: "%.2f", distance) + " kms"
-            
+
             cell.itemImageView.sd_setImage(with: storageRef.child(AppData.sharedInstance.onlineRequestedItems[indexPath.row].photos[0]), placeholderImage: UIImage.init(named: "placeholder"))
         }
         else if (wantedAvailableSegmentedControl.selectedSegmentIndex == 1){
@@ -373,7 +375,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             itemDetailContainerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
             itemDetailContainerView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
             itemDetailContainerView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0),
-            itemDetailContainerView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0)
+            itemDetailContainerView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 30)
             ])
         
         itemDetailContainerView.alpha = 1

@@ -28,19 +28,19 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="g2B-PB-j23">
-                        <rect key="frame" x="0.0" y="0.0" width="80" height="79.5"/>
+                        <rect key="frame" x="8" y="5" width="70" height="69.5"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="80" id="h1R-cj-UV8"/>
+                            <constraint firstAttribute="width" constant="70" id="h1R-cj-UV8"/>
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ktN-AR-rEF">
-                        <rect key="frame" x="88" y="8" width="174" height="52"/>
+                        <rect key="frame" x="86" y="8" width="176" height="51"/>
                         <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="21"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" verticalCompressionResistancePriority="748" text="Quality" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7PZ-mV-kmm">
-                        <rect key="frame" x="88" y="60" width="37" height="15"/>
+                        <rect key="frame" x="86" y="59" width="37" height="15"/>
                         <fontDescription key="fontDescription" name="GillSans-Light" family="Gill Sans" pointSize="13"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
@@ -54,16 +54,16 @@
                 </subviews>
                 <constraints>
                     <constraint firstItem="7Qj-Be-pdK" firstAttribute="leading" secondItem="ktN-AR-rEF" secondAttribute="trailing" constant="11.5" id="18M-P1-KjQ"/>
-                    <constraint firstItem="g2B-PB-j23" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="1VN-Kb-RzV"/>
+                    <constraint firstItem="g2B-PB-j23" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="1VN-Kb-RzV"/>
                     <constraint firstItem="ktN-AR-rEF" firstAttribute="width" secondItem="H2p-sc-9uM" secondAttribute="width" multiplier="0.55" priority="500" id="2ZS-h6-V1e"/>
                     <constraint firstItem="ktN-AR-rEF" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" id="DpA-9k-vxc"/>
                     <constraint firstItem="7PZ-mV-kmm" firstAttribute="leading" secondItem="g2B-PB-j23" secondAttribute="trailing" constant="8" id="Gfq-bs-58D"/>
                     <constraint firstAttribute="trailing" secondItem="7Qj-Be-pdK" secondAttribute="trailing" constant="4" id="H1m-w1-dde"/>
                     <constraint firstItem="ktN-AR-rEF" firstAttribute="leading" secondItem="g2B-PB-j23" secondAttribute="trailing" constant="8" id="Hso-6w-R02"/>
-                    <constraint firstAttribute="bottom" secondItem="g2B-PB-j23" secondAttribute="bottom" id="LoB-0j-LlQ"/>
-                    <constraint firstItem="g2B-PB-j23" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="OeA-aq-O5W"/>
+                    <constraint firstAttribute="bottom" secondItem="g2B-PB-j23" secondAttribute="bottom" constant="5" id="LoB-0j-LlQ"/>
+                    <constraint firstItem="g2B-PB-j23" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="8" id="OeA-aq-O5W"/>
                     <constraint firstItem="7Qj-Be-pdK" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="6" id="QFG-GY-kll"/>
-                    <constraint firstAttribute="bottom" secondItem="7PZ-mV-kmm" secondAttribute="bottom" constant="4.5" id="nEJ-zI-kMM"/>
+                    <constraint firstAttribute="bottom" secondItem="7PZ-mV-kmm" secondAttribute="bottom" constant="5.5" id="nEJ-zI-kMM"/>
                     <constraint firstAttribute="bottomMargin" secondItem="7Qj-Be-pdK" secondAttribute="bottom" constant="6" id="sdf-WB-80z"/>
                     <constraint firstItem="7PZ-mV-kmm" firstAttribute="top" secondItem="ktN-AR-rEF" secondAttribute="bottom" id="sqA-qx-eze"/>
                 </constraints>

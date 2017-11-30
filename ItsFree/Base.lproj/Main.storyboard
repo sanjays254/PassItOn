@@ -26,7 +26,11 @@
                                     <constraint firstAttribute="height" constant="44" id="h9b-bX-z0U"/>
                                 </constraints>
                                 <items>
-                                    <barButtonItem image="filter" style="plain" id="atb-Da-mFt"/>
+                                    <barButtonItem image="filter" style="plain" id="atb-Da-mFt">
+                                        <connections>
+                                            <action selector="filterTapped:" destination="BYZ-38-t0r" id="dHV-aM-UVb"/>
+                                        </connections>
+                                    </barButtonItem>
                                     <barButtonItem width="111" style="plain" systemItem="flexibleSpace" id="aa2-2U-TJy"/>
                                     <barButtonItem style="plain" id="Sja-Ne-QMf">
                                         <segmentedControl key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="kVJ-lR-ADn">
@@ -535,7 +539,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="filter" width="50" height="50"/>
-        <image name="userImage" width="50" height="50"/>
+        <image name="filter" width="25" height="25"/>
+        <image name="userImage" width="25" height="25"/>
     </resources>
 </document>

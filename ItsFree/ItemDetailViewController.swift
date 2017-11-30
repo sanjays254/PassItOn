@@ -43,6 +43,8 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
 
         itemDetailView.alpha = 1
         itemDetailView.layer.cornerRadius = 30
+        itemDetailView.layer.borderWidth = 5
+        itemDetailView.layer.borderColor = UIColor.black.cgColor
         
         let storageRef = Storage.storage().reference()
         let previewPhotoRef: String = currentItem.photos[0]

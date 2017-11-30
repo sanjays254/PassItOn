@@ -88,7 +88,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
     
     func setupTagButtonsView(){
         
-        let defaultTags = ["black", "white", "small", "nike", "samsung"]
+        let defaultTags = ["mom", "student", "ubc", "nike", "hiker"]
         
         for defaultTag in defaultTags {
             

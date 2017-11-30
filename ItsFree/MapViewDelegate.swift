@@ -42,7 +42,8 @@ class MapViewDelegate: NSObject, MKMapViewDelegate {
     
     func setMarkerPropertiesFor(newMarkerView: MKMarkerAnnotationView, item: Item){
 
-        
+        newMarkerView.markerTintColor = UIColor.black
+        newMarkerView.glyphTintColor = UIColor.green
         
         switch(item.itemCategory){
         case .clothing : newMarkerView.glyphImage = #imageLiteral(resourceName: "clothing")

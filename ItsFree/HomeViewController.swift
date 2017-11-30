@@ -31,6 +31,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet weak var homeTableView: UITableView!
     
     var itemDetailContainerView: UIView!
+    var filterContainerView: UIView!
     
     @IBOutlet weak var toolbar: UIToolbar!
     
@@ -73,9 +74,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         
         setupCompassButton()
-        setupToolbarButtons()
         setupMapListSegmentedControl()
-        //self.navigationController?.navigationBar.se
+        
         
         ReadFirebaseData.readOffers(category: ItemCategory.books)
         ReadFirebaseData.readRequests(category: nil)
@@ -102,30 +102,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.mapListSegmentedControl.selectedSegmentIndex = 0
         self.mapListSegmentedControl.addTarget(self, action: #selector(mapListSegmentAction), for: .valueChanged)
     }
-    
-    func setupToolbarButtons(){
-        
-//        let btn1 = UIButton(type: .custom)
-//        btn1.setImage(UIImage(named: "filter"), for: .normal)
-//        btn1.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
-//        btn1.addTarget(self, action: #selector(toProfile), for: .touchUpInside)
-//        let item1 = UIBarButtonItem(customView: btn1)
-//
-//
-//        self.wantedAvailableSegmentedControl = UISegmentedControl(items: ["Wanted", "Available"])
-//        self.wantedAvailableSegmentedControl.selectedSegmentIndex = 0
-//        self.wantedAvailableSegmentedControl.addTarget(self, action: #selector(changedWantedAvailableSegmnent(_:)), for: .valueChanged)
-//        let item2 = UIBarButtonItem(customView: wantedAvailableSegmentedControl)
-//
-//
-//        let btn3 = UIButton(type: .custom)
-//        btn3.setImage(UIImage(named: "userImage"), for: .normal)
-//        btn3.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
-//        btn3.addTarget(self, action: #selector(toProfile), for: .touchUpInside)
-//        let item3 = UIBarButtonItem(customView: btn3)
-//
-//        self.toolbar.setItems([item1, item2, item3], animated: true)
-    }
+ 
     fileprivate func setupCompassButton() {
   
         compassButton = UIButton(frame: CGRect(x: 20, y: 20, width: 20, height: 20))
@@ -200,6 +177,43 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         
     }
+    
+    
+    @IBAction func filterTapped(_ sender: UIBarButtonItem) {
+        //make the container view
+        filterContainerView = UIView()
+        filterContainerView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(filterContainerView)
+        
+        NSLayoutConstraint.activate([
+            filterContainerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
+            filterContainerView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
+            filterContainerView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0),
+            filterContainerView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0)
+            ])
+        
+        filterContainerView.alpha = 1
+        filterContainerView.backgroundColor = UIColor.clear
+        
+        //make the childViewController and add it into the containerView
+        let filterViewController = FilterTableViewController()
+        
+        addChildViewController(filterViewController)
+        filterViewController.view.translatesAutoresizingMaskIntoConstraints = false
+        filterContainerView.addSubview(filterViewController.view)
+        
+        filterViewController.view.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height)
+        
+        NSLayoutConstraint.activate([
+            filterViewController.view.leadingAnchor.constraint(equalTo: filterContainerView.leadingAnchor),
+            filterViewController.view.trailingAnchor.constraint(equalTo: filterContainerView.trailingAnchor),
+            filterViewController.view.topAnchor.constraint(equalTo: filterContainerView.topAnchor),
+            filterViewController.view.bottomAnchor.constraint(equalTo: filterContainerView.bottomAnchor)
+            ])
+        
+        filterViewController.didMove(toParentViewController: self)
+    }
+    
     
     
     //mapList segmented control
@@ -363,8 +377,17 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         addChildViewController(detailViewController)
         detailViewController.view.translatesAutoresizingMaskIntoConstraints = false
         itemDetailContainerView.addSubview(detailViewController.view)
+        
+        let yPoint = (self.navigationController?.navigationBar.frame.height)! + (UIApplication.shared.statusBarFrame.size.height)
+        
+//        UIView.animate(withDuration: 0.5, animations: {
+//            self.itemDetailView.frame = CGRect(x: 0, y:yPoint, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height)
+//
+//        }, completion: {(finished: Bool) in
+//
+//        })
        
-        detailViewController.view.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height)
+        detailViewController.view.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height+50)
         
         NSLayoutConstraint.activate([
             detailViewController.view.leadingAnchor.constraint(equalTo: itemDetailContainerView.leadingAnchor),

@@ -387,8 +387,8 @@
                                 </constraints>
                                 <segments>
                                     <segment title="New"/>
-                                    <segment title="Lightly Used"/>
-                                    <segment title="Heavily Used"/>
+                                    <segment title="Used"/>
+                                    <segment title="WornOut"/>
                                     <segment title="Damaged"/>
                                 </segments>
                             </segmentedControl>

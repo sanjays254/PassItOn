@@ -65,7 +65,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Poster Rating" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L32-KL-sMa">
-                            <rect key="frame" x="8" y="77.5" width="77.5" height="17.5"/>
+                            <rect key="frame" x="15" y="77.5" width="77.5" height="17.5"/>
                             <fontDescription key="fontDescription" name="GillSans-Light" family="Gill Sans" pointSize="15"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
@@ -82,7 +82,7 @@
                             </connections>
                         </button>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Poster Username" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="58X-Bu-Kbi">
-                            <rect key="frame" x="8" y="40" width="102.5" height="17.5"/>
+                            <rect key="frame" x="15" y="40" width="102.5" height="17.5"/>
                             <fontDescription key="fontDescription" name="GillSans-Light" family="Gill Sans" pointSize="15"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
@@ -92,7 +92,7 @@
                     <constraints>
                         <constraint firstItem="YGv-KU-WLS" firstAttribute="top" secondItem="pyp-ZW-Lc8" secondAttribute="bottom" constant="7.5" id="1Az-F2-kGm"/>
                         <constraint firstItem="sHA-bN-zLF" firstAttribute="centerX" secondItem="IvU-C1-Sgh" secondAttribute="centerX" id="1wd-el-J6r"/>
-                        <constraint firstItem="L32-KL-sMa" firstAttribute="leading" secondItem="IvU-C1-Sgh" secondAttribute="leading" constant="8" id="8sk-ZF-hsb"/>
+                        <constraint firstItem="L32-KL-sMa" firstAttribute="leading" secondItem="IvU-C1-Sgh" secondAttribute="leading" constant="15" id="8sk-ZF-hsb"/>
                         <constraint firstAttribute="trailing" secondItem="YGv-KU-WLS" secondAttribute="trailing" constant="8" id="Dsj-ph-cFu"/>
                         <constraint firstItem="YGv-KU-WLS" firstAttribute="leading" secondItem="IvU-C1-Sgh" secondAttribute="leading" constant="8" id="LOh-6o-8aG"/>
                         <constraint firstAttribute="trailing" secondItem="D3q-we-ffY" secondAttribute="trailing" constant="12" id="LdX-vF-SBm"/>
@@ -103,8 +103,7 @@
                         <constraint firstItem="58X-Bu-Kbi" firstAttribute="top" secondItem="IvU-C1-Sgh" secondAttribute="top" constant="40" id="WcI-p8-yjB"/>
                         <constraint firstItem="pyp-ZW-Lc8" firstAttribute="centerX" secondItem="IvU-C1-Sgh" secondAttribute="centerX" id="cip-9g-2O7"/>
                         <constraint firstItem="D3q-we-ffY" firstAttribute="top" secondItem="IvU-C1-Sgh" secondAttribute="top" constant="12" id="mel-v3-5Wo"/>
-                        <constraint firstItem="58X-Bu-Kbi" firstAttribute="leading" secondItem="IvU-C1-Sgh" secondAttribute="leading" constant="8" id="nkx-eO-Wog"/>
-                        <constraint firstItem="58X-Bu-Kbi" firstAttribute="leading" secondItem="IvU-C1-Sgh" secondAttribute="leading" constant="8" id="rPz-Ll-9P0"/>
+                        <constraint firstItem="58X-Bu-Kbi" firstAttribute="leading" secondItem="IvU-C1-Sgh" secondAttribute="leading" constant="15" id="rPz-Ll-9P0"/>
                         <constraint firstItem="0hf-Rx-BJL" firstAttribute="top" secondItem="4bD-P7-jHw" secondAttribute="bottom" constant="8" id="uhb-yc-0Ac"/>
                         <constraint firstAttribute="trailing" secondItem="pyp-ZW-Lc8" secondAttribute="trailing" constant="28" id="v62-Gd-lm4"/>
                         <constraint firstItem="sHA-bN-zLF" firstAttribute="top" secondItem="0hf-Rx-BJL" secondAttribute="bottom" constant="8" id="xH5-Xu-iNE"/>

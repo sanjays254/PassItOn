@@ -377,8 +377,17 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         addChildViewController(detailViewController)
         detailViewController.view.translatesAutoresizingMaskIntoConstraints = false
         itemDetailContainerView.addSubview(detailViewController.view)
+        
+        let yPoint = (self.navigationController?.navigationBar.frame.height)! + (UIApplication.shared.statusBarFrame.size.height)
+        
+//        UIView.animate(withDuration: 0.5, animations: {
+//            self.itemDetailView.frame = CGRect(x: 0, y:yPoint, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height)
+//
+//        }, completion: {(finished: Bool) in
+//
+//        })
        
-        detailViewController.view.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height)
+        detailViewController.view.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height+50)
         
         NSLayoutConstraint.activate([
             detailViewController.view.leadingAnchor.constraint(equalTo: itemDetailContainerView.leadingAnchor),

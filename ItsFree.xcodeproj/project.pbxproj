@@ -20,6 +20,7 @@
 		01C1CAEB1FBFCAE900FB636C /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C1CAEA1FBFCAE900FB636C /* Tag.swift */; };
 		01D5DF461FBF86F40029A276 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D5DF451FBF86F40029A276 /* User.swift */; };
 		01EA0BFC1FCD1A8A00AC54AC /* WriteFirebaseData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01EA0BFB1FCD1A8A00AC54AC /* WriteFirebaseData.swift */; };
+		01EA0BFE1FCF6D7500AC54AC /* PickProfilePicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01EA0BFD1FCF6D7500AC54AC /* PickProfilePicViewController.swift */; };
 		01F6ADA71FC3A89C00414D96 /* ImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01F6ADA61FC3A89C00414D96 /* ImageManager.swift */; };
 		AAE390072D6121EF9B932714 /* Pods_ItsFree.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52500CB0F9C6555890C6A26D /* Pods_ItsFree.framework */; };
 		CE03A3201FCE06700015DDBF /* MyPostsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE03A31F1FCE06700015DDBF /* MyPostsTableViewController.swift */; };
@@ -84,6 +85,7 @@
 		01D5DF451FBF86F40029A276 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		01EA0BFA1FCBD20500AC54AC /* ItsFree.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ItsFree.entitlements; sourceTree = "<group>"; };
 		01EA0BFB1FCD1A8A00AC54AC /* WriteFirebaseData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteFirebaseData.swift; sourceTree = "<group>"; };
+		01EA0BFD1FCF6D7500AC54AC /* PickProfilePicViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickProfilePicViewController.swift; sourceTree = "<group>"; };
 		01F6ADA61FC3A89C00414D96 /* ImageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageManager.swift; sourceTree = "<group>"; };
 		19703A4DE107F8BC8775279E /* Pods-ItsFree.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ItsFree.release.xcconfig"; path = "Pods/Target Support Files/Pods-ItsFree/Pods-ItsFree.release.xcconfig"; sourceTree = "<group>"; };
 		3B7CE68F6A926C3412F77907 /* Pods-ItsFreeUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ItsFreeUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-ItsFreeUITests/Pods-ItsFreeUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -212,6 +214,7 @@
 				0135173D1FC6168700977B2E /* Login.storyboard */,
 				013517461FC8F29D00977B2E /* ProfileViewControllers.storyboard */,
 				CE03A31F1FCE06700015DDBF /* MyPostsTableViewController.swift */,
+				01EA0BFD1FCF6D7500AC54AC /* PickProfilePicViewController.swift */,
 				01C1CAE81FBFB35500FB636C /* AppData.swift */,
 				CE5869CE1FBE445C0012F774 /* AppDelegate.swift */,
 				0135173B1FC50B3F00977B2E /* AuthenticationManager.swift */,
@@ -653,6 +656,7 @@
 				CEBD48A11FCC949800C5267F /* LeaderboardTableViewController.swift in Sources */,
 				CEFC19921FC65C320082CB55 /* ItemDetailViewController.swift in Sources */,
 				CEF41A1C1FC1000F0044C63E /* MapViewDelegate.swift in Sources */,
+				01EA0BFE1FCF6D7500AC54AC /* PickProfilePicViewController.swift in Sources */,
 				0135173C1FC50B3F00977B2E /* AuthenticationManager.swift in Sources */,
 				01EA0BFC1FCD1A8A00AC54AC /* WriteFirebaseData.swift in Sources */,
 				01C1CAEB1FBFCAE900FB636C /* Tag.swift in Sources */,

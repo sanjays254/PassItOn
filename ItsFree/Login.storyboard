@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="vvg-N4-Ees">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="vvg-N4-Ees">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -146,11 +147,54 @@
                         <outlet property="usernameLabel" destination="0If-so-uRA" id="iHP-ds-c1i"/>
                         <outlet property="usernameTextfield" destination="lnn-ue-Vo4" id="fhW-z4-QsQ"/>
                         <segue destination="RFQ-9e-1Er" kind="presentation" identifier="continueToHome" id="KaF-Mk-6Gz"/>
+                        <segue destination="6Tv-DZ-tRk" kind="show" identifier="selectProfilePic" id="OfJ-pq-Nj8"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jYJ-4X-RoM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-20" y="-147.97601199400302"/>
+        </scene>
+        <!--Pick Profile Pic View Controller-->
+        <scene sceneID="d80-4q-XOZ">
+            <objects>
+                <viewController id="6Tv-DZ-tRk" customClass="PickProfilePicViewController" customModule="ItsFree" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Bpq-Zy-SKy">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="defaultProfile" translatesAutoresizingMaskIntoConstraints="NO" id="iVA-iG-xM0">
+                                <rect key="frame" x="40" y="60" width="295" height="295"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="iVA-iG-xM0" secondAttribute="height" multiplier="1:1" id="xav-8h-hPP"/>
+                                </constraints>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5an-Uz-OZL">
+                                <rect key="frame" x="61.5" y="385" width="252" height="44"/>
+                                <fontDescription key="fontDescription" type="system" weight="thin" pointSize="26"/>
+                                <state key="normal" title="Choose a Profile Picture"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jPe-1s-Npu">
+                                <rect key="frame" x="140.5" y="459" width="93" height="44"/>
+                                <fontDescription key="fontDescription" type="system" weight="thin" pointSize="26"/>
+                                <state key="normal" title="Not Now"/>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="iVA-iG-xM0" firstAttribute="leading" secondItem="lqt-oY-HOp" secondAttribute="leading" constant="40" id="21Y-0N-y5f"/>
+                            <constraint firstItem="5an-Uz-OZL" firstAttribute="centerX" secondItem="lqt-oY-HOp" secondAttribute="centerX" id="A2T-uq-HsW"/>
+                            <constraint firstItem="5an-Uz-OZL" firstAttribute="top" secondItem="iVA-iG-xM0" secondAttribute="bottom" constant="30" id="CPS-rw-iXO"/>
+                            <constraint firstItem="jPe-1s-Npu" firstAttribute="top" secondItem="5an-Uz-OZL" secondAttribute="bottom" constant="30" id="Lyv-75-qqD"/>
+                            <constraint firstItem="jPe-1s-Npu" firstAttribute="centerX" secondItem="lqt-oY-HOp" secondAttribute="centerX" id="dwA-DK-J5x"/>
+                            <constraint firstItem="iVA-iG-xM0" firstAttribute="top" secondItem="lqt-oY-HOp" secondAttribute="top" constant="40" id="m4r-lE-eyP"/>
+                            <constraint firstItem="lqt-oY-HOp" firstAttribute="trailing" secondItem="iVA-iG-xM0" secondAttribute="trailing" constant="40" id="yXe-hk-kxO"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="lqt-oY-HOp"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="rcE-vg-eCo" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1017" y="-148"/>
         </scene>
         <!--Main-->
         <scene sceneID="bSr-3T-9Ac">
@@ -158,7 +202,10 @@
                 <viewControllerPlaceholder storyboardName="Main" id="RFQ-9e-1Er" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nyg-6h-qkq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="609" y="-221"/>
+            <point key="canvasLocation" x="-21" y="334"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="defaultProfile" width="300" height="300"/>
+    </resources>
 </document>

@@ -33,9 +33,6 @@ class ReadFirebaseData: NSObject {
             ref = AppData.sharedInstance.offersNode.child("\(category!.rawValue)")
         }
         let tempHandle = ref.observe(DataEventType.value, with: { (snapshot) in
-            if offersHandle != nil {
-                ref.removeObserver(withHandle: offersHandle!)
-            }
             let value = snapshot.value as? NSDictionary;
             if ( value == nil) {
                 return
@@ -58,6 +55,9 @@ class ReadFirebaseData: NSObject {
             NotificationCenter.default.post(name: Notification.Name(rawValue: myDownloadNotificationKey), object: nil)
         })
         
+        if offersHandle != nil {
+            ref.removeObserver(withHandle: offersHandle!)
+        }
         offersHandle = tempHandle
         
     }
@@ -76,9 +76,7 @@ class ReadFirebaseData: NSObject {
         }
         
         let tempHandle = ref.observe(DataEventType.value, with: { (snapshot) in
-            if requestsHandle != nil {
-                ref.removeObserver(withHandle: requestsHandle!)
-            }
+            
             
             let value = snapshot.value as? NSDictionary
             
@@ -103,6 +101,9 @@ class ReadFirebaseData: NSObject {
             let myDownloadNotificationKey = "myDownloadNotificationKey"
             NotificationCenter.default.post(name: Notification.Name(rawValue: myDownloadNotificationKey), object: nil)
         })
+        if requestsHandle != nil {
+            ref.removeObserver(withHandle: requestsHandle!)
+        }
         requestsHandle = tempHandle
     }
     

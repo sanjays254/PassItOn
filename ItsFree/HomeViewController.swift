@@ -14,7 +14,7 @@ import MapKit
 import FirebaseStorage
 
 
-class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate, MKMapViewDelegate {
+class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate, MKMapViewDelegate, UINavigationControllerDelegate {
     
     let mySelectedItemNotificationKey = "theNotificationKey"
     let myDowloadCompletedNotificationKey = "myDownloadNotificationKey"
@@ -139,8 +139,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
 
 
     override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
-        homeTableView.reloadData()
+//        super.viewWillAppear(true)
+        self.homeTableView.reloadData()
     }
     
     //receives info from mapViewDelegate about which itemAnnotation was clicked on
@@ -155,6 +155,9 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         // Dispose of any resources that can be recreated.
     }
     
+    func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
+        self.homeTableView.reloadData()
+    }
     
 //    @objc func refreshData(){
 //        if(wantedAvailableSegmentedControl.selectedSegmentIndex == 0){

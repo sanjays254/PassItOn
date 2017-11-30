@@ -53,8 +53,7 @@ class FilterTableViewController: UITableViewController {
         else {
         cell.textLabel?.text = ItemCategory.stringValue(index: indexPath.row-1)
         }
-     
-     return cell
+        return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

@@ -20,6 +20,11 @@ class ItemHomeTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        
+        itemImageView.layer.masksToBounds = true
+        itemImageView.layer.borderColor = UIColor.black.cgColor
+        itemImageView.layer.borderWidth = 3
+        itemImageView.layer.cornerRadius = 5
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

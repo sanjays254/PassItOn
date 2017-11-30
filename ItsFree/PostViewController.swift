@@ -343,7 +343,6 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
             chosenQuality = ItemQuality.GentlyUsed
         }
         
-        WriteFirebaseData.delete(itemUID: "-L-9QP5Takvas6NUCUTu")
         validateFields()
     }
     

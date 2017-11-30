@@ -18,6 +18,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     let mySelectedItemNotificationKey = "theNotificationKey"
     let myDowloadCompletedNotificationKey = "myDownloadNotificationKey"
+    let filterAppliedKey = "filterAppliedKey"
 
     var currentLocation: CLLocation!
     var locationManager: CLLocationManager!
@@ -40,6 +41,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        wantedAvailableSegmentedControl.selectedSegmentIndex = 1
         
         //delegating the tableView
         self.homeTableView.delegate = self
@@ -77,10 +80,12 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         setupMapListSegmentedControl()
         
         
-        ReadFirebaseData.readOffers(category: ItemCategory.books)
+        ReadFirebaseData.readOffers(category: nil)
         ReadFirebaseData.readRequests(category: nil)
         ReadFirebaseData.readUsers()
    
+       // NotificationCenter.default.addObserver(self, selector: #selector(self.refreshData), name: NSNotification.Name(rawValue: filterAppliedKey), object: nil)
+        
         NotificationCenter.default.addObserver(self, selector: #selector(self.addAnnotationsWhenFinishedDownloadingData), name: NSNotification.Name(rawValue: myDowloadCompletedNotificationKey), object: nil)
 
         homeMapView.register(MKMarkerAnnotationView.self, forAnnotationViewWithReuseIdentifier: "itemMarkerView")
@@ -151,6 +156,20 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     
+//    @objc func refreshData(){
+//        if(wantedAvailableSegmentedControl.selectedSegmentIndex == 0){
+//            self.homeMapView.removeAnnotations(AppData.sharedInstance.onlineOfferedItems)
+//            self.homeMapView.addAnnotations(AppData.sharedInstance.onlineRequestedItems)
+//            homeTableView.reloadData()
+//        }
+//        else if (wantedAvailableSegmentedControl.selectedSegmentIndex == 1){
+//            self.homeMapView.removeAnnotations(AppData.sharedInstance.onlineRequestedItems)
+//            self.homeMapView.addAnnotations(AppData.sharedInstance.onlineOfferedItems)
+//            homeTableView.reloadData()
+//        }
+//
+//    }
+    
     //wantedAvailable segmenetd control
     @IBAction func changedWantedAvailableSegmnent(_ sender: UISegmentedControl) {
         
@@ -168,10 +187,14 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     @objc func addAnnotationsWhenFinishedDownloadingData(notification: NSNotification){
         
+        self.homeMapView.removeAnnotations(homeMapView.annotations)
+        
         if(wantedAvailableSegmentedControl.selectedSegmentIndex == 0){
+            
             self.homeMapView.addAnnotations(AppData.sharedInstance.onlineRequestedItems)
         }
         else if (wantedAvailableSegmentedControl.selectedSegmentIndex == 1){
+            
             self.homeMapView.addAnnotations(AppData.sharedInstance.onlineOfferedItems)
         }
         
@@ -180,38 +203,17 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     
     @IBAction func filterTapped(_ sender: UIBarButtonItem) {
-        //make the container view
-        filterContainerView = UIView()
-        filterContainerView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(filterContainerView)
         
-        NSLayoutConstraint.activate([
-            filterContainerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
-            filterContainerView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
-            filterContainerView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0),
-            filterContainerView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0)
-            ])
         
-        filterContainerView.alpha = 1
-        filterContainerView.backgroundColor = UIColor.clear
-        
-        //make the childViewController and add it into the containerView
+
         let filterViewController = FilterTableViewController()
-        
-        addChildViewController(filterViewController)
+        self.navigationController?.pushViewController(filterViewController, animated: true)
+       
+       
         filterViewController.view.translatesAutoresizingMaskIntoConstraints = false
-        filterContainerView.addSubview(filterViewController.view)
-        
+  
         filterViewController.view.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height)
-        
-        NSLayoutConstraint.activate([
-            filterViewController.view.leadingAnchor.constraint(equalTo: filterContainerView.leadingAnchor),
-            filterViewController.view.trailingAnchor.constraint(equalTo: filterContainerView.trailingAnchor),
-            filterViewController.view.topAnchor.constraint(equalTo: filterContainerView.topAnchor),
-            filterViewController.view.bottomAnchor.constraint(equalTo: filterContainerView.bottomAnchor)
-            ])
-        
-        filterViewController.didMove(toParentViewController: self)
+
     }
     
     
@@ -303,6 +305,9 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         self.homeTableView.reloadData()
         self.homeTableView.refreshControl?.endRefreshing()
+        
+//        self.homeMapView.removeAnnotations(AppData.sharedInstance.onlineOfferedItems)
+//        self.homeMapView.addAnnotations(AppData.sharedInstance.onlineRequestedItems)
         
     }
 

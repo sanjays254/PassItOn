@@ -24,6 +24,7 @@
 		01F6ADA71FC3A89C00414D96 /* ImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01F6ADA61FC3A89C00414D96 /* ImageManager.swift */; };
 		AAE390072D6121EF9B932714 /* Pods_ItsFree.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52500CB0F9C6555890C6A26D /* Pods_ItsFree.framework */; };
 		CE03A3201FCE06700015DDBF /* MyPostsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE03A31F1FCE06700015DDBF /* MyPostsTableViewController.swift */; };
+		CE43E79A1FCF90290061A653 /* FilterTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE43E7991FCF90290061A653 /* FilterTableViewController.swift */; };
 		CE5249DC1FC6184A003F41D8 /* KeyboardLayoutConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5249DB1FC6184A003F41D8 /* KeyboardLayoutConstraint.swift */; };
 		CE5869CF1FBE445C0012F774 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5869CE1FBE445C0012F774 /* AppDelegate.swift */; };
 		CE5869D41FBE445C0012F774 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE5869D21FBE445C0012F774 /* Main.storyboard */; };
@@ -96,6 +97,7 @@
 		B18D93946728A6339468F21B /* Pods-ItsFree.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ItsFree.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ItsFree/Pods-ItsFree.debug.xcconfig"; sourceTree = "<group>"; };
 		C21A98A73CD94089A2DFCBB2 /* Pods-ItsFreeUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ItsFreeUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ItsFreeUITests/Pods-ItsFreeUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		CE03A31F1FCE06700015DDBF /* MyPostsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPostsTableViewController.swift; sourceTree = "<group>"; };
+		CE43E7991FCF90290061A653 /* FilterTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterTableViewController.swift; sourceTree = "<group>"; };
 		CE5249DB1FC6184A003F41D8 /* KeyboardLayoutConstraint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardLayoutConstraint.swift; sourceTree = "<group>"; };
 		CE5869CB1FBE445C0012F774 /* ItsFree.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ItsFree.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE5869CE1FBE445C0012F774 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -218,6 +220,7 @@
 				0135173B1FC50B3F00977B2E /* AuthenticationManager.swift */,
 				01BAC9F81FBF6CD10050C891 /* Enums.swift */,
 				CE9683D41FBF8E5600DFA277 /* HomeViewController.swift */,
+				CE43E7991FCF90290061A653 /* FilterTableViewController.swift */,
 				01F6ADA61FC3A89C00414D96 /* ImageManager.swift */,
 				01BAC9F61FBE5C9E0050C891 /* Item.swift */,
 				CEFC19941FC75E510082CB55 /* ItemDetailView.swift */,
@@ -636,6 +639,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				01BAC9F71FBE5C9E0050C891 /* Item.swift in Sources */,
+				CE43E79A1FCF90290061A653 /* FilterTableViewController.swift in Sources */,
 				01BAC9F91FBF6CD10050C891 /* Enums.swift in Sources */,
 				CE5249DC1FC6184A003F41D8 /* KeyboardLayoutConstraint.swift in Sources */,
 				CEF41A251FC3CF1C0044C63E /* PostMapViewController.swift in Sources */,
@@ -830,11 +834,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = ItsFree/ItsFree.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 48KFD7RJD2;
+				DEVELOPMENT_TEAM = L4XYQHCH99;
 				INFOPLIST_FILE = ItsFree/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.sanjayshah.ItsFree;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sanjayshah.Cats;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -848,11 +852,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = ItsFree/ItsFree.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 48KFD7RJD2;
+				DEVELOPMENT_TEAM = L4XYQHCH99;
 				INFOPLIST_FILE = ItsFree/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.sanjayshah.ItsFree;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sanjayshah.Cats;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

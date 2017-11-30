@@ -79,11 +79,32 @@ class WriteFirebaseData {
         else {
             print("itemPath found: \(Database.database().reference().child(itemPath!))")
             
-            Database.database().reference().child(itemPath!).observe(DataEventType.value) { (snapshot) in
+            Database.database().reference().child(itemPath!).observeSingleEvent(of: DataEventType.value, with: { (snapshot) in
                 print(snapshot.value)
-            }
-            Database.database().reference().child(itemPath!).removeValue()
-            WriteFirebaseData.write(user: AppData.sharedInstance.currentUser!)
+                
+                let ref = Storage.storage().reference()
+                let item: [String:Any] = snapshot.value as! [String:Any]
+                let readItem = Item(with: item)
+                if readItem != nil {
+                    //print(readItem?.photos)
+                    for photo in readItem!.photos {
+                        print(photo)
+                        ref.child(photo).delete(completion: { (error) in
+                            if error != nil {
+                                print("Error deleting photos linked to post: \(error)")
+                            }
+                            else {
+                                print("Deleted \(photo)")
+                            }
+                        })
+                    }
+                    Database.database().reference().child(itemPath!).removeValue()
+                    WriteFirebaseData.write(user: AppData.sharedInstance.currentUser!)
+                }
+                else {
+                    print("Nil found in read items")
+                }
+            })
         }
     }
     

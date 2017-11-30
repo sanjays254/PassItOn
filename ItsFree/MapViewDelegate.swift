@@ -42,10 +42,12 @@ class MapViewDelegate: NSObject, MKMapViewDelegate {
     
     func setMarkerPropertiesFor(newMarkerView: MKMarkerAnnotationView, item: Item){
 
-        // FIXME: Add all categories
+        newMarkerView.markerTintColor = UIColor.black
+        newMarkerView.glyphTintColor = UIColor.green
         
         switch(item.itemCategory){
         case .clothing : newMarkerView.glyphImage = #imageLiteral(resourceName: "clothing")
+        case .books : newMarkerView.glyphImage = #imageLiteral(resourceName: "book")
         case .electronics : newMarkerView.glyphImage = #imageLiteral(resourceName: "electronics")
         case .furniture : newMarkerView.glyphImage = #imageLiteral(resourceName: "furniture")
         case .sportingGoods : newMarkerView.glyphImage = #imageLiteral(resourceName: "sports")
@@ -65,7 +67,14 @@ class MapViewDelegate: NSObject, MKMapViewDelegate {
         let item = annotation as! Item
         
         let newItemMarkerView = mapView.dequeueReusableAnnotationView(withIdentifier: "itemMarkerView", for: annotation) as! MKMarkerAnnotationView
+        
+        if let cluster = annotation as? MKClusterAnnotation {
+            newItemMarkerView.glyphText = String(cluster.memberAnnotations.count)
+            return newItemMarkerView
+        }
+        else {
         setMarkerPropertiesFor(newMarkerView: newItemMarkerView, item: item)
+        }
         return newItemMarkerView
     }
     

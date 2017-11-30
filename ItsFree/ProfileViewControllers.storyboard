@@ -37,8 +37,10 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ooB-kc-sy8">
-                                <rect key="frame" x="156" y="571" width="63" height="30"/>
-                                <state key="normal" title="My Posts"/>
+                                <rect key="frame" x="12" y="489" width="351" height="30"/>
+                                <state key="normal" title="My Posts">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
                                 <connections>
                                     <segue destination="eNz-m7-GPC" kind="show" id="06J-qN-KUw"/>
                                 </connections>
@@ -46,15 +48,15 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="ooB-kc-sy8" firstAttribute="top" secondItem="8Dm-5y-SA3" secondAttribute="bottom" constant="30" id="1Zx-t9-Em1"/>
                             <constraint firstItem="apo-xE-xyy" firstAttribute="trailing" secondItem="xP3-iM-nzo" secondAttribute="trailing" constant="50" id="3Zq-IJ-AlT"/>
                             <constraint firstItem="n16-cV-pxw" firstAttribute="top" secondItem="xP3-iM-nzo" secondAttribute="bottom" constant="20" id="F6T-W0-HoU"/>
                             <constraint firstItem="xP3-iM-nzo" firstAttribute="leading" secondItem="apo-xE-xyy" secondAttribute="leading" constant="50" id="SIy-UO-2gn"/>
                             <constraint firstItem="8Dm-5y-SA3" firstAttribute="centerX" secondItem="8f5-Z4-td5" secondAttribute="centerX" id="gdc-37-Hgy"/>
                             <constraint firstItem="8Dm-5y-SA3" firstAttribute="top" secondItem="n16-cV-pxw" secondAttribute="bottom" constant="20" id="haE-gq-4Ah"/>
-                            <constraint firstItem="ooB-kc-sy8" firstAttribute="leading" secondItem="apo-xE-xyy" secondAttribute="leading" constant="156" id="sKs-hb-Fr9"/>
+                            <constraint firstItem="ooB-kc-sy8" firstAttribute="leading" secondItem="apo-xE-xyy" secondAttribute="leading" constant="12" id="sKs-hb-Fr9"/>
                             <constraint firstItem="xP3-iM-nzo" firstAttribute="top" secondItem="apo-xE-xyy" secondAttribute="top" constant="20" id="tIg-Dw-fyX"/>
-                            <constraint firstItem="apo-xE-xyy" firstAttribute="bottom" secondItem="ooB-kc-sy8" secondAttribute="bottom" constant="66" id="vsZ-bR-PBw"/>
-                            <constraint firstItem="apo-xE-xyy" firstAttribute="trailing" secondItem="ooB-kc-sy8" secondAttribute="trailing" constant="156" id="wiD-cK-H9O"/>
+                            <constraint firstItem="apo-xE-xyy" firstAttribute="trailing" secondItem="ooB-kc-sy8" secondAttribute="trailing" constant="12" id="wiD-cK-H9O"/>
                             <constraint firstItem="n16-cV-pxw" firstAttribute="centerX" secondItem="8f5-Z4-td5" secondAttribute="centerX" id="ySG-cg-ecc"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="apo-xE-xyy"/>
@@ -69,6 +71,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="emailLabel" destination="8Dm-5y-SA3" id="gBU-be-e20"/>
+                        <outlet property="myPostsButton" destination="ooB-kc-sy8" id="ir4-vB-McW"/>
                         <outlet property="profileImageView" destination="xP3-iM-nzo" id="FlW-r2-dtd"/>
                         <outlet property="usernameLabel" destination="n16-cV-pxw" id="7o6-b8-3Kn"/>
                     </connections>

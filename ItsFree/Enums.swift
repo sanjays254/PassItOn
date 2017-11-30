@@ -100,8 +100,8 @@ public enum ItemCategory:String {
 
 public enum ItemQuality:String {
     case New  = "New",
-    GentlyUsed = "Gently Used",
-    WellUsed = "Well Used",
+    GentlyUsed = "Used",
+    WellUsed = "WornOut",
     DamagedButFunctional = "Damaged but Functional",
     NeedsFixing = "Needs Fixing"
 }

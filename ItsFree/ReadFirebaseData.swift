@@ -35,6 +35,8 @@ class ReadFirebaseData: NSObject {
         let tempHandle = ref.observe(DataEventType.value, with: { (snapshot) in
             let value = snapshot.value as? NSDictionary;
             if ( value == nil) {
+                
+                                NotificationCenter.default.post(name: Notification.Name(rawValue: "noOfferedItemsInCategoryKey"), object: nil)
                 return
             }
             AppData.sharedInstance.onlineOfferedItems.removeAll()
@@ -81,6 +83,9 @@ class ReadFirebaseData: NSObject {
             let value = snapshot.value as? NSDictionary
             
             if ( value == nil) {
+                
+                NotificationCenter.default.post(name: Notification.Name(rawValue: "noRequestedItemsInCategoryKey"), object: nil)
+
                 return
             }
 
@@ -90,7 +95,7 @@ class ReadFirebaseData: NSObject {
                 for thisCategory in value! {
                     print("\n\n\(thisCategory.key)")
                     let data = thisCategory.value as! [String:Any]
-                    
+                    print(data)
                     readRequest(data: data)
                 }
             }
@@ -151,11 +156,13 @@ class ReadFirebaseData: NSObject {
     }
     
     fileprivate class func readRequest(data:[String:Any]) {
+   
         for any in data {
             let item: [String:Any] = any.value as! [String:Any]
             let readItem = Item(with: item)
             if readItem != nil {
                 AppData.sharedInstance.onlineRequestedItems.append(readItem!)
+                print(readItem?.name)
                 print("appending requested items")
             }
             else {

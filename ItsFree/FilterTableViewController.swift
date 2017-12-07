@@ -66,13 +66,41 @@ class FilterTableViewController: UITableViewController {
         ReadFirebaseData.readOffers(category: ItemCategory.enumName(index:indexPath.row-1))
         ReadFirebaseData.readRequests(category: ItemCategory.enumName(index:indexPath.row-1))
         }
-    
+        
+       // NotificationCenter.default.addObserver(self, selector: #selector(presentNonRequestedAlert), name: NSNotification.Name(rawValue: "noRequestedItemsInCategoryKey"), object: nil)
+        
+       // NotificationCenter.default.addObserver(self, selector: #selector(presentNonAvailableAlert), name: NSNotification.Name(rawValue: "noOfferedItemsInCategoryKey"), object: nil)
+        
+        
+        
         self.navigationController?.popViewController(animated: true)
         
         //let filterAppliedKey = "filterAppliedKey""
-        NotificationCenter.default.post(name: Notification.Name(rawValue: "myDownloadNotificationKey"), object: nil)
+        //NotificationCenter.default.post(name: Notification.Name(rawValue: "myDownloadNotificationKey"), object: nil)
         
         
     }
+    
+//    @objc func presentNonAvailableAlert(){
+//
+//        let noValuesAlert = UIAlertController(title: "No items!", message: "Nothing is available in this category", preferredStyle: UIAlertControllerStyle.alert)
+//
+//        let okayAction = UIAlertAction(title: "Okay", style: UIAlertActionStyle.default, handler: nil)
+//
+//        noValuesAlert.addAction(okayAction)
+//        present(noValuesAlert, animated: true, completion: nil)
+//
+//    }
+//
+//    @objc func presentNonRequestedAlert(){
+//
+//        let noValuesAlert = UIAlertController(title: "No items!", message: "Nothing is requested for in this category", preferredStyle: UIAlertControllerStyle.alert)
+//
+//        let okayAction = UIAlertAction(title: "Okay", style: UIAlertActionStyle.default, handler: nil)
+//
+//        noValuesAlert.addAction(okayAction)
+//        present(noValuesAlert, animated: true, completion: nil)
+//
+//    }
 
 }

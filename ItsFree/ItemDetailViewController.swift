@@ -243,14 +243,16 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
         
         let destinationEmail = destinationUser!.email
         let destinationName = destinationUser!.name
+        let destinationUserID = destinationUser!.UID
         
         let currentUserName = AppData.sharedInstance.currentUser!.name
         let currentUserID = AppData.sharedInstance.currentUser!.UID
+        let currentUserEmail = AppData.sharedInstance.currentUser!.email
         let currentItemName = currentItem.name
         let currentItemID = currentItem.UID
         
-        let attrLinkString = NSMutableAttributedString(string: "link")
-        attrLinkString.addAttribute(NSAttributedStringKey.link, value: NSURL(string: "iOSAnotherLifeApp://?itemID=\(currentItemID!)&userID=\(currentUserID!)")! , range: NSMakeRange(0, attrLinkString.length))
+        let attrLinkString = NSMutableAttributedString(string: "Click here to Rate \(destinationName)")
+        attrLinkString.addAttribute(NSAttributedStringKey.link, value: NSURL(string: "iOSAnotherLifeApp://?itemID=\(currentItemID!)&userID=\(destinationUserID!)")! , range: NSMakeRange(0, attrLinkString.length))
         
         var linkString: String! = ""
         
@@ -262,9 +264,9 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
         }
         
         //mailVC properties
-        mailComposerVC.setToRecipients([destinationEmail])
+        mailComposerVC.setToRecipients([destinationEmail, currentUserEmail])
         mailComposerVC.setSubject("Second Life: \(currentUserName) wants your item")
-        mailComposerVC.setMessageBody("Hey \(destinationName),<br><br> I want your \(currentItemName).<br><br>Admin Message: Please include this \(linkString!), in your reply so that \(currentUserName) can rate you!<br><br>Thanks! :)", isHTML: true)
+        mailComposerVC.setMessageBody("Hey \(destinationName),<br><br> I want your \(currentItemName).<br><br>Thanks!<br><br>---------------------<br><br>Admin Message to \(currentUserName): Use the link below to rate \(destinationName), if you like or dislike the item. There will be a copy in your inbox<br><br> \(linkString!)<br><br>Thanks! :)", isHTML: true)
         
         //send an email to current user with link instead of putting link in here
     }
@@ -295,7 +297,7 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
         
         //mailVC properties
         mailComposerVC.setToRecipients([destinationEmail])
-        mailComposerVC.setSubject("Another Life: \(currentUserName) has something you want")
+        mailComposerVC.setSubject("FreeBox: \(currentUserName) has something you want")
         mailComposerVC.setMessageBody("Hey \(destinationName),<br><br> I have a \(currentItemName).<br><br><br><br>Admin message: Please click the link below if \(currentUserName) gives you the item, to easily delete your post from the app and so that you can rate him/her!<br><br>\(linkString!)<br><brThanks! :) ", isHTML: true)
     }
     

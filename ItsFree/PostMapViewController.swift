@@ -165,9 +165,22 @@ class PostMapViewController: UIViewController, UISearchBarDelegate, MKMapViewDel
     
     @IBAction func saveLocationButon(_ sender: UIButton) {
         
-        self.navigationController?.popViewController(animated: true)
-        previousVC.selectedLocationString = self.pointAnnotation.title ?? ""
-        previousVC.selectedLocationCoordinates = self.pointAnnotation.coordinate
+        if (self.pointAnnotation != nil){
+            self.navigationController?.popViewController(animated: true)
+            previousVC.selectedLocationString = self.pointAnnotation.title ?? ""
+            previousVC.selectedLocationCoordinates = self.pointAnnotation.coordinate
+        }
+        else {
+            
+            let noLocationAlert = UIAlertController(title: "Can't Save!", message: "Select a location before saving", preferredStyle: UIAlertControllerStyle.alert)
+            
+            let okayAction = UIAlertAction(title: "Okay", style: UIAlertActionStyle.default, handler: nil)
+            
+            noLocationAlert.addAction(okayAction)
+            present(noLocationAlert, animated: true, completion: nil)
+        }
+        
+
         
     }
     

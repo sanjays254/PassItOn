@@ -358,10 +358,10 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         homeMapView.selectAnnotation(itemToShow, animated: true)
         
-//        let span = MKCoordinateSpanMake(0.007, 0.007)
-//
-//        homeMapView.setRegion(MKCoordinateRegionMake(itemToShow.coordinate, span) , animated: true)
-//        showItemDetail(item: itemToShow)
+        let span = MKCoordinateSpanMake(0.007, 0.007)
+
+        homeMapView.setRegion(MKCoordinateRegionMake(itemToShow.coordinate, span) , animated: true)
+        //showItemDetail(item: itemToShow)
     }
     
     @objc func showItemDetail(item: Item){

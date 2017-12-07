@@ -53,9 +53,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         //if its an offered item, currentUser cannot vote if = respsonder
         if(AppData.sharedInstance.onlineOfferedItems.filter{ $0.UID == itemID}.first != nil){
-            if(responderID == item.posterUID){
+            if(responderID != item.posterUID){
                  alert = UIAlertController(title: "You cannot vote yourself", message: "Upvote or downvote \(responder!.name)", preferredStyle: UIAlertControllerStyle.alert)
-                let okayAction = UIAlertAction(title: "Okay Lol", style: UIAlertActionStyle.default, handler: nil)
+                let okayAction = UIAlertAction(title: "Okay", style: UIAlertActionStyle.default, handler: nil)
                 alert.addAction(okayAction)
                 
             }

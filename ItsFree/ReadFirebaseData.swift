@@ -107,6 +107,9 @@ class ReadFirebaseData: NSObject {
             }
             let myDownloadNotificationKey = "myDownloadNotificationKey"
             NotificationCenter.default.post(name: Notification.Name(rawValue: myDownloadNotificationKey), object: nil)
+            
+            let myRequestsDownloadNotificationKey = "myRequestsDownloadNotificationKey"
+            NotificationCenter.default.post(name: Notification.Name(rawValue: myRequestsDownloadNotificationKey), object: nil)
         })
         if requestsHandle != nil {
             ref.removeObserver(withHandle: requestsHandle!)

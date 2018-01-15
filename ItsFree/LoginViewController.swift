@@ -10,9 +10,12 @@ import UIKit
 import FirebaseAuth
 
 public let rememberMeKey = "rememberMe"
+public var loggedInBool: Bool!
 
 class LoginViewController: UIViewController, UITextFieldDelegate {
     
+    var schemaURL: URL!
+
     let maxPasswordLength = 20
     let signupTitleStr = "Sign Up"
     let loginTitleStr = "Log In"
@@ -46,20 +49,43 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         emailTextfield.delegate = self
         confirmPasswordTextfield.delegate = self
         setToLogIn()
+        login()
         
+
+    }
+    
+    func login(){
         if Auth.auth().currentUser != nil && UserDefaults.standard.bool(forKey: rememberMeKey) == true {
             print("\((Auth.auth().currentUser?.displayName)!)")
             print ("\((Auth.auth().currentUser?.email)!)")
             AuthenticationManager.loginWithTouchID(email: (Auth.auth().currentUser?.email)!,
                                                    completionHandler: { (success) -> Void in
-                if success == true {
-                    self.loginSuccess()
-                }
-                else {
-                    print("Error logging in")
-                }
+                                                    if success == true {
+                                                        loggedInBool = true
+                                                        self.loginSuccess()
+                                                        
+                                                        //if scheme link was opened, then add the notification observer
+                                                        if(self.schemaURL != nil){
+                                                                                                                    NotificationCenter.default.addObserver(self, selector: #selector(self.rateUser), name: NSNotification.Name(rawValue: "myUsersDownloadNotificationKey"), object: nil)
+                                                        }
+                                                        
+                                                    }
+                                                    else {
+                                                        print("Error logging in")
+                                                    }
             })
         }
+    }
+    
+    func loginAndRate(url: URL){
+        
+        self.schemaURL = url
+        login()
+    }
+    
+    @objc func rateUser() {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        appDelegate.openedThroughSchema(url: schemaURL)
     }
     
     @IBAction func toggleScreen(_ sender: Any) {
@@ -104,7 +130,9 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                 print("Signing up...")
                 AuthenticationManager.signUp(withEmail: emailTextfield.text!, password: passwordTextfield.text!, name: usernameTextfield.text!, completionHandler: { (success) -> Void in
                     if success == true {
+                        loggedInBool = true
                         self.loginSuccess()
+                        
                     }
                     else {
                         print("Error logging in")
@@ -123,6 +151,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                 print("Logging in...")
                 AuthenticationManager.login(withEmail: emailTextfield.text!, password: passwordTextfield.text!, completionHandler: { (success) -> Void in
                     if success == true {
+                        loggedInBool = true
                         self.loginSuccess()
                     }
                     else {

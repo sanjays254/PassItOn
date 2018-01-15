@@ -36,9 +36,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     @IBOutlet weak var toolbar: UIToolbar!
     
-    //@IBOutlet weak var leaderboardButton: UIBarButtonItem!
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -141,6 +138,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     @objc func setInitalMapRegion(){
         MapViewDelegate.theMapViewDelegate.setInitialMapRegion()
+        
     }
     
     

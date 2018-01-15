@@ -15,7 +15,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     
-    fileprivate func openedThroughSchema(_ url: URL) {
+     @objc func openedThroughSchema(url: URL) {
+        
+//        ReadFirebaseData.readOffers(category: nil)
+//        ReadFirebaseData.readRequests(category: nil)
+//        ReadFirebaseData.readUsers()
+        
         
         let fullQuery = String("\(url.query!)")
         
@@ -28,12 +33,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let itemID: String! = String(substringitemID)
         var item: Item
         
-        if(AppData.sharedInstance.onlineOfferedItems.filter{ $0.UID == itemID}.first != nil){
-            item = AppData.sharedInstance.onlineOfferedItems.filter{ $0.UID == itemID}.first!
-        }
-        else {
+        if(AppData.sharedInstance.onlineRequestedItems.filter{ $0.UID == itemID}.first != nil){
             item = AppData.sharedInstance.onlineRequestedItems.filter{ $0.UID == itemID}.first!
         }
+        else {
+            item = AppData.sharedInstance.onlineOfferedItems.filter{ $0.UID == itemID}.first!
+        }
+        
+        
         
         print("Name: \(item.name)")
         
@@ -110,13 +117,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //FirebaseOptions.defaultOptions()?.deepLinkURLScheme = self.customURLScheme
         FirebaseApp.configure()
         
-        let url = launchOptions?[UIApplicationLaunchOptionsKey.url] as? URL
 
-        if(url != nil){
-            //print(url)
-            return self.application(application, open: url!)
-            //openedThroughSchema(url!)
-        }
         
         let key = "FirstRun"
         if UserDefaults.standard.object(forKey: key) == nil {
@@ -130,6 +131,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             UserDefaults.standard.set(false, forKey: rememberMeKey)
             UserDefaults.standard.synchronize()
         }
+        
+        let url = launchOptions?[UIApplicationLaunchOptionsKey.url] as? URL
+        
+        //        let url = "iOSAnotherLifeApp://?itemID=-L-DUH71CeTf-7JWUHMw&userID=k5GdBLgYbbPQGAjmzGk6nIjO70F2" as? URL
+        if(url != nil){
+            //print(url)
+            //return self.application(application, open: url!)
+            openedThroughSchema(url: url!)
+        }
+        
         return true
     }
 
@@ -160,11 +171,36 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
         
+  
+            //FirebaseApp.configure()
+        
+        if(loggedInBool == nil){
+            
+            let mainVC = self.window?.rootViewController as! LoginViewController
+
+            
+            let loggedOutAlert = UIAlertController(title: "Oops", message: "You need to log in first", preferredStyle: UIAlertControllerStyle.alert)
+            let okayAction = UIAlertAction(title: "Okay", style: UIAlertActionStyle.default, handler: {_ in mainVC.loginAndRate(url: url)})
+            loggedOutAlert.addAction(okayAction)
+            
+
+        
+        mainVC.present(loggedOutAlert, animated: true, completion: nil)
+            
+    
+
+        }
+        else if (loggedInBool){
+            openedThroughSchema(url: url)
+        
+        }
+
+        
         if(url.scheme == "iosanotherlifeapp"){
         print("Scheme is: \(url.scheme!)")
         print("Query is: \(url.query!)")
         
-        openedThroughSchema(url)
+        
             
         
         //if it was a available item

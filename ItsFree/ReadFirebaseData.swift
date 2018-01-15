@@ -55,6 +55,9 @@ class ReadFirebaseData: NSObject {
             }
             let myDownloadNotificationKey = "myDownloadNotificationKey"
             NotificationCenter.default.post(name: Notification.Name(rawValue: myDownloadNotificationKey), object: nil)
+            
+            let myOffersDownloadNotificationKey = "myOffersDownloadNotificationKey"
+            NotificationCenter.default.post(name: Notification.Name(rawValue: myOffersDownloadNotificationKey), object: nil)
         })
         
         if offersHandle != nil {
@@ -137,6 +140,9 @@ class ReadFirebaseData: NSObject {
                 }
                 let myDownloadNotificationKey = "myDownloadNotificationKey"
                 NotificationCenter.default.post(name: Notification.Name(rawValue: myDownloadNotificationKey), object: nil)
+                
+                let myUsersDownloadNotificationKey = "myUsersDownloadNotificationKey"
+                NotificationCenter.default.post(name: Notification.Name(rawValue: myUsersDownloadNotificationKey), object: nil)
             })
     }
     

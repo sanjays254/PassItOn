@@ -136,7 +136,21 @@ class ReadFirebaseData: NSObject {
                 for any in (value?.allValues)! {
                     let user: [String:Any] = any as! [String:Any]
                     let ratingInt = user["rating"] as! NSNumber
-                    let readUser = User(email: (user["email"] ?? "no email") as! String, name: user["name"] as! String, rating: Int(ratingInt), uid: (user["UID"] ?? "no UID") as! String, profileImage: (user["profileImage"] ?? "no profileImage") as! String, offers: [""], requests: [""])
+                    var readUserOffers: Array<Any> = user["offers"] as! Array<Any>
+                    var index = 0
+                    for i in readUserOffers{
+                    
+                        if(i is NSNull){
+                            readUserOffers.remove(at: index)
+                        }
+                        else {
+                        index = index+1
+                        }
+                    }
+                    
+                    let readUser = User(email: (user["email"] ?? "no email") as! String, name: user["name"] as! String, rating: Int(truncating: ratingInt), uid: (user["UID"] ?? "no UID") as! String, profileImage: (user["profileImage"] ?? "no profileImage") as! String, offers: readUserOffers as! [String], requests: (user["requests"] ?? [""]) as! Array)
+                    
+//                    let readUser = User(email: (user["email"] ?? "no email") as! String, name: user["name"] as! String, rating: Int(truncating: ratingInt), uid: (user["UID"] ?? "no UID") as! String, profileImage: (user["profileImage"] ?? "no profileImage") as! String, offers: [""] as! Array, requests: (user["requests"] ?? [""]) as! Array)
                     
                     AppData.sharedInstance.onlineUsers.append(readUser)
                     print("appending items")

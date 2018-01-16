@@ -35,6 +35,7 @@ class User {
             let inpUID: String = inpDict["UID"] as? String,
             let inpProfileImage: String = inpDict["profileImage"] as? String ?? "",
             let inpOffers:[String] = inpDict["offers"] as? [String] ?? [""],
+
             let inpRequests:[String] = inpDict["requests"] as? [String] ?? [""] else
         {
             print("Error: Dictionary is not in the correct format")

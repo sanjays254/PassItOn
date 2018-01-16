@@ -17,8 +17,7 @@ class ReadFirebaseData: NSObject {
     static var offersHandle:UInt? = nil
     static var requestsHandle:UInt? = nil
     
-    
-    
+    //get all offered items
     class func readOffers(category:ItemCategory?) {
         if ( Auth.auth().currentUser == nil)
         {
@@ -34,13 +33,14 @@ class ReadFirebaseData: NSObject {
         }
         let tempHandle = ref.observe(DataEventType.value, with: { (snapshot) in
             let value = snapshot.value as? NSDictionary;
+            
             if ( value == nil) {
-                
-                                NotificationCenter.default.post(name: Notification.Name(rawValue: "noOfferedItemsInCategoryKey"), object: nil)
+                NotificationCenter.default.post(name: Notification.Name(rawValue: "noOfferedItemsInCategoryKey"), object: nil)
                 return
             }
             AppData.sharedInstance.onlineOfferedItems.removeAll()
             
+            //if no category filter applied**
             if category == nil {
                 for thisCategory in value! {
                     print("\n\n\(thisCategory.key)")
@@ -55,6 +55,9 @@ class ReadFirebaseData: NSObject {
             }
             let myDownloadNotificationKey = "myDownloadNotificationKey"
             NotificationCenter.default.post(name: Notification.Name(rawValue: myDownloadNotificationKey), object: nil)
+            
+            let myOffersDownloadNotificationKey = "myOffersDownloadNotificationKey"
+            NotificationCenter.default.post(name: Notification.Name(rawValue: myOffersDownloadNotificationKey), object: nil)
         })
         
         if offersHandle != nil {
@@ -64,6 +67,7 @@ class ReadFirebaseData: NSObject {
         
     }
     
+    //get all requested items
     class func readRequests(category:ItemCategory?) {
         if ( Auth.auth().currentUser == nil) {
             return
@@ -79,18 +83,16 @@ class ReadFirebaseData: NSObject {
         
         let tempHandle = ref.observe(DataEventType.value, with: { (snapshot) in
             
-            
             let value = snapshot.value as? NSDictionary
             
             if ( value == nil) {
-                
                 NotificationCenter.default.post(name: Notification.Name(rawValue: "noRequestedItemsInCategoryKey"), object: nil)
-
                 return
             }
-
             
             AppData.sharedInstance.onlineRequestedItems.removeAll()
+            
+            //if no category filter applied**
             if category == nil {
                 for thisCategory in value! {
                     print("\n\n\(thisCategory.key)")
@@ -105,6 +107,9 @@ class ReadFirebaseData: NSObject {
             }
             let myDownloadNotificationKey = "myDownloadNotificationKey"
             NotificationCenter.default.post(name: Notification.Name(rawValue: myDownloadNotificationKey), object: nil)
+            
+            let myRequestsDownloadNotificationKey = "myRequestsDownloadNotificationKey"
+            NotificationCenter.default.post(name: Notification.Name(rawValue: myRequestsDownloadNotificationKey), object: nil)
         })
         if requestsHandle != nil {
             ref.removeObserver(withHandle: requestsHandle!)
@@ -112,6 +117,7 @@ class ReadFirebaseData: NSObject {
         requestsHandle = tempHandle
     }
     
+    //get all users
     class func readUsers() {
         if ( Auth.auth().currentUser == nil) {
             return
@@ -137,6 +143,9 @@ class ReadFirebaseData: NSObject {
                 }
                 let myDownloadNotificationKey = "myDownloadNotificationKey"
                 NotificationCenter.default.post(name: Notification.Name(rawValue: myDownloadNotificationKey), object: nil)
+                
+                let myUsersDownloadNotificationKey = "myUsersDownloadNotificationKey"
+                NotificationCenter.default.post(name: Notification.Name(rawValue: myUsersDownloadNotificationKey), object: nil)
             })
     }
     
@@ -151,7 +160,6 @@ class ReadFirebaseData: NSObject {
             else {
                 print("Nil found in offered items")
             }
-            
         }
     }
     

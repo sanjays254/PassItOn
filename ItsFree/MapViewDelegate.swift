@@ -30,10 +30,20 @@ class MapViewDelegate: NSObject, MKMapViewDelegate {
             let span = MKCoordinateSpanMake(0.007, 0.007)
             theMapView.region = MKCoordinateRegionMake(self.currentLocation.coordinate, span)
         }
+        
+        currentLocation = LocationManager.theLocationManager.getLocation()
     }
     
     @objc func setMapRegion(){
         let span = MKCoordinateSpanMake(0.007, 0.007)
+        
+        theMapView.region = MKCoordinateRegionMake(self.currentLocation.coordinate, span)
+        theMapView.showsUserLocation = true
+        theMapView.showsPointsOfInterest = false
+    }
+    
+    @objc func setInitialMapRegion(){
+        let span = MKCoordinateSpanMake(0.025, 0.025)
         
         theMapView.region = MKCoordinateRegionMake(self.currentLocation.coordinate, span)
         theMapView.showsUserLocation = true

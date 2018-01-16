@@ -36,9 +36,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     @IBOutlet weak var toolbar: UIToolbar!
     
-    //@IBOutlet weak var leaderboardButton: UIBarButtonItem!
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -56,7 +53,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         //delegating the mapView
         self.homeMapView.delegate = MapViewDelegate.theMapViewDelegate
         MapViewDelegate.theMapViewDelegate.theMapView = homeMapView
-        setMapRegion()
+        setInitalMapRegion()
         
 
         let leaderboardImage = UIImage(named: "leaderboard")?.withRenderingMode(.alwaysTemplate)
@@ -138,6 +135,13 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     @objc func setMapRegion(){
         MapViewDelegate.theMapViewDelegate.setMapRegion()
     }
+    
+    @objc func setInitalMapRegion(){
+        MapViewDelegate.theMapViewDelegate.setInitialMapRegion()
+        
+    }
+    
+    
 
 
     override func viewWillAppear(_ animated: Bool) {

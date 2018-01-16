@@ -10,9 +10,12 @@ import UIKit
 import FirebaseAuth
 
 public let rememberMeKey = "rememberMe"
+public var loggedInBool: Bool!
 
 class LoginViewController: UIViewController, UITextFieldDelegate {
     
+    var schemaURL: URL!
+
     let maxPasswordLength = 20
     let signupTitleStr = "Sign Up"
     let loginTitleStr = "Log In"
@@ -46,19 +49,78 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         emailTextfield.delegate = self
         confirmPasswordTextfield.delegate = self
         setToLogIn()
-        
+        login()
+    }
+    
+    func login(){
         if Auth.auth().currentUser != nil && UserDefaults.standard.bool(forKey: rememberMeKey) == true {
             print("\((Auth.auth().currentUser?.displayName)!)")
             print ("\((Auth.auth().currentUser?.email)!)")
             AuthenticationManager.loginWithTouchID(email: (Auth.auth().currentUser?.email)!,
                                                    completionHandler: { (success) -> Void in
-                if success == true {
-                    self.loginSuccess()
-                }
-                else {
-                    print("Error logging in")
-                }
+                                                    if success == true {
+                                                        loggedInBool = true
+                                                        self.loginSuccess()
+                                                        
+                                                        //if scheme link was opened, then add the notification observer
+                                                        
+                                                        if(self.schemaURL != nil){
+                                                                                                                    NotificationCenter.default.addObserver(self, selector: #selector(self.rateUser), name: NSNotification.Name(rawValue: "myUsersDownloadNotificationKey"), object: nil)
+                                                        }
+                                                        
+                                                    }
+                                                    else {
+                                                        print("Error logging in")
+                                                    }
             })
+        }
+    }
+    
+
+    //this is called from the AppDelegate, if the app was opened with a URL Schema, and we werent logged in
+    func loginAndRate(url: URL){
+        
+        self.schemaURL = url
+        
+        //if our loggedIn status has changed, pop the alert and go to HomeVC
+        if(loggedInBool == true){
+            popLoggedOutAlert()
+            performSegue(withIdentifier: "continueToHome", sender: self)
+            
+            //if scheme link was opened, then add the notification observer, so we can rate a user when the data has been downloaded
+            //do we really need this if statement? this function is only called when we open the app with a schema!!!!
+            if(self.schemaURL != nil){
+                NotificationCenter.default.addObserver(self, selector: #selector(self.rateUser), name: NSNotification.Name(rawValue: "myUsersDownloadNotificationKey"), object: nil)
+            }
+        }
+        //else if we are still logged out, login like normal.
+        else {
+            login()
+        }
+    }
+    
+    //this is called just after we log in
+    @objc func popLoggedOutAlert(){
+        if(self.presentedViewController is UIAlertController) {
+            self.presentedViewController?.dismiss(animated: true, completion: nil)
+        }
+    }
+    
+    
+    //rateUser calls the ratingFunction and alert from the AppDelegate
+    @objc func rateUser() {
+        
+        if(AppData.sharedInstance.onlineUsers.count == 0){
+            let noUsersFoundAlert =  UIAlertController(title: "Oops", message: "No users were found", preferredStyle: .alert)
+            let okayAction = UIAlertAction(title: "Okay", style: .default, handler: nil)
+            
+            noUsersFoundAlert.addAction(okayAction)
+            present(noUsersFoundAlert, animated: true, completion: nil)
+        }
+        
+        else {
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            appDelegate.openedThroughSchema(url: schemaURL)
         }
     }
     
@@ -104,7 +166,9 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                 print("Signing up...")
                 AuthenticationManager.signUp(withEmail: emailTextfield.text!, password: passwordTextfield.text!, name: usernameTextfield.text!, completionHandler: { (success) -> Void in
                     if success == true {
+                        loggedInBool = true
                         self.loginSuccess()
+                        
                     }
                     else {
                         print("Error logging in")
@@ -123,6 +187,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                 print("Logging in...")
                 AuthenticationManager.login(withEmail: emailTextfield.text!, password: passwordTextfield.text!, completionHandler: { (success) -> Void in
                     if success == true {
+                        loggedInBool = true
                         self.loginSuccess()
                     }
                     else {

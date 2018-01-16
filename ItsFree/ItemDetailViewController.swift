@@ -16,6 +16,8 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
     var detailViewTopAnchorConstant: CGFloat!
     var detailViewBottomAnchorConstant: CGFloat!
     
+    
+    
     @IBOutlet var contentView: UIView!
     @IBOutlet weak var itemDetailView: ItemDetailView!
         
@@ -80,6 +82,7 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
 
         
     }
+    
     
     func setupCollectionView(){
         
@@ -193,20 +196,37 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
         let mailComposerVC = MFMailComposeViewController()
         mailComposerVC.mailComposeDelegate = self
         
-        //show error if the VC cant send mail
-        if MFMailComposeViewController.canSendMail()
-        {
-            self.present(mailComposerVC, animated: true, completion: nil)
-        } else {
-            self.showSendMailErrorAlert()
-        }
+        let destinationUser = AppData.sharedInstance.onlineUsers.filter{ $0.UID == currentItem.posterUID }.first
         
-        if(AppData.sharedInstance.onlineOfferedItems.contains(currentItem)){
-            offerMessage(mailComposerVC: mailComposerVC)
+        if(AppData.sharedInstance.currentUser!.UID == destinationUser?.UID){
+            //show alert
+            let usersOwnItemAlert = UIAlertController(title: "Oops", message: "This item was posted by you", preferredStyle: UIAlertControllerStyle.alert)
+            let okayAction = UIAlertAction(title: "Okay", style: UIAlertActionStyle.default, handler: nil)
+            usersOwnItemAlert.addAction(okayAction)
+            present(usersOwnItemAlert, animated: true, completion: nil)
             
         }
-        else if(AppData.sharedInstance.onlineRequestedItems.contains(currentItem)){
-            requestMessage(mailComposerVC: mailComposerVC)
+        else {
+        
+            //show error if the VC cant send mail
+            if MFMailComposeViewController.canSendMail()
+            {
+                self.present(mailComposerVC, animated: true, completion: nil)
+            } else {
+                self.showSendMailErrorAlert()
+            }
+        
+
+        
+
+        
+            if(AppData.sharedInstance.onlineOfferedItems.contains(currentItem)){
+                offerMessage(mailComposerVC: mailComposerVC)
+            
+            }
+            else if(AppData.sharedInstance.onlineRequestedItems.contains(currentItem)){
+                requestMessage(mailComposerVC: mailComposerVC)
+            }
         }
 
     }
@@ -265,7 +285,7 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
         
         //mailVC properties
         mailComposerVC.setToRecipients([destinationEmail, currentUserEmail])
-        mailComposerVC.setSubject("Second Life: \(currentUserName) wants your item")
+        mailComposerVC.setSubject("FreeBox: \(currentUserName) wants your item")
         mailComposerVC.setMessageBody("Hey \(destinationName),<br><br> I want your \(currentItemName).<br><br>Thanks!<br><br>---------------------<br><br>Admin Message to \(currentUserName): Use the link below to rate \(destinationName), if you like or dislike the item. There will be a copy in your inbox<br><br> \(linkString!)<br><br>Thanks! :)", isHTML: true)
         
         //send an email to current user with link instead of putting link in here

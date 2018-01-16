@@ -86,7 +86,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             //if it was a available item
             //if link is clicked, send an email to seller saying thanks, and take me to the post to delete the item,
             
-            
             return true
         }
             
@@ -97,121 +96,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     
+    //method to parse the url from the scheme link
     @objc func openedThroughSchema(url: URL) {
         
-        let mainVC = self.window?.rootViewController as! LoginViewController
-        var currentVC: UIViewController
+        let ratingSystem = RatingSystem()
+        ratingSystem.parseURLAndRateUser(url: url)
         
-        if(mainVC.presentedViewController != nil){
-            let presentedVC = mainVC.presentedViewController as! UINavigationController
-            currentVC = presentedVC.viewControllers[0] as! HomeViewController
-            
-        }
-        else {
-            currentVC = mainVC
-        }
+        //should we deinitialise the instance of rating system?
         
-        let fullQuery = String("\(url.query!)")
-        
-        let itemStartIndex = fullQuery.index(fullQuery.startIndex, offsetBy: 7)
-        let itemEndIndex = fullQuery.index(fullQuery.endIndex, offsetBy: -36)
-        let itemRange = itemStartIndex..<itemEndIndex
-        
-        let substringitemID = fullQuery[itemRange]
-        print(substringitemID)
-        let itemID: String! = String(substringitemID)
-        var item: Item
-        
-        if(AppData.sharedInstance.onlineRequestedItems.filter{ $0.UID == itemID}.first != nil){
-            item = AppData.sharedInstance.onlineRequestedItems.filter{ $0.UID == itemID}.first!
-            
-            //ask user to delete his request
-            
-        }
-        else {
-            item = AppData.sharedInstance.onlineOfferedItems.filter{ $0.UID == itemID}.first!
-        }
-        
-        
-        
-        print("Name: \(item.name)")
-        
-        let userStartIndex = fullQuery.index(fullQuery.startIndex, offsetBy: 35)
-        let userEndIndex = fullQuery.index(fullQuery.endIndex, offsetBy: 0)
-        let userRange = userStartIndex..<userEndIndex
-        
-        let substringUserID = fullQuery[userRange]
-        print(substringUserID)
-        let responderID: String! = String(substringUserID)
-        
-        if ((AppData.sharedInstance.onlineUsers.filter{ $0.UID == responderID}.first) != nil){
-            let responder = AppData.sharedInstance.onlineUsers.filter{ $0.UID == responderID}.first
-            
-            
-            print("Name: \(responder!.name)")
-            
-            var alert: UIAlertController!
-            
-            //if its an offered item, currentUser cannot vote if = respsonder
-            if(AppData.sharedInstance.onlineOfferedItems.filter{ $0.UID == itemID}.first != nil){
-                if(responderID != item.posterUID){
-                    alert = UIAlertController(title: "You cannot vote yourself", message: "Upvote or downvote \(responder!.name)", preferredStyle: UIAlertControllerStyle.alert)
-                    let okayAction = UIAlertAction(title: "Okay", style: UIAlertActionStyle.default, handler: nil)
-                    alert.addAction(okayAction)
-                    
-                }
-                    
-                    
-                else {
-                    
-                    alert = UIAlertController(title: "Do you like the \(item.name)?", message: "Upvote or downvote \(responder!.name)", preferredStyle: UIAlertControllerStyle.alert)
-                    
-                    let upvoteAction = UIAlertAction(title: "Upvote", style: UIAlertActionStyle.default, handler: {(alert: UIAlertAction!) in responder?.rating = (responder?.rating)!+1
-                        AppData.sharedInstance.usersNode.child("\(responderID!)/rating").setValue(responder?.rating)
-                    })
-                    let downvoteAction = UIAlertAction(title: "Downvote", style: UIAlertActionStyle.destructive, handler: {(alert: UIAlertAction!) in responder?.rating = (responder?.rating)!-1
-                        AppData.sharedInstance.usersNode.child("\(responderID!)/rating").setValue(responder?.rating)
-                    })
-                    
-                    alert.addAction(upvoteAction)
-                    alert.addAction(downvoteAction)
-                }
-            }
-                //if its a requested item, can only vote if posterID is currentID
-            else {
-                if(AppData.sharedInstance.currentUser?.UID == item.posterUID){
-                    alert = UIAlertController(title: "Do you like the \(item.name)?", message: "Upvote or downvote \(responder!.name)", preferredStyle: UIAlertControllerStyle.alert)
-                    
-                    let upvoteAction = UIAlertAction(title: "Upvote", style: UIAlertActionStyle.default, handler: {(alert: UIAlertAction!) in responder?.rating = (responder?.rating)!+1
-                        AppData.sharedInstance.usersNode.child("\(responderID!)/rating").setValue(responder?.rating)
-                    })
-                    let downvoteAction = UIAlertAction(title: "Downvote", style: UIAlertActionStyle.destructive, handler: {(alert: UIAlertAction!) in responder?.rating = (responder?.rating)!-1
-                        AppData.sharedInstance.usersNode.child("\(responderID!)/rating").setValue(responder?.rating)
-                    })
-                    
-                    alert.addAction(upvoteAction)
-                    alert.addAction(downvoteAction)
-                }
-                else{
-                    alert = UIAlertController(title: "You cannot vote yourself", message: "Upvote or downvote \(responder!.name)", preferredStyle: UIAlertControllerStyle.alert)
-                    let okayAction = UIAlertAction(title: "Okay Lol", style: UIAlertActionStyle.default, handler: nil)
-                    alert.addAction(okayAction)
-                }
-            }
-            
-            
-            
-            currentVC.present(alert, animated: true, completion: nil)
-        }
-        else {
-            let userDoesntExistAlert =  UIAlertController(title: "Oops", message: "User no longer exists", preferredStyle: .alert)
-            let okayAction = UIAlertAction(title: "Okay", style: UIAlertActionStyle.default, handler: nil)
-            
-            userDoesntExistAlert.addAction(okayAction)
-            
-            currentVC.present(userDoesntExistAlert, animated: true, completion: nil)
-            
-        }
+    
     }
     
 }

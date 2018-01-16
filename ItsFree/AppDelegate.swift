@@ -96,13 +96,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     
-    //method to parse the url from the scheme link
+    //connector method to parse the url from the scheme link
     @objc func openedThroughSchema(url: URL) {
         
         let ratingSystem = RatingSystem()
         ratingSystem.parseURLAndRateUser(url: url)
         
-        //should we deinitialise the instance of rating system?
+        //should we deinitialize the instance of rating system?
+        
         
     
     }

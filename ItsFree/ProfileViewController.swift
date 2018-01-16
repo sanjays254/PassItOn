@@ -9,11 +9,15 @@
 import UIKit
 import FirebaseStorage
 
-class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITableViewDelegate, UITableViewDataSource {
+
     
     @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var emailLabel: UILabel!
+    
+    
+    @IBOutlet weak var myPostsTableView: UITableView!
     
     var username:String = (AppData.sharedInstance.currentUser?.name)!
     var email:String = (AppData.sharedInstance.currentUser?.email)!
@@ -48,6 +52,11 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         myPostsButton.layer.cornerRadius = 5
         myPostsButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 0)
         imagePicker.delegate = self
+        
+        myPostsTableView.delegate = self
+        myPostsTableView.dataSource = self
+        
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -111,4 +120,54 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         self.present(photoSourceAlert, animated: true, completion: nil)
     }
 
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        switch section {
+        case 0:
+            return (AppData.sharedInstance.currentUser?.offeredItems.count)!
+        case 1:
+            return (AppData.sharedInstance.currentUser?.requestedItems.count)!
+        default:
+            return 0
+        }
+        
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "myPostsTableViewCell", for: indexPath)
+        
+        
+        var itemRef: String!
+        var item: Item!
+        var itemUID: String!
+        
+        
+        if(indexPath.section == 0){
+             itemRef = AppData.sharedInstance.currentUser?.offeredItems[indexPath.row]
+            
+            itemUID = String(itemRef.suffix(20))
+            
+                    item = AppData.sharedInstance.onlineOfferedItems.filter{ $0.UID == itemUID}.first!
+        }
+        else if(indexPath.section == 1){
+             itemRef = AppData.sharedInstance.currentUser?.requestedItems[indexPath.row]
+            
+            itemUID = String(itemRef.suffix(20))
+            
+                    item = AppData.sharedInstance.onlineRequestedItems.filter{ $0.UID == itemUID}.first!
+            
+        }
+       
+    
+        
+        cell.textLabel?.text = item.name
+        
+        return cell
+        
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 2
+    }
+    
 }

@@ -20,11 +20,16 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var emailLabel: UILabel!
+    @IBOutlet weak var pointsLabel: UILabel!
+    
     
     
     @IBOutlet weak var offersRequestsSegmentedControl: UISegmentedControl!
     
     @IBOutlet weak var myPostsTableView: UITableView!
+    
+    
+
     
     var username:String = (AppData.sharedInstance.currentUser?.name)!
     var email:String = (AppData.sharedInstance.currentUser?.email)!
@@ -86,7 +91,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
 
         setupTableView()
         
-        offersRequestsSegmentedControl.layer.borderWidth = 5.0
+        offersRequestsSegmentedControl.layer.borderWidth = 3.0
         offersRequestsSegmentedControl.layer.borderColor = UIColor.black.cgColor
         offersRequestsSegmentedControl.layer.cornerRadius = 5.0
         
@@ -103,6 +108,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         self.navigationItem.title = "My Profile"
         self.usernameLabel.text = username
         self.emailLabel.text = email
+        self.pointsLabel.text = String(AppData.sharedInstance.currentUser!.rating)
     }
     
     func setupTableView() {
@@ -110,10 +116,13 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         myPostsTableView.dataSource = self
         
         myPostsTableView.layer.borderColor = UIColor.black.cgColor
-        myPostsTableView.layer.borderWidth = 5.0
+        myPostsTableView.layer.borderWidth = 3.0
         myPostsTableView.layer.cornerRadius = 5.0
+        //myPostsTableView.layer.frame
         
     }
+    
+
     
     func setUpProfilePicture() {
         let storageRef = Storage.storage().reference()
@@ -180,7 +189,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "myPostsTableViewCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "myPostsTableViewCell", for: indexPath) as! MyPostsTableViewCell
         
         var item: Item!
         
@@ -195,20 +204,21 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
             item = nil
         }
        
-        cell.textLabel?.text = item.name
-        cell.imageView?.sd_setImage(with: storageRef.child(item.photos[0]), placeholderImage: UIImage.init(named: "placeholder"))
+        cell.itemLabel?.text = item.name
+        cell.itemImageView?.sd_setImage(with: storageRef.child(item.photos[0]), placeholderImage: UIImage.init(named: "placeholder"))
         
         
-        cell.imageView?.layer.borderWidth = 4.0
-        cell.imageView?.layer.borderColor = UIColor.black.cgColor
-        cell.imageView?.layer.cornerRadius = 4.0
-        cell.imageView?.clipsToBounds = true
-        //cell.imageView?.frame.size.width =
+//        cell.itemImageView?.layer.borderWidth = 4.0
+//        cell.itemImageView?.layer.borderColor = UIColor.black.cgColor
+//        cell.itemImageView?.layer.cornerRadius = 4.0
+//        cell.itemImageView?.clipsToBounds = true
+//       // cell.imageView?.frame.size.width = 20
+//        cell.itemImageView?.contentMode = .scaleAspectFill
         
 
         if (animateTable){
             UIView.transition(with: cell.textLabel!, duration: 0.6, options: .transitionCrossDissolve, animations: {
-                cell.textLabel?.textColor = .black
+                cell.itemLabel?.textColor = .black
             
             }, completion: nil)
         }

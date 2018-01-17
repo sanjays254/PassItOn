@@ -42,7 +42,17 @@ class LeaderboardTableViewController: UIViewController, UITableViewDataSource, U
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "leaderboardTableViewCell", for: indexPath) as! LeaderboardTableViewCell
         
-        cell.nameLabel.text = sortedUsers[indexPath.row].name
+        
+        if(sortedUsers[indexPath.row].UID == AppData.sharedInstance.currentUser?.UID){
+            cell.nameLabel.text = "You"
+            cell.layer.borderWidth = 3.0
+            cell.layer.borderColor = UIColor.black.cgColor
+            cell.layer.cornerRadius = 5.0
+            
+        }
+        else {
+            cell.nameLabel.text = sortedUsers[indexPath.row].name
+        }
         
         if(indexPath.row == 0){
             let crownImageView = UIImageView(image: #imageLiteral(resourceName: "crown"))
@@ -70,8 +80,9 @@ class LeaderboardTableViewController: UIViewController, UITableViewDataSource, U
         
         leaderboardTableView.delegate = self
         leaderboardTableView.dataSource = self
-        leaderboardTableView.rowHeight = 50
+        leaderboardTableView.rowHeight = 80
 
+        
         // Do any additional setup after loading the view.
     }
     

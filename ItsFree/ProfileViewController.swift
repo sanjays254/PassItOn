@@ -17,6 +17,8 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     @IBOutlet weak var emailLabel: UILabel!
     
     
+    @IBOutlet weak var offersRequestsSegmentedControl: UISegmentedControl!
+    
     @IBOutlet weak var myPostsTableView: UITableView!
     
     var username:String = (AppData.sharedInstance.currentUser?.name)!
@@ -31,8 +33,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     let imagePicker = UIImagePickerController()
     var myImage:UIImage?
     
-    
-    @IBOutlet weak var myPostsButton: UIButton!
+  
     
     @IBAction func donePressed(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
@@ -47,10 +48,10 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         setUpProfilePicture()
         setUpProfileText()
         
-        myPostsButton.layer.borderColor = UIColor(red: 0, green: 122.0/255.0, blue: 1.0, alpha: 1.0).cgColor
-        myPostsButton.layer.borderWidth = 1
-        myPostsButton.layer.cornerRadius = 5
-        myPostsButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 0)
+//        myPostsButton.layer.borderColor = UIColor(red: 0, green: 122.0/255.0, blue: 1.0, alpha: 1.0).cgColor
+//        myPostsButton.layer.borderWidth = 1
+//        myPostsButton.layer.cornerRadius = 5
+//        myPostsButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 0)
         imagePicker.delegate = self
         
         myPostsTableView.delegate = self
@@ -74,7 +75,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         let storageRef = Storage.storage().reference()
         profileImageView.layer.cornerRadius = profileImageView.frame.size.width/4.0
         profileImageView.clipsToBounds = true
-        profileImageView.layer.borderColor = UIColor.white.cgColor
+        profileImageView.layer.borderColor = UIColor.black.cgColor
         profileImageView.layer.borderWidth = 5.0
         profileImageView.sd_setImage(with: storageRef.child(photoRef!), placeholderImage: UIImage(named: "defaultProfile"))
     }
@@ -168,6 +169,20 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 2
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        var selectedCell:UITableViewCell = tableView.cellForRow(at: indexPath)!
+        selectedCell.contentView.backgroundColor = UIColor.green
+        
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+
+    
+    func tableView(tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        var cellToDeSelect:UITableViewCell = tableView.cellForRow(at: indexPath)!
+        cellToDeSelect.contentView.backgroundColor = UIColor.white
     }
     
 }

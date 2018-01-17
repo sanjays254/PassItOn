@@ -56,6 +56,7 @@ class WriteFirebaseData {
                 itemPath = post
                 if let index = user.offeredItems.index(of: post) {
                     user.offeredItems.remove(at: index)
+                    
                 }
                 break
             }

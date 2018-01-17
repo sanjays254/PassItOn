@@ -12,6 +12,11 @@ import FirebaseStorage
 class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITableViewDelegate, UITableViewDataSource {
 
     
+    
+    @IBOutlet weak var backButton: UIButton!
+    
+    @IBOutlet weak var editButton: UIButton!
+    
     @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var emailLabel: UILabel!
@@ -46,8 +51,29 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         presentImagePickerAlert()
     }
     
+    
+    @IBAction func backButton(_ sender: UIButton) {
+              self.dismiss(animated: true, completion: nil)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationController?.isNavigationBarHidden = true
+        backButton.setImage(#imageLiteral(resourceName: "backButton"), for: .normal)
+        self.backButton.layer.backgroundColor = UIColor.black.cgColor
+        self.backButton.layer.cornerRadius = self.backButton.frame.size.width/2
+        self.backButton.layer.masksToBounds = false
+        //self.backButton.layer.shadowOffset = CGSize.init(width: 0, height: 2.0)
+        //self.backButton.layer.shadowColor = (UIColor.black).cgColor
+        //self.backButton.layer.shadowOpacity = 0.5
+        
+        editButton.setImage(#imageLiteral(resourceName: "edit"), for: .normal)
+        self.editButton.layer.backgroundColor = UIColor.black.cgColor
+        self.editButton.layer.cornerRadius = self.backButton.frame.size.width/2
+        self.editButton.layer.masksToBounds = false
+        
+        
+        
         setUpProfilePicture()
         setUpProfileText()
         
@@ -91,7 +117,8 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     
     func setUpProfilePicture() {
         let storageRef = Storage.storage().reference()
-        profileImageView.layer.cornerRadius = profileImageView.frame.size.width/4.0
+        profileImageView.layer.cornerRadius = profileImageView.frame.size.width/2
+        profileImageView.layer.masksToBounds = false
         profileImageView.clipsToBounds = true
         profileImageView.layer.borderColor = UIColor.black.cgColor
         profileImageView.layer.borderWidth = 5.0
@@ -160,14 +187,25 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         switch offersRequestsSegmentedControl.selectedSegmentIndex {
         case 0:
              item = AppData.sharedInstance.currentUserOfferedItems[indexPath.row]
+    
         case 1:
              item = AppData.sharedInstance.currentUserRequestedItems[indexPath.row]
+      
         default:
             item = nil
         }
        
         cell.textLabel?.text = item.name
+        cell.imageView?.sd_setImage(with: storageRef.child(item.photos[0]), placeholderImage: UIImage.init(named: "placeholder"))
         
+        
+        cell.imageView?.layer.borderWidth = 4.0
+        cell.imageView?.layer.borderColor = UIColor.black.cgColor
+        cell.imageView?.layer.cornerRadius = 4.0
+        cell.imageView?.clipsToBounds = true
+        //cell.imageView?.frame.size.width =
+        
+
         if (animateTable){
             UIView.transition(with: cell.textLabel!, duration: 0.6, options: .transitionCrossDissolve, animations: {
                 cell.textLabel?.textColor = .black
@@ -201,12 +239,25 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            print("Deleted")
+            
+            var itemUID: String
             
             switch offersRequestsSegmentedControl.selectedSegmentIndex {
-            case 0: AppData.sharedInstance.currentUser?.offeredItems.remove(at: indexPath.row)
+            case 0:
+                                itemUID = AppData.sharedInstance.currentUserOfferedItems[indexPath.row].UID
+                AppData.sharedInstance.currentUserOfferedItems.remove(at: indexPath.row)
+ 
+                WriteFirebaseData.delete(itemUID: itemUID)
+                
             case 1:
-                AppData.sharedInstance.currentUser?.requestedItems.remove(at: indexPath.row)
+                
+                itemUID = AppData.sharedInstance.currentUserOfferedItems[indexPath.row].UID
+
+            AppData.sharedInstance.currentUserRequestedItems.remove(at: indexPath.row)
+                
+            
+            WriteFirebaseData.delete(itemUID: itemUID)
+                
                 
             default:
                 return

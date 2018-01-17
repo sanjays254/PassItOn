@@ -33,6 +33,9 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     let imagePicker = UIImagePickerController()
     var myImage:UIImage?
     
+    var animateTable: Bool = false
+    
+    
   
     
     @IBAction func donePressed(_ sender: Any) {
@@ -54,8 +57,13 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
 //        myPostsButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 0)
         imagePicker.delegate = self
         
-        myPostsTableView.delegate = self
-        myPostsTableView.dataSource = self
+
+        setupTableView()
+        
+        offersRequestsSegmentedControl.layer.borderWidth = 5.0
+        offersRequestsSegmentedControl.layer.borderColor = UIColor.black.cgColor
+        offersRequestsSegmentedControl.layer.cornerRadius = 5.0
+        
         
         
     }
@@ -69,6 +77,16 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         self.navigationItem.title = "My Profile"
         self.usernameLabel.text = username
         self.emailLabel.text = email
+    }
+    
+    func setupTableView() {
+        myPostsTableView.delegate = self
+        myPostsTableView.dataSource = self
+        
+        myPostsTableView.layer.borderColor = UIColor.black.cgColor
+        myPostsTableView.layer.borderWidth = 5.0
+        myPostsTableView.layer.cornerRadius = 5.0
+        
     }
     
     func setUpProfilePicture() {
@@ -123,7 +141,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
 
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch section {
+        switch offersRequestsSegmentedControl.selectedSegmentIndex {
         case 0:
             return (AppData.sharedInstance.currentUser?.offeredItems.count)!
         case 1:
@@ -137,43 +155,38 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "myPostsTableViewCell", for: indexPath)
         
-        
-        var itemRef: String!
         var item: Item!
-        var itemUID: String!
         
-        
-        if(indexPath.section == 0){
-             itemRef = AppData.sharedInstance.currentUser?.offeredItems[indexPath.row]
-            
-            itemUID = String(itemRef.suffix(20))
-            
-                    item = AppData.sharedInstance.onlineOfferedItems.filter{ $0.UID == itemUID}.first!
-        }
-        else if(indexPath.section == 1){
-             itemRef = AppData.sharedInstance.currentUser?.requestedItems[indexPath.row]
-            
-            itemUID = String(itemRef.suffix(20))
-            
-                    item = AppData.sharedInstance.onlineRequestedItems.filter{ $0.UID == itemUID}.first!
-            
+        switch offersRequestsSegmentedControl.selectedSegmentIndex {
+        case 0:
+             item = AppData.sharedInstance.currentUserOfferedItems[indexPath.row]
+        case 1:
+             item = AppData.sharedInstance.currentUserRequestedItems[indexPath.row]
+        default:
+            item = nil
         }
        
-    
-        
         cell.textLabel?.text = item.name
+        
+        if (animateTable){
+            UIView.transition(with: cell.textLabel!, duration: 0.6, options: .transitionCrossDissolve, animations: {
+                cell.textLabel?.textColor = .black
+            
+            }, completion: nil)
+        }
+        
         
         return cell
         
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+        return 1
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         var selectedCell:UITableViewCell = tableView.cellForRow(at: indexPath)!
-        selectedCell.contentView.backgroundColor = UIColor.green
+        //selectedCell.contentView.backgroundColor = UIColor.green
         
         tableView.deselectRow(at: indexPath, animated: true)
     }
@@ -183,6 +196,33 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     func tableView(tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         var cellToDeSelect:UITableViewCell = tableView.cellForRow(at: indexPath)!
         cellToDeSelect.contentView.backgroundColor = UIColor.white
+    }
+    
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            print("Deleted")
+            
+            switch offersRequestsSegmentedControl.selectedSegmentIndex {
+            case 0: AppData.sharedInstance.currentUser?.offeredItems.remove(at: indexPath.row)
+            case 1:
+                AppData.sharedInstance.currentUser?.requestedItems.remove(at: indexPath.row)
+                
+            default:
+                return
+                
+            }
+            
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+        }
+    }
+    
+    
+    @IBAction func offersRequestsSegmentAction(_ sender: UISegmentedControl) {
+        
+        animateTable = true
+        myPostsTableView.reloadData()
+        animateTable = false
     }
     
 }

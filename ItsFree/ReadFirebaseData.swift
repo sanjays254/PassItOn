@@ -118,6 +118,8 @@ class ReadFirebaseData: NSObject {
     }
     
     //get all users
+
+    
     class func readUsers() {
         if ( Auth.auth().currentUser == nil) {
             return
@@ -135,6 +137,7 @@ class ReadFirebaseData: NSObject {
                 
                 for any in (value?.allValues)! {
                     let user: [String:Any] = any as! [String:Any]
+                    let userUID: String = user["UID"] as! String
                     let ratingInt = user["rating"] as! NSNumber
                     var readUserOffers: Array<Any> = user["offers"] as! Array<Any>
                     var index = 0
@@ -154,6 +157,12 @@ class ReadFirebaseData: NSObject {
                     
                     AppData.sharedInstance.onlineUsers.append(readUser)
                     print("appending items")
+                    
+                     if (userUID == AppData.sharedInstance.currentUser?.UID){
+                        
+                        storeCurrentUsersItems(userUID: userUID)
+                    }
+                
                 }
                 let myDownloadNotificationKey = "myDownloadNotificationKey"
                 NotificationCenter.default.post(name: Notification.Name(rawValue: myDownloadNotificationKey), object: nil)
@@ -192,6 +201,28 @@ class ReadFirebaseData: NSObject {
             }
             
         }
+    }
+    
+    class func storeCurrentUsersItems(userUID:String){
+       
+            for itemRef in (AppData.sharedInstance.currentUser?.offeredItems)! {
+                
+                let itemUID = String(itemRef.suffix(20))
+                
+                let item = AppData.sharedInstance.onlineOfferedItems.filter{ $0.UID == itemUID}.first!
+                AppData.sharedInstance.currentUserOfferedItems.append(item)
+            }
+        
+        for itemRef in (AppData.sharedInstance.currentUser?.requestedItems)! {
+            
+            let itemUID = String(itemRef.suffix(20))
+            
+            let item = AppData.sharedInstance.onlineRequestedItems.filter{ $0.UID == itemUID}.first!
+            AppData.sharedInstance.currentUserRequestedItems.append(item)
+            
+        }
+            
+        
     }
     
 }

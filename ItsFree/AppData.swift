@@ -16,6 +16,8 @@ class AppData: NSObject {
     static let sharedInstance = AppData()
     
     public var currentUser: User? = nil
+    public var currentUserOfferedItems: [Item] = []
+    public var currentUserRequestedItems: [Item] = []
     
     public var onlineOfferedItems: [Item] = []
     public var onlineRequestedItems: [Item] = []

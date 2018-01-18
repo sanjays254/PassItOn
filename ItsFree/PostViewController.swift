@@ -8,6 +8,8 @@
 
 import UIKit
 import MapKit
+import FirebaseStorage
+import CoreLocation
 
 class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource {
     
@@ -17,6 +19,9 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
     var chosenQuality: ItemQuality!
     
     @IBOutlet weak var customTagTextField: UITextField!
+    
+    @IBOutlet weak var addCustomTagButton: UIButton!
+    
     @IBOutlet weak var tagButtonView: UIView!
     
     @IBOutlet weak var defaultTagStackView: UIStackView!
@@ -45,15 +50,21 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
     var tapGesture: UITapGestureRecognizer!
     
     var offerRequestSegmentedControl: UISegmentedControl!
+    var offerRequestIndex: Int!
+    var editingBool: Bool = false
+    var itemToEdit: Item!
     
-    
+    let storageRef = Storage.storage().reference()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupUI()
+        
         setupOfferRequestSegmentedControl()
         setupTagButtonsView()
+        
+        checkIfEditing()
         
         titleTextField.delegate = self
         descriptionTextField.delegate = self
@@ -67,6 +78,63 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         
         photosArray = []
         
+    }
+    
+    func checkIfEditing(){
+        if (editingBool){
+            titleTextField.text = itemToEdit.name
+            descriptionTextField.text = itemToEdit.itemDescription
+            chosenTagsArray = itemToEdit.tags.tagsArray
+            //chosenQuality = itemToEdit.quality
+            qualitySegmentedControl.selectedSegmentIndex = ItemQuality.itemQualityIndex(quality: itemToEdit.quality)
+            addCategoryButton.setTitle("Category: \(itemToEdit.itemCategory.rawValue)", for: .normal)
+            chosenCategory = itemToEdit.itemCategory
+            locationButton.setTitle("Location: \(String(describing: itemToEdit!.coordinate))", for: .normal)
+            offerRequestSegmentedControl.selectedSegmentIndex = offerRequestIndex
+            
+            for tag in itemToEdit.tags.tagsArray {
+                addCustomTag(string: tag)
+            }
+            
+            findLocationStringFromCoordinates(item: itemToEdit)
+        
+        }
+    }
+    
+    func findLocationStringFromCoordinates(item: Item){
+        CLGeocoder().reverseGeocodeLocation(CLLocation(latitude: item.coordinate.latitude, longitude: item.coordinate.longitude), completionHandler: {(placemarks, error) -> Void in
+            if error != nil {
+                print("Reverse geocoder failed with error" + (error?.localizedDescription)!)
+                return
+            }
+            
+            if (placemarks!.count > 0) {
+                let pm = placemarks![0]
+                
+                if(pm.thoroughfare != nil && pm.subThoroughfare != nil){
+                    // not all places have thoroughfare & subThoroughfare so validate those values
+                    
+                    self.locationButton.setTitle("Location: \(pm.thoroughfare ?? "Unknown Place"), \(pm.subThoroughfare ?? "Unknown Place")", for: UIControlState.normal)
+
+                }
+                else if(pm.subThoroughfare != nil) {
+                    
+                    self.locationButton.setTitle("Location: \(pm.thoroughfare ?? "Unknown Place"), \(pm.subLocality ?? "Unknown Place")", for: UIControlState.normal)
+                    
+                }
+                    
+                else {
+                    self.locationButton.setTitle("Location: Unknown Place", for: UIControlState.normal)
+  
+                    
+                }
+            }
+            else {
+                self.locationButton.setTitle("Location: Unknown Place", for: UIControlState.normal)
+        
+            }
+            // places.append(["name":annotation.title,"latitude":"\(locationCoordinate.latitude)","longitude":"\(locationCoordinate.longitude)"])
+        })
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -120,14 +188,38 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
     
     func setupUI(){
         
+        titleTextField.layer.borderColor = UIProperties.sharedUIProperties.purpleColour.cgColor
+        titleTextField.layer.borderWidth = 1.0
+        titleTextField.layer.cornerRadius = 4.0
+        
+        descriptionTextField.layer.borderColor = UIProperties.sharedUIProperties.purpleColour.cgColor
+        descriptionTextField.layer.borderWidth = 1.0
+        descriptionTextField.layer.cornerRadius = 4.0
+        
+        customTagTextField.layer.borderColor = UIProperties.sharedUIProperties.purpleColour.cgColor
+        customTagTextField.layer.borderWidth = 1.0
+        customTagTextField.layer.cornerRadius = 4.0
+        
         categoryTableView = UITableView(frame: CGRect(x: 0, y:20, width: self.view.frame.width, height: self.view.frame.height), style: UITableViewStyle.plain)
         
-        addCategoryButton.layer.borderColor = UIColor(red: 0, green: 122.0/255.0, blue: 1.0, alpha: 1.0).cgColor
+        addCustomTagButton.tintColor = UIProperties.sharedUIProperties.lightGreenColour
+        
+        qualitySegmentedControl.tintColor = UIProperties.sharedUIProperties.lightGreenColour
+        qualitySegmentedControl.backgroundColor = UIProperties.sharedUIProperties.blackColour
+        qualitySegmentedControl.layer.cornerRadius = 4.0
+        
+        addCategoryButton.backgroundColor = UIProperties.sharedUIProperties.whiteColour
+        addCategoryButton.setTitleColor(UIProperties.sharedUIProperties.purpleColour, for: .normal)
+        
+        addCategoryButton.layer.borderColor = UIProperties.sharedUIProperties.purpleColour.cgColor
         addCategoryButton.layer.borderWidth = 1
         addCategoryButton.layer.cornerRadius = 5
         addCategoryButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 0)
         
-        locationButton.layer.borderColor = UIColor(red: 0, green: 122.0/255.0, blue: 1.0, alpha: 1.0).cgColor
+        
+        locationButton.backgroundColor = UIProperties.sharedUIProperties.whiteColour
+        locationButton.setTitleColor(UIProperties.sharedUIProperties.purpleColour, for: .normal)
+        locationButton.layer.borderColor = UIProperties.sharedUIProperties.purpleColour.cgColor
         locationButton.layer.borderWidth = 1
         locationButton.layer.cornerRadius = 5
         locationButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 0)
@@ -191,49 +283,59 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         self.present(photoSourceAlert, animated: true, completion: nil)
     }
     
-    
-    @IBAction func addCustomTagButton(_ sender: UIButton) {
+    func addCustomTag(string: String){
         
-        let newCustomTag =  customTagTextField.text
-        
-        if (newCustomTag != ""){
+        if (string != ""){
             
             let newButton = UIButton(frame: CGRect(x: 5, y: 8, width: 50, height: 20))
             
-            newButton.setTitle(newCustomTag, for: .normal)
-            newButton.setTitleColor(UIColor(red: 0, green: 122.0/255.0, blue: 1.0, alpha: 1.0), for: UIControlState.normal)
+            newButton.setTitle(string, for: .normal)
+            newButton.setTitleColor(UIProperties.sharedUIProperties.lightGreenColour, for: UIControlState.normal)
             newButton.addTarget(self, action: #selector(addOrRemoveThisDefaultTag), for: UIControlEvents.touchUpInside)
             
             newButton.titleLabel?.font = UIFont.systemFont(ofSize: 10, weight: UIFont.Weight.light)
             newButton.sizeToFit()
             
+            newButton.backgroundColor = UIProperties.sharedUIProperties.blackColour
             newButton.layer.borderWidth = 1
-            newButton.layer.borderColor = UIColor(red: 0, green: 122.0/255.0, blue: 1.0, alpha: 1.0).cgColor
+            newButton.layer.borderColor = UIProperties.sharedUIProperties.lightGreenColour.cgColor
             newButton.layer.cornerRadius = 10
             
             customTagStackView.addArrangedSubview(newButton)
             
-            chosenTagsArray.append(newCustomTag!)
+            chosenTagsArray.append(string)
             
             customTagTextField.resignFirstResponder()
             customTagTextField.text = ""
         }
     }
     
+    @IBAction func addCustomTagButton(_ sender: UIButton) {
+        
+        
+        let newCustomTag =  customTagTextField.text
+        
+        addCustomTag(string: newCustomTag!)
+        
+
+    }
+    
     @objc func addOrRemoveThisDefaultTag(sender: UIButton){
         
         if(sender.titleColor(for: UIControlState.normal) == UIColor.gray){
             
-            sender.setTitleColor(UIColor(red: 0, green: 122.0/255.0, blue: 1.0, alpha: 1.0), for: UIControlState.normal)
-            sender.layer.borderColor = UIColor(red: 0, green: 122.0/255.0, blue: 1.0, alpha: 1.0).cgColor
+            sender.setTitleColor(UIProperties.sharedUIProperties.lightGreenColour, for: UIControlState.normal)
+            sender.layer.borderColor = UIProperties.sharedUIProperties.lightGreenColour.cgColor
+            sender.backgroundColor = UIProperties.sharedUIProperties.blackColour
             
             chosenTagsArray.append((sender.titleLabel?.text)!)
         }
             
-        else if(sender.titleColor(for: UIControlState.normal) == UIColor(red: 0, green: 122.0/255.0, blue: 1.0, alpha: 1.0)){
+        else if(sender.titleColor(for: UIControlState.normal) == UIProperties.sharedUIProperties.lightGreenColour){
             
             sender.setTitleColor(UIColor.gray, for: UIControlState.normal)
             sender.layer.borderColor = UIColor.gray.cgColor
+            sender.backgroundColor = UIProperties.sharedUIProperties.whiteColour
             
             chosenTagsArray.remove(at:chosenTagsArray.index(of:((sender.titleLabel?.text)!))!)
         }
@@ -310,11 +412,35 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         if chosenTagsArray.count > 0 {
             tags.tagsArray = chosenTagsArray
         }
-        //if these fields are not nil, then post the item
+        
         let realItem: Item = Item.init(name: titleTextField.text!, category: chosenCategory, description: descriptionTextField.text!, location: selectedLocationCoordinates, posterUID:  user.UID, quality: chosenQuality, tags: tags, photos: [""], itemUID: nil)
         
         var photoRefs:[String] = []
-        if photosArray.count == 0 {
+        
+        if (editingBool){
+            WriteFirebaseData.delete(itemUID: itemToEdit.UID)
+            
+            
+            if (photosArray.count+itemToEdit.photos.count) == 0 {
+                photoRefs.append("")
+            }
+            else {
+                
+                photoRefs = itemToEdit.photos
+                for index in 0..<photosArray.count {
+                    let storagePath = "\(realItem.UID!)/\(index)"
+                    let photoRefStr = ImageManager.uploadImage(image: photosArray[index],
+                                                               userUID: (AppData.sharedInstance.currentUser?.UID)!,
+                                                               filename: storagePath)
+                    photoRefs.append(photoRefStr)
+                    print("\(realItem.UID)/\(photoRefStr)")
+                }
+            }
+            
+        }
+        else {
+        
+        if (photosArray.count == 0) {
             photoRefs.append("")
         }
         else {
@@ -326,6 +452,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
                 photoRefs.append(photoRefStr)
                 print("\(realItem.UID)/\(photoRefStr)")
             }
+        }
         }
         realItem.photos = photoRefs
         
@@ -354,24 +481,67 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
     
     //photos CollectionView methods
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return (photosArray.count+1)
+        
+        if (editingBool){
+            return (itemToEdit.photos.count+photosArray.count+1)
+        }
+        else {
+            return (photosArray.count+1)
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "photoCollectionViewCell", for: indexPath) as! PostPhotoCollectionViewCell
         
+        if(editingBool){
+            
+            if(itemToEdit.photos.count+photosArray.count == indexPath.item){
+                cell.postCollectionViewCellImageView.image = #imageLiteral(resourceName: "addImage")
+            }
+            
+            else if(indexPath.item < itemToEdit.photos.count+photosArray.count){
+                
+                if(indexPath.item < itemToEdit.photos.count){
+            cell.postCollectionViewCellImageView.sd_setImage(with:storageRef.child(itemToEdit.photos[indexPath.item]), placeholderImage: UIImage.init(named: "placeholder"))
+
+                }
+                
+                else {
+                    cell.postCollectionViewCellImageView.image = photosArray[(indexPath.item-itemToEdit.photos.count)]
+  
+                }
+            }
+            
+
+        }
+            
+        
+        else  {
+        
         if(photosArray.count == indexPath.item){
             cell.postCollectionViewCellImageView.image = #imageLiteral(resourceName: "addImage")
         }
-            
-        else if(indexPath.item < photosArray.count) {
+        
+        else if(indexPath.item < photosArray.count){
+        
+
             cell.postCollectionViewCellImageView.image = photosArray[indexPath.item]
-            cell.postCollectionViewCellImageView.layer.cornerRadius = 20
-            cell.postCollectionViewCellImageView.layer.masksToBounds = true
-            cell.postCollectionViewCellImageView.contentMode = .scaleAspectFill
+
+        
+        }
         }
         
+        cell.postCollectionViewCellImageView.layer.cornerRadius = 10
+        cell.postCollectionViewCellImageView.layer.borderWidth = 3.0
+        cell.postCollectionViewCellImageView.layer.borderColor = UIProperties.sharedUIProperties.blackColour.cgColor
+        cell.postCollectionViewCellImageView.layer.masksToBounds = true
+        cell.postCollectionViewCellImageView.contentMode = .scaleAspectFill
+        
         return cell
+    }
+    
+    @objc func addDownloadedPhotosToPhotosArray(){
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

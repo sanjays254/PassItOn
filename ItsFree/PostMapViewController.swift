@@ -61,8 +61,8 @@ class PostMapViewController: UIViewController, UISearchBarDelegate, MKMapViewDel
         self.searchCompleter.filterType = MKSearchCompletionFilterType.locationsAndQueries
         
         
-        
-        self.saveButton.layer.backgroundColor = UIColor.white.cgColor
+        self.saveButton.tintColor = UIProperties.sharedUIProperties.lightGreenColour
+        self.saveButton.layer.backgroundColor =  UIProperties.sharedUIProperties.blackColour.cgColor
         self.saveButton.layer.cornerRadius = 8
         self.saveButton.layer.masksToBounds = false
         self.saveButton.layer.shadowOffset = CGSize.init(width: 0, height: 2.0)
@@ -70,13 +70,18 @@ class PostMapViewController: UIViewController, UISearchBarDelegate, MKMapViewDel
         self.saveButton.layer.shadowOpacity = 0.5
         self.saveButton.layer.shadowRadius = 1.0
         
-        self.myLocationButton.layer.backgroundColor = UIColor.white.cgColor
+        self.myLocationButton.tintColor = UIProperties.sharedUIProperties.lightGreenColour
+        self.myLocationButton.layer.backgroundColor = UIProperties.sharedUIProperties.blackColour.cgColor
         self.myLocationButton.layer.cornerRadius = 8
         self.myLocationButton.layer.masksToBounds = false
         self.myLocationButton.layer.shadowOffset = CGSize.init(width: 0, height: 2.0)
         self.myLocationButton.layer.shadowColor = (UIColor.black).cgColor
         self.myLocationButton.layer.shadowOpacity = 0.5
         self.myLocationButton.layer.shadowRadius = 1.0
+        
+        
+    self.postMapView.register(MKMarkerAnnotationView.self, forAnnotationViewWithReuseIdentifier: "postLocationMarkerView")
+        
     }
 
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
@@ -131,6 +136,8 @@ class PostMapViewController: UIViewController, UISearchBarDelegate, MKMapViewDel
     
     func locationPlotter(){
         
+
+        
         //remove existing annotation
         if (self.pointAnnotation != nil) {
             self.postMapView.removeAnnotation(pointAnnotation)
@@ -156,6 +163,8 @@ class PostMapViewController: UIViewController, UISearchBarDelegate, MKMapViewDel
             self.pointAnnotation.coordinate = CLLocationCoordinate2D(latitude: localSearchResponse!.boundingRegion.center.latitude, longitude:     localSearchResponse!.boundingRegion.center.longitude)
             
             self.markerAnnotationView = MKMarkerAnnotationView(annotation: self.pointAnnotation, reuseIdentifier: nil)
+            self.markerAnnotationView.markerTintColor = UIProperties.sharedUIProperties.purpleColour
+            
             
             self.postMapView.centerCoordinate = self.pointAnnotation.coordinate
             self.postMapView.addAnnotation(self.markerAnnotationView.annotation!)
@@ -196,11 +205,8 @@ class PostMapViewController: UIViewController, UISearchBarDelegate, MKMapViewDel
         }
         
         pointAnnotation = MKPointAnnotation()
-        
-       
-        
+    
         pointAnnotation.coordinate = locationCoordinate
-        
         
         CLGeocoder().reverseGeocodeLocation(CLLocation(latitude: locationCoordinate.latitude, longitude: locationCoordinate.longitude), completionHandler: {(placemarks, error) -> Void in
             if error != nil {
@@ -239,9 +245,6 @@ class PostMapViewController: UIViewController, UISearchBarDelegate, MKMapViewDel
             }
            // places.append(["name":annotation.title,"latitude":"\(locationCoordinate.latitude)","longitude":"\(locationCoordinate.longitude)"])
         })
-        
-        
-        print("Tapped at lat: \(locationCoordinate.latitude) long: \(locationCoordinate.longitude)")
         
     }
     

@@ -26,6 +26,10 @@ class LeaderboardTableViewCell: UITableViewCell {
         profileImageView.layer.cornerRadius = profileImageView.frame.height / 2
         profileImageView.layer.masksToBounds = false
         profileImageView.clipsToBounds = true
+        
+        profileImageView.layer.borderColor = UIColor.black.cgColor
+        profileImageView.layer.borderWidth = 2.0
+        
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

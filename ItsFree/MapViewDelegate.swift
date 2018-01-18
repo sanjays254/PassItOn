@@ -53,7 +53,7 @@ class MapViewDelegate: NSObject, MKMapViewDelegate {
     func setMarkerPropertiesFor(newMarkerView: MKMarkerAnnotationView, item: Item){
 
         newMarkerView.markerTintColor = UIColor.black
-        newMarkerView.glyphTintColor = UIColor.green
+        newMarkerView.glyphTintColor = UIProperties.sharedUIProperties.lightGreenColour
         
         switch(item.itemCategory){
         case .clothing : newMarkerView.glyphImage = #imageLiteral(resourceName: "clothing")
@@ -88,6 +88,16 @@ class MapViewDelegate: NSObject, MKMapViewDelegate {
         return newItemMarkerView
     }
     
+    func getPostMarkerFor(annotation: MKAnnotation, mapView: MKMapView) -> MKAnnotationView? {
+       
+        
+        let postLocationMarkerView = mapView.dequeueReusableAnnotationView(withIdentifier: "postLocationMarkerView", for: annotation) as! MKMarkerAnnotationView
+        
+        postLocationMarkerView.glyphTintColor = UIProperties.sharedUIProperties.purpleColour
+        
+        return postLocationMarkerView
+    }
+    
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         if (annotation is MKUserLocation){
             return nil
@@ -96,6 +106,10 @@ class MapViewDelegate: NSObject, MKMapViewDelegate {
             
             return self.getMarkerFor(annotation: annotation, mapView: mapView)
         }
+        else if (annotation is MKPointAnnotation){
+            return self.getPostMarkerFor(annotation: annotation, mapView: mapView)
+        }
+    
         else {
             return nil
         }

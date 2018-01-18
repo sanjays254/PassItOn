@@ -47,7 +47,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.homeTableView.rowHeight = 70
         
         self.homeTableView.refreshControl = UIRefreshControl()
-        self.homeTableView.refreshControl?.backgroundColor = UIColor(red: 0, green: 122.0/255.0, blue: 1.0, alpha: 1.0)
+        self.homeTableView.refreshControl?.backgroundColor = UIProperties.sharedUIProperties.purpleColour
         self.homeTableView.refreshControl?.addTarget(self, action: #selector(refreshTableData), for: .valueChanged)
         
         //delegating the mapView
@@ -60,7 +60,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
         let leaderboardButton  = UIButton(type: .custom)
         leaderboardButton.setImage(leaderboardImage, for: .normal)
-        leaderboardButton.tintColor = UIColor(red: 0, green: 122.0/255.0, blue: 1.0, alpha: 1.0)
+        leaderboardButton.tintColor = UIProperties.sharedUIProperties.lightGreenColour
         leaderboardButton.addTarget(self, action: #selector(leaderboardButtonAction), for: .touchUpInside)
         leaderboardButton.widthAnchor.constraint(equalToConstant: 32.0).isActive = true
         leaderboardButton.heightAnchor.constraint(equalToConstant: 32.0).isActive = true
@@ -115,15 +115,16 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         compassButton.translatesAutoresizingMaskIntoConstraints = false
         
-        let trailingConstraint = NSLayoutConstraint(item: compassButton, attribute: .trailing, relatedBy: .equal, toItem: homeMapView, attribute: .trailing , multiplier: 1, constant: -13)
-        let bottomConstraint = NSLayoutConstraint(item: compassButton, attribute: .bottom, relatedBy: .equal, toItem: homeMapView, attribute: .bottom , multiplier: 1, constant: -15)
-        let widthConstraint = NSLayoutConstraint(item: compassButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute , multiplier: 1, constant: 30)
-        let heightConstraint = NSLayoutConstraint(item: compassButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute , multiplier: 1, constant: 30)
+        let trailingConstraint = NSLayoutConstraint(item: compassButton, attribute: .trailing, relatedBy: .equal, toItem: homeMapView, attribute: .trailing , multiplier: 1, constant: -10)
+        let bottomConstraint = NSLayoutConstraint(item: compassButton, attribute: .bottom, relatedBy: .equal, toItem: homeMapView, attribute: .bottom , multiplier: 1, constant: -10)
+        let widthConstraint = NSLayoutConstraint(item: compassButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute , multiplier: 1, constant: 40)
+        let heightConstraint = NSLayoutConstraint(item: compassButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute , multiplier: 1, constant: 40)
         
         NSLayoutConstraint.activate([trailingConstraint, bottomConstraint, widthConstraint, heightConstraint])
         
-        self.compassButton.layer.backgroundColor = UIColor.white.cgColor
-        self.compassButton.layer.cornerRadius = 8
+        self.compassButton.layer.backgroundColor = UIProperties.sharedUIProperties.blackColour.cgColor
+        self.compassButton.tintColor = UIProperties.sharedUIProperties.lightGreenColour
+        self.compassButton.layer.cornerRadius = compassButton.frame.width/2
         self.compassButton.layer.masksToBounds = false
         self.compassButton.layer.shadowOffset = CGSize.init(width: 0, height: 2.0)
         self.compassButton.layer.shadowColor = (UIColor.black).cgColor

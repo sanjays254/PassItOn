@@ -104,4 +104,21 @@ public enum ItemQuality:String {
     WellUsed = "WornOut",
     DamagedButFunctional = "Damaged but Functional",
     NeedsFixing = "Needs Fixing"
+    
+    static func itemQualityIndex(quality: ItemQuality) -> Int {
+        switch quality {
+        case .New:
+            return 0
+        case .GentlyUsed:
+            return 1
+        case .WellUsed:
+            return 1
+        case .DamagedButFunctional:
+            return 3
+        case .NeedsFixing:
+            return 3
+        default:
+            return 0
+        }
+    }
 }

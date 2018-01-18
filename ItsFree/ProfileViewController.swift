@@ -27,7 +27,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     @IBOutlet weak var offersRequestsSegmentedControl: UISegmentedControl!
     
     @IBOutlet weak var myPostsTableView: UITableView!
-    
+    weak var selectedItemToEdit: Item!
     
 
     
@@ -63,7 +63,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationController?.isNavigationBarHidden = true
+        //self.navigationController?.setNavigationBarHidden(true, animated: true)
         backButton.setImage(#imageLiteral(resourceName: "backButton"), for: .normal)
         self.backButton.layer.backgroundColor = UIColor.black.cgColor
         self.backButton.layer.cornerRadius = self.backButton.frame.size.width/2
@@ -98,6 +98,13 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         
         
     }
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.setNavigationBarHidden(true, animated: true)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        self.navigationController?.setNavigationBarHidden(false, animated: animated)
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -105,7 +112,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     }
     
     func setUpProfileText() {
-        self.navigationItem.title = "My Profile"
+        self.navigationItem.title = "Profile"
         self.usernameLabel.text = username
         self.emailLabel.text = email
         self.pointsLabel.text = String(AppData.sharedInstance.currentUser!.rating)
@@ -117,7 +124,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         
         myPostsTableView.layer.borderColor = UIColor.black.cgColor
         myPostsTableView.layer.borderWidth = 3.0
-        myPostsTableView.layer.cornerRadius = 5.0
+        //myPostsTableView.layer.cornerRadius = 5.0
         //myPostsTableView.layer.frame
         
     }
@@ -234,11 +241,32 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         var selectedCell:UITableViewCell = tableView.cellForRow(at: indexPath)!
-        //selectedCell.contentView.backgroundColor = UIColor.green
+        //selectedCell.contentView.backgroundColor = UIProperties.sharedUIProperties.purpleColour
+        
+        switch offersRequestsSegmentedControl.selectedSegmentIndex {
+        case 0:
+            selectedItemToEdit = AppData.sharedInstance.currentUserOfferedItems[indexPath.row]
+            
+        case 1:
+            selectedItemToEdit = AppData.sharedInstance.currentUserRequestedItems[indexPath.row]
+            
+        default:
+            selectedItemToEdit = nil
+        }
+        performSegue(withIdentifier: "editPostSegue", sender: self)
         
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if (segue.identifier == "editPostSegue"){
+            let destinationPostVC = segue.destination as! PostViewController
+            destinationPostVC.itemToEdit = selectedItemToEdit
+            destinationPostVC.editingBool = true
+            destinationPostVC.offerRequestIndex = offersRequestsSegmentedControl.selectedSegmentIndex
+        }
+        
+    }
 
     
     func tableView(tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {

@@ -53,7 +53,7 @@ class LeaderboardTableViewController: UIViewController, UITableViewDataSource, U
         if(sortedUsers[indexPath.row].UID == AppData.sharedInstance.currentUser?.UID){
             cell.nameLabel.text = "You"
             cell.layer.borderWidth = 3.0
-            cell.layer.borderColor = UIColor.black.cgColor
+            cell.layer.borderColor = UIProperties.sharedUIProperties.purpleColour.cgColor
             cell.layer.cornerRadius = 5.0
             
             currentUserIndexPath = indexPath
@@ -85,7 +85,7 @@ class LeaderboardTableViewController: UIViewController, UITableViewDataSource, U
         let strokeTextAttributes: [NSAttributedStringKey : Any] = [
             NSAttributedStringKey.strokeColor : UIColor.black,
          
-            NSAttributedStringKey.foregroundColor : UIProperties.sharedUIProperties.lightGreen,
+            NSAttributedStringKey.foregroundColor : UIProperties.sharedUIProperties.lightGreenColour,
             NSAttributedStringKey.strokeWidth : -2.0,
             NSAttributedStringKey.font : UIFont(name: "GillSans", size: 20)!
     //change font
@@ -97,14 +97,14 @@ class LeaderboardTableViewController: UIViewController, UITableViewDataSource, U
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTitle()
-        doneButton.tintColor = UIProperties.sharedUIProperties.lightGreen
+        doneButton.tintColor = UIProperties.sharedUIProperties.lightGreenColour
         doneButton.layer.backgroundColor = UIProperties.sharedUIProperties.blackColour.cgColor
         doneButton.layer.borderColor = UIProperties.sharedUIProperties.blackColour.cgColor
         doneButton.layer.borderWidth = 2.0
         doneButton.layer.cornerRadius = doneButton.frame.width/2
         
         
-        findMeButton.tintColor = UIProperties.sharedUIProperties.lightGreen
+        findMeButton.tintColor = UIProperties.sharedUIProperties.lightGreenColour
         findMeButton.layer.backgroundColor = UIProperties.sharedUIProperties.blackColour.cgColor
         findMeButton.layer.borderColor = UIProperties.sharedUIProperties.blackColour.cgColor
         findMeButton.layer.borderWidth = 2.0

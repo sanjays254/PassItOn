@@ -28,6 +28,7 @@ class WriteFirebaseData {
                 AppData.sharedInstance.currentUser!.offeredItems.remove(at: 0)
             }
             AppData.sharedInstance.currentUser!.offeredItems.append(itemRef)
+            AppData.sharedInstance.currentUserOfferedItems.append(item)
             break
         case 1:
             itemRef = "requests/"
@@ -36,6 +37,7 @@ class WriteFirebaseData {
                 AppData.sharedInstance.currentUser!.requestedItems.remove(at: 0)
             }
             AppData.sharedInstance.currentUser!.requestedItems.append(itemRef)
+            AppData.sharedInstance.currentUserRequestedItems.append(item)
             break
         default:
             print("Error: Invalid argument passed for 'type'")
@@ -56,6 +58,7 @@ class WriteFirebaseData {
                 itemPath = post
                 if let index = user.offeredItems.index(of: post) {
                     user.offeredItems.remove(at: index)
+                    AppData.sharedInstance.currentUserOfferedItems.remove(at: index)
                     
                 }
                 break
@@ -67,6 +70,7 @@ class WriteFirebaseData {
                     itemPath = post
                     if let index = user.requestedItems.index(of: post) {
                         user.requestedItems.remove(at: index)
+                        AppData.sharedInstance.currentUserRequestedItems.remove(at: index)
                     }
                     break
                 }
@@ -101,12 +105,47 @@ class WriteFirebaseData {
                     }
                     Database.database().reference().child(itemPath!).removeValue()
                     WriteFirebaseData.write(user: AppData.sharedInstance.currentUser!)
+                    
                 }
                 else {
                     print("Nil found in read items")
                 }
             })
         }
+    }
+    
+    class func updateItem(item: Item, type:Int) {
+        let user = AppData.sharedInstance.currentUser!
+      
+        let itemPath:String = "\(item.itemCategory.rawValue)/\(item.UID!)"
+        var itemRef:String
+        
+        switch type {
+        case 0:
+            itemRef = "offers/"
+            itemRef.append(itemPath)
+            if AppData.sharedInstance.currentUser!.offeredItems.first == "" {
+                AppData.sharedInstance.currentUser!.offeredItems.remove(at: 0)
+            }
+            AppData.sharedInstance.currentUser!.offeredItems.append(itemRef)
+            break
+        case 1:
+            itemRef = "requests/"
+            itemRef.append(itemPath)
+            if AppData.sharedInstance.currentUser!.requestedItems.first == "" {
+                AppData.sharedInstance.currentUser!.requestedItems.remove(at: 0)
+            }
+            AppData.sharedInstance.currentUser!.requestedItems.append(itemRef)
+            break
+        default:
+            print("Error: Invalid argument passed for 'type'")
+            return
+        }
+        Database.database().reference().child(itemRef).setValue(item.toDictionary())
+        
+        
+        print("# of offered items: \(user.offeredItems.count), # of requested items: \(user.requestedItems.count), itemPath: \(itemRef)")
+        AppData.sharedInstance.usersNode.child(user.UID).setValue(AppData.sharedInstance.currentUser?.toDictionary())
     }
     
     class func write(user:User) {

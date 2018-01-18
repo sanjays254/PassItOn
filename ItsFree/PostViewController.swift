@@ -412,11 +412,35 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         if chosenTagsArray.count > 0 {
             tags.tagsArray = chosenTagsArray
         }
-        //if these fields are not nil, then post the item
+        
         let realItem: Item = Item.init(name: titleTextField.text!, category: chosenCategory, description: descriptionTextField.text!, location: selectedLocationCoordinates, posterUID:  user.UID, quality: chosenQuality, tags: tags, photos: [""], itemUID: nil)
         
         var photoRefs:[String] = []
-        if photosArray.count == 0 {
+        
+        if (editingBool){
+            WriteFirebaseData.delete(itemUID: itemToEdit.UID)
+            
+            
+            if (photosArray.count+itemToEdit.photos.count) == 0 {
+                photoRefs.append("")
+            }
+            else {
+                
+                photoRefs = itemToEdit.photos
+                for index in 0..<photosArray.count {
+                    let storagePath = "\(realItem.UID!)/\(index)"
+                    let photoRefStr = ImageManager.uploadImage(image: photosArray[index],
+                                                               userUID: (AppData.sharedInstance.currentUser?.UID)!,
+                                                               filename: storagePath)
+                    photoRefs.append(photoRefStr)
+                    print("\(realItem.UID)/\(photoRefStr)")
+                }
+            }
+            
+        }
+        else {
+        
+        if (photosArray.count == 0) {
             photoRefs.append("")
         }
         else {
@@ -428,6 +452,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
                 photoRefs.append(photoRefStr)
                 print("\(realItem.UID)/\(photoRefStr)")
             }
+        }
         }
         realItem.photos = photoRefs
         
@@ -456,7 +481,13 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
     
     //photos CollectionView methods
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return (photosArray.count+1)
+        
+        if (editingBool){
+            return (itemToEdit.photos.count+photosArray.count+1)
+        }
+        else {
+            return (photosArray.count+1)
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -464,22 +495,27 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         
         if(editingBool){
             
-            if(photosArray.count == indexPath.item){
+            if(itemToEdit.photos.count+photosArray.count == indexPath.item){
                 cell.postCollectionViewCellImageView.image = #imageLiteral(resourceName: "addImage")
             }
             
-            else if(indexPath.item < photosArray.count){
+            else if(indexPath.item < itemToEdit.photos.count+photosArray.count){
+                
+                if(indexPath.item < itemToEdit.photos.count){
             cell.postCollectionViewCellImageView.sd_setImage(with:storageRef.child(itemToEdit.photos[indexPath.item]), placeholderImage: UIImage.init(named: "placeholder"))
+
+                }
+                
+                else {
+                    cell.postCollectionViewCellImageView.image = photosArray[(indexPath.item-itemToEdit.photos.count)]
+  
+                }
             }
             
-            
-            //                NotificationCenter.default.addObserver(self, selector:
-            //                    #selector(addDownloadedPhotosToPhotosArray), name: NSNotification.Name(rawValue: "photoDownloadedKey"), object: nil)
-            //
+
         }
             
-            
-            
+        
         else  {
         
         if(photosArray.count == indexPath.item){
@@ -490,12 +526,16 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         
 
             cell.postCollectionViewCellImageView.image = photosArray[indexPath.item]
-            cell.postCollectionViewCellImageView.layer.cornerRadius = 20
-            cell.postCollectionViewCellImageView.layer.masksToBounds = true
-            cell.postCollectionViewCellImageView.contentMode = .scaleAspectFill
+
         
         }
         }
+        
+        cell.postCollectionViewCellImageView.layer.cornerRadius = 10
+        cell.postCollectionViewCellImageView.layer.borderWidth = 3.0
+        cell.postCollectionViewCellImageView.layer.borderColor = UIProperties.sharedUIProperties.blackColour.cgColor
+        cell.postCollectionViewCellImageView.layer.masksToBounds = true
+        cell.postCollectionViewCellImageView.contentMode = .scaleAspectFill
         
         return cell
     }

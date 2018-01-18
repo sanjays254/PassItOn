@@ -60,7 +60,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
         let leaderboardButton  = UIButton(type: .custom)
         leaderboardButton.setImage(leaderboardImage, for: .normal)
-        leaderboardButton.tintColor = UIColor(red: 0, green: 122.0/255.0, blue: 1.0, alpha: 1.0)
+        leaderboardButton.tintColor = UIProperties.sharedUIProperties.lightGreen
         leaderboardButton.addTarget(self, action: #selector(leaderboardButtonAction), for: .touchUpInside)
         leaderboardButton.widthAnchor.constraint(equalToConstant: 32.0).isActive = true
         leaderboardButton.heightAnchor.constraint(equalToConstant: 32.0).isActive = true

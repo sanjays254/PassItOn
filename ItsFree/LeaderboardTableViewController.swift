@@ -13,20 +13,27 @@ import FirebaseStorage
 
 class LeaderboardTableViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
-
+    
+    @IBOutlet weak var doneButton: UIButton!
+    @IBOutlet weak var leaderboardLabel: UILabel!
+    
+    @IBOutlet weak var findMeButton: UIButton!
+    
     let myDowloadCompletedNotificationKey = "myDownloadNotificationKey"
     
     
     
     @IBOutlet weak var leaderboardTableView: UITableView!
     
+    var currentUserIndexPath: IndexPath!
     
-    @IBAction func dismissLeaderboard(_ sender: UIBarButtonItem) {
+    @IBAction func dismissLeaderboard(_ sender: UIButton) {
     
         self.dismiss(animated: true, completion: nil)
         }
     
     
+
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return AppData.sharedInstance.onlineUsers.count
@@ -49,6 +56,8 @@ class LeaderboardTableViewController: UIViewController, UITableViewDataSource, U
             cell.layer.borderColor = UIColor.black.cgColor
             cell.layer.cornerRadius = 5.0
             
+            currentUserIndexPath = indexPath
+            
         }
         else {
             cell.nameLabel.text = sortedUsers[indexPath.row].name
@@ -70,9 +79,37 @@ class LeaderboardTableViewController: UIViewController, UITableViewDataSource, U
         return cell
         
     }
+
+    
+    func setupTitle(){
+        let strokeTextAttributes: [NSAttributedStringKey : Any] = [
+            NSAttributedStringKey.strokeColor : UIColor.black,
+         
+            NSAttributedStringKey.foregroundColor : UIProperties.sharedUIProperties.lightGreen,
+            NSAttributedStringKey.strokeWidth : -2.0,
+            NSAttributedStringKey.font : UIFont(name: "GillSans", size: 20)!
+    //change font
+            ]
+        
+        leaderboardLabel.attributedText = NSAttributedString(string: "LEADERBOARD", attributes: strokeTextAttributes)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupTitle()
+        doneButton.tintColor = UIProperties.sharedUIProperties.lightGreen
+        doneButton.layer.backgroundColor = UIProperties.sharedUIProperties.blackColour.cgColor
+        doneButton.layer.borderColor = UIProperties.sharedUIProperties.blackColour.cgColor
+        doneButton.layer.borderWidth = 2.0
+        doneButton.layer.cornerRadius = doneButton.frame.width/2
+        
+        
+        findMeButton.tintColor = UIProperties.sharedUIProperties.lightGreen
+        findMeButton.layer.backgroundColor = UIProperties.sharedUIProperties.blackColour.cgColor
+        findMeButton.layer.borderColor = UIProperties.sharedUIProperties.blackColour.cgColor
+        findMeButton.layer.borderWidth = 2.0
+        findMeButton.layer.cornerRadius = doneButton.frame.width/2
+        
         
         ReadFirebaseData.readUsers()
 
@@ -83,7 +120,15 @@ class LeaderboardTableViewController: UIViewController, UITableViewDataSource, U
         leaderboardTableView.rowHeight = 80
 
         
+        self.navigationController?.navigationBar.isHidden = true
+        
+        
         // Do any additional setup after loading the view.
+    }
+    
+    
+    @IBAction func findMeAction(_ sender: UIButton) {
+        leaderboardTableView.scrollToRow(at: currentUserIndexPath, at: .top, animated: true)
     }
     
     @objc func reload(){

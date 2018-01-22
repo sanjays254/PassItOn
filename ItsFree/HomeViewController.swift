@@ -14,11 +14,15 @@ import MapKit
 import FirebaseStorage
 
 
+public var availableBool: Bool!
+
 class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate, MKMapViewDelegate, UINavigationControllerDelegate {
     
     let mySelectedItemNotificationKey = "theNotificationKey"
     let myDowloadCompletedNotificationKey = "myDownloadNotificationKey"
     let filterAppliedKey = "filterAppliedKey"
+    
+ 
 
     var currentLocation: CLLocation!
     var locationManager: CLLocationManager!
@@ -27,6 +31,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     var mapListSegmentedControl: UISegmentedControl!
     @IBOutlet weak var wantedAvailableSegmentedControl: UISegmentedControl!
+    
+    @IBOutlet weak var newPostButton: UIBarButtonItem!
     
     @IBOutlet weak var homeMapView: MKMapView!
     @IBOutlet weak var homeTableView: UITableView!
@@ -40,6 +46,10 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         super.viewDidLoad()
         
         wantedAvailableSegmentedControl.selectedSegmentIndex = 1
+        availableBool = true
+        
+        
+        newPostButton.tintColor = UIProperties.sharedUIProperties.whiteColour
         
         //delegating the tableView
         self.homeTableView.delegate = self
@@ -60,7 +70,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
         let leaderboardButton  = UIButton(type: .custom)
         leaderboardButton.setImage(leaderboardImage, for: .normal)
-        leaderboardButton.tintColor = UIProperties.sharedUIProperties.lightGreenColour
+        leaderboardButton.tintColor = UIProperties.sharedUIProperties.whiteColour
         leaderboardButton.addTarget(self, action: #selector(leaderboardButtonAction), for: .touchUpInside)
         leaderboardButton.widthAnchor.constraint(equalToConstant: 32.0).isActive = true
         leaderboardButton.heightAnchor.constraint(equalToConstant: 32.0).isActive = true
@@ -99,8 +109,12 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     fileprivate func setupMapListSegmentedControl() {
 
+        
+  
         self.mapListSegmentedControl = UISegmentedControl(items: ["Map", "List"])
+        
         self.navigationItem.titleView = mapListSegmentedControl
+           self.mapListSegmentedControl.tintColor = UIProperties.sharedUIProperties.lightGreenColour
         self.mapListSegmentedControl.selectedSegmentIndex = 0
         self.mapListSegmentedControl.addTarget(self, action: #selector(mapListSegmentAction), for: .valueChanged)
     }
@@ -147,7 +161,9 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
 
     override func viewWillAppear(_ animated: Bool) {
 //        super.viewWillAppear(true)
-        self.homeTableView.reloadData()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.refreshTableData(sender:)), name: NSNotification.Name(rawValue: myDowloadCompletedNotificationKey), object: nil)
+        //self.homeTableView.reloadData()
     }
     
     //receives info from mapViewDelegate about which itemAnnotation was clicked on
@@ -184,11 +200,13 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBAction func changedWantedAvailableSegmnent(_ sender: UISegmentedControl) {
         
         if(sender.selectedSegmentIndex == 0){
+            availableBool = false
             self.homeMapView.removeAnnotations(AppData.sharedInstance.onlineOfferedItems)
             self.homeMapView.addAnnotations(AppData.sharedInstance.onlineRequestedItems)
             homeTableView.reloadData()
         }
         else if (sender.selectedSegmentIndex == 1){
+            availableBool = true
             self.homeMapView.removeAnnotations(AppData.sharedInstance.onlineRequestedItems)
             self.homeMapView.addAnnotations(AppData.sharedInstance.onlineOfferedItems)
             homeTableView.reloadData()

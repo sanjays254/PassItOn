@@ -131,9 +131,11 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         
         //let viewWidth = collectionView.frame.width;
-        let viewWidth = UIScreen.main.bounds.width
-        let totalCellWidth = itemDetailView.photoCollectionView.frame.height * CGFloat(currentItem.photos.count);
-        let totalSpacingWidth = 10 * CGFloat(currentItem.photos.count - 1);
+        
+        
+        let viewWidth = CGFloat(itemDetailView.photoCollectionView.frame.width * 1)
+        let totalCellWidth = itemDetailView.photoCollectionView.frame.size.height/1.5 * CGFloat(currentItem.photos.count);
+        let totalSpacingWidth = 1 * CGFloat(currentItem.photos.count - 1);
         
         let leftInset = (viewWidth - (totalCellWidth + totalSpacingWidth)) / 2;
         let rightInset = leftInset;

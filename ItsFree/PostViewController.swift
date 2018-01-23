@@ -148,6 +148,10 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
     
     fileprivate func setupOfferRequestSegmentedControl() {
         offerRequestSegmentedControl = UISegmentedControl()
+       
+       
+       offerRequestSegmentedControl.tintColor = UIProperties.sharedUIProperties.lightGreenColour
+        
         offerRequestSegmentedControl.insertSegment(withTitle: "Offer", at: 0, animated: true)
         offerRequestSegmentedControl.insertSegment(withTitle: "Request", at: 1, animated: true)
         self.navigationItem.titleView = offerRequestSegmentedControl
@@ -200,7 +204,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         customTagTextField.layer.borderWidth = 1.0
         customTagTextField.layer.cornerRadius = 4.0
         
-        categoryTableView = UITableView(frame: CGRect(x: 0, y:20, width: self.view.frame.width, height: self.view.frame.height), style: UITableViewStyle.plain)
+        categoryTableView = UITableView(frame: CGRect(x: 0, y:0, width: self.view.frame.width, height: self.view.frame.height), style: UITableViewStyle.plain)
         
         addCustomTagButton.tintColor = UIProperties.sharedUIProperties.lightGreenColour
         

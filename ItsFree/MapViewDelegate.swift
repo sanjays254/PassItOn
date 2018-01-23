@@ -27,7 +27,7 @@ class MapViewDelegate: NSObject, MKMapViewDelegate {
         
         if (lat == 0 && long == 0) {
             
-            let span = MKCoordinateSpanMake(0.007, 0.007)
+            let span = MKCoordinateSpanMake(0.02, 0.02)
             theMapView.region = MKCoordinateRegionMake(self.currentLocation.coordinate, span)
         }
         
@@ -35,7 +35,7 @@ class MapViewDelegate: NSObject, MKMapViewDelegate {
     }
     
     @objc func setMapRegion(){
-        let span = MKCoordinateSpanMake(0.007, 0.007)
+        let span = MKCoordinateSpanMake(0.02, 0.02)
         
         theMapView.region = MKCoordinateRegionMake(self.currentLocation.coordinate, span)
         theMapView.showsUserLocation = true
@@ -52,7 +52,7 @@ class MapViewDelegate: NSObject, MKMapViewDelegate {
     
     func setMarkerPropertiesFor(newMarkerView: MKMarkerAnnotationView, item: Item){
 
-        newMarkerView.markerTintColor = UIColor.black
+        newMarkerView.markerTintColor = UIProperties.sharedUIProperties.purpleColour
         newMarkerView.glyphTintColor = UIProperties.sharedUIProperties.lightGreenColour
         
         switch(item.itemCategory){
@@ -122,7 +122,7 @@ class MapViewDelegate: NSObject, MKMapViewDelegate {
            return
         }
         else {
-            let span = MKCoordinateSpanMake(0.007, 0.007)
+            let span = MKCoordinateSpanMake(0.02, 0.02)
             theMapView.setRegion(MKCoordinateRegionMake((view.annotation?.coordinate)!, span) , animated: true)
             
             guard let myItem = view.annotation as? Item

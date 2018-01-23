@@ -25,6 +25,8 @@
 		AAE390072D6121EF9B932714 /* Pods_ItsFree.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52500CB0F9C6555890C6A26D /* Pods_ItsFree.framework */; };
 		CE014332200FFB960045A876 /* MyPostsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE014331200FFB960045A876 /* MyPostsTableViewCell.swift */; };
 		CE014334200FFCAA0045A876 /* UIProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE014333200FFCAA0045A876 /* UIProperties.swift */; };
+		CE014337201448290045A876 /* ItemPhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE014335201448280045A876 /* ItemPhotoCollectionViewCell.swift */; };
+		CE014338201448290045A876 /* ItemPhotoCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE014336201448280045A876 /* ItemPhotoCollectionViewCell.xib */; };
 		CE01EA6B200D5BD2002C33D7 /* RatingSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE01EA6A200D5BD0002C33D7 /* RatingSystem.swift */; };
 		CE43E79A1FCF90290061A653 /* FilterTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE43E7991FCF90290061A653 /* FilterTableViewController.swift */; };
 		CE5249DC1FC6184A003F41D8 /* KeyboardLayoutConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5249DB1FC6184A003F41D8 /* KeyboardLayoutConstraint.swift */; };
@@ -100,6 +102,8 @@
 		C21A98A73CD94089A2DFCBB2 /* Pods-ItsFreeUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ItsFreeUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ItsFreeUITests/Pods-ItsFreeUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		CE014331200FFB960045A876 /* MyPostsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPostsTableViewCell.swift; sourceTree = "<group>"; };
 		CE014333200FFCAA0045A876 /* UIProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIProperties.swift; sourceTree = "<group>"; };
+		CE014335201448280045A876 /* ItemPhotoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemPhotoCollectionViewCell.swift; sourceTree = "<group>"; };
+		CE014336201448280045A876 /* ItemPhotoCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ItemPhotoCollectionViewCell.xib; sourceTree = "<group>"; };
 		CE01EA6A200D5BD0002C33D7 /* RatingSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingSystem.swift; sourceTree = "<group>"; };
 		CE43E7991FCF90290061A653 /* FilterTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterTableViewController.swift; sourceTree = "<group>"; };
 		CE5249DB1FC6184A003F41D8 /* KeyboardLayoutConstraint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardLayoutConstraint.swift; sourceTree = "<group>"; };
@@ -249,6 +253,8 @@
 				01D5DF451FBF86F40029A276 /* User.swift */,
 				CE5869D51FBE445C0012F774 /* Assets.xcassets */,
 				CEFC19911FC65C320082CB55 /* ItemDetailViewController.xib */,
+				CE014335201448280045A876 /* ItemPhotoCollectionViewCell.swift */,
+				CE014336201448280045A876 /* ItemPhotoCollectionViewCell.xib */,
 				CEF41A201FC374520044C63E /* ItemHomeTableViewCell.xib */,
 				CEBD48A31FCCD02600C5267F /* LeaderboardTableViewCell.xib */,
 				CEF41A241FC3CF1C0044C63E /* PostMapViewController.xib */,
@@ -411,6 +417,7 @@
 				CE5869D91FBE445C0012F774 /* LaunchScreen.storyboard in Resources */,
 				0135173E1FC6168700977B2E /* Login.storyboard in Resources */,
 				CEBD48A51FCCD02600C5267F /* LeaderboardTableViewCell.xib in Resources */,
+				CE014338201448290045A876 /* ItemPhotoCollectionViewCell.xib in Resources */,
 				01BAC9FB1FBF75A70050C891 /* GoogleService-Info.plist in Resources */,
 				CE5869D61FBE445C0012F774 /* Assets.xcassets in Resources */,
 				CE5869D41FBE445C0012F774 /* Main.storyboard in Resources */,
@@ -654,6 +661,7 @@
 				013517401FC61F9F00977B2E /* LoginViewController.swift in Sources */,
 				CE9683D21FBF6C9700DFA277 /* PostViewController.swift in Sources */,
 				013517451FC8F1FD00977B2E /* ProfileViewController.swift in Sources */,
+				CE014337201448290045A876 /* ItemPhotoCollectionViewCell.swift in Sources */,
 				01C1CAE91FBFB35500FB636C /* AppData.swift in Sources */,
 				CE5869CF1FBE445C0012F774 /* AppDelegate.swift in Sources */,
 				CEBD48A41FCCD02600C5267F /* LeaderboardTableViewCell.swift in Sources */,

@@ -10,7 +10,7 @@ import UIKit
 import MessageUI
 import FirebaseStorage
 
-class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource {
+class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
 
     var detailViewTopAnchorConstant: CGFloat!
@@ -21,19 +21,20 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
     @IBOutlet var contentView: UIView!
     @IBOutlet weak var itemDetailView: ItemDetailView!
         
-    //@IBOutlet weak var collectionViewContentView: UIView!
+    @IBOutlet weak var collectionViewContentView: UIView!
     var currentItem: Item!
    
     override func viewDidLoad() {
         super.viewDidLoad()
-        //setupCollectionView()
+    
+        setupCollectionView()
         
         view.backgroundColor = UIColor.clear
         
         itemDetailView.translatesAutoresizingMaskIntoConstraints = false
         
         //make this auto constrained
-        detailViewTopAnchorConstant = UIScreen.main.bounds.height/1.7
+        detailViewTopAnchorConstant = UIScreen.main.bounds.height/2
         detailViewBottomAnchorConstant = 0
         
         NSLayoutConstraint.activate([
@@ -86,26 +87,73 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
     
     func setupCollectionView(){
         
+        itemDetailView.photoCollectionView.frame.size.height =  UIScreen.main.bounds.size.height/9
+        
         let flowLayout = UICollectionViewFlowLayout()
-        flowLayout.itemSize = CGSize(width: itemDetailView.collectionContentView.frame.height, height: itemDetailView.collectionContentView.frame.height)
+        flowLayout.itemSize = CGSize(width: itemDetailView.photoCollectionView.frame.height, height: itemDetailView.photoCollectionView.frame.height)
         flowLayout.scrollDirection = .horizontal
+    
+        itemDetailView.photoCollectionView.contentInset = UIEdgeInsetsMake(-20, 0, 0, 0)
+        
 
-        
-        let photoCollectionView = UICollectionView(frame: CGRect(x:0, y:0, width: itemDetailView.collectionContentView.frame.width, height: itemDetailView.collectionContentView.frame.height), collectionViewLayout: flowLayout)
-        
-        
-        photoCollectionView.delegate = self
-        photoCollectionView.dataSource = self
-        
-        photoCollectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "itemPhotoCollectionViewCell")
-        
-        photoCollectionView.backgroundColor = UIColor.black
+        itemDetailView.photoCollectionView.contentInsetAdjustmentBehavior = .never
         
         
         
-        itemDetailView.collectionContentView.addSubview(photoCollectionView)
+        //let photoCollectionView = UICollectionView(frame: CGRect(x:0, y:0, width: itemDetailView.photoCollectionView.frame.width, height: itemDetailView.photoCollectionView.frame.height), collectionViewLayout: flowLayout)
+        
+        itemDetailView.photoCollectionView.setCollectionViewLayout(flowLayout, animated: true)
+        
+        itemDetailView.photoCollectionView.setContentOffset(CGPoint(), animated: true)
+        itemDetailView.photoCollectionView.delegate = self
+        itemDetailView.photoCollectionView.dataSource = self
+        
+        let nibName = UINib(nibName: "ItemPhotoCollectionViewCell", bundle:nil)
+        itemDetailView.photoCollectionView.register(nibName, forCellWithReuseIdentifier: "itemPhotoCollectionViewCell")
+        
+        
+        
+        itemDetailView.photoCollectionView.backgroundColor = UIProperties.sharedUIProperties.purpleColour
+      
+        
+        
+        
+        
+        //itemDetailView.photoCollectionView.addSubview(photoCollectionView)
         
     }
+    
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize
+//    {
+//        return CGSize(width: 100.0, height: 100.0)
+//    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        
+        //let viewWidth = collectionView.frame.width;
+        
+        
+        let viewWidth = CGFloat(itemDetailView.photoCollectionView.frame.width * 1)
+        let totalCellWidth = itemDetailView.photoCollectionView.frame.size.height/1.5 * CGFloat(currentItem.photos.count);
+        let totalSpacingWidth = 1 * CGFloat(currentItem.photos.count - 1);
+        
+        let leftInset = (viewWidth - (totalCellWidth + totalSpacingWidth)) / 2;
+        let rightInset = leftInset;
+        
+          return UIEdgeInsetsMake(0, leftInset, 0, rightInset);
+        
+    }
+    
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+        
+  
+        
+      
+        
+        
+        return CGSize(width: itemDetailView.photoCollectionView.frame.size.height, height: itemDetailView.photoCollectionView.frame.size.height);
+    }
+    
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
        
@@ -115,19 +163,22 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "itemPhotoCollectionViewCell", for: indexPath)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "itemPhotoCollectionViewCell", for: indexPath) as! ItemPhotoCollectionViewCell
         
    
+        
         let storageRef = Storage.storage().reference()
         let photoRef: [String] = currentItem.photos
     
-        let imageView = UIImageView.init(image: #imageLiteral(resourceName: "compass"))
-        
-        imageView.sd_setImage(with: storageRef.child(photoRef[indexPath.item]), placeholderImage: UIImage.init(named: "placeholder"))
+       
+        cell.layer.borderColor = UIProperties.sharedUIProperties.blackColour.cgColor
+        cell.layer.borderWidth = 5.0
+        cell.layer.cornerRadius = 3.0
+        cell.collectionViewImageVew.sd_setImage(with: storageRef.child(photoRef[indexPath.item]), placeholderImage: UIImage.init(named: "placeholder"))
         print("Storage Location: \(storageRef.child(photoRef[indexPath.row]))")
         
      
-        cell.contentView.addSubview(imageView)
+    
         
         return cell
         
@@ -161,6 +212,9 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
             UIView.animate(withDuration: 0.5, animations: {
                 self.itemDetailView.frame = CGRect(x: 0, y: UIScreen.main.bounds.size.height, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height)
                 
+                self.itemDetailView.leftUpArrow.transform = CGAffineTransform(rotationAngle: (CGFloat.pi) * -0.9999)
+                self.itemDetailView.rightUpArrow.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
+                
             }, completion: {(finished: Bool) in
                 
                 self.willMove(toParentViewController: nil)
@@ -175,12 +229,15 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
             } else if (swipeGesture.direction == UISwipeGestureRecognizerDirection.up) {
             
                 //nav bar + status bar
-                let yPoint = (self.navigationController?.navigationBar.frame.height)! + (UIApplication.shared.statusBarFrame.size.height) + UIScreen.main.bounds.size.height/3
+                let yPoint = (self.navigationController?.navigationBar.frame.height)! + (UIApplication.shared.statusBarFrame.size.height) + UIScreen.main.bounds.size.height/18
                 
        
                     
                 UIView.animate(withDuration: 0.5, animations: {
                     self.itemDetailView.frame = CGRect(x: 0, y:yPoint, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height)
+                    
+                    self.itemDetailView.leftUpArrow.transform = CGAffineTransform(rotationAngle: (CGFloat.pi * -0.9999))
+                    self.itemDetailView.rightUpArrow.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
                     
                 }, completion: {(finished: Bool) in
                     

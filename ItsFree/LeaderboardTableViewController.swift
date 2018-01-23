@@ -52,9 +52,14 @@ class LeaderboardTableViewController: UIViewController, UITableViewDataSource, U
         
         if(sortedUsers[indexPath.row].UID == AppData.sharedInstance.currentUser?.UID){
             cell.nameLabel.text = "You"
+            cell.nameLabel.textColor = UIProperties.sharedUIProperties.whiteColour
+            cell.positionLabel.textColor = UIProperties.sharedUIProperties.whiteColour
+            cell.ratingLabel.textColor = UIProperties.sharedUIProperties.whiteColour
+            cell.profileImageView.layer.borderColor = UIProperties.sharedUIProperties.whiteColour.cgColor
             cell.layer.borderWidth = 3.0
-            cell.layer.borderColor = UIProperties.sharedUIProperties.purpleColour.cgColor
+            cell.layer.borderColor = UIProperties.sharedUIProperties.blackColour.cgColor
             cell.layer.cornerRadius = 5.0
+            cell.backgroundColor = UIProperties.sharedUIProperties.purpleColour
             
             currentUserIndexPath = indexPath
             
@@ -111,7 +116,7 @@ class LeaderboardTableViewController: UIViewController, UITableViewDataSource, U
         findMeButton.layer.cornerRadius = doneButton.frame.width/2
         
         
-        ReadFirebaseData.readUsers()
+        //ReadFirebaseData.readUsers()
 
        NotificationCenter.default.addObserver(self, selector: #selector(reload), name: NSNotification.Name(rawValue: myDowloadCompletedNotificationKey), object: nil)
         

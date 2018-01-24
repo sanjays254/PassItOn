@@ -222,9 +222,54 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         self.locationButton.setTitle("Location: \(self.selectedLocationString)", for: UIControlState.normal)
     }
     
-
+<<<<<<< Updated upstream
+    func setupUI(){
+        
+        titleTextField.layer.borderColor = UIProperties.sharedUIProperties.purpleColour.cgColor
+        titleTextField.layer.borderWidth = 1.0
+        titleTextField.layer.cornerRadius = 4.0
+        
+        descriptionTextField.layer.borderColor = UIProperties.sharedUIProperties.purpleColour.cgColor
+        descriptionTextField.layer.borderWidth = 1.0
+        descriptionTextField.layer.cornerRadius = 4.0
+     
+        customTagTextField.layer.borderColor = UIProperties.sharedUIProperties.purpleColour.cgColor
+        customTagTextField.layer.borderWidth = 1.0
+        customTagTextField.layer.cornerRadius = 4.0
+        
+        categoryTableView = UITableView(frame: CGRect(x: 0, y:0, width: self.view.frame.width, height: self.view.frame.height), style: UITableViewStyle.plain)
+        
+        addCustomTagButton.tintColor = UIProperties.sharedUIProperties.lightGreenColour
+        
+        qualitySegmentedControl.tintColor = UIProperties.sharedUIProperties.lightGreenColour
+        qualitySegmentedControl.backgroundColor = UIProperties.sharedUIProperties.blackColour
+        qualitySegmentedControl.layer.cornerRadius = 4.0
+        
+        addCategoryButton.backgroundColor = UIProperties.sharedUIProperties.whiteColour
+        addCategoryButton.setTitleColor(UIProperties.sharedUIProperties.purpleColour, for: .normal)
+        
+        addCategoryButton.layer.borderColor = UIProperties.sharedUIProperties.purpleColour.cgColor
+        addCategoryButton.layer.borderWidth = 1
+        addCategoryButton.layer.cornerRadius = 5
+        addCategoryButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 0)
+        
+        
+        locationButton.backgroundColor = UIProperties.sharedUIProperties.whiteColour
+        locationButton.setTitleColor(UIProperties.sharedUIProperties.purpleColour, for: .normal)
+        locationButton.layer.borderColor = UIProperties.sharedUIProperties.purpleColour.cgColor
+        locationButton.layer.borderWidth = 1
+        locationButton.layer.cornerRadius = 5
+        locationButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 0)
+        
+        let photoCollectionViewFlowLayout = UICollectionViewFlowLayout()
+        photoCollectionViewFlowLayout.itemSize = CGSize(width:UIScreen.main.bounds.width/4, height:UIScreen.main.bounds.width/4)
+        photoCollectionViewFlowLayout.scrollDirection = UICollectionViewScrollDirection.horizontal
+        photoCollectionViewFlowLayout.minimumInteritemSpacing = 5.0
+        photoCollectionView.collectionViewLayout = photoCollectionViewFlowLayout
+=======
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+>>>>>>> Stashed changes
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

@@ -11,33 +11,23 @@ import FirebaseStorage
 
 class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITableViewDelegate, UITableViewDataSource {
 
-    
-    
     @IBOutlet weak var backButton: UIButton!
-    
     @IBOutlet weak var editButton: UIButton!
     
     @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var emailLabel: UILabel!
     @IBOutlet weak var pointsLabel: UILabel!
-    
-    
-    
     @IBOutlet weak var offersRequestsSegmentedControl: UISegmentedControl!
-    
     @IBOutlet weak var myPostsTableView: UITableView!
-    weak var selectedItemToEdit: Item!
     
-
+    weak var selectedItemToEdit: Item!
     
     var username:String = (AppData.sharedInstance.currentUser?.name)!
     var email:String = (AppData.sharedInstance.currentUser?.email)!
     var user:User = AppData.sharedInstance.currentUser!
     
-    
     let storageRef = Storage.storage().reference()
-   
     var photoRef = AppData.sharedInstance.currentUser?.profileImage
 
     let imagePicker = UIImagePickerController()
@@ -46,58 +36,29 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     var animateTable: Bool = false
     
     
-  
-    
-    @IBAction func donePressed(_ sender: Any) {
-        self.dismiss(animated: true, completion: nil)
-    }
-    
-    @IBAction func editProfilePic(_ sender: Any) {
-        presentImagePickerAlert()
-    }
-    
-    
-    @IBAction func backButton(_ sender: UIButton) {
-              self.dismiss(animated: true, completion: nil)
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        //self.navigationController?.setNavigationBarHidden(true, animated: true)
+        imagePicker.delegate = self
+        
         backButton.setImage(#imageLiteral(resourceName: "backButton"), for: .normal)
         self.backButton.layer.backgroundColor = UIColor.black.cgColor
         self.backButton.layer.cornerRadius = self.backButton.frame.size.width/2
         self.backButton.layer.masksToBounds = false
-        //self.backButton.layer.shadowOffset = CGSize.init(width: 0, height: 2.0)
-        //self.backButton.layer.shadowColor = (UIColor.black).cgColor
-        //self.backButton.layer.shadowOpacity = 0.5
         
         editButton.setImage(#imageLiteral(resourceName: "edit"), for: .normal)
         self.editButton.layer.backgroundColor = UIColor.black.cgColor
         self.editButton.layer.cornerRadius = self.backButton.frame.size.width/2
         self.editButton.layer.masksToBounds = false
         
-        
-        
         setUpProfilePicture()
         setUpProfileText()
-        
-//        myPostsButton.layer.borderColor = UIColor(red: 0, green: 122.0/255.0, blue: 1.0, alpha: 1.0).cgColor
-//        myPostsButton.layer.borderWidth = 1
-//        myPostsButton.layer.cornerRadius = 5
-//        myPostsButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 0)
-        imagePicker.delegate = self
-        
-
         setupTableView()
         
         offersRequestsSegmentedControl.layer.borderWidth = 3.0
         offersRequestsSegmentedControl.layer.borderColor = UIColor.black.cgColor
         offersRequestsSegmentedControl.layer.cornerRadius = 5.0
-        
-        
-        
     }
+    
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.setNavigationBarHidden(true, animated: true)
         myPostsTableView.reloadData()
@@ -106,7 +67,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     override func viewWillDisappear(_ animated: Bool) {
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -125,12 +86,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         
         myPostsTableView.layer.borderColor = UIColor.black.cgColor
         myPostsTableView.layer.borderWidth = 3.0
-        //myPostsTableView.layer.cornerRadius = 5.0
-        //myPostsTableView.layer.frame
-        
     }
-    
-
     
     func setUpProfilePicture() {
         let storageRef = Storage.storage().reference()
@@ -142,6 +98,19 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         profileImageView.sd_setImage(with: storageRef.child(photoRef!), placeholderImage: UIImage(named: "defaultProfile"))
     }
     
+    @IBAction func donePressed(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    @IBAction func editProfilePic(_ sender: Any) {
+        presentImagePickerAlert()
+    }
+    
+    
+    @IBAction func backButton(_ sender: UIButton) {
+              self.dismiss(animated: true, completion: nil)
+    }
+
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         dismiss(animated: true, completion: nil)
     }
@@ -215,25 +184,13 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         cell.itemLabel?.text = item.name
         cell.itemImageView?.sd_setImage(with: storageRef.child(item.photos[0]), placeholderImage: UIImage.init(named: "placeholder"))
         
-        
-//        cell.itemImageView?.layer.borderWidth = 4.0
-//        cell.itemImageView?.layer.borderColor = UIColor.black.cgColor
-//        cell.itemImageView?.layer.cornerRadius = 4.0
-//        cell.itemImageView?.clipsToBounds = true
-//       // cell.imageView?.frame.size.width = 20
-//        cell.itemImageView?.contentMode = .scaleAspectFill
-        
-
         if (animateTable){
             UIView.transition(with: cell.textLabel!, duration: 0.6, options: .transitionCrossDissolve, animations: {
                 cell.itemLabel?.textColor = .black
             
             }, completion: nil)
         }
-        
-        
         return cell
-        
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -266,7 +223,6 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
             destinationPostVC.editingBool = true
             destinationPostVC.offerRequestIndex = offersRequestsSegmentedControl.selectedSegmentIndex
         }
-        
     }
 
     
@@ -294,19 +250,15 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
 
             AppData.sharedInstance.currentUserRequestedItems.remove(at: indexPath.row)
                 
-            
             WriteFirebaseData.delete(itemUID: itemUID)
-                
                 
             default:
                 return
                 
             }
-            
             tableView.deleteRows(at: [indexPath], with: .automatic)
         }
     }
-    
     
     @IBAction func offersRequestsSegmentAction(_ sender: UISegmentedControl) {
         

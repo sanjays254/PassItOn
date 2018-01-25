@@ -9,7 +9,7 @@
 import UIKit
 import FirebaseStorage
 
-class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITableViewDelegate, UITableViewDataSource {
+class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate{
 
     @IBOutlet weak var backButton: UIButton!
     @IBOutlet weak var editButton: UIButton!
@@ -21,7 +21,9 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     @IBOutlet weak var offersRequestsSegmentedControl: UISegmentedControl!
     @IBOutlet weak var myPostsTableView: UITableView!
     
+    weak var usernameTextField: UITextField!
     weak var selectedItemToEdit: Item!
+    var editingProfile: Bool!
     
     var username:String = (AppData.sharedInstance.currentUser?.name)!
     var email:String = (AppData.sharedInstance.currentUser?.email)!
@@ -33,12 +35,15 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     let imagePicker = UIImagePickerController()
     var myImage:UIImage?
     
+    var tapGesture: UITapGestureRecognizer!
+    
     var animateTable: Bool = false
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         imagePicker.delegate = self
+        editingProfile = false
         
         backButton.setImage(#imageLiteral(resourceName: "backButton"), for: .normal)
         self.backButton.layer.backgroundColor = UIColor.black.cgColor
@@ -52,6 +57,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         
         setUpProfilePicture()
         setUpProfileText()
+        setupTextFields()
         setupTableView()
         
         offersRequestsSegmentedControl.layer.borderWidth = 3.0
@@ -71,6 +77,22 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    func setupTextFields(){
+        usernameTextField = UITextField()
+        usernameTextField.delegate = self
+        self.view.addSubview(usernameTextField)
+        usernameTextField.translatesAutoresizingMaskIntoConstraints = false
+        
+        let topConstraint = NSLayoutConstraint(item: usernameTextField, attribute: .top, relatedBy: .equal, toItem: profileImageView, attribute: .bottom , multiplier: 1, constant: 20)
+        let bottomConstraint = NSLayoutConstraint(item: usernameTextField, attribute: .bottom, relatedBy: .equal, toItem: emailLabel, attribute: .top , multiplier: 1, constant: -10)
+        let centralizeConstraint = NSLayoutConstraint(item: usernameTextField, attribute: NSLayoutAttribute.centerX, relatedBy: .equal, toItem: view, attribute: .centerX, multiplier: 1, constant: 0)
+        let widthConstraint = NSLayoutConstraint(item: usernameTextField, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute , multiplier: 1, constant: 250)
+        
+        NSLayoutConstraint.activate([topConstraint, bottomConstraint, centralizeConstraint, widthConstraint])
+        
+        usernameTextField.textAlignment = .center
+        usernameTextField.autocorrectionType = .no
     }
     
     func setUpProfileText() {
@@ -110,7 +132,67 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     @IBAction func backButton(_ sender: UIButton) {
               self.dismiss(animated: true, completion: nil)
     }
+    
+    
+    @IBAction func editProfile(_ sender: UIButton) {
+        
+        //add constraints
+        
+        
+        if (editingProfile == false){
+            
+            UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: {
+                
+                self.editButton.transform = CGAffineTransform(scaleX: -1, y: 1)
+                self.editButton.setImage(#imageLiteral(resourceName: "thumbsUp"), for: .normal)
+            }, completion: nil)
+        
 
+            editingProfile = true
+            
+            usernameLabel.isHidden = true
+            usernameTextField.isHidden = false
+            usernameTextField.placeholder = username
+            
+        }
+        else if (editingProfile == true){
+            
+            
+
+            
+            guard (usernameTextField.text != "") else {
+                let alert = UIAlertController(title: "Whoops", message: "Username can't be empty", preferredStyle: UIAlertControllerStyle.alert)
+                alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.default, handler: nil))
+                present(alert, animated: true, completion: nil)
+                return
+            }
+            
+            editingProfile = false
+            
+        
+            user.name = usernameTextField.text!
+            WriteFirebaseData.write(user: user)
+            
+            usernameTextField.isHidden = true
+            textFieldDidEndEditing(usernameTextField)
+            usernameLabel.isHidden = false
+            self.usernameLabel.text = user.name
+            
+            
+            UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: {
+                
+                self.editButton.transform = CGAffineTransform(scaleX: 1, y: 1)
+                self.editButton.setImage(#imageLiteral(resourceName: "edit"), for: .normal)
+            }, completion: nil)
+            
+        }
+        
+        
+        
+    }
+    
+    
+    
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         dismiss(animated: true, completion: nil)
     }
@@ -265,6 +347,30 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         animateTable = true
         myPostsTableView.reloadData()
         animateTable = false
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        
+        tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard(_:)))
+        self.view.addGestureRecognizer(tapGesture)
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        self.view.removeGestureRecognizer(tapGesture)
+        
+    }
+    
+    @objc func dismissKeyboard (_ sender: UITapGestureRecognizer) {
+        usernameTextField.resignFirstResponder()
+        editingProfile = false
+        
+        UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: {
+            
+            self.editButton.transform = CGAffineTransform(scaleX: -1, y: 1)
+            self.editButton.setImage(#imageLiteral(resourceName: "edit"), for: .normal)
+        }, completion: nil)
+        
+
     }
     
 }

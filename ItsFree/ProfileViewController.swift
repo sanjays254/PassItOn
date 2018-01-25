@@ -91,8 +91,13 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         
         NSLayoutConstraint.activate([topConstraint, bottomConstraint, centralizeConstraint, widthConstraint])
         
+        usernameTextField.isHidden = true
+        usernameTextField.layer.borderWidth = 0.5
+        usernameTextField.layer.borderColor = UIColor.gray.cgColor
+        usernameTextField.layer.cornerRadius = 4
         usernameTextField.textAlignment = .center
         usernameTextField.autocorrectionType = .no
+        usernameTextField.font = UIFont(name: "GillSans-Light", size: 25)
     }
     
     func setUpProfileText() {
@@ -136,9 +141,6 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     
     @IBAction func editProfile(_ sender: UIButton) {
         
-        //add constraints
-        
-        
         if (editingProfile == false){
             
             UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: {
@@ -157,27 +159,25 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         }
         else if (editingProfile == true){
             
-            
+            if (usernameTextField.text == ""){
+                usernameLabel.text = user.name
+            }
 
-            
-            guard (usernameTextField.text != "") else {
-                let alert = UIAlertController(title: "Whoops", message: "Username can't be empty", preferredStyle: UIAlertControllerStyle.alert)
-                alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.default, handler: nil))
-                present(alert, animated: true, completion: nil)
-                return
+            else {
+                user.name = usernameTextField.text!
+                usernameLabel.text = user.name
+                WriteFirebaseData.write(user: user)
             }
             
             editingProfile = false
             
-        
-            user.name = usernameTextField.text!
-            WriteFirebaseData.write(user: user)
-            
             usernameTextField.isHidden = true
-            textFieldDidEndEditing(usernameTextField)
             usernameLabel.isHidden = false
-            self.usernameLabel.text = user.name
+            textFieldDidEndEditing(usernameTextField)
             
+            if(usernameTextField.isFirstResponder){
+                dismissKeyboard(tapGesture)
+            }
             
             UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: {
                 
@@ -356,21 +356,37 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-        self.view.removeGestureRecognizer(tapGesture)
+        
+        if (tapGesture != nil){
+            self.view.removeGestureRecognizer(tapGesture)
+        }
+        
         
     }
     
     @objc func dismissKeyboard (_ sender: UITapGestureRecognizer) {
         usernameTextField.resignFirstResponder()
+        usernameTextField.isHidden = true
+        user.name = usernameTextField.text!
+        usernameLabel.text = user.name
+        usernameLabel.isHidden = false
         editingProfile = false
         
         UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: {
             
-            self.editButton.transform = CGAffineTransform(scaleX: -1, y: 1)
+            self.editButton.transform = CGAffineTransform(scaleX: 1, y: 1)
             self.editButton.setImage(#imageLiteral(resourceName: "edit"), for: .normal)
         }, completion: nil)
         
+        
+        WriteFirebaseData.write(user: user)
+        
 
+    }
+    
+    func saveUserData(){
+        
+        WriteFirebaseData.write(user: user)
     }
     
 }

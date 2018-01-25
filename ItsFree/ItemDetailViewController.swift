@@ -93,6 +93,7 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.itemSize = CGSize(width: itemDetailView.photoCollectionView.frame.height, height: itemDetailView.photoCollectionView.frame.height)
         flowLayout.scrollDirection = .horizontal
+        flowLayout.minimumInteritemSpacing =  10
     
         itemDetailView.photoCollectionView.contentInset = UIEdgeInsetsMake(-20, 0, 0, 0)
         
@@ -134,8 +135,8 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
         
         
         let viewWidth = CGFloat(itemDetailView.photoCollectionView.frame.width * 1)
-        let totalCellWidth = itemDetailView.photoCollectionView.frame.size.height/1.5 * CGFloat(currentItem.photos.count);
-        let totalSpacingWidth = 1 * CGFloat(currentItem.photos.count - 1);
+        let totalCellWidth = (itemDetailView.photoCollectionView.frame.size.height-30) * CGFloat(currentItem.photos.count);
+        let totalSpacingWidth = 10 * CGFloat(currentItem.photos.count - 1);
         
         let leftInset = (viewWidth - (totalCellWidth + totalSpacingWidth)) / 2;
         let rightInset = leftInset;
@@ -146,7 +147,7 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        return CGSize(width: itemDetailView.photoCollectionView.frame.size.height, height: itemDetailView.photoCollectionView.frame.size.height);
+        return CGSize(width: itemDetailView.photoCollectionView.frame.size.height-30, height: itemDetailView.photoCollectionView.frame.size.height-30);
     }
     
     

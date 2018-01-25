@@ -159,8 +159,9 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         }
         else if (editingProfile == true){
             
+            //username label isnt being set to original!!!!
             if (usernameTextField.text == ""){
-                usernameLabel.text = user.name
+                usernameLabel!.text = user.name
             }
 
             else {
@@ -367,8 +368,16 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     @objc func dismissKeyboard (_ sender: UITapGestureRecognizer) {
         usernameTextField.resignFirstResponder()
         usernameTextField.isHidden = true
-        user.name = usernameTextField.text!
-        usernameLabel.text = user.name
+        
+        if(usernameTextField.text == ""){
+            usernameLabel.text = user.name
+        }
+        else {
+            user.name = usernameTextField.text!
+            usernameLabel.text = user.name
+        }
+        
+        
         usernameLabel.isHidden = false
         editingProfile = false
         

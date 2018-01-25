@@ -16,12 +16,9 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
     var detailViewTopAnchorConstant: CGFloat!
     var detailViewBottomAnchorConstant: CGFloat!
     
-    
-    
     @IBOutlet var contentView: UIView!
     @IBOutlet weak var itemDetailView: ItemDetailView!
-        
-    @IBOutlet weak var collectionViewContentView: UIView!
+
     var currentItem: Item!
    
     override func viewDidLoad() {
@@ -49,6 +46,27 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
         itemDetailView.layer.borderWidth = 5
         itemDetailView.layer.borderColor = UIColor.black.cgColor
         
+        setupItemLabels()
+        setupGestures()
+
+    }
+    func setupGestures(){
+        
+        let swipeUp: UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(swipe))
+        swipeUp.direction = UISwipeGestureRecognizerDirection.up
+        itemDetailView.addGestureRecognizer(swipeUp)
+        
+        let swipeDown: UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(swipe))
+        swipeDown.direction = UISwipeGestureRecognizerDirection.down
+        itemDetailView.addGestureRecognizer(swipeDown)
+        
+        let tapOutside: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tappedOutside))
+        
+        self.view.addGestureRecognizer(tapOutside)
+    }
+    
+    func setupItemLabels(){
+        
         let storageRef = Storage.storage().reference()
         let previewPhotoRef: String = currentItem.photos[0]
         
@@ -66,24 +84,7 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
         itemDetailView.posterUsername.text = AppData.sharedInstance.onlineUsers.filter{ $0.UID == currentItem.posterUID }.first?.name
         itemDetailView.posterRating.text = "Score: \(AppData.sharedInstance.onlineUsers.filter{ $0.UID == currentItem.posterUID }.first?.rating ?? 0)"
         
-        
-
-        //gestures
-        let swipeUp: UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(swipe))
-        swipeUp.direction = UISwipeGestureRecognizerDirection.up
-        itemDetailView.addGestureRecognizer(swipeUp)
-        
-        let swipeDown: UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(swipe))
-        swipeDown.direction = UISwipeGestureRecognizerDirection.down
-        itemDetailView.addGestureRecognizer(swipeDown)
-        
-        let tapOutside: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tappedOutside))
-
-        self.view.addGestureRecognizer(tapOutside)
-
-        
     }
-    
     
     func setupCollectionView(){
         
@@ -92,10 +93,11 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.itemSize = CGSize(width: itemDetailView.photoCollectionView.frame.height, height: itemDetailView.photoCollectionView.frame.height)
         flowLayout.scrollDirection = .horizontal
+        flowLayout.minimumInteritemSpacing =  10
     
         itemDetailView.photoCollectionView.contentInset = UIEdgeInsetsMake(-20, 0, 0, 0)
         
-
+        
         itemDetailView.photoCollectionView.contentInsetAdjustmentBehavior = .never
         
         
@@ -110,17 +112,16 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
         
         let nibName = UINib(nibName: "ItemPhotoCollectionViewCell", bundle:nil)
         itemDetailView.photoCollectionView.register(nibName, forCellWithReuseIdentifier: "itemPhotoCollectionViewCell")
+
+       // let photoCollectionView = UICollectionView(frame: CGRect(x:0, y:0, width: itemDetailView.photoCollectionView.frame.width, height: itemDetailView.photoCollectionView.frame.height), collectionViewLayout: flowLayout)
         
-        
+        //photoCollectionView.delegate = self
+        //photoCollectionView.dataSource = self
+
         
         itemDetailView.photoCollectionView.backgroundColor = UIProperties.sharedUIProperties.purpleColour
       
-        
-        
-        
-        
         //itemDetailView.photoCollectionView.addSubview(photoCollectionView)
-        
     }
     
 //    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize
@@ -134,8 +135,8 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
         
         
         let viewWidth = CGFloat(itemDetailView.photoCollectionView.frame.width * 1)
-        let totalCellWidth = itemDetailView.photoCollectionView.frame.size.height/1.5 * CGFloat(currentItem.photos.count);
-        let totalSpacingWidth = 1 * CGFloat(currentItem.photos.count - 1);
+        let totalCellWidth = (itemDetailView.photoCollectionView.frame.size.height-30) * CGFloat(currentItem.photos.count);
+        let totalSpacingWidth = 10 * CGFloat(currentItem.photos.count - 1);
         
         let leftInset = (viewWidth - (totalCellWidth + totalSpacingWidth)) / 2;
         let rightInset = leftInset;
@@ -144,14 +145,9 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
         
     }
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-  
-        
-      
-        
-        
-        return CGSize(width: itemDetailView.photoCollectionView.frame.size.height, height: itemDetailView.photoCollectionView.frame.size.height);
+        return CGSize(width: itemDetailView.photoCollectionView.frame.size.height-30, height: itemDetailView.photoCollectionView.frame.size.height-30);
     }
     
     
@@ -165,8 +161,7 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "itemPhotoCollectionViewCell", for: indexPath) as! ItemPhotoCollectionViewCell
         
-   
-        
+
         let storageRef = Storage.storage().reference()
         let photoRef: [String] = currentItem.photos
     
@@ -176,7 +171,6 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
         cell.layer.cornerRadius = 3.0
         cell.collectionViewImageVew.sd_setImage(with: storageRef.child(photoRef[indexPath.item]), placeholderImage: UIImage.init(named: "placeholder"))
         print("Storage Location: \(storageRef.child(photoRef[indexPath.row]))")
-        
      
     
         
@@ -231,8 +225,6 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
                 //nav bar + status bar
                 let yPoint = (self.navigationController?.navigationBar.frame.height)! + (UIApplication.shared.statusBarFrame.size.height) + UIScreen.main.bounds.size.height/18
                 
-       
-                    
                 UIView.animate(withDuration: 0.5, animations: {
                     self.itemDetailView.frame = CGRect(x: 0, y:yPoint, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height)
                     
@@ -272,11 +264,7 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
             } else {
                 self.showSendMailErrorAlert()
             }
-        
-
-        
-
-        
+       
             if(AppData.sharedInstance.onlineOfferedItems.contains(currentItem)){
                 offerMessage(mailComposerVC: mailComposerVC)
             
@@ -323,7 +311,7 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
         let destinationUserID = destinationUser!.UID
         
         let currentUserName = AppData.sharedInstance.currentUser!.name
-        let currentUserID = AppData.sharedInstance.currentUser!.UID
+        //let currentUserID = AppData.sharedInstance.currentUser!.UID
         let currentUserEmail = AppData.sharedInstance.currentUser!.email
         let currentItemName = currentItem.name
         let currentItemID = currentItem.UID
@@ -358,7 +346,6 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
         let currentUserID = AppData.sharedInstance.currentUser!.UID
         let currentItemName = currentItem.name
         let currentItemID = currentItem.UID
-        
         
         let attrLinkString = NSMutableAttributedString(string: "Click Here to Rate")
         attrLinkString.addAttribute(NSAttributedStringKey.link, value: NSURL(string: "iOSAnotherLifeApp://?itemID=\(currentItemID!)&userID=\(currentUserID!)")! , range: NSMakeRange(0, attrLinkString.length))

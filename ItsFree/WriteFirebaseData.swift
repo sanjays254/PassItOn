@@ -114,6 +114,8 @@ class WriteFirebaseData {
         }
     }
     
+    
+    //not being used, not accurate
     class func updateItem(item: Item, type:Int) {
         let user = AppData.sharedInstance.currentUser!
       

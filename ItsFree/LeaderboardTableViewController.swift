@@ -92,11 +92,11 @@ class LeaderboardTableViewController: UIViewController, UITableViewDataSource, U
          
             NSAttributedStringKey.foregroundColor : UIProperties.sharedUIProperties.lightGreenColour,
             NSAttributedStringKey.strokeWidth : -2.0,
-            NSAttributedStringKey.font : UIFont(name: "GillSans", size: 20)!
+            NSAttributedStringKey.font : UIFont(name: "GillSans-SemiBold", size: 25)!
     //change font
             ]
         
-        leaderboardLabel.attributedText = NSAttributedString(string: "LEADERBOARD", attributes: strokeTextAttributes)
+        leaderboardLabel.attributedText = NSAttributedString(string: "Leaderboard", attributes: strokeTextAttributes)
     }
     
     override func viewDidLoad() {

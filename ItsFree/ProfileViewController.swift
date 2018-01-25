@@ -9,95 +9,62 @@
 import UIKit
 import FirebaseStorage
 
-class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITableViewDelegate, UITableViewDataSource {
+class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate{
 
-    
-    
     @IBOutlet weak var backButton: UIButton!
-    
     @IBOutlet weak var editButton: UIButton!
     
     @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var emailLabel: UILabel!
     @IBOutlet weak var pointsLabel: UILabel!
-    
-    
-    
     @IBOutlet weak var offersRequestsSegmentedControl: UISegmentedControl!
-    
     @IBOutlet weak var myPostsTableView: UITableView!
-    weak var selectedItemToEdit: Item!
     
-
+    weak var usernameTextField: UITextField!
+    weak var selectedItemToEdit: Item!
+    var editingProfile: Bool!
     
     var username:String = (AppData.sharedInstance.currentUser?.name)!
     var email:String = (AppData.sharedInstance.currentUser?.email)!
     var user:User = AppData.sharedInstance.currentUser!
     
-    
     let storageRef = Storage.storage().reference()
-   
     var photoRef = AppData.sharedInstance.currentUser?.profileImage
 
     let imagePicker = UIImagePickerController()
     var myImage:UIImage?
     
+    var tapGesture: UITapGestureRecognizer!
+    
     var animateTable: Bool = false
     
     
-  
-    
-    @IBAction func donePressed(_ sender: Any) {
-        self.dismiss(animated: true, completion: nil)
-    }
-    
-    @IBAction func editProfilePic(_ sender: Any) {
-        presentImagePickerAlert()
-    }
-    
-    
-    @IBAction func backButton(_ sender: UIButton) {
-              self.dismiss(animated: true, completion: nil)
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        //self.navigationController?.setNavigationBarHidden(true, animated: true)
+        imagePicker.delegate = self
+        editingProfile = false
+        
         backButton.setImage(#imageLiteral(resourceName: "backButton"), for: .normal)
         self.backButton.layer.backgroundColor = UIColor.black.cgColor
         self.backButton.layer.cornerRadius = self.backButton.frame.size.width/2
         self.backButton.layer.masksToBounds = false
-        //self.backButton.layer.shadowOffset = CGSize.init(width: 0, height: 2.0)
-        //self.backButton.layer.shadowColor = (UIColor.black).cgColor
-        //self.backButton.layer.shadowOpacity = 0.5
         
         editButton.setImage(#imageLiteral(resourceName: "edit"), for: .normal)
         self.editButton.layer.backgroundColor = UIColor.black.cgColor
         self.editButton.layer.cornerRadius = self.backButton.frame.size.width/2
         self.editButton.layer.masksToBounds = false
         
-        
-        
         setUpProfilePicture()
         setUpProfileText()
-        
-//        myPostsButton.layer.borderColor = UIColor(red: 0, green: 122.0/255.0, blue: 1.0, alpha: 1.0).cgColor
-//        myPostsButton.layer.borderWidth = 1
-//        myPostsButton.layer.cornerRadius = 5
-//        myPostsButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 0)
-        imagePicker.delegate = self
-        
-
+        setupTextFields()
         setupTableView()
         
         offersRequestsSegmentedControl.layer.borderWidth = 3.0
         offersRequestsSegmentedControl.layer.borderColor = UIColor.black.cgColor
         offersRequestsSegmentedControl.layer.cornerRadius = 5.0
-        
-        
-        
     }
+    
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.setNavigationBarHidden(true, animated: true)
         myPostsTableView.reloadData()
@@ -106,10 +73,31 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     override func viewWillDisappear(_ animated: Bool) {
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    func setupTextFields(){
+        usernameTextField = UITextField()
+        usernameTextField.delegate = self
+        self.view.addSubview(usernameTextField)
+        usernameTextField.translatesAutoresizingMaskIntoConstraints = false
+        
+        let topConstraint = NSLayoutConstraint(item: usernameTextField, attribute: .top, relatedBy: .equal, toItem: profileImageView, attribute: .bottom , multiplier: 1, constant: 20)
+        let bottomConstraint = NSLayoutConstraint(item: usernameTextField, attribute: .bottom, relatedBy: .equal, toItem: emailLabel, attribute: .top , multiplier: 1, constant: -10)
+        let centralizeConstraint = NSLayoutConstraint(item: usernameTextField, attribute: NSLayoutAttribute.centerX, relatedBy: .equal, toItem: view, attribute: .centerX, multiplier: 1, constant: 0)
+        let widthConstraint = NSLayoutConstraint(item: usernameTextField, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute , multiplier: 1, constant: 250)
+        
+        NSLayoutConstraint.activate([topConstraint, bottomConstraint, centralizeConstraint, widthConstraint])
+        
+        usernameTextField.isHidden = true
+        usernameTextField.layer.borderWidth = 0.5
+        usernameTextField.layer.borderColor = UIColor.gray.cgColor
+        usernameTextField.layer.cornerRadius = 4
+        usernameTextField.textAlignment = .center
+        usernameTextField.autocorrectionType = .no
+        usernameTextField.font = UIFont(name: "GillSans-Light", size: 25)
     }
     
     func setUpProfileText() {
@@ -125,12 +113,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         
         myPostsTableView.layer.borderColor = UIColor.black.cgColor
         myPostsTableView.layer.borderWidth = 3.0
-        //myPostsTableView.layer.cornerRadius = 5.0
-        //myPostsTableView.layer.frame
-        
     }
-    
-
     
     func setUpProfilePicture() {
         let storageRef = Storage.storage().reference()
@@ -141,6 +124,75 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         profileImageView.layer.borderWidth = 5.0
         profileImageView.sd_setImage(with: storageRef.child(photoRef!), placeholderImage: UIImage(named: "defaultProfile"))
     }
+    
+    @IBAction func donePressed(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    @IBAction func editProfilePic(_ sender: Any) {
+        presentImagePickerAlert()
+    }
+    
+    
+    @IBAction func backButton(_ sender: UIButton) {
+              self.dismiss(animated: true, completion: nil)
+    }
+    
+    
+    @IBAction func editProfile(_ sender: UIButton) {
+        
+        if (editingProfile == false){
+            
+            UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: {
+                
+                self.editButton.transform = CGAffineTransform(scaleX: -1, y: 1)
+                self.editButton.setImage(#imageLiteral(resourceName: "thumbsUp"), for: .normal)
+            }, completion: nil)
+        
+
+            editingProfile = true
+            
+            usernameLabel.isHidden = true
+            usernameTextField.isHidden = false
+            usernameTextField.placeholder = username
+            
+        }
+        else if (editingProfile == true){
+            
+            //username label isnt being set to original!!!!
+            if (usernameTextField.text == ""){
+                usernameLabel!.text = user.name
+            }
+
+            else {
+                user.name = usernameTextField.text!
+                usernameLabel.text = user.name
+                WriteFirebaseData.write(user: user)
+            }
+            
+            editingProfile = false
+            
+            usernameTextField.isHidden = true
+            usernameLabel.isHidden = false
+            textFieldDidEndEditing(usernameTextField)
+            
+            if(usernameTextField.isFirstResponder){
+                dismissKeyboard(tapGesture)
+            }
+            
+            UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: {
+                
+                self.editButton.transform = CGAffineTransform(scaleX: 1, y: 1)
+                self.editButton.setImage(#imageLiteral(resourceName: "edit"), for: .normal)
+            }, completion: nil)
+            
+        }
+        
+        
+        
+    }
+    
+    
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         dismiss(animated: true, completion: nil)
@@ -215,25 +267,13 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         cell.itemLabel?.text = item.name
         cell.itemImageView?.sd_setImage(with: storageRef.child(item.photos[0]), placeholderImage: UIImage.init(named: "placeholder"))
         
-        
-//        cell.itemImageView?.layer.borderWidth = 4.0
-//        cell.itemImageView?.layer.borderColor = UIColor.black.cgColor
-//        cell.itemImageView?.layer.cornerRadius = 4.0
-//        cell.itemImageView?.clipsToBounds = true
-//       // cell.imageView?.frame.size.width = 20
-//        cell.itemImageView?.contentMode = .scaleAspectFill
-        
-
         if (animateTable){
             UIView.transition(with: cell.textLabel!, duration: 0.6, options: .transitionCrossDissolve, animations: {
                 cell.itemLabel?.textColor = .black
             
             }, completion: nil)
         }
-        
-        
         return cell
-        
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -266,7 +306,6 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
             destinationPostVC.editingBool = true
             destinationPostVC.offerRequestIndex = offersRequestsSegmentedControl.selectedSegmentIndex
         }
-        
     }
 
     
@@ -294,25 +333,69 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
 
             AppData.sharedInstance.currentUserRequestedItems.remove(at: indexPath.row)
                 
-            
             WriteFirebaseData.delete(itemUID: itemUID)
-                
                 
             default:
                 return
                 
             }
-            
             tableView.deleteRows(at: [indexPath], with: .automatic)
         }
     }
-    
     
     @IBAction func offersRequestsSegmentAction(_ sender: UISegmentedControl) {
         
         animateTable = true
         myPostsTableView.reloadData()
         animateTable = false
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        
+        tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard(_:)))
+        self.view.addGestureRecognizer(tapGesture)
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        
+        if (tapGesture != nil){
+            self.view.removeGestureRecognizer(tapGesture)
+        }
+        
+        
+    }
+    
+    @objc func dismissKeyboard (_ sender: UITapGestureRecognizer) {
+        usernameTextField.resignFirstResponder()
+        usernameTextField.isHidden = true
+        
+        if(usernameTextField.text == ""){
+            usernameLabel.text = user.name
+        }
+        else {
+            user.name = usernameTextField.text!
+            usernameLabel.text = user.name
+        }
+        
+        
+        usernameLabel.isHidden = false
+        editingProfile = false
+        
+        UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: {
+            
+            self.editButton.transform = CGAffineTransform(scaleX: 1, y: 1)
+            self.editButton.setImage(#imageLiteral(resourceName: "edit"), for: .normal)
+        }, completion: nil)
+        
+        
+        WriteFirebaseData.write(user: user)
+        
+
+    }
+    
+    func saveUserData(){
+        
+        WriteFirebaseData.write(user: user)
     }
     
 }

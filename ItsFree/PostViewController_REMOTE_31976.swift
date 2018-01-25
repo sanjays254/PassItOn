@@ -60,7 +60,6 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         super.viewDidLoad()
         
         setupUI()
-        setupOfferRequestSegmentedControl()
         checkIfEditing()
         
         titleTextField.delegate = self
@@ -177,10 +176,6 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
     
     fileprivate func setupOfferRequestSegmentedControl() {
         offerRequestSegmentedControl = UISegmentedControl()
-       
-       
-       offerRequestSegmentedControl.tintColor = UIProperties.sharedUIProperties.lightGreenColour
-        
         offerRequestSegmentedControl.insertSegment(withTitle: "Offer", at: 0, animated: true)
         offerRequestSegmentedControl.insertSegment(withTitle: "Request", at: 1, animated: true)
         self.navigationItem.titleView = offerRequestSegmentedControl
@@ -222,7 +217,6 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         self.locationButton.setTitle("Location: \(self.selectedLocationString)", for: UIControlState.normal)
     }
     
-
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }

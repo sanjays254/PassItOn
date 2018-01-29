@@ -27,7 +27,7 @@ class ImageManager {
     
     class func downloadImage(imagePath:String, into imageView:UIImageView) {
         let imageRef = Storage.storage().reference().child(imagePath)
-        imageView.sd_setImage(with: imageRef, placeholderImage: nil)
+        //imageView.sd_setImage(with: imageRef, placeholderImage: nil)
     }
     
 }

@@ -18,16 +18,18 @@ class AppData: NSObject {
     public var currentUser: User? = nil
     public var currentUserOfferedItems: [Item] = []
     public var currentUserRequestedItems: [Item] = []
+    public var currentUserPhotos: [String : UIImage] = [:]
     
     public var onlineOfferedItems: [Item] = []
     public var onlineRequestedItems: [Item] = []
     public var onlineUsers: [User] = []
-    
+    public var onlineUsersPhotos : [String : UIImage] = [:]
     
     public var usersNode: DatabaseReference
     public var offersNode: DatabaseReference
     public var requestsNode: DatabaseReference
     public var categorizedItemsNode: DatabaseReference
+    
     
     public override init() {
         usersNode = Database.database().reference().child("users")

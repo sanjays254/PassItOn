@@ -19,7 +19,7 @@ class LeaderboardTableViewController: UIViewController, UITableViewDataSource, U
     
     @IBOutlet weak var findMeButton: UIButton!
     
-    let myDowloadCompletedNotificationKey = "myDownloadNotificationKey"
+    let myDowloadCompletedNotificationKey = "myUsersDownloadNotificationKey"
     
     
     
@@ -76,7 +76,7 @@ class LeaderboardTableViewController: UIViewController, UITableViewDataSource, U
         }
         else { cell.positionLabel.text = String(indexPath.row+1) }
         
-        cell.profileImageView.sd_setImage(with: storageRef.child(photoRef), placeholderImage: UIImage.init(named: "userImage"))
+        //cell.profileImageView.sd_setImage(with: storageRef.child(photoRef), placeholderImage: UIImage.init(named: "userImage"))
         //print("Storage Location: \(storageRef.child(previewPhotoRef))")
         //cell.profileImageView.image = sortedUsers[indexPath.row].profileImage
         cell.ratingLabel.text = String(sortedUsers[indexPath.row].rating)

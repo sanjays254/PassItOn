@@ -267,6 +267,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
         tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard(_:)))
+        //tapGesture = UITapGestureRecognizer()
         self.view.addGestureRecognizer(tapGesture)
     }
     

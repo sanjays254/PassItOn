@@ -164,12 +164,77 @@ class ReadFirebaseData: NSObject {
                     }
                 
                 }
-                let myDownloadNotificationKey = "myDownloadNotificationKey"
-                NotificationCenter.default.post(name: Notification.Name(rawValue: myDownloadNotificationKey), object: nil)
+                //let myDownloadNotificationKey = "myDownloadNotificationKey"
+                //NotificationCenter.default.post(name: Notification.Name(rawValue: myDownloadNotificationKey), object: nil)
                 
                 let myUsersDownloadNotificationKey = "myUsersDownloadNotificationKey"
                 NotificationCenter.default.post(name: Notification.Name(rawValue: myUsersDownloadNotificationKey), object: nil)
             })
+        
+    }
+    
+   class func readUsersPhotos(){
+        let storageRef = Storage.storage().reference()
+        
+        // Create a reference to the file you want to download
+        let ref = AppData.sharedInstance.currentUser?.profileImage
+        let profilePhotoRef = storageRef.child(ref!)
+        
+        // Download in memory with a maximum allowed size of 1MB (1 * 1024 * 1024 bytes)
+        profilePhotoRef.getData(maxSize: 10 * 1024 * 1024) { data, error in
+            if let error = error {
+                // Uh-oh, an error occurred!
+                print("Errroorr")
+            } else {
+                // Data for "images/island.jpg" is returned
+                let image = UIImage(data: data!)
+                AppData.sharedInstance.currentUserPhotos[(AppData.sharedInstance.currentUser?.profileImage)!] = image
+                
+            }
+        }
+
+        for offeredItem in AppData.sharedInstance.currentUserOfferedItems {
+            for stringPhotoRef in offeredItem.photos{
+
+                let photoRef = storageRef.child(stringPhotoRef)
+                // Download in memory with a maximum allowed size of 1MB (1 * 1024 * 1024 bytes)
+                photoRef.getData(maxSize: 10 * 1024 * 1024) { data, error in
+                    if let error = error {
+                        print("error getting data")
+                    } else {
+                        // Data for "images/island.jpg" is returned
+                        let image = UIImage(data: data!)
+                        let resizedImage = image?.resizeImage(40, opaque: true)
+                        AppData.sharedInstance.currentUserPhotos[stringPhotoRef] = resizedImage
+
+                    }
+                }
+            }
+
+        }
+//
+        for requestedItem in AppData.sharedInstance.currentUserRequestedItems {
+            for stringPhotoRef in requestedItem.photos{
+
+                let photoRef = storageRef.child(stringPhotoRef)
+                // Download in memory with a maximum allowed size of 1MB (1 * 1024 * 1024 bytes)
+                photoRef.getData(maxSize: 10 * 1024 * 1024) { data, error in
+                    if let error = error {
+                        // Uh-oh, an error occurred!
+                    } else {
+                        // Data for "images/island.jpg" is returned
+                        let image = UIImage(data: data!)
+                        let resizedImage = image?.resizeImage(40, opaque: true)
+                        AppData.sharedInstance.currentUserPhotos[stringPhotoRef] = resizedImage
+
+                    }
+                }
+            }
+
+        }
+
+
+        
     }
     
     fileprivate class func readOffer(data:[String:Any]) {
@@ -205,7 +270,7 @@ class ReadFirebaseData: NSObject {
     
     class func storeCurrentUsersItems(userUID:String){
        
-            for itemRef in (AppData.sharedInstance.currentUser?.offeredItems)! {
+        for itemRef in (AppData.sharedInstance.currentUser?.offeredItems)! {
                 
                 let itemUID = String(itemRef.suffix(20))
                 
@@ -221,9 +286,53 @@ class ReadFirebaseData: NSObject {
             AppData.sharedInstance.currentUserRequestedItems.append(item)
             
         }
+        
+        
             
         
     }
+}
     
+    
+    extension UIImage {
+        func resizeImage(_ dimension: CGFloat, opaque: Bool, contentMode: UIViewContentMode = .scaleAspectFit) -> UIImage {
+            var width: CGFloat
+            var height: CGFloat
+            var newImage: UIImage
+            
+            let size = self.size
+            let aspectRatio =  size.width/size.height
+            
+            switch contentMode {
+            case .scaleAspectFit:
+                if aspectRatio > 1 {                            // Landscape image
+                    width = dimension
+                    height = dimension / aspectRatio
+                } else {                                        // Portrait image
+                    height = dimension
+                    width = dimension * aspectRatio
+                }
+                
+            default:
+                fatalError("UIIMage.resizeToFit(): FATAL: Unimplemented ContentMode")
+            }
+            
+            if #available(iOS 10.0, *) {
+                let renderFormat = UIGraphicsImageRendererFormat.default()
+                renderFormat.opaque = opaque
+                let renderer = UIGraphicsImageRenderer(size: CGSize(width: width, height: height), format: renderFormat)
+                newImage = renderer.image {
+                    (context) in
+                    self.draw(in: CGRect(x: 0, y: 0, width: width, height: height))
+                }
+            } else {
+                UIGraphicsBeginImageContextWithOptions(CGSize(width: width, height: height), opaque, 0)
+                self.draw(in: CGRect(x: 0, y: 0, width: width, height: height))
+                newImage = UIGraphicsGetImageFromCurrentImageContext()!
+                UIGraphicsEndImageContext()
+            }
+            
+            return newImage
+        }
 }
 

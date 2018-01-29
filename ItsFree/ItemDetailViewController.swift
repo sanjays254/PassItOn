@@ -78,11 +78,11 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
         itemDetailView.mainImageView.layer.borderWidth = 5
         itemDetailView.mainImageView.layer.cornerRadius = 5
         
-        itemDetailView.mainImageView.sd_setImage(with: storageRef.child(previewPhotoRef), placeholderImage: UIImage.init(named: "placeholder"))
+        //itemDetailView.mainImageView.sd_setImage(with: storageRef.child(previewPhotoRef), placeholderImage: UIImage.init(named: "placeholder"))
         print("Storage Location: \(storageRef.child(previewPhotoRef))")
         
         itemDetailView.posterUsername.text = AppData.sharedInstance.onlineUsers.filter{ $0.UID == currentItem.posterUID }.first?.name
-        itemDetailView.posterRating.text = "Score: \(AppData.sharedInstance.onlineUsers.filter{ $0.UID == currentItem.posterUID }.first?.rating ?? 0)"
+        itemDetailView.posterRating.text = "\(AppData.sharedInstance.onlineUsers.filter{ $0.UID == currentItem.posterUID }.first?.rating ?? 0)"
         
     }
     
@@ -169,7 +169,7 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
         cell.layer.borderColor = UIProperties.sharedUIProperties.blackColour.cgColor
         cell.layer.borderWidth = 5.0
         cell.layer.cornerRadius = 3.0
-        cell.collectionViewImageVew.sd_setImage(with: storageRef.child(photoRef[indexPath.item]), placeholderImage: UIImage.init(named: "placeholder"))
+        //cell.collectionViewImageVew.sd_setImage(with: storageRef.child(photoRef[indexPath.item]), placeholderImage: UIImage.init(named: "placeholder"))
         print("Storage Location: \(storageRef.child(photoRef[indexPath.row]))")
      
     
@@ -222,8 +222,11 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
                 
             } else if (swipeGesture.direction == UISwipeGestureRecognizerDirection.up) {
             
+                //this yPoint allows all details to be shown, and no empty space
+                let yPoint = (UIScreen.main.bounds.size.height-(itemDetailView.mainImageView.frame.minY+itemDetailView.photoCollectionView.frame.maxY)) - ((self.navigationController?.navigationBar.frame.height)! + (UIApplication.shared.statusBarFrame.size.height))
+                
                 //nav bar + status bar
-                let yPoint = (self.navigationController?.navigationBar.frame.height)! + (UIApplication.shared.statusBarFrame.size.height) + UIScreen.main.bounds.size.height/18
+                //let yPoint = (self.navigationController?.navigationBar.frame.height)! + (UIApplication.shared.statusBarFrame.size.height) + UIScreen.main.bounds.size.height/18
                 
                 UIView.animate(withDuration: 0.5, animations: {
                     self.itemDetailView.frame = CGRect(x: 0, y:yPoint, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height)

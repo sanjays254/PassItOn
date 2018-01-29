@@ -413,15 +413,15 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
                             </textField>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="bezel" placeholder="Description" textAlignment="center" clearsOnBeginEditing="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fNa-OL-1TG">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="HQl-lc-apC">
                                 <rect key="frame" x="16" y="55" width="343" height="90"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="90" id="vko-Ge-StX"/>
+                                    <constraint firstAttribute="height" constant="90" id="ZRQ-Av-gEb"/>
                                 </constraints>
-                                <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textField>
+                            </textView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HS7-Ws-qQg">
                                 <rect key="frame" x="20" y="193" width="335" height="60"/>
                                 <subviews>
@@ -453,7 +453,7 @@
                                 <segments>
                                     <segment title="New"/>
                                     <segment title="Used"/>
-                                    <segment title="WornOut"/>
+                                    <segment title="Worn Out"/>
                                     <segment title="Damaged"/>
                                 </segments>
                             </segmentedControl>
@@ -531,17 +531,18 @@
                             <constraint firstItem="9QC-CH-sNi" firstAttribute="top" secondItem="ivO-1W-BYH" secondAttribute="top" constant="15" id="0q6-Fl-Tvj"/>
                             <constraint firstAttribute="trailing" secondItem="kfk-u6-46H" secondAttribute="trailing" constant="16" id="59b-Pf-PGV"/>
                             <constraint firstItem="gBU-nq-UfP" firstAttribute="trailing" secondItem="ivO-1W-BYH" secondAttribute="trailing" constant="-16" id="64v-bv-JvC"/>
-                            <constraint firstItem="kfk-u6-46H" firstAttribute="top" secondItem="fNa-OL-1TG" secondAttribute="bottom" constant="8" id="8Bn-Yo-Dbv"/>
-                            <constraint firstItem="ivO-1W-BYH" firstAttribute="trailing" secondItem="fNa-OL-1TG" secondAttribute="trailing" constant="16" id="Byu-fu-pJ4"/>
+                            <constraint firstItem="kfk-u6-46H" firstAttribute="top" secondItem="HQl-lc-apC" secondAttribute="bottom" constant="8" id="C0e-NG-YIr"/>
                             <constraint firstItem="gBU-nq-UfP" firstAttribute="leading" secondItem="ivO-1W-BYH" secondAttribute="leading" constant="16" id="DrU-I1-rWI"/>
                             <constraint firstItem="13M-XH-0j6" firstAttribute="top" secondItem="kfk-u6-46H" secondAttribute="top" constant="5" id="FZJ-xF-Z6W"/>
+                            <constraint firstItem="ivO-1W-BYH" firstAttribute="trailing" secondItem="HQl-lc-apC" secondAttribute="trailing" constant="16" id="Fy3-xb-RCg"/>
                             <constraint firstItem="xfP-it-5u6" firstAttribute="leading" secondItem="ivO-1W-BYH" secondAttribute="leading" constant="16" id="GLa-bT-und"/>
                             <constraint firstItem="kfk-u6-46H" firstAttribute="leading" secondItem="ivO-1W-BYH" secondAttribute="leading" constant="16" id="H1X-Rf-VuP"/>
                             <constraint firstItem="ivO-1W-BYH" firstAttribute="trailing" secondItem="xfP-it-5u6" secondAttribute="trailing" constant="16" id="HMk-2J-xU7"/>
                             <constraint firstItem="xfP-it-5u6" firstAttribute="top" secondItem="HS7-Ws-qQg" secondAttribute="bottom" constant="8" id="Iaa-9N-RfY"/>
+                            <constraint firstItem="HQl-lc-apC" firstAttribute="top" secondItem="9QC-CH-sNi" secondAttribute="bottom" constant="10" id="KYF-sT-yQo"/>
                             <constraint firstItem="ivO-1W-BYH" firstAttribute="trailing" secondItem="HvF-Qc-sIh" secondAttribute="trailing" constant="16" id="LZP-96-Njg"/>
+                            <constraint firstItem="HQl-lc-apC" firstAttribute="leading" secondItem="ivO-1W-BYH" secondAttribute="leading" constant="16" id="MNd-mS-wsq"/>
                             <constraint firstItem="HvF-Qc-sIh" firstAttribute="top" secondItem="xfP-it-5u6" secondAttribute="bottom" constant="8" id="QJQ-2v-pCN"/>
-                            <constraint firstItem="fNa-OL-1TG" firstAttribute="top" secondItem="9QC-CH-sNi" secondAttribute="bottom" constant="10" id="Qw2-qs-hml"/>
                             <constraint firstItem="HS7-Ws-qQg" firstAttribute="top" secondItem="kfk-u6-46H" secondAttribute="bottom" constant="8" id="Sba-gD-3DX"/>
                             <constraint firstItem="ivO-1W-BYH" firstAttribute="trailing" secondItem="9QC-CH-sNi" secondAttribute="trailing" constant="16" id="V3I-cx-T5G"/>
                             <constraint firstItem="HvF-Qc-sIh" firstAttribute="leading" secondItem="ivO-1W-BYH" secondAttribute="leading" constant="16" id="Wjk-Mf-kfy"/>
@@ -550,7 +551,6 @@
                             <constraint firstItem="1tg-1W-cY8" firstAttribute="leading" secondItem="ivO-1W-BYH" secondAttribute="leading" constant="16" id="cwB-Rm-gst"/>
                             <constraint firstItem="9QC-CH-sNi" firstAttribute="leading" secondItem="ivO-1W-BYH" secondAttribute="leading" constant="16" id="dcx-fn-bR1"/>
                             <constraint firstItem="ivO-1W-BYH" firstAttribute="trailing" secondItem="13M-XH-0j6" secondAttribute="trailing" constant="20" id="gga-9a-6Cx"/>
-                            <constraint firstItem="fNa-OL-1TG" firstAttribute="leading" secondItem="ivO-1W-BYH" secondAttribute="leading" constant="16" id="mdW-Pa-CX4"/>
                             <constraint firstItem="ivO-1W-BYH" firstAttribute="trailing" secondItem="HS7-Ws-qQg" secondAttribute="trailing" constant="20" id="nj7-lS-9Jb"/>
                             <constraint firstItem="13M-XH-0j6" firstAttribute="bottom" secondItem="kfk-u6-46H" secondAttribute="bottom" constant="-5" id="por-8Q-ewn"/>
                             <constraint firstItem="ivO-1W-BYH" firstAttribute="trailing" secondItem="1tg-1W-cY8" secondAttribute="trailing" constant="16" id="qij-h7-9pM"/>
@@ -572,7 +572,7 @@
                         <outlet property="customTagStackView" destination="2d3-sW-yj0" id="RCj-R7-fvY"/>
                         <outlet property="customTagTextField" destination="kfk-u6-46H" id="p9b-gL-aIS"/>
                         <outlet property="defaultTagStackView" destination="ePM-Xj-1Wt" id="lqg-ji-4J7"/>
-                        <outlet property="descriptionTextField" destination="fNa-OL-1TG" id="iNr-9h-2ES"/>
+                        <outlet property="descriptionTextField" destination="HQl-lc-apC" id="rMp-9J-UzM"/>
                         <outlet property="locationButton" destination="1tg-1W-cY8" id="rOf-FT-UAx"/>
                         <outlet property="photoCollectionView" destination="xfP-it-5u6" id="UWe-dC-5gS"/>
                         <outlet property="qualitySegmentedControl" destination="HvF-Qc-sIh" id="8ot-vK-949"/>

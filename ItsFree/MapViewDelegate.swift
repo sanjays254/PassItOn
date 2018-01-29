@@ -12,8 +12,8 @@ import MapKit
 
 class MapViewDelegate: NSObject, MKMapViewDelegate {
     
-    var theMapView: MKMapView!
-    var currentLocation: CLLocation = LocationManager.theLocationManager.getLocation()
+    weak var theMapView: MKMapView!
+    weak var currentLocation: CLLocation? = LocationManager.theLocationManager.getLocation()
     
     let myNotificationKey = "theNotificationKey"
     
@@ -28,7 +28,7 @@ class MapViewDelegate: NSObject, MKMapViewDelegate {
         if (lat == 0 && long == 0) {
             
             let span = MKCoordinateSpanMake(0.02, 0.02)
-            theMapView.region = MKCoordinateRegionMake(self.currentLocation.coordinate, span)
+            theMapView.region = MKCoordinateRegionMake((self.currentLocation?.coordinate)!, span)
         }
         
         currentLocation = LocationManager.theLocationManager.getLocation()
@@ -37,7 +37,7 @@ class MapViewDelegate: NSObject, MKMapViewDelegate {
     @objc func setMapRegion(){
         let span = MKCoordinateSpanMake(0.02, 0.02)
         
-        theMapView.region = MKCoordinateRegionMake(self.currentLocation.coordinate, span)
+        theMapView.region = MKCoordinateRegionMake((self.currentLocation?.coordinate)!, span)
         theMapView.showsUserLocation = true
         theMapView.showsPointsOfInterest = false
     }
@@ -45,7 +45,7 @@ class MapViewDelegate: NSObject, MKMapViewDelegate {
     @objc func setInitialMapRegion(){
         let span = MKCoordinateSpanMake(0.025, 0.025)
         
-        theMapView.region = MKCoordinateRegionMake(self.currentLocation.coordinate, span)
+        theMapView.region = MKCoordinateRegionMake((self.currentLocation?.coordinate)!, span)
         theMapView.showsUserLocation = true
         theMapView.showsPointsOfInterest = false
     }

@@ -513,14 +513,23 @@
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Add a Custom Tag (optional)" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="kfk-u6-46H">
-                                <rect key="frame" x="16" y="153" width="343" height="32"/>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Custom Tag (optional)" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="kfk-u6-46H">
+                                <rect key="frame" x="16" y="153" width="225" height="32"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Value ($)" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="e29-tr-97F">
+                                <rect key="frame" x="249" y="153" width="110" height="32"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="110" id="Kxf-RU-Blj"/>
+                                </constraints>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                            </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="contactAdd" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="13M-XH-0j6">
-                                <rect key="frame" x="333" y="158" width="22" height="22"/>
+                                <rect key="frame" x="214" y="158" width="22" height="22"/>
                                 <connections>
                                     <action selector="addCustomTagButton:" destination="uu9-5f-Eua" eventType="touchUpInside" id="Wd8-YX-aIW"/>
                                 </connections>
@@ -528,8 +537,8 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="ivO-1W-BYH" firstAttribute="trailing" secondItem="e29-tr-97F" secondAttribute="trailing" constant="16" id="04Z-kM-y92"/>
                             <constraint firstItem="9QC-CH-sNi" firstAttribute="top" secondItem="ivO-1W-BYH" secondAttribute="top" constant="15" id="0q6-Fl-Tvj"/>
-                            <constraint firstAttribute="trailing" secondItem="kfk-u6-46H" secondAttribute="trailing" constant="16" id="59b-Pf-PGV"/>
                             <constraint firstItem="gBU-nq-UfP" firstAttribute="trailing" secondItem="ivO-1W-BYH" secondAttribute="trailing" constant="-16" id="64v-bv-JvC"/>
                             <constraint firstItem="kfk-u6-46H" firstAttribute="top" secondItem="HQl-lc-apC" secondAttribute="bottom" constant="8" id="C0e-NG-YIr"/>
                             <constraint firstItem="gBU-nq-UfP" firstAttribute="leading" secondItem="ivO-1W-BYH" secondAttribute="leading" constant="16" id="DrU-I1-rWI"/>
@@ -542,15 +551,19 @@
                             <constraint firstItem="HQl-lc-apC" firstAttribute="top" secondItem="9QC-CH-sNi" secondAttribute="bottom" constant="10" id="KYF-sT-yQo"/>
                             <constraint firstItem="ivO-1W-BYH" firstAttribute="trailing" secondItem="HvF-Qc-sIh" secondAttribute="trailing" constant="16" id="LZP-96-Njg"/>
                             <constraint firstItem="HQl-lc-apC" firstAttribute="leading" secondItem="ivO-1W-BYH" secondAttribute="leading" constant="16" id="MNd-mS-wsq"/>
+                            <constraint firstItem="HS7-Ws-qQg" firstAttribute="top" secondItem="e29-tr-97F" secondAttribute="bottom" constant="8" id="O7g-WH-2XS"/>
+                            <constraint firstItem="e29-tr-97F" firstAttribute="top" secondItem="HQl-lc-apC" secondAttribute="bottom" constant="8" id="PNG-jY-4Df"/>
                             <constraint firstItem="HvF-Qc-sIh" firstAttribute="top" secondItem="xfP-it-5u6" secondAttribute="bottom" constant="8" id="QJQ-2v-pCN"/>
                             <constraint firstItem="HS7-Ws-qQg" firstAttribute="top" secondItem="kfk-u6-46H" secondAttribute="bottom" constant="8" id="Sba-gD-3DX"/>
                             <constraint firstItem="ivO-1W-BYH" firstAttribute="trailing" secondItem="9QC-CH-sNi" secondAttribute="trailing" constant="16" id="V3I-cx-T5G"/>
+                            <constraint firstItem="kfk-u6-46H" firstAttribute="trailing" secondItem="13M-XH-0j6" secondAttribute="trailing" constant="5" id="Wb8-SP-GOL"/>
                             <constraint firstItem="HvF-Qc-sIh" firstAttribute="leading" secondItem="ivO-1W-BYH" secondAttribute="leading" constant="16" id="Wjk-Mf-kfy"/>
                             <constraint firstItem="1tg-1W-cY8" firstAttribute="top" secondItem="gBU-nq-UfP" secondAttribute="bottom" constant="15" id="YlU-dH-Ncz"/>
+                            <constraint firstItem="e29-tr-97F" firstAttribute="leading" secondItem="kfk-u6-46H" secondAttribute="trailing" constant="8" id="bQL-1W-CZH"/>
                             <constraint firstItem="HS7-Ws-qQg" firstAttribute="leading" secondItem="ivO-1W-BYH" secondAttribute="leading" constant="20" id="cNN-nP-dbB"/>
                             <constraint firstItem="1tg-1W-cY8" firstAttribute="leading" secondItem="ivO-1W-BYH" secondAttribute="leading" constant="16" id="cwB-Rm-gst"/>
                             <constraint firstItem="9QC-CH-sNi" firstAttribute="leading" secondItem="ivO-1W-BYH" secondAttribute="leading" constant="16" id="dcx-fn-bR1"/>
-                            <constraint firstItem="ivO-1W-BYH" firstAttribute="trailing" secondItem="13M-XH-0j6" secondAttribute="trailing" constant="20" id="gga-9a-6Cx"/>
+                            <constraint firstItem="e29-tr-97F" firstAttribute="leading" secondItem="kfk-u6-46H" secondAttribute="trailing" constant="8" id="ezU-Ky-WaH"/>
                             <constraint firstItem="ivO-1W-BYH" firstAttribute="trailing" secondItem="HS7-Ws-qQg" secondAttribute="trailing" constant="20" id="nj7-lS-9Jb"/>
                             <constraint firstItem="13M-XH-0j6" firstAttribute="bottom" secondItem="kfk-u6-46H" secondAttribute="bottom" constant="-5" id="por-8Q-ewn"/>
                             <constraint firstItem="ivO-1W-BYH" firstAttribute="trailing" secondItem="1tg-1W-cY8" secondAttribute="trailing" constant="16" id="qij-h7-9pM"/>
@@ -578,6 +591,7 @@
                         <outlet property="qualitySegmentedControl" destination="HvF-Qc-sIh" id="8ot-vK-949"/>
                         <outlet property="tagButtonView" destination="HS7-Ws-qQg" id="Mu1-Al-gda"/>
                         <outlet property="titleTextField" destination="9QC-CH-sNi" id="baw-6M-4T4"/>
+                        <outlet property="valueTextField" destination="e29-tr-97F" id="Fsg-NE-vBp"/>
                         <segue destination="52a-eZ-6Ei" kind="show" identifier="showPostMap" id="z84-s1-VwO"/>
                     </connections>
                 </viewController>

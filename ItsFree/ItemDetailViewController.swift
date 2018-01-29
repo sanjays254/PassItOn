@@ -84,6 +84,8 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
         itemDetailView.posterUsername.text = AppData.sharedInstance.onlineUsers.filter{ $0.UID == currentItem.posterUID }.first?.name
         itemDetailView.posterRating.text = "\(AppData.sharedInstance.onlineUsers.filter{ $0.UID == currentItem.posterUID }.first?.rating ?? 0)"
         
+        itemDetailView.itemValueLabel.text = "Value: "
+        
     }
     
     func setupCollectionView(){

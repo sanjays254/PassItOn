@@ -20,6 +20,8 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
     
     @IBOutlet weak var customTagTextField: UITextField!
     
+    @IBOutlet weak var valueTextField: UITextField!
+    
     @IBOutlet weak var addCustomTagButton: UIButton!
     
     @IBOutlet weak var tagButtonView: UIView!
@@ -69,6 +71,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         descriptionTextField.text = "Description"
         //descriptionTextField.borderStyle = UITextBorderStyle.roundedRect
         customTagTextField.delegate = self
+        valueTextField.delegate = self
         categoryTableView.delegate = self
         categoryTableView.dataSource = self
         photoCollectionView.delegate = self
@@ -91,6 +94,10 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         customTagTextField.layer.borderColor = UIProperties.sharedUIProperties.purpleColour.cgColor
         customTagTextField.layer.borderWidth = 1.0
         customTagTextField.layer.cornerRadius = 4.0
+        
+        valueTextField.layer.borderColor = UIProperties.sharedUIProperties.purpleColour.cgColor
+        valueTextField.layer.borderWidth = 1.0
+        valueTextField.layer.cornerRadius = 4.0
         
         categoryTableView = UITableView(frame: CGRect(x: 0, y:20, width: self.view.frame.width, height: self.view.frame.height), style: UITableViewStyle.plain)
         
@@ -140,6 +147,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
             chosenCategory = itemToEdit.itemCategory
             locationButton.setTitle("Location: \(String(describing: itemToEdit!.coordinate))", for: .normal)
             offerRequestSegmentedControl.selectedSegmentIndex = offerRequestIndex
+            //valueTextField.text = itemToEdit.value
             
             for tag in itemToEdit.tags.tagsArray {
                 addCustomTag(string: tag)
@@ -405,6 +413,13 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
             return
         }
         
+        guard (selectedLocationCoordinates != nil) else {
+            let alert = UIAlertController(title: "Whoops", message: "You must give it a value", preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.default, handler: nil))
+            present(alert, animated: true, completion: nil)
+            return
+        }
+        
         let user = AppData.sharedInstance.currentUser!
         
         let tags:Tag = Tag()
@@ -617,6 +632,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         titleTextField.resignFirstResponder()
         descriptionTextField.resignFirstResponder()
         customTagTextField.resignFirstResponder()
+        valueTextField.resignFirstResponder()
     }
     
     func fullscreenImage(image: UIImage) {

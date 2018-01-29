@@ -20,6 +20,7 @@ class ItemDetailView: UIView {
     
     @IBOutlet weak var posterUsername: UILabel!
     @IBOutlet weak var posterRating: UILabel!
+    @IBOutlet weak var itemValueLabel: UILabel!
     
     @IBOutlet weak var rightUpArrow: UIImageView!
     

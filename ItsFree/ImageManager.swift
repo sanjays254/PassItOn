@@ -17,7 +17,7 @@ class ImageManager {
     class func uploadImage(image:UIImage, userUID:String, filename:String) -> String {
         let storageRef = Storage.storage().reference()
         let storagePath = "\(userUID)/\(filename)"
-        let imageData:Data = UIImageJPEGRepresentation(image, 1.0)!
+        let imageData:Data = UIImageJPEGRepresentation(image, 0.1)!
         let metedata = StorageMetadata()
         metedata.contentType = "image/jpeg"
         storageRef.child(storagePath).putData(imageData, metadata: metedata)

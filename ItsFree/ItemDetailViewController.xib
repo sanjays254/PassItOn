@@ -133,7 +133,7 @@
                             </constraints>
                         </imageView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Value" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LBY-Th-AjX">
-                            <rect key="frame" x="15" y="101" width="36.5" height="18"/>
+                            <rect key="frame" x="15" y="92" width="36.5" height="18"/>
                             <fontDescription key="fontDescription" name="GillSans-SemiBold" family="Gill Sans" pointSize="15"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
@@ -156,7 +156,7 @@
                         <constraint firstItem="pyp-ZW-Lc8" firstAttribute="top" secondItem="sHA-bN-zLF" secondAttribute="bottom" constant="8" id="UBl-E1-aPm"/>
                         <constraint firstItem="4bD-P7-jHw" firstAttribute="top" secondItem="IvU-C1-Sgh" secondAttribute="top" constant="8" id="Va1-Xk-9Ey"/>
                         <constraint firstItem="58X-Bu-Kbi" firstAttribute="top" secondItem="IvU-C1-Sgh" secondAttribute="top" constant="25" id="WcI-p8-yjB"/>
-                        <constraint firstItem="LBY-Th-AjX" firstAttribute="top" secondItem="L32-KL-sMa" secondAttribute="bottom" constant="39" id="Ybr-sN-65P"/>
+                        <constraint firstItem="LBY-Th-AjX" firstAttribute="top" secondItem="L32-KL-sMa" secondAttribute="bottom" constant="30" id="Ybr-sN-65P"/>
                         <constraint firstItem="agc-wE-eOD" firstAttribute="top" secondItem="oeb-1P-NCA" secondAttribute="bottom" constant="16" id="bMY-1y-lBB"/>
                         <constraint firstItem="agc-wE-eOD" firstAttribute="leading" secondItem="IvU-C1-Sgh" secondAttribute="leading" constant="28" id="c0s-Ll-KYt"/>
                         <constraint firstItem="pyp-ZW-Lc8" firstAttribute="centerX" secondItem="IvU-C1-Sgh" secondAttribute="centerX" id="cip-9g-2O7"/>

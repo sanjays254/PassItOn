@@ -270,7 +270,12 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         cell.itemLabel?.text = item.name
         //cell.itemImageView?.sd_setImage(with: storageRef.child(item.photos[0]), placeholderImage: UIImage.init(named: "placeholder"))
         
-        cell.itemImageView.image = AppData.sharedInstance.currentUserPhotos[item.photos[0]]
+        if (!AppData.sharedInstance.currentUserPhotos.isEmpty){
+            cell.itemImageView.image = AppData.sharedInstance.currentUserPhotos[item.photos[0]]
+        }
+        else {
+        cell.itemImageView.image = #imageLiteral(resourceName: "placeholder")
+        }
         
         if (animateTable){
             UIView.transition(with: cell.textLabel!, duration: 0.6, options: .transitionCrossDissolve, animations: {
@@ -328,15 +333,18 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
             switch offersRequestsSegmentedControl.selectedSegmentIndex {
             case 0:
                                 itemUID = AppData.sharedInstance.currentUserOfferedItems[indexPath.row].UID
-                AppData.sharedInstance.currentUserOfferedItems.remove(at: indexPath.row)
+                                //AppData.sharedInstance.currentUser?.offeredItems.remove(at: indexPath.row)
+                //AppData.sharedInstance.currentUserOfferedItems.remove(at: indexPath.row)
  
                 WriteFirebaseData.delete(itemUID: itemUID)
                 
             case 1:
                 
-                itemUID = AppData.sharedInstance.currentUserOfferedItems[indexPath.row].UID
+                itemUID = AppData.sharedInstance.currentUserRequestedItems[indexPath.row].UID
 
-            AppData.sharedInstance.currentUserRequestedItems.remove(at: indexPath.row)
+                //AppData.sharedInstance.currentUser?.requestedItems.remove(at: indexPath.row)
+            //AppData.sharedInstance.currentUserRequestedItems.remove(at: indexPath.row)
+            
                 
             WriteFirebaseData.delete(itemUID: itemUID)
                 

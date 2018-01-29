@@ -12,8 +12,8 @@ import MapKit
 
 class MapViewDelegate: NSObject, MKMapViewDelegate {
     
-    weak var theMapView: MKMapView!
-    weak var currentLocation: CLLocation? = LocationManager.theLocationManager.getLocation()
+    var theMapView: MKMapView!
+    var currentLocation: CLLocation? = LocationManager.theLocationManager.getLocation()
     
     let myNotificationKey = "theNotificationKey"
     

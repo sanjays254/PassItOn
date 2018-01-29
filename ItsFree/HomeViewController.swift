@@ -45,6 +45,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
         wantedAvailableSegmentedControl.selectedSegmentIndex = 1
         availableBool = true
         
@@ -102,7 +103,18 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         NotificationCenter.default.addObserver(self, selector: #selector(readUserPhotos), name: NSNotification.Name(rawValue: "myUsersDownloadNotificationKey"), object: nil)
         
+        if(firstTimeUser){
+            presentAlertIfFirstTime()
+        }
         
+    }
+    
+    func presentAlertIfFirstTime(){
+        let firstTimeUseAlert = UIAlertController(title: "Welcome to FreeBox", message: "Remember! Free items only!.", preferredStyle: .alert)
+        let coolAction = UIAlertAction(title: "Sounds good", style: .default, handler: nil)
+        firstTimeUseAlert.addAction(coolAction)
+        
+        present(firstTimeUseAlert, animated: true, completion: nil)
     }
     
     @objc func readUserPhotos(){

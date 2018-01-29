@@ -19,13 +19,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H3x-DL-s2d" userLabel="Title">
-                                <rect key="frame" x="147.5" y="30" width="81" height="60"/>
-                                <fontDescription key="fontDescription" type="system" weight="ultraLight" pointSize="50"/>
+                                <rect key="frame" x="155.5" y="30" width="65.5" height="48"/>
+                                <fontDescription key="fontDescription" type="system" weight="ultraLight" pointSize="40"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="FG5-hC-Fr9">
-                                <rect key="frame" x="20.5" y="110" width="335" height="313"/>
+                                <rect key="frame" x="20.5" y="88" width="335" height="354"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Display Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0If-so-uRA">
                                         <rect key="frame" x="0.0" y="0.0" width="335" height="20.5"/>
@@ -89,25 +89,42 @@
                                             </switch>
                                         </subviews>
                                     </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Azj-2M-vIy">
+                                        <rect key="frame" x="0.0" y="323" width="335" height="31"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Use TouchID" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k4q-nH-c4B">
+                                                <rect key="frame" x="0.0" y="0.0" width="286" height="31"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="FbF-Pt-5KV" userLabel="TouchIDSwitch">
+                                                <rect key="frame" x="286" y="0.0" width="51" height="31"/>
+                                            </switch>
+                                        </subviews>
+                                    </stackView>
                                 </subviews>
                             </stackView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tES-Cu-wq5">
-                                <rect key="frame" x="20" y="443" width="335" height="60"/>
-                                <fontDescription key="fontDescription" type="system" weight="thin" pointSize="40"/>
+                                <rect key="frame" x="20" y="462" width="335" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="QpT-Yd-0Fd"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="thin" pointSize="25"/>
                                 <state key="normal" title="Go Button"/>
                                 <connections>
                                     <action selector="goPressed:" destination="vvg-N4-Ees" eventType="touchUpInside" id="TwO-Mx-X5V"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZGQ-bV-6dT">
-                                <rect key="frame" x="20" y="543.5" width="335" height="30"/>
+                                <rect key="frame" x="20" y="538.5" width="335" height="30"/>
                                 <state key="normal" title="Toggle Screen"/>
                                 <connections>
                                     <action selector="toggleScreen:" destination="vvg-N4-Ees" eventType="touchUpInside" id="48v-Ns-jw9"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Switch Text" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lgU-y0-iga">
-                                <rect key="frame" x="20" y="518" width="335" height="20.5"/>
+                                <rect key="frame" x="20" y="517" width="335" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -116,8 +133,8 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="H3x-DL-s2d" firstAttribute="top" secondItem="qvC-b6-Dli" secondAttribute="top" constant="10" id="33E-LE-zZu"/>
-                            <constraint firstItem="ZGQ-bV-6dT" firstAttribute="top" secondItem="lgU-y0-iga" secondAttribute="bottom" constant="5" id="57f-t4-Sbb"/>
-                            <constraint firstItem="FG5-hC-Fr9" firstAttribute="top" secondItem="H3x-DL-s2d" secondAttribute="bottom" constant="20" id="CBk-I6-t1Z"/>
+                            <constraint firstItem="ZGQ-bV-6dT" firstAttribute="top" secondItem="lgU-y0-iga" secondAttribute="bottom" constant="1" id="57f-t4-Sbb"/>
+                            <constraint firstItem="FG5-hC-Fr9" firstAttribute="top" secondItem="H3x-DL-s2d" secondAttribute="bottom" constant="10" id="CBk-I6-t1Z"/>
                             <constraint firstItem="tES-Cu-wq5" firstAttribute="top" secondItem="FG5-hC-Fr9" secondAttribute="bottom" constant="20" id="CNq-pg-ff2"/>
                             <constraint firstItem="FG5-hC-Fr9" firstAttribute="centerX" secondItem="qvC-b6-Dli" secondAttribute="centerX" id="MQA-TV-M5o"/>
                             <constraint firstItem="lgU-y0-iga" firstAttribute="centerX" secondItem="PxZ-f3-TET" secondAttribute="centerX" id="SOV-V9-fZu"/>
@@ -144,6 +161,7 @@
                         <outlet property="switchLabel" destination="lgU-y0-iga" id="2ev-Iy-b3V"/>
                         <outlet property="titleLabel" destination="H3x-DL-s2d" id="3uI-20-8oa"/>
                         <outlet property="toggleButton" destination="ZGQ-bV-6dT" id="r5Q-w7-FwD"/>
+                        <outlet property="touchIDSwitch" destination="FbF-Pt-5KV" id="Otp-bO-cz5"/>
                         <outlet property="usernameLabel" destination="0If-so-uRA" id="iHP-ds-c1i"/>
                         <outlet property="usernameTextfield" destination="lnn-ue-Vo4" id="fhW-z4-QsQ"/>
                         <segue destination="RFQ-9e-1Er" kind="presentation" identifier="continueToHome" id="KaF-Mk-6Gz"/>

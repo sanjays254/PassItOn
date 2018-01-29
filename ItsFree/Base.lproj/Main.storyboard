@@ -40,11 +40,11 @@
                                     <barButtonItem width="111" style="plain" systemItem="flexibleSpace" id="aa2-2U-TJy"/>
                                     <barButtonItem style="plain" id="Sja-Ne-QMf">
                                         <segmentedControl key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="kVJ-lR-ADn">
-                                            <rect key="frame" x="117" y="7.5" width="141" height="29"/>
+                                            <rect key="frame" x="117" y="7" width="141" height="30"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <segments>
-                                                <segment title="Wanted" width="70"/>
-                                                <segment title="Available" width="70"/>
+                                                <segment title="Requests" width="70"/>
+                                                <segment title="Offers" width="70"/>
                                             </segments>
                                             <connections>
                                                 <action selector="changedWantedAvailableSegmnent:" destination="BYZ-38-t0r" eventType="valueChanged" id="BqY-BC-Wab"/>
@@ -69,7 +69,7 @@
                                         <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="rKZ-zW-fY9" id="r08-eW-Jsw">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -174,7 +174,7 @@
                                         <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="WtB-sm-BBm" id="puQ-Oe-tpE">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -322,7 +322,7 @@
                                         <rect key="frame" x="0.0" y="28" width="375" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="SYI-VU-tcH" id="B8G-Dw-YSO">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="59.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="60"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y79-dV-TwE">
@@ -423,7 +423,7 @@
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HS7-Ws-qQg">
-                                <rect key="frame" x="20" y="193" width="335" height="60"/>
+                                <rect key="frame" x="20" y="195" width="335" height="60"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ePM-Xj-1Wt" userLabel="DefaultTagStackView">
                                         <rect key="frame" x="0.0" y="0.0" width="335" height="30"/>
@@ -480,7 +480,7 @@
                                 </connections>
                             </button>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="xfP-it-5u6">
-                                <rect key="frame" x="16" y="261" width="343" height="186"/>
+                                <rect key="frame" x="16" y="263" width="343" height="184"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Uxh-rl-sae">
                                     <size key="itemSize" width="50" height="50"/>
@@ -514,22 +514,22 @@
                                 </cells>
                             </collectionView>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Custom Tag (optional)" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="kfk-u6-46H">
-                                <rect key="frame" x="16" y="153" width="225" height="32"/>
+                                <rect key="frame" x="16" y="155" width="250" height="32"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Value ($)" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="e29-tr-97F">
-                                <rect key="frame" x="249" y="153" width="110" height="32"/>
+                                <rect key="frame" x="274" y="155" width="85" height="32"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="110" id="Kxf-RU-Blj"/>
+                                    <constraint firstAttribute="width" constant="85" id="Kxf-RU-Blj"/>
                                 </constraints>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="contactAdd" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="13M-XH-0j6">
-                                <rect key="frame" x="214" y="158" width="22" height="22"/>
+                                <rect key="frame" x="239" y="160" width="22" height="22"/>
                                 <connections>
                                     <action selector="addCustomTagButton:" destination="uu9-5f-Eua" eventType="touchUpInside" id="Wd8-YX-aIW"/>
                                 </connections>
@@ -540,7 +540,7 @@
                             <constraint firstItem="ivO-1W-BYH" firstAttribute="trailing" secondItem="e29-tr-97F" secondAttribute="trailing" constant="16" id="04Z-kM-y92"/>
                             <constraint firstItem="9QC-CH-sNi" firstAttribute="top" secondItem="ivO-1W-BYH" secondAttribute="top" constant="15" id="0q6-Fl-Tvj"/>
                             <constraint firstItem="gBU-nq-UfP" firstAttribute="trailing" secondItem="ivO-1W-BYH" secondAttribute="trailing" constant="-16" id="64v-bv-JvC"/>
-                            <constraint firstItem="kfk-u6-46H" firstAttribute="top" secondItem="HQl-lc-apC" secondAttribute="bottom" constant="8" id="C0e-NG-YIr"/>
+                            <constraint firstItem="kfk-u6-46H" firstAttribute="top" secondItem="HQl-lc-apC" secondAttribute="bottom" constant="10" id="C0e-NG-YIr"/>
                             <constraint firstItem="gBU-nq-UfP" firstAttribute="leading" secondItem="ivO-1W-BYH" secondAttribute="leading" constant="16" id="DrU-I1-rWI"/>
                             <constraint firstItem="13M-XH-0j6" firstAttribute="top" secondItem="kfk-u6-46H" secondAttribute="top" constant="5" id="FZJ-xF-Z6W"/>
                             <constraint firstItem="ivO-1W-BYH" firstAttribute="trailing" secondItem="HQl-lc-apC" secondAttribute="trailing" constant="16" id="Fy3-xb-RCg"/>
@@ -552,7 +552,7 @@
                             <constraint firstItem="ivO-1W-BYH" firstAttribute="trailing" secondItem="HvF-Qc-sIh" secondAttribute="trailing" constant="16" id="LZP-96-Njg"/>
                             <constraint firstItem="HQl-lc-apC" firstAttribute="leading" secondItem="ivO-1W-BYH" secondAttribute="leading" constant="16" id="MNd-mS-wsq"/>
                             <constraint firstItem="HS7-Ws-qQg" firstAttribute="top" secondItem="e29-tr-97F" secondAttribute="bottom" constant="8" id="O7g-WH-2XS"/>
-                            <constraint firstItem="e29-tr-97F" firstAttribute="top" secondItem="HQl-lc-apC" secondAttribute="bottom" constant="8" id="PNG-jY-4Df"/>
+                            <constraint firstItem="e29-tr-97F" firstAttribute="top" secondItem="HQl-lc-apC" secondAttribute="bottom" constant="10" id="PNG-jY-4Df"/>
                             <constraint firstItem="HvF-Qc-sIh" firstAttribute="top" secondItem="xfP-it-5u6" secondAttribute="bottom" constant="8" id="QJQ-2v-pCN"/>
                             <constraint firstItem="HS7-Ws-qQg" firstAttribute="top" secondItem="kfk-u6-46H" secondAttribute="bottom" constant="8" id="Sba-gD-3DX"/>
                             <constraint firstItem="ivO-1W-BYH" firstAttribute="trailing" secondItem="9QC-CH-sNi" secondAttribute="trailing" constant="16" id="V3I-cx-T5G"/>

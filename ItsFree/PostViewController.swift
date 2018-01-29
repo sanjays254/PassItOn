@@ -99,7 +99,8 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         valueTextField.layer.borderWidth = 1.0
         valueTextField.layer.cornerRadius = 4.0
         
-        categoryTableView = UITableView(frame: CGRect(x: 0, y:20, width: self.view.frame.width, height: self.view.frame.height), style: UITableViewStyle.plain)
+        
+        categoryTableView = UITableView(frame: CGRect(x: 0, y:0, width: self.view.frame.width, height: (self.view.frame.height-((self.navigationController?.navigationBar.frame.height)! + UIApplication.shared.statusBarFrame.size.height))), style: UITableViewStyle.plain)
         
         addCustomTagButton.tintColor = UIProperties.sharedUIProperties.lightGreenColour
         
@@ -522,7 +523,8 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
             else if(indexPath.item < itemToEdit.photos.count+photosArray.count){
                 
                 if(indexPath.item < itemToEdit.photos.count){
-                    //cell.postCollectionViewCellImageView.sd_setImage(with:storageRef.child(itemToEdit.photos[indexPath.item]), placeholderImage: UIImage.init(named: "placeholder"))
+                    cell.postCollectionViewCellImageView.sd_setImage(with:storageRef.child(itemToEdit.photos[indexPath.item]), placeholderImage: UIImage.init(named: "placeholder"))
+                  
                 }
                 
                 else {
@@ -568,6 +570,63 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        if (editingBool){
+            if ((indexPath.item) + 1 > (self.photosArray.count + itemToEdit.photos.count)){
+                presentImagePickerAlert()
+            }
+            else {
+                
+                let changePhotoAlert = UIAlertController(title: "View or Delete Photo?", message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
+                
+                var viewAction: UIAlertAction!
+                var changeAction: UIAlertAction!
+                
+                if(indexPath.item < itemToEdit.photos.count){
+                    
+                     viewAction = UIAlertAction(title: "View Photo", style: UIAlertActionStyle.default, handler:{ (action) in
+                        //open photo
+                        
+                    })
+                    
+                     changeAction = UIAlertAction(title: "Delete Photo", style: UIAlertActionStyle.destructive, handler:{ (action) in
+                        //
+                        
+                        self.itemToEdit.photos.remove(at: indexPath.item)
+                        self.photoCollectionView.reloadData()
+                    })
+                }
+                    
+                else {
+                    
+                     viewAction = UIAlertAction(title: "View Photo", style: UIAlertActionStyle.default, handler:{ (action) in
+                        //open photo
+                        self.fullscreenImage(image: self.photosArray[indexPath.item - self.itemToEdit.photos.count])
+                        
+                    })
+                    
+                     changeAction = UIAlertAction(title: "Delete Photo", style: UIAlertActionStyle.destructive, handler:{ (action) in
+                        
+                        self.photosArray.remove(at: (indexPath.item-self.itemToEdit.photos.count))
+                        
+                        
+                        self.photoCollectionView.reloadData()
+                    })
+                }
+                
+
+                
+                let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil)
+                
+                changePhotoAlert.addAction(viewAction)
+                changePhotoAlert.addAction(changeAction)
+                changePhotoAlert.addAction(cancelAction)
+                
+                self.present(changePhotoAlert, animated: true, completion: nil)
+            }
+            
+        }
+        else {
         //if we click on the plus picture
         if ((indexPath.item) + 1 > self.photosArray.count){
             presentImagePickerAlert()
@@ -593,6 +652,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
             changePhotoAlert.addAction(cancelAction)
             
             self.present(changePhotoAlert, animated: true, completion: nil)
+        }
         }
     }
     

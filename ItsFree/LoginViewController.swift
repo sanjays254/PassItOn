@@ -10,17 +10,19 @@ import UIKit
 import FirebaseAuth
 
 public let rememberMeKey = "rememberMe"
+public let useTouchID = "useTouchID"
 public var loggedInBool: Bool!
+public var firstTimeUser: Bool!
 
 class LoginViewController: UIViewController, UITextFieldDelegate {
     
     var schemaURL: URL!
 
     let maxPasswordLength = 20
-    let signupTitleStr = "Sign Up"
+    let signupTitleStr = "Create Account"
     let loginTitleStr = "Log In"
-    let signupBtnStr = "Create Account"
-    let loginBtnStr = "Log In"
+    let signupBtnStr = "Let's do this!"
+    let loginBtnStr = "Go!"
     let signupSwitchStr = "Already have an account?"
     let loginSwitchStr = "Don't have an account yet?"
     let signupSwitchBtnStr = "Go to the login screen"
@@ -39,6 +41,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var confirmPasswordTextfield: UITextField!
     @IBOutlet weak var confirmPasswordLabel: UILabel!
     @IBOutlet weak var rememberMeSwitch: UISwitch!
+    @IBOutlet weak var touchIDSwitch: UISwitch!
     
     var tapGesture: UITapGestureRecognizer!
     
@@ -48,12 +51,29 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         passwordTextfield.delegate = self
         emailTextfield.delegate = self
         confirmPasswordTextfield.delegate = self
+        
+        if(UserDefaults.standard.bool(forKey: rememberMeKey) == true){
+            rememberMeSwitch.setOn(true, animated: false)
+        }
+        if(UserDefaults.standard.bool(forKey: useTouchID) == true){
+            touchIDSwitch.setOn(true, animated: false)
+        }
+        
+        goButton.tintColor = UIProperties.sharedUIProperties.whiteColour
+        goButton.layer.borderWidth = 3.0
+        goButton.layer.cornerRadius = 7.0
+        goButton.backgroundColor = UIProperties.sharedUIProperties.purpleColour
+        goButton.layer.borderColor = UIProperties.sharedUIProperties.blackColour.cgColor
+        toggleButton.tintColor = UIProperties.sharedUIProperties.purpleColour
+        
         setToLogIn()
         login()
     }
     
     func login(){
-        if Auth.auth().currentUser != nil && UserDefaults.standard.bool(forKey: rememberMeKey) == true {
+        if Auth.auth().currentUser != nil && UserDefaults.standard.bool(forKey: rememberMeKey) == true && UserDefaults.standard.bool(forKey: useTouchID) == true {
+            
+            firstTimeUser = false
             print("\((Auth.auth().currentUser?.displayName)!)")
             print ("\((Auth.auth().currentUser?.email)!)")
             emailTextfield.text = Auth.auth().currentUser?.email
@@ -76,6 +96,12 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                                                         print("Error logging in")
                                                     }
             })
+        }
+        else if (Auth.auth().currentUser != nil && UserDefaults.standard.bool(forKey: rememberMeKey) == true && UserDefaults.standard.bool(forKey: useTouchID) == false){
+            emailTextfield.text = Auth.auth().currentUser?.email
+            
+            firstTimeUser = false
+            
         }
     }
     
@@ -162,6 +188,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     @IBAction func goPressed(_ sender: Any) {
 
         if titleLabel.text == signupTitleStr {
+            firstTimeUser = true
             print("trying to sign up...")
             if validateInputOf(textfield: usernameTextfield).valid &&
                 validateInputOf(textfield: emailTextfield).valid &&
@@ -184,6 +211,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             }
         }
         else if titleLabel.text == loginTitleStr {
+            firstTimeUser = false
             print("trying to log in...")
             if validateInputOf(textfield: emailTextfield).valid &&
                 validateInputOf(textfield: passwordTextfield).valid {
@@ -201,6 +229,11 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             }
             else {
                 print("Login failed: invalid input")
+                let loginFailedAlert = UIAlertController(title: "Login failed", message: "Incorrect Email or Password", preferredStyle: .alert)
+                let okayAction = UIAlertAction(title: "Okay", style: .default, handler: nil)
+                loginFailedAlert.addAction(okayAction)
+                present(loginFailedAlert, animated: true, completion: nil)
+                
             }
         }
     }
@@ -209,6 +242,10 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         if UserDefaults.standard.bool(forKey: rememberMeKey) != rememberMeSwitch.isOn {
             UserDefaults.standard.set(rememberMeSwitch.isOn, forKey: rememberMeKey)
         }
+        if UserDefaults.standard.bool(forKey: useTouchID) != touchIDSwitch.isOn {
+            UserDefaults.standard.set(touchIDSwitch.isOn, forKey: useTouchID)
+        }
+        
     }
     
     override func didReceiveMemoryWarning() {

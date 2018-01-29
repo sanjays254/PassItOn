@@ -193,45 +193,45 @@ class ReadFirebaseData: NSObject {
             }
         }
 
-        for offeredItem in AppData.sharedInstance.currentUserOfferedItems {
-            for stringPhotoRef in offeredItem.photos{
-
-                let photoRef = storageRef.child(stringPhotoRef)
-                // Download in memory with a maximum allowed size of 1MB (1 * 1024 * 1024 bytes)
-                photoRef.getData(maxSize: 10 * 1024 * 1024) { data, error in
-                    if let error = error {
-                        print("error getting data")
-                    } else {
-                        // Data for "images/island.jpg" is returned
-                        let image = UIImage(data: data!)
-                        let resizedImage = image?.resizeImage(40, opaque: true)
-                        AppData.sharedInstance.currentUserPhotos[stringPhotoRef] = resizedImage
-
-                    }
-                }
-            }
-
-        }
+//        for offeredItem in AppData.sharedInstance.currentUserOfferedItems {
+//            for stringPhotoRef in offeredItem.photos{
 //
-        for requestedItem in AppData.sharedInstance.currentUserRequestedItems {
-            for stringPhotoRef in requestedItem.photos{
-
-                let photoRef = storageRef.child(stringPhotoRef)
-                // Download in memory with a maximum allowed size of 1MB (1 * 1024 * 1024 bytes)
-                photoRef.getData(maxSize: 10 * 1024 * 1024) { data, error in
-                    if let error = error {
-                        // Uh-oh, an error occurred!
-                    } else {
-                        // Data for "images/island.jpg" is returned
-                        let image = UIImage(data: data!)
-                        let resizedImage = image?.resizeImage(40, opaque: true)
-                        AppData.sharedInstance.currentUserPhotos[stringPhotoRef] = resizedImage
-
-                    }
-                }
-            }
-
-        }
+//                let photoRef = storageRef.child(stringPhotoRef)
+//                // Download in memory with a maximum allowed size of 1MB (1 * 1024 * 1024 bytes)
+//                photoRef.getData(maxSize: 10 * 1024 * 1024) { data, error in
+//                    if let error = error {
+//                        print("error getting data")
+//                    } else {
+//                        // Data for "images/island.jpg" is returned
+//                        let image = UIImage(data: data!)
+//                        let resizedImage = image?.resizeImage(40, opaque: true)
+//                        AppData.sharedInstance.currentUserPhotos[stringPhotoRef] = resizedImage
+//
+//                    }
+//                }
+//            }
+//
+//        }
+////
+//        for requestedItem in AppData.sharedInstance.currentUserRequestedItems {
+//            for stringPhotoRef in requestedItem.photos{
+//
+//                let photoRef = storageRef.child(stringPhotoRef)
+//                // Download in memory with a maximum allowed size of 1MB (1 * 1024 * 1024 bytes)
+//                photoRef.getData(maxSize: 10 * 1024 * 1024) { data, error in
+//                    if let error = error {
+//                        // Uh-oh, an error occurred!
+//                    } else {
+//                        // Data for "images/island.jpg" is returned
+//                        let image = UIImage(data: data!)
+//                        let resizedImage = image?.resizeImage(40, opaque: true)
+//                        AppData.sharedInstance.currentUserPhotos[stringPhotoRef] = resizedImage
+//
+//                    }
+//                }
+//            }
+//
+//        }
 
 
         

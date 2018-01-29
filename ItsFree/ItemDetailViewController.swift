@@ -31,7 +31,8 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
         itemDetailView.translatesAutoresizingMaskIntoConstraints = false
         
         //make this auto constrained
-        detailViewTopAnchorConstant = UIScreen.main.bounds.height/2
+        detailViewTopAnchorConstant = (UIScreen.main.bounds.size.height-(itemDetailView.mainImageView.frame.minY+itemDetailView.categoryLabel.frame.maxY)) - ((self.navigationController?.navigationBar.frame.height)! + (UIApplication.shared.statusBarFrame.size.height))
+        
         detailViewBottomAnchorConstant = 0
         
         NSLayoutConstraint.activate([
@@ -78,11 +79,13 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
         itemDetailView.mainImageView.layer.borderWidth = 5
         itemDetailView.mainImageView.layer.cornerRadius = 5
         
-        itemDetailView.mainImageView.sd_setImage(with: storageRef.child(previewPhotoRef), placeholderImage: UIImage.init(named: "placeholder"))
+        //itemDetailView.mainImageView.sd_setImage(with: storageRef.child(previewPhotoRef), placeholderImage: UIImage.init(named: "placeholder"))
         print("Storage Location: \(storageRef.child(previewPhotoRef))")
         
         itemDetailView.posterUsername.text = AppData.sharedInstance.onlineUsers.filter{ $0.UID == currentItem.posterUID }.first?.name
-        itemDetailView.posterRating.text = "Score: \(AppData.sharedInstance.onlineUsers.filter{ $0.UID == currentItem.posterUID }.first?.rating ?? 0)"
+        itemDetailView.posterRating.text = "\(AppData.sharedInstance.onlineUsers.filter{ $0.UID == currentItem.posterUID }.first?.rating ?? 0)"
+        
+        itemDetailView.itemValueLabel.text = "Value: "
         
     }
     
@@ -168,8 +171,8 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
        
         cell.layer.borderColor = UIProperties.sharedUIProperties.blackColour.cgColor
         cell.layer.borderWidth = 5.0
-        cell.layer.cornerRadius = 3.0
-        cell.collectionViewImageVew.sd_setImage(with: storageRef.child(photoRef[indexPath.item]), placeholderImage: UIImage.init(named: "placeholder"))
+        cell.layer.cornerRadius = 5.0
+        //cell.collectionViewImageVew.sd_setImage(with: storageRef.child(photoRef[indexPath.item]), placeholderImage: UIImage.init(named: "placeholder"))
         print("Storage Location: \(storageRef.child(photoRef[indexPath.row]))")
      
     
@@ -222,8 +225,11 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
                 
             } else if (swipeGesture.direction == UISwipeGestureRecognizerDirection.up) {
             
+                //this yPoint allows all details to be shown, and no empty space
+                let yPoint = (UIScreen.main.bounds.size.height-(itemDetailView.mainImageView.frame.minY+itemDetailView.photoCollectionView.frame.maxY)) - ((self.navigationController?.navigationBar.frame.height)! + (UIApplication.shared.statusBarFrame.size.height))
+                
                 //nav bar + status bar
-                let yPoint = (self.navigationController?.navigationBar.frame.height)! + (UIApplication.shared.statusBarFrame.size.height) + UIScreen.main.bounds.size.height/18
+                //let yPoint = (self.navigationController?.navigationBar.frame.height)! + (UIApplication.shared.statusBarFrame.size.height) + UIScreen.main.bounds.size.height/18
                 
                 UIView.animate(withDuration: 0.5, animations: {
                     self.itemDetailView.frame = CGRect(x: 0, y:yPoint, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height)
@@ -331,7 +337,7 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
         //mailVC properties
         mailComposerVC.setToRecipients([destinationEmail, currentUserEmail])
         mailComposerVC.setSubject("FreeBox: \(currentUserName) wants your item")
-        mailComposerVC.setMessageBody("Hey \(destinationName),<br><br> I want your \(currentItemName).<br><br>Thanks!<br><br>---------------------<br><br>Admin Message to \(currentUserName): Use the link below to rate \(destinationName), if you like or dislike the item. There will be a copy in your inbox<br><br> \(linkString!)<br><br>Thanks! :)", isHTML: true)
+        mailComposerVC.setMessageBody("Hey \(destinationName),<br><br> I want your \(currentItemName).<br><br>Thanks!<br><br>---------------------<br><br>Admin Message to \(currentUserName): Use the link below to rate \(destinationName), if you like or dislike the item. There will be a copy of this email in your inbox<br><br> \(linkString!)<br><br>Thanks! :)", isHTML: true)
         
         //send an email to current user with link instead of putting link in here
     }
@@ -347,7 +353,7 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
         let currentItemName = currentItem.name
         let currentItemID = currentItem.UID
         
-        let attrLinkString = NSMutableAttributedString(string: "Click Here to Rate")
+        let attrLinkString = NSMutableAttributedString(string: "Click Here to Rate \(currentUserName)")
         attrLinkString.addAttribute(NSAttributedStringKey.link, value: NSURL(string: "iOSAnotherLifeApp://?itemID=\(currentItemID!)&userID=\(currentUserID!)")! , range: NSMakeRange(0, attrLinkString.length))
         
         var linkString: String! = ""
@@ -362,7 +368,7 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
         //mailVC properties
         mailComposerVC.setToRecipients([destinationEmail])
         mailComposerVC.setSubject("FreeBox: \(currentUserName) has something you want")
-        mailComposerVC.setMessageBody("Hey \(destinationName),<br><br> I have a \(currentItemName).<br><br><br><br>Admin message: Please click the link below if \(currentUserName) gives you the item, to easily delete your post from the app and so that you can rate him/her!<br><br>\(linkString!)<br><brThanks! :) ", isHTML: true)
+        mailComposerVC.setMessageBody("Hey \(destinationName),<br><br> I have a \(currentItemName).<br><br><br><br>Admin message to \(destinationName): Please click the link below if \(currentUserName) gives you the item, to easily delete your post from the app and so that you can rate him/her!<br><br>\(linkString!)<br><brThanks! :) ", isHTML: true)
     }
     
 }

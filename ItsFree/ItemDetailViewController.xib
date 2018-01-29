@@ -132,6 +132,12 @@
                                 <constraint firstAttribute="height" constant="32" id="lBc-Oj-41Z"/>
                             </constraints>
                         </imageView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Value" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LBY-Th-AjX">
+                            <rect key="frame" x="15" y="92" width="36.5" height="18"/>
+                            <fontDescription key="fontDescription" name="GillSans-SemiBold" family="Gill Sans" pointSize="15"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                        </label>
                     </subviews>
                     <color key="backgroundColor" red="0.20029094489983684" green="0.0" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
@@ -150,6 +156,7 @@
                         <constraint firstItem="pyp-ZW-Lc8" firstAttribute="top" secondItem="sHA-bN-zLF" secondAttribute="bottom" constant="8" id="UBl-E1-aPm"/>
                         <constraint firstItem="4bD-P7-jHw" firstAttribute="top" secondItem="IvU-C1-Sgh" secondAttribute="top" constant="8" id="Va1-Xk-9Ey"/>
                         <constraint firstItem="58X-Bu-Kbi" firstAttribute="top" secondItem="IvU-C1-Sgh" secondAttribute="top" constant="25" id="WcI-p8-yjB"/>
+                        <constraint firstItem="LBY-Th-AjX" firstAttribute="top" secondItem="L32-KL-sMa" secondAttribute="bottom" constant="30" id="Ybr-sN-65P"/>
                         <constraint firstItem="agc-wE-eOD" firstAttribute="top" secondItem="oeb-1P-NCA" secondAttribute="bottom" constant="16" id="bMY-1y-lBB"/>
                         <constraint firstItem="agc-wE-eOD" firstAttribute="leading" secondItem="IvU-C1-Sgh" secondAttribute="leading" constant="28" id="c0s-Ll-KYt"/>
                         <constraint firstItem="pyp-ZW-Lc8" firstAttribute="centerX" secondItem="IvU-C1-Sgh" secondAttribute="centerX" id="cip-9g-2O7"/>
@@ -157,6 +164,7 @@
                         <constraint firstItem="agc-wE-eOD" firstAttribute="top" secondItem="pyp-ZW-Lc8" secondAttribute="bottom" constant="15.5" id="jMQ-2c-Lra"/>
                         <constraint firstItem="D3q-we-ffY" firstAttribute="top" secondItem="IvU-C1-Sgh" secondAttribute="top" constant="12" id="mel-v3-5Wo"/>
                         <constraint firstItem="58X-Bu-Kbi" firstAttribute="leading" secondItem="IvU-C1-Sgh" secondAttribute="leading" constant="15" id="rPz-Ll-9P0"/>
+                        <constraint firstItem="LBY-Th-AjX" firstAttribute="leading" secondItem="IvU-C1-Sgh" secondAttribute="leading" constant="15" id="rhu-6L-zTQ"/>
                         <constraint firstAttribute="trailing" secondItem="oeb-1P-NCA" secondAttribute="trailing" constant="15" id="sHj-it-uWb"/>
                         <constraint firstItem="0hf-Rx-BJL" firstAttribute="top" secondItem="4bD-P7-jHw" secondAttribute="bottom" constant="8" id="uhb-yc-0Ac"/>
                         <constraint firstItem="Jzr-oE-szb" firstAttribute="leading" secondItem="IvU-C1-Sgh" secondAttribute="leading" constant="15" id="v57-oO-hqY"/>
@@ -168,6 +176,7 @@
                         <outlet property="categoryLabel" destination="pyp-ZW-Lc8" id="Bjl-XY-pmK"/>
                         <outlet property="descriptionLabel" destination="YGv-KU-WLS" id="l86-AA-cId"/>
                         <outlet property="itemTitleLabel" destination="0hf-Rx-BJL" id="0Cx-do-bx1"/>
+                        <outlet property="itemValueLabel" destination="LBY-Th-AjX" id="eaQ-7U-geX"/>
                         <outlet property="leftUpArrow" destination="Jzr-oE-szb" id="o1h-mb-UuJ"/>
                         <outlet property="mainImageView" destination="4bD-P7-jHw" id="jx3-Yl-eIn"/>
                         <outlet property="photoCollectionView" destination="ckl-Ev-lut" id="td8-oe-bvK"/>

@@ -53,11 +53,12 @@ class WriteFirebaseData {
     class func delete(itemUID: String) {
         let user = AppData.sharedInstance.currentUser!
         var itemPath:String? = nil
+        
         for post in user.offeredItems {
             if post.range(of: itemUID) != nil {
                 itemPath = post
                 if let index = user.offeredItems.index(of: post) {
-                    user.offeredItems.remove(at: index)
+                    AppData.sharedInstance.currentUser!.offeredItems.remove(at: index)
                     AppData.sharedInstance.currentUserOfferedItems.remove(at: index)
                     
                 }
@@ -69,10 +70,14 @@ class WriteFirebaseData {
                 if post.range(of: itemUID) != nil {
                     itemPath = post
                     if let index = user.requestedItems.index(of: post) {
-                        user.requestedItems.remove(at: index)
+                        print("found it in requesteditems")
+                        AppData.sharedInstance.currentUser!.requestedItems.remove(at: index)
                         AppData.sharedInstance.currentUserRequestedItems.remove(at: index)
                     }
                     break
+                }
+                else{
+                   print("Error: Didnt find it in requesteditems")
                 }
             }
         }

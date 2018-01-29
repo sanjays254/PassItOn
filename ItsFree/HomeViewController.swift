@@ -24,8 +24,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
  
 
-    var currentLocation: CLLocation!
-    var locationManager: CLLocationManager!
+    weak var currentLocation: CLLocation!
+    weak var locationManager: CLLocationManager!
     
     var compassButton: UIButton!
     
@@ -44,6 +44,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         
         wantedAvailableSegmentedControl.selectedSegmentIndex = 1
         availableBool = true
@@ -90,6 +91,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         ReadFirebaseData.readOffers(category: nil)
         ReadFirebaseData.readRequests(category: nil)
         ReadFirebaseData.readUsers()
+        
    
        // NotificationCenter.default.addObserver(self, selector: #selector(self.refreshData), name: NSNotification.Name(rawValue: filterAppliedKey), object: nil)
         
@@ -99,7 +101,24 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: mySelectedItemNotificationKey), object: nil, queue: nil, using: catchNotification)
         
+        NotificationCenter.default.addObserver(self, selector: #selector(readUserPhotos), name: NSNotification.Name(rawValue: "myUsersDownloadNotificationKey"), object: nil)
         
+        if(firstTimeUser){
+            presentAlertIfFirstTime()
+        }
+        
+    }
+    
+    func presentAlertIfFirstTime(){
+        let firstTimeUseAlert = UIAlertController(title: "Welcome to FreeBox", message: "Remember! Free items only!.", preferredStyle: .alert)
+        let coolAction = UIAlertAction(title: "Sounds good", style: .default, handler: nil)
+        firstTimeUseAlert.addAction(coolAction)
+        
+        present(firstTimeUseAlert, animated: true, completion: nil)
+    }
+    
+    @objc func readUserPhotos(){
+        ReadFirebaseData.readUsersPhotos()
     }
     
     fileprivate func getLocation() -> CLLocation {
@@ -296,7 +315,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             
             cell.itemDistanceLabel.text = String(format: "%.2f", distance) + " kms"
 
-            cell.itemImageView.sd_setImage(with: storageRef.child(AppData.sharedInstance.onlineRequestedItems[indexPath.row].photos[0]), placeholderImage: UIImage.init(named: "placeholder"))
+            //cell.itemImageView.sd_setImage(with: storageRef.child(AppData.sharedInstance.onlineRequestedItems[indexPath.row].photos[0]), placeholderImage: UIImage.init(named: "placeholder"))
         }
         else if (wantedAvailableSegmentedControl.selectedSegmentIndex == 1){
             sourceArray = AppData.sharedInstance.onlineOfferedItems
@@ -307,7 +326,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             let distance = (destinationLocation.distance(from: getLocation())/1000)
             
             cell.itemDistanceLabel.text = String(format: "%.2f", distance) + " kms"
-            cell.itemImageView.sd_setImage(with: storageRef.child(AppData.sharedInstance.onlineOfferedItems[indexPath.row].photos[0]), placeholderImage: UIImage.init(named: "placeholder"))
+            //cell.itemImageView.sd_setImage(with: storageRef.child(AppData.sharedInstance.onlineOfferedItems[indexPath.row].photos[0]), placeholderImage: UIImage.init(named: "placeholder"))
 
         }
         

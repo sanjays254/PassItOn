@@ -27,7 +27,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     
     var username:String = (AppData.sharedInstance.currentUser?.name)!
     var email:String = (AppData.sharedInstance.currentUser?.email)!
-    var user:User = AppData.sharedInstance.currentUser!
+    weak var user : User? = AppData.sharedInstance.currentUser
     
     let storageRef = Storage.storage().reference()
     var photoRef = AppData.sharedInstance.currentUser?.profileImage
@@ -122,7 +122,10 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         profileImageView.clipsToBounds = true
         profileImageView.layer.borderColor = UIColor.black.cgColor
         profileImageView.layer.borderWidth = 5.0
-        profileImageView.sd_setImage(with: storageRef.child(photoRef!), placeholderImage: UIImage(named: "defaultProfile"))
+        
+        profileImageView.image = AppData.sharedInstance.currentUserPhotos[(user?.profileImage)!]
+
+        //profileImageView.sd_setImage(with: storageRef.child(photoRef!), placeholderImage: UIImage(named: "defaultProfile"))
     }
     
     @IBAction func donePressed(_ sender: Any) {
@@ -161,13 +164,13 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
             
             //username label isnt being set to original!!!!
             if (usernameTextField.text == ""){
-                usernameLabel!.text = user.name
+                usernameLabel!.text = user?.name
             }
 
             else {
-                user.name = usernameTextField.text!
-                usernameLabel.text = user.name
-                WriteFirebaseData.write(user: user)
+                user?.name = usernameTextField.text!
+                usernameLabel.text = user?.name
+                WriteFirebaseData.write(user: user!)
             }
             
             editingProfile = false
@@ -205,8 +208,8 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
             print("image loaded: \(myImage!)")
         }
         
-        let imagePath = ImageManager.uploadImage(image: myImage!, userUID: user.UID, filename: "profileImage")
-        AppData.sharedInstance.usersNode.child(user.UID).child("profileImage").setValue(imagePath)
+        let imagePath = ImageManager.uploadImage(image: myImage!, userUID: (user?.UID)!, filename: "profileImage")
+        AppData.sharedInstance.usersNode.child((user?.UID)!).child("profileImage").setValue(imagePath)
         profileImageView.image = myImage
         dismiss(animated: true, completion: nil)
 
@@ -265,7 +268,14 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         }
        
         cell.itemLabel?.text = item.name
-        cell.itemImageView?.sd_setImage(with: storageRef.child(item.photos[0]), placeholderImage: UIImage.init(named: "placeholder"))
+        //cell.itemImageView?.sd_setImage(with: storageRef.child(item.photos[0]), placeholderImage: UIImage.init(named: "placeholder"))
+        
+        if (!AppData.sharedInstance.currentUserPhotos.isEmpty){
+            cell.itemImageView.image = AppData.sharedInstance.currentUserPhotos[item.photos[0]]
+        }
+        else {
+        cell.itemImageView.image = #imageLiteral(resourceName: "placeholder")
+        }
         
         if (animateTable){
             UIView.transition(with: cell.textLabel!, duration: 0.6, options: .transitionCrossDissolve, animations: {
@@ -323,15 +333,18 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
             switch offersRequestsSegmentedControl.selectedSegmentIndex {
             case 0:
                                 itemUID = AppData.sharedInstance.currentUserOfferedItems[indexPath.row].UID
-                AppData.sharedInstance.currentUserOfferedItems.remove(at: indexPath.row)
+                                //AppData.sharedInstance.currentUser?.offeredItems.remove(at: indexPath.row)
+                //AppData.sharedInstance.currentUserOfferedItems.remove(at: indexPath.row)
  
                 WriteFirebaseData.delete(itemUID: itemUID)
                 
             case 1:
                 
-                itemUID = AppData.sharedInstance.currentUserOfferedItems[indexPath.row].UID
+                itemUID = AppData.sharedInstance.currentUserRequestedItems[indexPath.row].UID
 
-            AppData.sharedInstance.currentUserRequestedItems.remove(at: indexPath.row)
+                //AppData.sharedInstance.currentUser?.requestedItems.remove(at: indexPath.row)
+            //AppData.sharedInstance.currentUserRequestedItems.remove(at: indexPath.row)
+            
                 
             WriteFirebaseData.delete(itemUID: itemUID)
                 
@@ -370,11 +383,11 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         usernameTextField.isHidden = true
         
         if(usernameTextField.text == ""){
-            usernameLabel.text = user.name
+            usernameLabel.text = user?.name
         }
         else {
-            user.name = usernameTextField.text!
-            usernameLabel.text = user.name
+            user?.name = usernameTextField.text!
+            usernameLabel.text = user?.name
         }
         
         
@@ -388,14 +401,14 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         }, completion: nil)
         
         
-        WriteFirebaseData.write(user: user)
+        WriteFirebaseData.write(user: user!)
         
 
     }
     
     func saveUserData(){
         
-        WriteFirebaseData.write(user: user)
+        WriteFirebaseData.write(user: user!)
     }
     
 }

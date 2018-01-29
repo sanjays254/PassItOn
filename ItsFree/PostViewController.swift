@@ -1,4 +1,4 @@
-//
+ //
 //  PostViewController.swift
 //  ItsFree
 //
@@ -11,14 +11,16 @@ import MapKit
 import FirebaseStorage
 import CoreLocation
 
-class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource {
+class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UITextViewDelegate, UICollectionViewDelegateFlowLayout{
     
     @IBOutlet weak var titleTextField: UITextField!
-    @IBOutlet weak var descriptionTextField: UITextField!
+    @IBOutlet weak var descriptionTextField: UITextView!
     @IBOutlet weak var qualitySegmentedControl: UISegmentedControl!
     var chosenQuality: ItemQuality!
     
     @IBOutlet weak var customTagTextField: UITextField!
+    
+    @IBOutlet weak var valueTextField: UITextField!
     
     @IBOutlet weak var addCustomTagButton: UIButton!
     
@@ -65,8 +67,11 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         
         titleTextField.delegate = self
         descriptionTextField.delegate = self
-        descriptionTextField.borderStyle = UITextBorderStyle.roundedRect
+        descriptionTextField.textColor = .lightGray
+        descriptionTextField.text = "Description"
+        //descriptionTextField.borderStyle = UITextBorderStyle.roundedRect
         customTagTextField.delegate = self
+        valueTextField.delegate = self
         categoryTableView.delegate = self
         categoryTableView.dataSource = self
         photoCollectionView.delegate = self
@@ -90,12 +95,20 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         customTagTextField.layer.borderWidth = 1.0
         customTagTextField.layer.cornerRadius = 4.0
         
-        categoryTableView = UITableView(frame: CGRect(x: 0, y:20, width: self.view.frame.width, height: self.view.frame.height), style: UITableViewStyle.plain)
+        valueTextField.layer.borderColor = UIProperties.sharedUIProperties.purpleColour.cgColor
+        valueTextField.layer.borderWidth = 1.0
+        valueTextField.layer.cornerRadius = 4.0
+        
+        
+        categoryTableView = UITableView(frame: CGRect(x: 0, y:0, width: self.view.frame.width, height: (self.view.frame.height-((self.navigationController?.navigationBar.frame.height)! + UIApplication.shared.statusBarFrame.size.height))), style: UITableViewStyle.plain)
         
         addCustomTagButton.tintColor = UIProperties.sharedUIProperties.lightGreenColour
         
-        qualitySegmentedControl.tintColor = UIProperties.sharedUIProperties.lightGreenColour
-        qualitySegmentedControl.backgroundColor = UIProperties.sharedUIProperties.blackColour
+        qualitySegmentedControl.tintColor = UIProperties.sharedUIProperties.purpleColour
+        qualitySegmentedControl.backgroundColor = UIProperties.sharedUIProperties.whiteColour
+        qualitySegmentedControl.layer.borderColor = UIProperties.sharedUIProperties.purpleColour.cgColor
+        qualitySegmentedControl.layer.borderWidth = 1.0
+        
         qualitySegmentedControl.layer.cornerRadius = 4.0
         
         addCategoryButton.backgroundColor = UIProperties.sharedUIProperties.whiteColour
@@ -114,9 +127,11 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         locationButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 0)
         
         let photoCollectionViewFlowLayout = UICollectionViewFlowLayout()
-        photoCollectionViewFlowLayout.itemSize = CGSize(width:UIScreen.main.bounds.width/4, height:UIScreen.main.bounds.width/4)
+        //////////////
+       // photoCollectionViewFlowLayout.itemSize = CGSize(width:(photoCollectionView.frame.size.width*0.3), height:(photoCollectionView.frame.size.height*0.8))
         photoCollectionViewFlowLayout.scrollDirection = UICollectionViewScrollDirection.horizontal
         photoCollectionViewFlowLayout.minimumInteritemSpacing = 5.0
+        
         photoCollectionView.collectionViewLayout = photoCollectionViewFlowLayout
         
         setupOfferRequestSegmentedControl()
@@ -133,6 +148,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
             chosenCategory = itemToEdit.itemCategory
             locationButton.setTitle("Location: \(String(describing: itemToEdit!.coordinate))", for: .normal)
             offerRequestSegmentedControl.selectedSegmentIndex = offerRequestIndex
+            //valueTextField.text = itemToEdit.value
             
             for tag in itemToEdit.tags.tagsArray {
                 addCustomTag(string: tag)
@@ -284,15 +300,15 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
             let newButton = UIButton(frame: CGRect(x: 5, y: 8, width: 50, height: 20))
             
             newButton.setTitle(string, for: .normal)
-            newButton.setTitleColor(UIProperties.sharedUIProperties.lightGreenColour, for: UIControlState.normal)
+            newButton.setTitleColor(UIProperties.sharedUIProperties.whiteColour, for: UIControlState.normal)
             newButton.addTarget(self, action: #selector(addOrRemoveThisDefaultTag), for: UIControlEvents.touchUpInside)
             
             newButton.titleLabel?.font = UIFont.systemFont(ofSize: 10, weight: UIFont.Weight.light)
             newButton.sizeToFit()
             
-            newButton.backgroundColor = UIProperties.sharedUIProperties.blackColour
+            newButton.backgroundColor = UIProperties.sharedUIProperties.purpleColour
             newButton.layer.borderWidth = 1
-            newButton.layer.borderColor = UIProperties.sharedUIProperties.lightGreenColour.cgColor
+            newButton.layer.borderColor = UIProperties.sharedUIProperties.blackColour.cgColor
             newButton.layer.cornerRadius = 10
             
             customTagStackView.addArrangedSubview(newButton)
@@ -318,14 +334,14 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         
         if(sender.titleColor(for: UIControlState.normal) == UIColor.gray){
             
-            sender.setTitleColor(UIProperties.sharedUIProperties.lightGreenColour, for: UIControlState.normal)
-            sender.layer.borderColor = UIProperties.sharedUIProperties.lightGreenColour.cgColor
-            sender.backgroundColor = UIProperties.sharedUIProperties.blackColour
+            sender.setTitleColor(UIProperties.sharedUIProperties.whiteColour, for: UIControlState.normal)
+            sender.layer.borderColor = UIProperties.sharedUIProperties.blackColour.cgColor
+            sender.backgroundColor = UIProperties.sharedUIProperties.purpleColour
             
             chosenTagsArray.append((sender.titleLabel?.text)!)
         }
             
-        else if(sender.titleColor(for: UIControlState.normal) == UIProperties.sharedUIProperties.lightGreenColour){
+        else if(sender.titleColor(for: UIControlState.normal) == UIProperties.sharedUIProperties.whiteColour){
             
             sender.setTitleColor(UIColor.gray, for: UIControlState.normal)
             sender.layer.borderColor = UIColor.gray.cgColor
@@ -393,6 +409,13 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         
         guard (selectedLocationCoordinates != nil) else {
             let alert = UIAlertController(title: "Whoops", message: "You must add a location", preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.default, handler: nil))
+            present(alert, animated: true, completion: nil)
+            return
+        }
+        
+        guard (selectedLocationCoordinates != nil) else {
+            let alert = UIAlertController(title: "Whoops", message: "You must give it a value", preferredStyle: UIAlertControllerStyle.alert)
             alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.default, handler: nil))
             present(alert, animated: true, completion: nil)
             return
@@ -481,6 +504,11 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         }
     }
     
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        return CGSize(width: collectionView.frame.size.width/3, height: collectionView.frame.size.height);
+    }
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "photoCollectionViewCell", for: indexPath) as! PostPhotoCollectionViewCell
         
@@ -488,36 +516,51 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
             
             if(itemToEdit.photos.count+photosArray.count == indexPath.item){
                 cell.postCollectionViewCellImageView.image = #imageLiteral(resourceName: "addImage")
+                cell.contentMode = .scaleAspectFit
+                
             }
             
             else if(indexPath.item < itemToEdit.photos.count+photosArray.count){
                 
                 if(indexPath.item < itemToEdit.photos.count){
                     cell.postCollectionViewCellImageView.sd_setImage(with:storageRef.child(itemToEdit.photos[indexPath.item]), placeholderImage: UIImage.init(named: "placeholder"))
+                  
                 }
                 
                 else {
                     cell.postCollectionViewCellImageView.image = photosArray[(indexPath.item-itemToEdit.photos.count)]
                 }
+                
+                cell.postCollectionViewCellImageView.layer.cornerRadius = 10
+                cell.postCollectionViewCellImageView.layer.borderWidth = 3.0
+                cell.postCollectionViewCellImageView.layer.borderColor = UIProperties.sharedUIProperties.blackColour.cgColor
+                cell.postCollectionViewCellImageView.layer.masksToBounds = true
+                cell.postCollectionViewCellImageView.clipsToBounds = true
+                cell.postCollectionViewCellImageView.contentMode = .scaleAspectFill
             }
         }
         
         else  {
             if(photosArray.count == indexPath.item){
                 cell.postCollectionViewCellImageView.image = #imageLiteral(resourceName: "addImage")
+                cell.postCollectionViewCellImageView.contentMode = .scaleAspectFit
+                
             }
         
             else if(indexPath.item < photosArray.count){
                 cell.postCollectionViewCellImageView.image = photosArray[indexPath.item]
                 
+                cell.postCollectionViewCellImageView.layer.cornerRadius = 10
+                cell.postCollectionViewCellImageView.layer.borderWidth = 3.0
+                cell.postCollectionViewCellImageView.layer.borderColor = UIProperties.sharedUIProperties.blackColour.cgColor
+                cell.postCollectionViewCellImageView.layer.masksToBounds = true
+                cell.postCollectionViewCellImageView.clipsToBounds = true
+                cell.postCollectionViewCellImageView.contentMode = .scaleAspectFill
+                
             }
         }
         
-        cell.postCollectionViewCellImageView.layer.cornerRadius = 10
-        cell.postCollectionViewCellImageView.layer.borderWidth = 3.0
-        cell.postCollectionViewCellImageView.layer.borderColor = UIProperties.sharedUIProperties.blackColour.cgColor
-        cell.postCollectionViewCellImageView.layer.masksToBounds = true
-        cell.postCollectionViewCellImageView.contentMode = .scaleAspectFill
+
         
         return cell
     }
@@ -527,6 +570,63 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        if (editingBool){
+            if ((indexPath.item) + 1 > (self.photosArray.count + itemToEdit.photos.count)){
+                presentImagePickerAlert()
+            }
+            else {
+                
+                let changePhotoAlert = UIAlertController(title: "View or Delete Photo?", message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
+                
+                var viewAction: UIAlertAction!
+                var changeAction: UIAlertAction!
+                
+                if(indexPath.item < itemToEdit.photos.count){
+                    
+                     viewAction = UIAlertAction(title: "View Photo", style: UIAlertActionStyle.default, handler:{ (action) in
+                        //open photo
+                        
+                    })
+                    
+                     changeAction = UIAlertAction(title: "Delete Photo", style: UIAlertActionStyle.destructive, handler:{ (action) in
+                        //
+                        
+                        self.itemToEdit.photos.remove(at: indexPath.item)
+                        self.photoCollectionView.reloadData()
+                    })
+                }
+                    
+                else {
+                    
+                     viewAction = UIAlertAction(title: "View Photo", style: UIAlertActionStyle.default, handler:{ (action) in
+                        //open photo
+                        self.fullscreenImage(image: self.photosArray[indexPath.item - self.itemToEdit.photos.count])
+                        
+                    })
+                    
+                     changeAction = UIAlertAction(title: "Delete Photo", style: UIAlertActionStyle.destructive, handler:{ (action) in
+                        
+                        self.photosArray.remove(at: (indexPath.item-self.itemToEdit.photos.count))
+                        
+                        
+                        self.photoCollectionView.reloadData()
+                    })
+                }
+                
+
+                
+                let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil)
+                
+                changePhotoAlert.addAction(viewAction)
+                changePhotoAlert.addAction(changeAction)
+                changePhotoAlert.addAction(cancelAction)
+                
+                self.present(changePhotoAlert, animated: true, completion: nil)
+            }
+            
+        }
+        else {
         //if we click on the plus picture
         if ((indexPath.item) + 1 > self.photosArray.count){
             presentImagePickerAlert()
@@ -553,6 +653,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
             
             self.present(changePhotoAlert, animated: true, completion: nil)
         }
+        }
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
@@ -566,10 +667,32 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         
     }
     
+    func textViewDidBeginEditing (_ textView: UITextView) {
+        
+        tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard(_:)))
+        self.view.addGestureRecognizer(tapGesture)
+        
+        if descriptionTextField.textColor == .lightGray && descriptionTextField.isFirstResponder {
+            descriptionTextField.text = nil
+            descriptionTextField.textColor = .black
+        }
+    }
+    
+    func textViewDidEndEditing (_ textView: UITextView) {
+        
+        self.view.removeGestureRecognizer(tapGesture)
+        
+        if descriptionTextField.text.isEmpty || descriptionTextField.text == "" {
+            descriptionTextField.textColor = .lightGray
+            descriptionTextField.text = "Description"
+        }
+    }
+    
     @objc func dismissKeyboard (_ sender: UITapGestureRecognizer) {
         titleTextField.resignFirstResponder()
         descriptionTextField.resignFirstResponder()
         customTagTextField.resignFirstResponder()
+        valueTextField.resignFirstResponder()
     }
     
     func fullscreenImage(image: UIImage) {

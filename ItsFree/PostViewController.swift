@@ -444,6 +444,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
                 photoRefs = itemToEdit.photos
                 for index in 0..<photosArray.count {
                     let storagePath = "\(realItem.UID!)/\(index)"
+                    
                     let photoRefStr = ImageManager.uploadImage(image: photosArray[index],
                                                                userUID: (AppData.sharedInstance.currentUser?.UID)!,
                                                                filename: storagePath)
@@ -460,6 +461,8 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
             else {
                 for index in 0..<photosArray.count {
                     let storagePath = "\(realItem.UID!)/\(index)"
+                    
+                    
                     let photoRefStr = ImageManager.uploadImage(image: photosArray[index],
                                                                userUID: (AppData.sharedInstance.currentUser?.UID)!,
                                                                filename: storagePath)

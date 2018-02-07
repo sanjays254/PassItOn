@@ -22,7 +22,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     let myDowloadCompletedNotificationKey = "myDownloadNotificationKey"
     let filterAppliedKey = "filterAppliedKey"
     
- 
+    var currentItemIndexPath: IndexPath!
+    var lastItemSelected: Item!
 
     weak var currentLocation: CLLocation!
     weak var locationManager: CLLocationManager!
@@ -218,6 +219,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     //wantedAvailable segmenetd control
     @IBAction func changedWantedAvailableSegmnent(_ sender: UISegmentedControl) {
         
+        lastItemSelected = nil
+        
         if(sender.selectedSegmentIndex == 0){
             availableBool = false
             self.homeMapView.removeAnnotations(AppData.sharedInstance.onlineOfferedItems)
@@ -278,6 +281,11 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             self.view.bringSubview(toFront: homeMapView)
         }
         else if sender.selectedSegmentIndex == 1 {
+            
+            if (lastItemSelected != nil){
+                highlightLastCell(itemIndexPath: currentItemIndexPath, type: self.wantedAvailableSegmentedControl.selectedSegmentIndex)
+            }
+            
             self.view.bringSubview(toFront: homeTableView)
             homeTableView.reloadData()
         }
@@ -327,8 +335,12 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             
             cell.itemDistanceLabel.text = String(format: "%.2f", distance) + " kms"
             //cell.itemImageView.sd_setImage(with: storageRef.child(AppData.sharedInstance.onlineOfferedItems[indexPath.row].photos[0]), placeholderImage: UIImage.init(named: "placeholder"))
+            
+            
 
         }
+        
+
         
         
         return cell
@@ -385,12 +397,17 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         let itemToShow: Item
         
+        
+        
         switch(wantedAvailableSegmentedControl.selectedSegmentIndex){
         case 0:  itemToShow = AppData.sharedInstance.onlineRequestedItems[indexPath.row]
         case 1:  itemToShow = AppData.sharedInstance.onlineOfferedItems[indexPath.row]
         default:
             return
         }
+        
+        currentItemIndexPath = indexPath
+        lastItemSelected = itemToShow
         
         
         //mapListSegmentedControl.sendActions(for: UIControlEvents.valueChanged)
@@ -455,6 +472,26 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
      @objc func leaderboardButtonAction() {
   
         performSegue(withIdentifier: "leaderboardSegue", sender: self)
+    }
+    
+    //0 for requests, 1 for offers
+    func highlightLastCell(itemIndexPath: IndexPath, type: Int){
+    
+        
+        homeTableView.cellForRow(at: currentItemIndexPath)?.layer.backgroundColor = UIProperties.sharedUIProperties.purpleColour.cgColor
+        
+        UIView.animate(withDuration: 1, animations: {
+
+                        self.homeTableView.cellForRow(at: self.currentItemIndexPath)?.layer.backgroundColor = UIProperties.sharedUIProperties.whiteColour.cgColor
+            
+        }, completion: {(finished: Bool) in
+            
+        })
+        
+        self.homeTableView.scrollToRow(at: self.currentItemIndexPath, at: UITableViewScrollPosition.top, animated: true)
+
+        
+        
     }
     
 }

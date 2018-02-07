@@ -8,6 +8,7 @@
 
 import UIKit
 import FirebaseStorage
+import FirebaseDatabase
 
 class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate{
 
@@ -270,12 +271,18 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         cell.itemLabel?.text = item.name
         //cell.itemImageView?.sd_setImage(with: storageRef.child(item.photos[0]), placeholderImage: UIImage.init(named: "placeholder"))
         
-        if (!AppData.sharedInstance.currentUserPhotos.isEmpty){
-            cell.itemImageView.image = AppData.sharedInstance.currentUserPhotos[item.photos[0]]
+        if let image = (AppData.sharedInstance.currentUserPhotos[item.photos[0]]) {
+            cell.itemImageView.image = image
+        } else  {
+          cell.itemImageView.image = #imageLiteral(resourceName: "placeholder")
         }
-        else {
-        cell.itemImageView.image = #imageLiteral(resourceName: "placeholder")
-        }
+        
+//        if (!AppData.sharedInstance.currentUserPhotos.isEmpty){
+//            cell.itemImageView.image = AppData.sharedInstance.currentUserPhotos[item.photos[0]]
+//        }
+//        else {
+//        cell.itemImageView.image = #imageLiteral(resourceName: "placeholder")
+//        }
         
         if (animateTable){
             UIView.transition(with: cell.textLabel!, duration: 0.6, options: .transitionCrossDissolve, animations: {
@@ -344,7 +351,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
 
                 //AppData.sharedInstance.currentUser?.requestedItems.remove(at: indexPath.row)
             //AppData.sharedInstance.currentUserRequestedItems.remove(at: indexPath.row)
-            
+        
                 
             WriteFirebaseData.delete(itemUID: itemUID)
                 

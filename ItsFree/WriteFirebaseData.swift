@@ -59,7 +59,8 @@ class WriteFirebaseData {
                 itemPath = post
                 if let index = user.offeredItems.index(of: post) {
                     AppData.sharedInstance.currentUser!.offeredItems.remove(at: index)
-                    AppData.sharedInstance.currentUserOfferedItems.remove(at: index)
+                   AppData.sharedInstance.currentUserOfferedItems.remove(at: index)
+                    
                     
                 }
                 break
@@ -73,6 +74,8 @@ class WriteFirebaseData {
                         print("found it in requesteditems")
                         AppData.sharedInstance.currentUser!.requestedItems.remove(at: index)
                         AppData.sharedInstance.currentUserRequestedItems.remove(at: index)
+                    
+                  
                     }
                     break
                 }
@@ -82,6 +85,8 @@ class WriteFirebaseData {
             }
         }
         
+        
+        //itemPath should exist now since its = post
         if itemPath == nil {
             print("Error: Cannot delete item; Item not found")
             return

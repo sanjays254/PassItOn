@@ -281,7 +281,7 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
         self.navigationController?.isNavigationBarHidden = false
         self.tabBarController?.tabBar.isHidden = false
         
-        UIView.animate(withDuration: 0.5, animations: {
+        UIView.animate(withDuration: 0, animations: {
  
         }, completion: {(finished: Bool) in
             

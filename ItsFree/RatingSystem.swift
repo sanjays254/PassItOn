@@ -41,6 +41,9 @@ class RatingSystem: NSObject {
         let itemID: String! = String(substringitemID)
         var item: Item
         
+        ReadFirebaseData.readOffers(category: nil)
+        ReadFirebaseData.readRequests(category: nil)
+        
         //if its a requested item. What about if it was deleted???
         if(AppData.sharedInstance.onlineRequestedItems.filter{ $0.UID == itemID}.first != nil){
             item = AppData.sharedInstance.onlineRequestedItems.filter{ $0.UID == itemID}.first!

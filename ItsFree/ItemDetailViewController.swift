@@ -11,7 +11,6 @@ import MessageUI
 import FirebaseStorage
 
 class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIGestureRecognizerDelegate {
-    
 
     var detailViewTopAnchorConstant: CGFloat!
     var detailViewBottomAnchorConstant: CGFloat!
@@ -20,19 +19,28 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
     @IBOutlet weak var itemDetailView: ItemDetailView!
 
     var currentItem: Item!
-    
+
     var mainImageTapRecognizer: UITapGestureRecognizer!
    
     override func viewDidLoad() {
         super.viewDidLoad()
-    
-        setupCollectionView()
         
         view.backgroundColor = UIColor.clear
+    
+        setupCollectionView()
+        setupItemDetailContainer()
+        setupItemLabels()
+        setupGestures()
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+    }
+    
+    func setupItemDetailContainer(){
         
         itemDetailView.translatesAutoresizingMaskIntoConstraints = false
         
-        //make this auto constrained
         detailViewTopAnchorConstant = (UIScreen.main.bounds.size.height-(itemDetailView.mainImageView.frame.minY+itemDetailView.categoryLabel.frame.maxY)) - ((self.navigationController?.navigationBar.frame.height)! + (UIApplication.shared.statusBarFrame.size.height))
         
         detailViewBottomAnchorConstant = 0
@@ -43,16 +51,13 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
             itemDetailView.topAnchor.constraint(equalTo: view.topAnchor, constant: detailViewTopAnchorConstant),
             itemDetailView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: detailViewBottomAnchorConstant)
             ])
-
+        
         itemDetailView.alpha = 1
         itemDetailView.layer.cornerRadius = 30
         itemDetailView.layer.borderWidth = 5
         itemDetailView.layer.borderColor = UIColor.black.cgColor
-        
-        setupItemLabels()
-        setupGestures()
-
     }
+    
     func setupGestures(){
         
         let swipeUp: UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(swipe))
@@ -67,13 +72,11 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
         
         tapOutside.delegate = self
         self.view.addGestureRecognizer(tapOutside)
-        
     }
     
     
     func setupItemLabels(){
         
-        let storageRef = Storage.storage().reference()
         let previewPhotoRef: String = currentItem.photos[0]
         
         itemDetailView.itemTitleLabel.text = currentItem.name
@@ -92,13 +95,10 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
         itemDetailView.posterUsername.text = AppData.sharedInstance.onlineUsers.filter{ $0.UID == currentItem.posterUID }.first?.name
         itemDetailView.posterRating.text = "\(AppData.sharedInstance.onlineUsers.filter{ $0.UID == currentItem.posterUID }.first?.rating ?? 0)"
         
-        itemDetailView.itemValueLabel.text = "Value: "
-        
+        itemDetailView.itemValueLabel.text = "Value: -"
     }
     
     @objc func mainImageTapped(recognizer: UITapGestureRecognizer) {
-        
-        //itemDetailView.mainImageView.removeGestureRecognizer(mainImageTapRecognizer)
         fullscreenImage(imagePath: currentItem.photos[0])
     }
     
@@ -149,8 +149,7 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
         let leftInset = (viewWidth - (totalCellWidth + totalSpacingWidth)) / 2;
         let rightInset = leftInset;
         
-          return UIEdgeInsetsMake(0, leftInset, 0, rightInset);
-        
+        return UIEdgeInsetsMake(0, leftInset, 0, rightInset);
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -177,24 +176,18 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
         cell.layer.cornerRadius = 5.0
         //ImageManager.downloadImage(imagePath: photoRef[indexPath.item], into: cell.collectionViewImageVew)
         //cell.collectionViewImageVew.sd_setImage(with: storageRef.child(photoRef[indexPath.item]), placeholderImage: UIImage.init(named: "placeholder"))
-        print("Storage Location: \(storageRef.child(photoRef[indexPath.row]))")
-     
-    
-        
-        
-        
+
         return cell
         
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        let storageRef = Storage.storage().reference()
         let photoRef: [String] = currentItem.photos
-        
         fullscreenImage(imagePath: photoRef[indexPath.item])
     }
     
+    //When screen is tapped outside the itemDetailView, go back to Map
     @objc func tappedOutside(gesture: UIGestureRecognizer){
         if (gesture.location(in: view).y < detailViewTopAnchorConstant) {
             self.view.removeGestureRecognizer(gesture)
@@ -203,16 +196,10 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
             let theParentViewController = self.parent as! HomeViewController
             theParentViewController.itemDetailContainerView.removeFromSuperview()
             theParentViewController.homeMapView.deselectAnnotation(currentItem, animated: true)
-            //self.itemDetailView.removeFromSuperview()
             self.removeFromParentViewController()
-            
         }
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
     
     @objc func swipe(gesture: UIGestureRecognizer) {
         
@@ -232,7 +219,7 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
                 let theParentViewController = self.parent as! HomeViewController
                 theParentViewController.itemDetailContainerView.removeFromSuperview()
                 theParentViewController.homeMapView.deselectAnnotation(self.currentItem, animated: true)
-                //self.itemDetailView.removeFromSuperview()
+
                 self.removeFromParentViewController()
 
             })
@@ -263,7 +250,6 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
     func fullscreenImage(imagePath : String) {
         
         let newImageView = UIImageView()
-        
         ImageManager.downloadImage(imagePath: imagePath, into: newImageView)
         
         newImageView.frame = UIScreen.main.bounds
@@ -281,16 +267,12 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
         self.navigationController?.isNavigationBarHidden = false
         self.tabBarController?.tabBar.isHidden = false
         
-        UIView.animate(withDuration: 0, animations: {
- 
-        }, completion: {(finished: Bool) in
+        UIView.animate(withDuration: 0, animations: {}, completion: {(finished: Bool) in
             
             self.itemDetailView.frame = CGRect(x: 0, y:self.detailViewTopAnchorConstant, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height)
         })
         
         sender.view?.removeFromSuperview()
-
-      
     }
     
     
@@ -311,7 +293,6 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
             
         }
         else {
-        
             //show error if the VC cant send mail
             if MFMailComposeViewController.canSendMail()
             {
@@ -366,7 +347,6 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
         let destinationUserID = destinationUser!.UID
         
         let currentUserName = AppData.sharedInstance.currentUser!.name
-        //let currentUserID = AppData.sharedInstance.currentUser!.UID
         let currentUserEmail = AppData.sharedInstance.currentUser!.email
         let currentItemName = currentItem.name
         let currentItemID = currentItem.UID

@@ -101,7 +101,7 @@ public enum ItemCategory:String {
 public enum ItemQuality:String {
     case New  = "New",
     GentlyUsed = "Used",
-    WellUsed = "WornOut",
+    WellUsed = "Worn Out",
     DamagedButFunctional = "Damaged but Functional",
     NeedsFixing = "Needs Fixing"
     
@@ -117,8 +117,6 @@ public enum ItemQuality:String {
             return 3
         case .NeedsFixing:
             return 3
-        default:
-            return 0
         }
     }
 }

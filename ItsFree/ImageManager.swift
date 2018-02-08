@@ -38,13 +38,9 @@ class ImageManager {
                 
                 let image = UIImage(data: data!)
                 
-                 imageView.image = image
-                
-                
+                imageView.image = image
             }
         }
-        
-        
         //imageView.sd_setImage(with: imageRef, placeholderImage: nil)
     }
     

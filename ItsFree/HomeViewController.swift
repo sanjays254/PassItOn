@@ -22,9 +22,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     let myDowloadCompletedNotificationKey = "myDownloadNotificationKey"
     let filterAppliedKey = "filterAppliedKey"
     
-    var currentItemIndexPath: IndexPath!
-    var lastItemSelected: Item!
-
     weak var currentLocation: CLLocation!
     weak var locationManager: CLLocationManager!
     
@@ -32,26 +29,23 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     var mapListSegmentedControl: UISegmentedControl!
     @IBOutlet weak var wantedAvailableSegmentedControl: UISegmentedControl!
-    
     @IBOutlet weak var newPostButton: UIBarButtonItem!
-    
     @IBOutlet weak var homeMapView: MKMapView!
     @IBOutlet weak var homeTableView: UITableView!
+    @IBOutlet weak var toolbar: UIToolbar!
     
     var itemDetailContainerView: UIView!
     var filterContainerView: UIView!
     
-    @IBOutlet weak var toolbar: UIToolbar!
+    var currentItemIndexPath: IndexPath!
+    var lastItemSelected: Item!
+  
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
         wantedAvailableSegmentedControl.selectedSegmentIndex = 1
         availableBool = true
-        
-        
-        newPostButton.tintColor = UIProperties.sharedUIProperties.whiteColour
         
         //delegating the tableView
         self.homeTableView.delegate = self
@@ -67,9 +61,43 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         MapViewDelegate.theMapViewDelegate.theMapView = homeMapView
         setInitalMapRegion()
         
-
-        let leaderboardImage = UIImage(named: "leaderboard")?.withRenderingMode(.alwaysTemplate)
+        setupPostButton()
+        setupLeaderboardButton()
+        setupCompassButton()
+        setupMapListSegmentedControl()
+        
+        ReadFirebaseData.readOffers(category: nil)
+        ReadFirebaseData.readRequests(category: nil)
+        ReadFirebaseData.readUsers()
+        
+        setupNotifications()
     
+        if(firstTimeUser){
+            presentAlertIfFirstTime()
+        }
+        
+    }
+    
+    func presentAlertIfFirstTime(){
+        
+        let firstTimeUseAlert = UIAlertController(title: "Welcome to FreeBox", message: "Remember! Free items only!.", preferredStyle: .alert)
+        let coolAction = UIAlertAction(title: "Sounds good", style: .default, handler: nil)
+        firstTimeUseAlert.addAction(coolAction)
+        
+        present(firstTimeUseAlert, animated: true, completion: nil)
+    }
+    
+    
+    func setupPostButton(){
+        
+        let addPostBarButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.add, target: self, action: #selector(postItem))
+        self.navigationItem.rightBarButtonItem = addPostBarButton
+        addPostBarButton.tintColor = UIProperties.sharedUIProperties.whiteColour
+    }
+    
+    func setupLeaderboardButton(){
+        let leaderboardImage = UIImage(named: "leaderboard")?.withRenderingMode(.alwaysTemplate)
+        
         let leaderboardButton  = UIButton(type: .custom)
         leaderboardButton.setImage(leaderboardImage, for: .normal)
         leaderboardButton.tintColor = UIProperties.sharedUIProperties.whiteColour
@@ -79,68 +107,21 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         let leaderboardBarButton = UIBarButtonItem(customView: leaderboardButton)
         self.navigationItem.leftBarButtonItem = leaderboardBarButton
-        
-        
-        let addPostBarButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.add, target: self, action: #selector(postItem))
-        self.navigationItem.rightBarButtonItem = addPostBarButton
-        
-        
-        setupCompassButton()
-        setupMapListSegmentedControl()
-        
-        
-        ReadFirebaseData.readOffers(category: nil)
-        ReadFirebaseData.readRequests(category: nil)
-        ReadFirebaseData.readUsers()
-        
-   
-       // NotificationCenter.default.addObserver(self, selector: #selector(self.refreshData), name: NSNotification.Name(rawValue: filterAppliedKey), object: nil)
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(self.addAnnotationsWhenFinishedDownloadingData), name: NSNotification.Name(rawValue: myDowloadCompletedNotificationKey), object: nil)
-
-        homeMapView.register(MKMarkerAnnotationView.self, forAnnotationViewWithReuseIdentifier: "itemMarkerView")
-        
-        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: mySelectedItemNotificationKey), object: nil, queue: nil, using: catchNotification)
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(readUserPhotos), name: NSNotification.Name(rawValue: "myUsersDownloadNotificationKey"), object: nil)
-        
-        if(firstTimeUser){
-            presentAlertIfFirstTime()
-        }
-        
     }
     
-    func presentAlertIfFirstTime(){
-        let firstTimeUseAlert = UIAlertController(title: "Welcome to FreeBox", message: "Remember! Free items only!.", preferredStyle: .alert)
-        let coolAction = UIAlertAction(title: "Sounds good", style: .default, handler: nil)
-        firstTimeUseAlert.addAction(coolAction)
-        
-        present(firstTimeUseAlert, animated: true, completion: nil)
-    }
-    
-    @objc func readUserPhotos(){
-        ReadFirebaseData.readUsersPhotos()
-    }
-    
-    fileprivate func getLocation() -> CLLocation {
-        self.currentLocation =  LocationManager.theLocationManager.getLocation()
-        return self.currentLocation
-    }
     
     fileprivate func setupMapListSegmentedControl() {
-
         
-  
         self.mapListSegmentedControl = UISegmentedControl(items: ["Map", "List"])
         
         self.navigationItem.titleView = mapListSegmentedControl
-           self.mapListSegmentedControl.tintColor = UIProperties.sharedUIProperties.lightGreenColour
+        self.mapListSegmentedControl.tintColor = UIProperties.sharedUIProperties.lightGreenColour
         self.mapListSegmentedControl.selectedSegmentIndex = 0
         self.mapListSegmentedControl.addTarget(self, action: #selector(mapListSegmentAction), for: .valueChanged)
     }
- 
+    
     fileprivate func setupCompassButton() {
-  
+        
         compassButton = UIButton(type: .system)
         compassButton.frame = CGRect(x: 25, y: 25, width: 20, height: 20)
         compassButton.setImage(#imageLiteral(resourceName: "compass"), for: UIControlState.normal)
@@ -166,6 +147,11 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.compassButton.layer.shadowRadius = 1.0
     }
     
+    //location methods
+    fileprivate func getLocation() -> CLLocation {
+        self.currentLocation =  LocationManager.theLocationManager.getLocation()
+        return self.currentLocation
+    }
     
     @objc func setMapRegion(){
         MapViewDelegate.theMapViewDelegate.setMapRegion()
@@ -173,29 +159,49 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     @objc func setInitalMapRegion(){
         MapViewDelegate.theMapViewDelegate.setInitialMapRegion()
-        
     }
     
+    //location authorization
+    func presentLocationAlert(){
+        let alert = UIAlertController(title: "Your title", message: "GPS access is restricted. In order to use tracking, please enable GPS in the Settigs app under Privacy, Location Services.", preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: "Go to Settings now", style: UIAlertActionStyle.default, handler: { (alert: UIAlertAction!) in
+            print("")
+            UIApplication.shared.open(URL(string:UIApplicationOpenSettingsURLString)!)
+        }))
+        present(alert, animated: true, completion: nil)
+    }
     
-
-
     override func viewWillAppear(_ animated: Bool) {
-//        super.viewWillAppear(true)
-        
+        //super.viewWillAppear(true)
         NotificationCenter.default.addObserver(self, selector: #selector(self.refreshTableData(sender:)), name: NSNotification.Name(rawValue: myDowloadCompletedNotificationKey), object: nil)
-        //self.homeTableView.reloadData()
     }
     
+    
+    func setupNotifications(){
+        // NotificationCenter.default.addObserver(self, selector: #selector(self.refreshData), name: NSNotification.Name(rawValue: filterAppliedKey), object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.addAnnotationsWhenFinishedDownloadingData), name: NSNotification.Name(rawValue: myDowloadCompletedNotificationKey), object: nil)
+        
+        homeMapView.register(MKMarkerAnnotationView.self, forAnnotationViewWithReuseIdentifier: "itemMarkerView")
+        
+        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: mySelectedItemNotificationKey), object: nil, queue: nil, using: catchNotification)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(readUserPhotos), name: NSNotification.Name(rawValue: "myUsersDownloadNotificationKey"), object: nil)
+    }
+    
+
     //receives info from mapViewDelegate about which itemAnnotation was clicked on
     func catchNotification(notification:Notification) -> Void {
         guard let name = notification.userInfo!["name"] as? Item else { return }
         self.showItemDetail(item: name)
     }
     
+    @objc func readUserPhotos(){
+        ReadFirebaseData.readUsersPhotos()
+    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
@@ -216,6 +222,30 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
 //
 //    }
     
+    
+    @objc func addAnnotationsWhenFinishedDownloadingData(notification: NSNotification){
+        
+        self.homeMapView.removeAnnotations(homeMapView.annotations)
+        
+        if(wantedAvailableSegmentedControl.selectedSegmentIndex == 0){
+            self.homeMapView.addAnnotations(AppData.sharedInstance.onlineRequestedItems)
+        }
+        else if (wantedAvailableSegmentedControl.selectedSegmentIndex == 1){
+            self.homeMapView.addAnnotations(AppData.sharedInstance.onlineOfferedItems)
+        }
+    }
+    
+    
+    @IBAction func filterTapped(_ sender: UIBarButtonItem) {
+        
+        let filterViewController = FilterTableViewController()
+        self.navigationController?.pushViewController(filterViewController, animated: true)
+       
+        filterViewController.view.translatesAutoresizingMaskIntoConstraints = false
+  
+        filterViewController.view.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height)
+    }
+    
     //wantedAvailable segmenetd control
     @IBAction func changedWantedAvailableSegmnent(_ sender: UISegmentedControl) {
         
@@ -233,40 +263,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             self.homeMapView.addAnnotations(AppData.sharedInstance.onlineOfferedItems)
             homeTableView.reloadData()
         }
-        
     }
-    @objc func addAnnotationsWhenFinishedDownloadingData(notification: NSNotification){
-        
-        self.homeMapView.removeAnnotations(homeMapView.annotations)
-        
-        if(wantedAvailableSegmentedControl.selectedSegmentIndex == 0){
-            
-            self.homeMapView.addAnnotations(AppData.sharedInstance.onlineRequestedItems)
-        }
-        else if (wantedAvailableSegmentedControl.selectedSegmentIndex == 1){
-            
-            self.homeMapView.addAnnotations(AppData.sharedInstance.onlineOfferedItems)
-        }
-        
-        
-    }
-    
-    
-    @IBAction func filterTapped(_ sender: UIBarButtonItem) {
-        
-        
-
-        let filterViewController = FilterTableViewController()
-        self.navigationController?.pushViewController(filterViewController, animated: true)
-       
-       
-        filterViewController.view.translatesAutoresizingMaskIntoConstraints = false
-  
-        filterViewController.view.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height)
-
-    }
-    
-    
     
     //mapList segmented control
     @objc func mapListSegmentAction(sender: UISegmentedControl) {
@@ -292,7 +289,61 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     
+    @objc func refreshTableData(sender: AnyObject) {
+        
+        if((self.homeTableView.refreshControl) != nil){
+            let dateFormatter = DateFormatter()
+            dateFormatter.setLocalizedDateFormatFromTemplate("MMM d, h:mm a")
+            let title = String("Last update: \(dateFormatter.string(from: Date()))")
+            let attributesDict = [NSAttributedStringKey.foregroundColor: UIColor.white]
+            let attributedTitle = NSAttributedString(string: title, attributes: attributesDict)
+            self.homeTableView.refreshControl?.attributedTitle = attributedTitle
+        }
+        
+        self.homeTableView.reloadData()
+        self.homeTableView.refreshControl?.endRefreshing()
+    }
+
+    //segues
+    @objc func postItem() {
+        performSegue(withIdentifier: "postSegue", sender: self)
+    }
+    
+    @IBAction func toProfile(_ sender: Any) {
+        performSegue(withIdentifier: "toProfileSegue", sender: self)
+    }
+    
+    @objc func leaderboardButtonAction() {
+        performSegue(withIdentifier: "leaderboardSegue", sender: self)
+    }
+    
+
     //tableView methods
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        let itemToShow: Item
+        
+        switch(wantedAvailableSegmentedControl.selectedSegmentIndex){
+        case 0:  itemToShow = AppData.sharedInstance.onlineRequestedItems[indexPath.row]
+        case 1:  itemToShow = AppData.sharedInstance.onlineOfferedItems[indexPath.row]
+        default:
+            return
+        }
+        
+        currentItemIndexPath = indexPath
+        lastItemSelected = itemToShow
+        
+        mapListSegmentedControl.selectedSegmentIndex = 0
+        mapListSegmentedControl.sendActions(for: UIControlEvents.valueChanged)
+       
+        homeMapView.selectAnnotation(itemToShow, animated: true)
+        
+        let span = MKCoordinateSpanMake(0.007, 0.007)
+
+        homeMapView.setRegion(MKCoordinateRegionMake(itemToShow.coordinate, span) , animated: true)
+     
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         if(wantedAvailableSegmentedControl.selectedSegmentIndex == 0){
@@ -309,7 +360,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         tableView.register(UINib(nibName: "ItemHomeTableViewCell", bundle: nil), forCellReuseIdentifier: "itemHomeTableViewCellID")
-    
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: "itemHomeTableViewCellID") as! ItemHomeTableViewCell
         let storageRef = Storage.storage().reference()
         let sourceArray:[Item]!
@@ -322,7 +373,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             let distance = (destinationLocation.distance(from: getLocation())/1000)
             
             cell.itemDistanceLabel.text = String(format: "%.2f", distance) + " kms"
-
+            
             //cell.itemImageView.sd_setImage(with: storageRef.child(AppData.sharedInstance.onlineRequestedItems[indexPath.row].photos[0]), placeholderImage: UIImage.init(named: "placeholder"))
         }
         else if (wantedAvailableSegmentedControl.selectedSegmentIndex == 1){
@@ -335,92 +386,9 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             
             cell.itemDistanceLabel.text = String(format: "%.2f", distance) + " kms"
             //cell.itemImageView.sd_setImage(with: storageRef.child(AppData.sharedInstance.onlineOfferedItems[indexPath.row].photos[0]), placeholderImage: UIImage.init(named: "placeholder"))
-            
-            
-
         }
-        
-
-        
-        
+ 
         return cell
-    }
-    
-    @objc func refreshTableData(sender: AnyObject) {
-        
-        //ReadFirebaseData.read()
-        DispatchQueue.main.async {
-            //Update tableView once read
-        }
-        
-        if((self.homeTableView.refreshControl) != nil){
-            let dateFormatter = DateFormatter()
-            dateFormatter.setLocalizedDateFormatFromTemplate("MMM d, h:mm a")
-            let title = String("Last update: \(dateFormatter.string(from: Date()))")
-            let attributesDict = [NSAttributedStringKey.foregroundColor: UIColor.white]
-            let attributedTitle = NSAttributedString(string: title, attributes: attributesDict)
-            self.homeTableView.refreshControl?.attributedTitle = attributedTitle
-        }
-        
-        self.homeTableView.reloadData()
-        self.homeTableView.refreshControl?.endRefreshing()
-        
-//        self.homeMapView.removeAnnotations(AppData.sharedInstance.onlineOfferedItems)
-//        self.homeMapView.addAnnotations(AppData.sharedInstance.onlineRequestedItems)
-        
-    }
-
-    //segues
-    @objc func postItem() {
-        performSegue(withIdentifier: "postSegue", sender: self)
-    }
-    
-    @IBAction func toProfile(_ sender: Any) {
-        performSegue(withIdentifier: "toProfileSegue", sender: self)
-    }
-    
-    
-
-    //location authorization
-    func presentLocationAlert(){
-        let alert = UIAlertController(title: "Your title", message: "GPS access is restricted. In order to use tracking, please enable GPS in the Settigs app under Privacy, Location Services.", preferredStyle: UIAlertControllerStyle.alert)
-        alert.addAction(UIAlertAction(title: "Go to Settings now", style: UIAlertActionStyle.default, handler: { (alert: UIAlertAction!) in
-            print("")
-            UIApplication.shared.open(URL(string:UIApplicationOpenSettingsURLString)!)
-        }))
-        present(alert, animated: true, completion: nil)
-    }
-
-
-
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        let itemToShow: Item
-        
-        
-        
-        switch(wantedAvailableSegmentedControl.selectedSegmentIndex){
-        case 0:  itemToShow = AppData.sharedInstance.onlineRequestedItems[indexPath.row]
-        case 1:  itemToShow = AppData.sharedInstance.onlineOfferedItems[indexPath.row]
-        default:
-            return
-        }
-        
-        currentItemIndexPath = indexPath
-        lastItemSelected = itemToShow
-        
-        
-        //mapListSegmentedControl.sendActions(for: UIControlEvents.valueChanged)
-        mapListSegmentedControl.selectedSegmentIndex = 0
-        mapListSegmentedControl.sendActions(for: UIControlEvents.valueChanged)
-        //view.bringSubview(toFront: homeMapView)
-        
-        homeMapView.selectAnnotation(itemToShow, animated: true)
-        
-        let span = MKCoordinateSpanMake(0.007, 0.007)
-
-        homeMapView.setRegion(MKCoordinateRegionMake(itemToShow.coordinate, span) , animated: true)
-        //showItemDetail(item: itemToShow)
     }
     
     @objc func showItemDetail(item: Item){
@@ -447,14 +415,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         detailViewController.view.translatesAutoresizingMaskIntoConstraints = false
         itemDetailContainerView.addSubview(detailViewController.view)
         
-        let yPoint = (self.navigationController?.navigationBar.frame.height)! + (UIApplication.shared.statusBarFrame.size.height)
-        
-//        UIView.animate(withDuration: 0.5, animations: {
-//            self.itemDetailView.frame = CGRect(x: 0, y:yPoint, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height)
-//
-//        }, completion: {(finished: Bool) in
-//
-//        })
        
         detailViewController.view.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height+50)
         
@@ -469,15 +429,11 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     
-     @objc func leaderboardButtonAction() {
-  
-        performSegue(withIdentifier: "leaderboardSegue", sender: self)
-    }
+
     
     //0 for requests, 1 for offers
     func highlightLastCell(itemIndexPath: IndexPath, type: Int){
     
-        
         homeTableView.cellForRow(at: currentItemIndexPath)?.layer.backgroundColor = UIProperties.sharedUIProperties.purpleColour.cgColor
         
         UIView.animate(withDuration: 1, animations: {
@@ -490,9 +446,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         self.homeTableView.scrollToRow(at: self.currentItemIndexPath, at: UITableViewScrollPosition.top, animated: true)
 
-        
-        
     }
-    
 }
 

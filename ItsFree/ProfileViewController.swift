@@ -77,8 +77,8 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
+    
     func setupTextFields(){
         usernameTextField = UITextField()
         usernameTextField.delegate = self
@@ -117,7 +117,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     }
     
     func setUpProfilePicture() {
-        let storageRef = Storage.storage().reference()
+        
         profileImageView.layer.cornerRadius = profileImageView.frame.size.width/2
         profileImageView.layer.masksToBounds = false
         profileImageView.clipsToBounds = true
@@ -152,18 +152,16 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
                 self.editButton.transform = CGAffineTransform(scaleX: -1, y: 1)
                 self.editButton.setImage(#imageLiteral(resourceName: "thumbsUp"), for: .normal)
             }, completion: nil)
-        
 
             editingProfile = true
             
             usernameLabel.isHidden = true
             usernameTextField.isHidden = false
             usernameTextField.placeholder = username
-            
         }
+            
         else if (editingProfile == true){
             
-            //username label isnt being set to original!!!!
             if (usernameTextField.text == ""){
                 usernameLabel!.text = user?.name
             }
@@ -189,11 +187,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
                 self.editButton.transform = CGAffineTransform(scaleX: 1, y: 1)
                 self.editButton.setImage(#imageLiteral(resourceName: "edit"), for: .normal)
             }, completion: nil)
-            
         }
-        
-        
-        
     }
     
     
@@ -203,17 +197,13 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        print("\n\ndidFinishPickingMediaWithInfo\n\n")
         myImage = info[UIImagePickerControllerOriginalImage] as? UIImage
-        if myImage != nil {
-            print("image loaded: \(myImage!)")
-        }
         
         let imagePath = ImageManager.uploadImage(image: myImage!, userUID: (user?.UID)!, filename: "profileImage")
+        
         AppData.sharedInstance.usersNode.child((user?.UID)!).child("profileImage").setValue(imagePath)
         profileImageView.image = myImage
         dismiss(animated: true, completion: nil)
-
     }
     
     func presentImagePickerAlert() {
@@ -273,16 +263,10 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         
         if let image = (AppData.sharedInstance.currentUserPhotos[item.photos[0]]) {
             cell.itemImageView.image = image
-        } else  {
-          cell.itemImageView.image = #imageLiteral(resourceName: "placeholder")
         }
-        
-//        if (!AppData.sharedInstance.currentUserPhotos.isEmpty){
-//            cell.itemImageView.image = AppData.sharedInstance.currentUserPhotos[item.photos[0]]
-//        }
-//        else {
-//        cell.itemImageView.image = #imageLiteral(resourceName: "placeholder")
-//        }
+        else  {
+            cell.itemImageView.image = #imageLiteral(resourceName: "placeholder")
+        }
         
         if (animateTable){
             UIView.transition(with: cell.textLabel!, duration: 0.6, options: .transitionCrossDissolve, animations: {
@@ -298,8 +282,8 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        var selectedCell:UITableViewCell = tableView.cellForRow(at: indexPath)!
-        //selectedCell.contentView.backgroundColor = UIProperties.sharedUIProperties.purpleColour
+        let selectedCell:UITableViewCell = tableView.cellForRow(at: indexPath)!
+        selectedCell.contentView.backgroundColor = UIProperties.sharedUIProperties.purpleColour
         
         switch offersRequestsSegmentedControl.selectedSegmentIndex {
         case 0:
@@ -326,8 +310,8 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     }
 
     
-    func tableView(tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        var cellToDeSelect:UITableViewCell = tableView.cellForRow(at: indexPath)!
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        let cellToDeSelect:UITableViewCell = tableView.cellForRow(at: indexPath)!
         cellToDeSelect.contentView.backgroundColor = UIColor.white
     }
     
@@ -339,25 +323,15 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
             
             switch offersRequestsSegmentedControl.selectedSegmentIndex {
             case 0:
-                                itemUID = AppData.sharedInstance.currentUserOfferedItems[indexPath.row].UID
-                                //AppData.sharedInstance.currentUser?.offeredItems.remove(at: indexPath.row)
-                //AppData.sharedInstance.currentUserOfferedItems.remove(at: indexPath.row)
- 
+                itemUID = AppData.sharedInstance.currentUserOfferedItems[indexPath.row].UID
                 WriteFirebaseData.delete(itemUID: itemUID)
                 
             case 1:
-                
                 itemUID = AppData.sharedInstance.currentUserRequestedItems[indexPath.row].UID
-
-                //AppData.sharedInstance.currentUser?.requestedItems.remove(at: indexPath.row)
-            //AppData.sharedInstance.currentUserRequestedItems.remove(at: indexPath.row)
-        
-                
-            WriteFirebaseData.delete(itemUID: itemUID)
+                WriteFirebaseData.delete(itemUID: itemUID)
                 
             default:
                 return
-                
             }
             tableView.deleteRows(at: [indexPath], with: .automatic)
         }
@@ -381,8 +355,6 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         if (tapGesture != nil){
             self.view.removeGestureRecognizer(tapGesture)
         }
-        
-        
     }
     
     @objc func dismissKeyboard (_ sender: UITapGestureRecognizer) {
@@ -397,7 +369,6 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
             usernameLabel.text = user?.name
         }
         
-        
         usernameLabel.isHidden = false
         editingProfile = false
         
@@ -409,8 +380,6 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         
         
         WriteFirebaseData.write(user: user!)
-        
-
     }
     
     func saveUserData(){

@@ -21,7 +21,6 @@ class FilterTableViewController: UITableViewController {
         categoryTableView =  UITableView()
         categoryTableView.delegate = self
         categoryTableView.dataSource = self
-
     }
 
     override func didReceiveMemoryWarning() {
@@ -45,14 +44,14 @@ class FilterTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "filterCategoryCellID")
-        
+    
         let cell = tableView.dequeueReusableCell(withIdentifier: "filterCategoryCellID")!
         
         if(indexPath.row == 0){
             cell.textLabel?.text = "All"
         }
         else {
-        cell.textLabel?.text = ItemCategory.stringValue(index: indexPath.row-1)
+            cell.textLabel?.text = ItemCategory.stringValue(index: indexPath.row-1)
         }
         return cell
     }
@@ -61,16 +60,13 @@ class FilterTableViewController: UITableViewController {
         
         switch availableBool {
         case true :
-        
-            
             if(indexPath.row == 0){
                 ReadFirebaseData.readOffers(category:nil)
-                
             }
             else {
                 ReadFirebaseData.readOffers(category: ItemCategory.enumName(index:indexPath.row-1))
-                
             }
+            
         case false :
             if(indexPath.row == 0){
                 ReadFirebaseData.readRequests(category: nil)
@@ -78,8 +74,10 @@ class FilterTableViewController: UITableViewController {
             else {
                 ReadFirebaseData.readRequests(category: ItemCategory.enumName(index:indexPath.row-1))
             }
+            
         case .none:
             break
+            
         case .some(_):
             break
         }
@@ -88,13 +86,7 @@ class FilterTableViewController: UITableViewController {
         
         NotificationCenter.default.addObserver(self, selector: #selector(presentNonAvailableAlert), name: NSNotification.Name(rawValue: "noOfferedItemsInCategoryKey"), object: nil)
         
-        
-        
         self.navigationController?.popViewController(animated: true)
-        
-        //let filterAppliedKey = "filterAppliedKey""
-        //NotificationCenter.default.post(name: Notification.Name(rawValue: "myDownloadNotificationKey"), object: nil)
-        
         
     }
     

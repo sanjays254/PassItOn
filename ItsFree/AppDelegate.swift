@@ -15,7 +15,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
 
-    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
         FirebaseApp.configure()
@@ -78,7 +77,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 mainVC.present(loggedOutAlert, animated: true, completion: nil)
             }
                 
-                //else if we were logged in, loggedInBool would be true. So just go to rating the user.
+            //else if we were logged in, loggedInBool would be true. So just go to rating the user.
             else if (loggedInBool){
                 openedThroughSchema(url: url)
             }
@@ -92,7 +91,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         else {
             return false
         }
-        
     }
     
     
@@ -103,10 +101,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         ratingSystem.parseURLAndRateUser(url: url)
         
         //should we deinitialize the instance of rating system?
-        
-        
-    
+   
     }
-    
 }
 

@@ -10,12 +10,11 @@ import UIKit
 
 class ItemPhotoCollectionViewCell: UICollectionViewCell {
 
-    
     @IBOutlet weak var collectionViewImageVew: UIImageView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+
     }
 
 }

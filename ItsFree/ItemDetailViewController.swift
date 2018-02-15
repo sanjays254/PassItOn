@@ -18,7 +18,9 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
     @IBOutlet var contentView: UIView!
     @IBOutlet weak var itemDetailView: ItemDetailView!
 
-    var currentItem: Item!
+    weak var currentItem: Item!
+    let storageRef = Storage.storage().reference()
+  
 
     var mainImageTapRecognizer: UITapGestureRecognizer!
    
@@ -90,7 +92,8 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
         itemDetailView.mainImageView.layer.borderColor = UIColor.black.cgColor
         itemDetailView.mainImageView.layer.borderWidth = 5
         itemDetailView.mainImageView.layer.cornerRadius = 5
-        ImageManager.downloadImage(imagePath: previewPhotoRef, into: itemDetailView.mainImageView)
+        itemDetailView.mainImageView.sd_setImage(with: storageRef.child(previewPhotoRef), placeholderImage: UIImage.init(named: "placeholder"))
+        //ImageManager.downloadImage(imagePath: previewPhotoRef, into: itemDetailView.mainImageView)
         
         itemDetailView.posterUsername.text = AppData.sharedInstance.onlineUsers.filter{ $0.UID == currentItem.posterUID }.first?.name
         itemDetailView.posterRating.text = "\(AppData.sharedInstance.onlineUsers.filter{ $0.UID == currentItem.posterUID }.first?.rating ?? 0)"
@@ -168,14 +171,13 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "itemPhotoCollectionViewCell", for: indexPath) as! ItemPhotoCollectionViewCell
         
-        let storageRef = Storage.storage().reference()
         let photoRef: [String] = currentItem.photos
     
         cell.layer.borderColor = UIProperties.sharedUIProperties.blackColour.cgColor
         cell.layer.borderWidth = 5.0
         cell.layer.cornerRadius = 5.0
         //ImageManager.downloadImage(imagePath: photoRef[indexPath.item], into: cell.collectionViewImageVew)
-        //cell.collectionViewImageVew.sd_setImage(with: storageRef.child(photoRef[indexPath.item]), placeholderImage: UIImage.init(named: "placeholder"))
+        cell.collectionViewImageVew.sd_setImage(with: storageRef.child(photoRef[indexPath.item]), placeholderImage: UIImage.init(named: "placeholder"))
 
         return cell
         

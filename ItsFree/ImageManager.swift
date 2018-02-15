@@ -25,11 +25,14 @@ class ImageManager {
         return storagePath
     }
     
-    class func downloadImage(imagePath:String, into imageView:UIImageView) {
+    class func downloadImage(imagePath:String, into: UIImageView) {
         
         let storageRef = Storage.storage().reference()
+        
        
         let photoRef = storageRef.child(imagePath)
+        var imageArray: [UIImage] = []
+        
         // Download in memory with a maximum allowed size of 1MB (1 * 1024 * 1024 bytes)
         photoRef.getData(maxSize: 1 * 1024 * 1024) { data, error in
             if let error = error {
@@ -37,10 +40,11 @@ class ImageManager {
             } else {
                 
                 let image = UIImage(data: data!)
-                
-                imageView.image = image
+                into.image = image
+        
             }
         }
+   
         //imageView.sd_setImage(with: imageRef, placeholderImage: nil)
     }
     

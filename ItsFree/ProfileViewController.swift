@@ -22,6 +22,8 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     @IBOutlet weak var offersRequestsSegmentedControl: UISegmentedControl!
     @IBOutlet weak var myPostsTableView: UITableView!
     
+    var myOfferedPostsImages: [UIImage]?
+    var myRequestedPostsImages: [UIImage]?
     weak var usernameTextField: UITextField!
     weak var selectedItemToEdit: Item!
     var editingProfile: Bool!
@@ -245,28 +247,33 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "myPostsTableViewCell", for: indexPath) as! MyPostsTableViewCell
         
-        var item: Item!
+        weak var item: Item!
         
         switch offersRequestsSegmentedControl.selectedSegmentIndex {
         case 0:
              item = AppData.sharedInstance.currentUserOfferedItems[indexPath.row]
+             //myOfferedPostsImages = ImageManager.downloadImage(imagePath: item.photos[0])
+            
     
         case 1:
              item = AppData.sharedInstance.currentUserRequestedItems[indexPath.row]
+             //myRequestedPostsImages = ImageManager.downloadImage(imagePath: item.photos[0])
       
         default:
             item = nil
         }
        
         cell.itemLabel?.text = item.name
-        //cell.itemImageView?.sd_setImage(with: storageRef.child(item.photos[0]), placeholderImage: UIImage.init(named: "placeholder"))
+        cell.itemImageView?.sd_setImage(with: storageRef.child(item.photos[0]), placeholderImage: UIImage.init(named: "placeholder"))
         
-        if let image = (AppData.sharedInstance.currentUserPhotos[item.photos[0]]) {
-            cell.itemImageView.image = image
-        }
-        else  {
-            cell.itemImageView.image = #imageLiteral(resourceName: "placeholder")
-        }
+        
+//        if let image = (AppData.sharedInstance.currentUserPhotos[item.photos[0]]) {
+//            cell.itemImageView.image = image
+//            cell.itemImageView?.sd_setImage(with: storageRef.child(item.photos[0]), placeholderImage: UIImage.init(named: "placeholder"))
+//        }
+//        else  {
+//            cell.itemImageView.image = #imageLiteral(resourceName: "placeholder")
+//        }
         
         if (animateTable){
             UIView.transition(with: cell.textLabel!, duration: 0.6, options: .transitionCrossDissolve, animations: {

@@ -80,7 +80,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func presentAlertIfFirstTime(){
         
-        let firstTimeUseAlert = UIAlertController(title: "Welcome to FreeBox", message: "Remember! Free items only!.", preferredStyle: .alert)
+        let firstTimeUseAlert = UIAlertController(title: "Welcome to FreeBox", message: "Remember! Free items only!", preferredStyle: .alert)
         let coolAction = UIAlertAction(title: "Sounds good", style: .default, handler: nil)
         firstTimeUseAlert.addAction(coolAction)
         
@@ -374,7 +374,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             
             cell.itemDistanceLabel.text = String(format: "%.2f", distance) + " kms"
             
-            //cell.itemImageView.sd_setImage(with: storageRef.child(AppData.sharedInstance.onlineRequestedItems[indexPath.row].photos[0]), placeholderImage: UIImage.init(named: "placeholder"))
+            cell.itemImageView.sd_setImage(with: storageRef.child(AppData.sharedInstance.onlineRequestedItems[indexPath.row].photos[0]), placeholderImage: UIImage.init(named: "placeholder"))
         }
         else if (wantedAvailableSegmentedControl.selectedSegmentIndex == 1){
             sourceArray = AppData.sharedInstance.onlineOfferedItems
@@ -385,7 +385,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             let distance = (destinationLocation.distance(from: getLocation())/1000)
             
             cell.itemDistanceLabel.text = String(format: "%.2f", distance) + " kms"
-            //cell.itemImageView.sd_setImage(with: storageRef.child(AppData.sharedInstance.onlineOfferedItems[indexPath.row].photos[0]), placeholderImage: UIImage.init(named: "placeholder"))
+            cell.itemImageView.sd_setImage(with: storageRef.child(AppData.sharedInstance.onlineOfferedItems[indexPath.row].photos[0]), placeholderImage: UIImage.init(named: "placeholder"))
         }
  
         return cell

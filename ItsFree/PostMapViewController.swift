@@ -85,7 +85,6 @@ class PostMapViewController: UIViewController, UISearchBarDelegate, MKMapViewDel
     }
 
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
-        
          self.searchCompleter.region = self.postMapView.region
     }
  
@@ -95,12 +94,8 @@ class PostMapViewController: UIViewController, UISearchBarDelegate, MKMapViewDel
     }
     
     @objc func searchButtonClicked () {
-        
-        //make a container for the 
-        
+
         searchController = UISearchController(searchResultsController: searchResultsTableViewController)
-        
-//        searchController.hidesNavigationBarDuringPresentation = true
         searchController.searchBar.delegate = self
         present(searchController, animated: true, completion: nil)
     }
@@ -109,11 +104,8 @@ class PostMapViewController: UIViewController, UISearchBarDelegate, MKMapViewDel
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         
         self.searchCompleter.queryFragment = self.searchController.searchBar.text!
-        
         searchResultsTableViewController.tableView.reloadData()
     }
-    
-
     
     //search-completer delegate methods
     func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
@@ -135,9 +127,7 @@ class PostMapViewController: UIViewController, UISearchBarDelegate, MKMapViewDel
     }
     
     func locationPlotter(){
-        
-
-        
+   
         //remove existing annotation
         if (self.pointAnnotation != nil) {
             self.postMapView.removeAnnotation(pointAnnotation)
@@ -196,7 +186,6 @@ class PostMapViewController: UIViewController, UISearchBarDelegate, MKMapViewDel
     
     @objc func tappedALocation(sender: UITapGestureRecognizer) {
         
-        //if sender.state != UIGestureRecognizerState.began { return }
         let touchLocation = sender.location(in: postMapView)
         let locationCoordinate = postMapView.convert(touchLocation, toCoordinateFrom: postMapView)
         

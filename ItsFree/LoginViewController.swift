@@ -307,7 +307,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
         tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard(_:)))
-        //tapGesture = UITapGestureRecognizer()
         self.view.addGestureRecognizer(tapGesture)
     }
     
@@ -320,7 +319,5 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         passwordTextfield.resignFirstResponder()
         confirmPasswordTextfield.resignFirstResponder()
         emailTextfield.resignFirstResponder()
-        
-        //self.view.endEditing(true)
     }
 }

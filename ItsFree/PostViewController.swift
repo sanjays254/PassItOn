@@ -16,24 +16,18 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var descriptionTextField: UITextView!
     @IBOutlet weak var qualitySegmentedControl: UISegmentedControl!
-    var chosenQuality: ItemQuality!
-    
     @IBOutlet weak var customTagTextField: UITextField!
-    
     @IBOutlet weak var valueTextField: UITextField!
-    
     @IBOutlet weak var addCustomTagButton: UIButton!
-    
     @IBOutlet weak var tagButtonView: UIView!
-    
     @IBOutlet weak var defaultTagStackView: UIStackView!
-    
     @IBOutlet weak var customTagStackView: UIStackView!
-    var chosenTagsArray: [String] = []
-    
     @IBOutlet weak var locationButton: UIButton!
-    
     @IBOutlet weak var addCategoryButton: UIButton!
+    @IBOutlet weak var photoCollectionView: UICollectionView!
+    
+    var chosenQuality: ItemQuality!
+    var chosenTagsArray: [String] = []
     var chosenCategory: ItemCategory!
     
     var categoryCount: Int!
@@ -45,14 +39,13 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
     
     let imagePicker = UIImagePickerController()
     var myImage:UIImage?
-    
-    @IBOutlet weak var photoCollectionView: UICollectionView!
     var photosArray: Array<UIImage>!
     
     var tapGesture: UITapGestureRecognizer!
     
     var offerRequestSegmentedControl: UISegmentedControl!
     var offerRequestIndex: Int!
+    
     var editingBool: Bool = false
     var itemToEdit: Item!
     
@@ -69,7 +62,6 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         descriptionTextField.delegate = self
         descriptionTextField.textColor = .lightGray
         descriptionTextField.text = "Description"
-        //descriptionTextField.borderStyle = UITextBorderStyle.roundedRect
         customTagTextField.delegate = self
         valueTextField.delegate = self
         categoryTableView.delegate = self
@@ -127,8 +119,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         locationButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 0)
         
         let photoCollectionViewFlowLayout = UICollectionViewFlowLayout()
-        //////////////
-       // photoCollectionViewFlowLayout.itemSize = CGSize(width:(photoCollectionView.frame.size.width*0.3), height:(photoCollectionView.frame.size.height*0.8))
+
         photoCollectionViewFlowLayout.scrollDirection = UICollectionViewScrollDirection.horizontal
         photoCollectionViewFlowLayout.minimumInteritemSpacing = 5.0
         
@@ -158,45 +149,10 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         }
     }
     
-    func findLocationStringFromCoordinates(item: Item){
-        CLGeocoder().reverseGeocodeLocation(CLLocation(latitude: item.coordinate.latitude, longitude: item.coordinate.longitude), completionHandler: {(placemarks, error) -> Void in
-            if error != nil {
-                print("Reverse geocoder failed with error" + (error?.localizedDescription)!)
-                return
-            }
-            
-            if (placemarks!.count > 0) {
-                let pm = placemarks![0]
-                
-                if(pm.thoroughfare != nil && pm.subThoroughfare != nil){
-                    // not all places have thoroughfare & subThoroughfare so validate those values
-                    
-                    self.locationButton.setTitle("Location: \(pm.thoroughfare ?? "Unknown Place"), \(pm.subThoroughfare ?? "Unknown Place")", for: UIControlState.normal)
-
-                }
-                else if(pm.subThoroughfare != nil) {
-                    
-                    self.locationButton.setTitle("Location: \(pm.thoroughfare ?? "Unknown Place"), \(pm.subLocality ?? "Unknown Place")", for: UIControlState.normal)
-                }
-                    
-                else {
-                    self.locationButton.setTitle("Location: Unknown Place", for: UIControlState.normal)
-                }
-            }
-            else {
-                self.locationButton.setTitle("Location: Unknown Place", for: UIControlState.normal)
-            }
-            // places.append(["name":annotation.title,"latitude":"\(locationCoordinate.latitude)","longitude":"\(locationCoordinate.longitude)"])
-        })
-    }
-    
     
     fileprivate func setupOfferRequestSegmentedControl() {
         offerRequestSegmentedControl = UISegmentedControl()
-       
-       
-       offerRequestSegmentedControl.tintColor = UIProperties.sharedUIProperties.lightGreenColour
-        
+        offerRequestSegmentedControl.tintColor = UIProperties.sharedUIProperties.lightGreenColour
         offerRequestSegmentedControl.insertSegment(withTitle: "Offer", at: 0, animated: true)
         offerRequestSegmentedControl.insertSegment(withTitle: "Request", at: 1, animated: true)
         self.navigationItem.titleView = offerRequestSegmentedControl
@@ -243,16 +199,43 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         super.didReceiveMemoryWarning()
     }
     
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return true
-    }
     
     @IBAction func openCategories(_ sender: UIButton) {
         
         self.view.addSubview(categoryTableView)
         categoryTableView.register(UITableViewCell.self, forCellReuseIdentifier: cellID)
         self.view.bringSubview(toFront: categoryTableView)
+    }
+    
+    func findLocationStringFromCoordinates(item: Item){
+        CLGeocoder().reverseGeocodeLocation(CLLocation(latitude: item.coordinate.latitude, longitude: item.coordinate.longitude), completionHandler: {(placemarks, error) -> Void in
+            if error != nil {
+                print("Reverse geocoder failed with error" + (error?.localizedDescription)!)
+                return
+            }
+            
+            if (placemarks!.count > 0) {
+                let pm = placemarks![0]
+                
+                if(pm.thoroughfare != nil && pm.subThoroughfare != nil){
+                    // not all places have thoroughfare & subThoroughfare so validate those values
+                    
+                    self.locationButton.setTitle("Location: \(pm.thoroughfare ?? "Unknown Place"), \(pm.subThoroughfare ?? "Unknown Place")", for: UIControlState.normal)
+                    
+                }
+                else if(pm.subThoroughfare != nil) {
+                    
+                    self.locationButton.setTitle("Location: \(pm.thoroughfare ?? "Unknown Place"), \(pm.subLocality ?? "Unknown Place")", for: UIControlState.normal)
+                }
+                    
+                else {
+                    self.locationButton.setTitle("Location: Unknown Place", for: UIControlState.normal)
+                }
+            }
+            else {
+                self.locationButton.setTitle("Location: Unknown Place", for: UIControlState.normal)
+            }
+        })
     }
     
     //imagePicker Methods
@@ -322,12 +305,8 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
     
     @IBAction func addCustomTagButton(_ sender: UIButton) {
         
-        
         let newCustomTag =  customTagTextField.text
-        
         addCustomTag(string: newCustomTag!)
-        
-
     }
     
     @objc func addOrRemoveThisDefaultTag(sender: UIButton){
@@ -391,6 +370,13 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
             return
         }
         
+        guard (titleTextField.text!.count > 18) else {
+            let alert = UIAlertController(title: "Whoops", message: "Title needs to be less than 18 characters", preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.default, handler: nil))
+            present(alert, animated: true, completion: nil)
+            return
+        }
+        
         guard (descriptionTextField.text != "") else {
             let alert = UIAlertController(title: "Whoops", message: "You must add a description", preferredStyle: UIAlertControllerStyle.alert)
             alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.default, handler: nil))
@@ -444,6 +430,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
                 photoRefs = itemToEdit.photos
                 for index in 0..<photosArray.count {
                     let storagePath = "\(realItem.UID!)/\(index)"
+                    
                     let photoRefStr = ImageManager.uploadImage(image: photosArray[index],
                                                                userUID: (AppData.sharedInstance.currentUser?.UID)!,
                                                                filename: storagePath)
@@ -460,6 +447,8 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
             else {
                 for index in 0..<photosArray.count {
                     let storagePath = "\(realItem.UID!)/\(index)"
+                    
+                    
                     let photoRefStr = ImageManager.uploadImage(image: photosArray[index],
                                                                userUID: (AppData.sharedInstance.currentUser?.UID)!,
                                                                filename: storagePath)
@@ -483,7 +472,6 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         default:
             chosenQuality = ItemQuality.GentlyUsed
         }
-        
         validateFields()
     }
     
@@ -517,14 +505,12 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
             if(itemToEdit.photos.count+photosArray.count == indexPath.item){
                 cell.postCollectionViewCellImageView.image = #imageLiteral(resourceName: "addImage")
                 cell.contentMode = .scaleAspectFit
-                
             }
             
             else if(indexPath.item < itemToEdit.photos.count+photosArray.count){
                 
                 if(indexPath.item < itemToEdit.photos.count){
                     cell.postCollectionViewCellImageView.sd_setImage(with:storageRef.child(itemToEdit.photos[indexPath.item]), placeholderImage: UIImage.init(named: "placeholder"))
-                  
                 }
                 
                 else {
@@ -559,37 +545,34 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
                 
             }
         }
-        
-
-        
         return cell
     }
     
-    @objc func addDownloadedPhotosToPhotosArray(){
-        
-    }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
+        //if we are editing an existing post
         if (editingBool){
+            //if we click on the plus picture
             if ((indexPath.item) + 1 > (self.photosArray.count + itemToEdit.photos.count)){
                 presentImagePickerAlert()
             }
+            //else we click on an existing picture
             else {
-                
                 let changePhotoAlert = UIAlertController(title: "View or Delete Photo?", message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
                 
                 var viewAction: UIAlertAction!
                 var changeAction: UIAlertAction!
                 
+                //if the picture was already existing
                 if(indexPath.item < itemToEdit.photos.count){
                     
-                     viewAction = UIAlertAction(title: "View Photo", style: UIAlertActionStyle.default, handler:{ (action) in
+                    viewAction = UIAlertAction(title: "View Photo", style: UIAlertActionStyle.default, handler:{ (action) in
                         //open photo
                         
                     })
                     
-                     changeAction = UIAlertAction(title: "Delete Photo", style: UIAlertActionStyle.destructive, handler:{ (action) in
+                    changeAction = UIAlertAction(title: "Delete Photo", style: UIAlertActionStyle.destructive, handler:{ (action) in
                         //
                         
                         self.itemToEdit.photos.remove(at: indexPath.item)
@@ -597,24 +580,21 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
                     })
                 }
                     
+                //else if the picture was just added
                 else {
                     
-                     viewAction = UIAlertAction(title: "View Photo", style: UIAlertActionStyle.default, handler:{ (action) in
+                    viewAction = UIAlertAction(title: "View Photo", style: UIAlertActionStyle.default, handler:{ (action) in
                         //open photo
                         self.fullscreenImage(image: self.photosArray[indexPath.item - self.itemToEdit.photos.count])
                         
                     })
                     
-                     changeAction = UIAlertAction(title: "Delete Photo", style: UIAlertActionStyle.destructive, handler:{ (action) in
+                    changeAction = UIAlertAction(title: "Delete Photo", style: UIAlertActionStyle.destructive, handler:{ (action) in
                         
                         self.photosArray.remove(at: (indexPath.item-self.itemToEdit.photos.count))
-                        
-                        
                         self.photoCollectionView.reloadData()
                     })
                 }
-                
-
                 
                 let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil)
                 
@@ -626,36 +606,38 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
             }
             
         }
+        //else if we are creating a new post
         else {
-        //if we click on the plus picture
-        if ((indexPath.item) + 1 > self.photosArray.count){
-            presentImagePickerAlert()
-        }
+            //if we click on the plus picture
+            if ((indexPath.item) + 1 > self.photosArray.count){
+                presentImagePickerAlert()
+            }
             //else if we click on an image
-        else {
-            let changePhotoAlert = UIAlertController(title: "View or Delete Photo?", message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
-            
-            let viewAction = UIAlertAction(title: "View Photo", style: UIAlertActionStyle.default, handler:{ (action) in
-                //open photo
-                self.fullscreenImage(image: self.photosArray[indexPath.item])
-            })
-            
-            let changeAction = UIAlertAction(title: "Delete Photo", style: UIAlertActionStyle.destructive, handler:{ (action) in
-                self.photosArray.remove(at: indexPath.item)
-                self.photoCollectionView.reloadData()
-            })
-            
-            let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil)
-            
-            changePhotoAlert.addAction(viewAction)
-            changePhotoAlert.addAction(changeAction)
-            changePhotoAlert.addAction(cancelAction)
-            
-            self.present(changePhotoAlert, animated: true, completion: nil)
-        }
+            else {
+                let changePhotoAlert = UIAlertController(title: "View or Delete Photo?", message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
+                
+                let viewAction = UIAlertAction(title: "View Photo", style: UIAlertActionStyle.default, handler:{ (action) in
+                    //open photo
+                    self.fullscreenImage(image: self.photosArray[indexPath.item])
+                })
+                
+                let changeAction = UIAlertAction(title: "Delete Photo", style: UIAlertActionStyle.destructive, handler:{ (action) in
+                    self.photosArray.remove(at: indexPath.item)
+                    self.photoCollectionView.reloadData()
+                })
+                
+                let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil)
+                
+                changePhotoAlert.addAction(viewAction)
+                changePhotoAlert.addAction(changeAction)
+                changePhotoAlert.addAction(cancelAction)
+                
+                self.present(changePhotoAlert, animated: true, completion: nil)
+            }
         }
     }
     
+    //textView methods
     func textFieldDidBeginEditing(_ textField: UITextField) {
         
         tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard(_:)))
@@ -686,6 +668,11 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
             descriptionTextField.textColor = .lightGray
             descriptionTextField.text = "Description"
         }
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
     
     @objc func dismissKeyboard (_ sender: UITapGestureRecognizer) {

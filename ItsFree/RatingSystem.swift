@@ -24,7 +24,7 @@ class RatingSystem: NSObject {
             let presentedVC = mainVC.presentedViewController as! UINavigationController
             currentVC = presentedVC.viewControllers[0] as! HomeViewController
         }
-            //else set the LoginVC as the currentVC
+        //else set the LoginVC as the currentVC
         else {
             currentVC = mainVC
         }
@@ -41,6 +41,9 @@ class RatingSystem: NSObject {
         let itemID: String! = String(substringitemID)
         var item: Item
         
+        ReadFirebaseData.readOffers(category: nil)
+        ReadFirebaseData.readRequests(category: nil)
+        
         //if its a requested item. What about if it was deleted???
         if(AppData.sharedInstance.onlineRequestedItems.filter{ $0.UID == itemID}.first != nil){
             item = AppData.sharedInstance.onlineRequestedItems.filter{ $0.UID == itemID}.first!
@@ -48,7 +51,7 @@ class RatingSystem: NSObject {
             //ask user to delete his request
             
         }
-            //else if it was an offered item.
+        //else if it was an offered item.
         else {
             item = AppData.sharedInstance.onlineOfferedItems.filter{ $0.UID == itemID}.first!
         }
@@ -91,7 +94,7 @@ class RatingSystem: NSObject {
                 }
             }
                 
-                //if its a requested item, can only vote if posterID is currentID
+            //if its a requested item, can only vote if posterID is currentID
             else {
                 if(AppData.sharedInstance.currentUser?.UID == item.posterUID){
                     alert = UIAlertController(title: "Do you like the \(item.name)?", message: "Upvote or downvote \(responder!.name)", preferredStyle: UIAlertControllerStyle.alert)
@@ -113,8 +116,6 @@ class RatingSystem: NSObject {
                 }
             }
             
-            
-            
             currentVC.present(alert, animated: true, completion: nil)
         }
         else {
@@ -124,13 +125,6 @@ class RatingSystem: NSObject {
             userDoesntExistAlert.addAction(okayAction)
             
             currentVC.present(userDoesntExistAlert, animated: true, completion: nil)
-            
         }
-        
-        
-        
     }
-    
-    
-
 }

@@ -43,6 +43,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     var lastItemSelected: Item!
   
     var searchActive : Bool = false
+    var searchApplied : Bool = false
     var filteredOfferedItems:[Item]!
     var filteredRequestedItems:[Item]!
     var tapGesture: UITapGestureRecognizer!
@@ -352,7 +353,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
    
         }
         
-        if (searchActive == true){
+        if (searchApplied == true){
             
             switch(wantedAvailableSegmentedControl.selectedSegmentIndex){
                 
@@ -383,7 +384,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         if(wantedAvailableSegmentedControl.selectedSegmentIndex == 0){
-            if(filteredRequestedItems.count>0) {
+            if(searchApplied == true) {
                 return filteredRequestedItems.count
             }
             else {
@@ -391,7 +392,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             }
         }
         else if (wantedAvailableSegmentedControl.selectedSegmentIndex == 1){
-            if(filteredOfferedItems.count>0) {
+            if(searchApplied == true) {
                 return filteredOfferedItems.count
             }
             else {
@@ -410,9 +411,11 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         let cell = tableView.dequeueReusableCell(withIdentifier: "itemHomeTableViewCellID") as! ItemHomeTableViewCell
         let storageRef = Storage.storage().reference()
         let sourceArray:[Item]!
+        
+        
         if(wantedAvailableSegmentedControl.selectedSegmentIndex == 0){
             
-            if(filteredRequestedItems.count>0){
+            if(searchApplied == true){
                 sourceArray = filteredRequestedItems
             }
             else {
@@ -431,7 +434,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
         else if (wantedAvailableSegmentedControl.selectedSegmentIndex == 1){
             
-            if(filteredOfferedItems.count>0){
+            if(searchApplied == true){
                 sourceArray = filteredOfferedItems
             }
             else {
@@ -513,6 +516,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     //searchBar delegate methods
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         searchActive = true;
+        searchApplied = true
         filteredOfferedItems = []
         filteredRequestedItems = []
         
@@ -522,6 +526,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
         searchActive = false;
+        searchApplied = true
         self.view.removeGestureRecognizer(tapGesture)
      
         
@@ -529,10 +534,13 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchActive = false;
+        searchApplied = false
+        homeTableView.reloadData()
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchActive = false;
+        searchApplied = true
         searchThroughData(searchText: searchBar.text!)
         searchBar.resignFirstResponder()
     }
@@ -543,7 +551,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         
-        
+        searchApplied = true
         
         searchThroughData(searchText: searchText)
         
@@ -551,6 +559,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     
     func searchThroughData(searchText: String) {
+        
+        ///need to remove items form filtered results that dont have the right tags
         
         var containsTag: Bool = false
         

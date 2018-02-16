@@ -638,16 +638,16 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
     }
     
     //textView methods
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        
-        tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard(_:)))
-        self.view.addGestureRecognizer(tapGesture)
-    }
-    
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        self.view.removeGestureRecognizer(tapGesture)
-        
-    }
+//    func textFieldDidBeginEditing(_ textField: UITextField) {
+//
+//        tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard(_:)))
+//        self.view.addGestureRecognizer(tapGesture)
+//    }
+//
+//    func textFieldDidEndEditing(_ textField: UITextField) {
+//        self.view.removeGestureRecognizer(tapGesture)
+//
+//    }
     
     func textViewDidBeginEditing (_ textView: UITextView) {
         

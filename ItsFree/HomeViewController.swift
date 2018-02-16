@@ -16,7 +16,7 @@ import FirebaseStorage
 
 public var availableBool: Bool!
 
-class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate, MKMapViewDelegate, UINavigationControllerDelegate {
+class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate, MKMapViewDelegate, UINavigationControllerDelegate, UISearchBarDelegate {
     
     let mySelectedItemNotificationKey = "theNotificationKey"
     let myDowloadCompletedNotificationKey = "myDownloadNotificationKey"
@@ -33,6 +33,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet weak var homeMapView: MKMapView!
     @IBOutlet weak var homeTableView: UITableView!
     @IBOutlet weak var toolbar: UIToolbar!
+  
+    @IBOutlet weak var searchBar: UISearchBar!
     
     var itemDetailContainerView: UIView!
     var filterContainerView: UIView!
@@ -40,6 +42,10 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     var currentItemIndexPath: IndexPath!
     var lastItemSelected: Item!
   
+    var searchActive : Bool = false
+    var filteredOfferedItems:[Item]!
+    var filteredRequestedItems:[Item]!
+    var tapGesture: UITapGestureRecognizer!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,10 +67,13 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         MapViewDelegate.theMapViewDelegate.theMapView = homeMapView
         setInitalMapRegion()
         
+        
+        
         setupPostButton()
         setupLeaderboardButton()
         setupCompassButton()
         setupMapListSegmentedControl()
+        setupSearchBar()
         
         ReadFirebaseData.readOffers(category: nil)
         ReadFirebaseData.readRequests(category: nil)
@@ -76,6 +85,14 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             presentAlertIfFirstTime()
         }
         
+    }
+    
+    func setupSearchBar(){
+        
+        searchBar.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 40)
+        searchBar.delegate = self
+        filteredOfferedItems = []
+        filteredRequestedItems = []
     }
     
     func presentAlertIfFirstTime(){
@@ -321,14 +338,32 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     //tableView methods
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        let itemToShow: Item
+        var itemToShow: Item
+        
+
+     
         
         switch(wantedAvailableSegmentedControl.selectedSegmentIndex){
-        case 0:  itemToShow = AppData.sharedInstance.onlineRequestedItems[indexPath.row]
-        case 1:  itemToShow = AppData.sharedInstance.onlineOfferedItems[indexPath.row]
-        default:
-            return
+        
+            case 0:  itemToShow = AppData.sharedInstance.onlineRequestedItems[indexPath.row]
+            case 1:  itemToShow = AppData.sharedInstance.onlineOfferedItems[indexPath.row]
+            default:
+                return
+   
         }
+        
+        if (searchActive == true){
+            
+            switch(wantedAvailableSegmentedControl.selectedSegmentIndex){
+                
+            case 0:  itemToShow = filteredRequestedItems[indexPath.row]
+            case 1:  itemToShow = filteredOfferedItems[indexPath.row]
+            default:
+                return
+                
+            }
+        }
+        
         
         currentItemIndexPath = indexPath
         lastItemSelected = itemToShow
@@ -344,13 +379,24 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
      
     }
     
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         if(wantedAvailableSegmentedControl.selectedSegmentIndex == 0){
-            return AppData.sharedInstance.onlineRequestedItems.count
+            if(filteredRequestedItems.count>0) {
+                return filteredRequestedItems.count
+            }
+            else {
+                return AppData.sharedInstance.onlineRequestedItems.count
+            }
         }
         else if (wantedAvailableSegmentedControl.selectedSegmentIndex == 1){
-            return AppData.sharedInstance.onlineOfferedItems.count
+            if(filteredOfferedItems.count>0) {
+                return filteredOfferedItems.count
+            }
+            else {
+                return AppData.sharedInstance.onlineOfferedItems.count
+            }
         }
         else {
             return 0
@@ -365,27 +411,41 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         let storageRef = Storage.storage().reference()
         let sourceArray:[Item]!
         if(wantedAvailableSegmentedControl.selectedSegmentIndex == 0){
-            sourceArray = AppData.sharedInstance.onlineRequestedItems
-            cell.itemTitleLabel.text = AppData.sharedInstance.onlineRequestedItems[indexPath.row].name
-            cell.itemQualityLabel.text = AppData.sharedInstance.onlineRequestedItems[indexPath.row].quality.rawValue
-            let destinationLocation: CLLocation = CLLocation(latitude: AppData.sharedInstance.onlineRequestedItems[indexPath.row].location.latitude, longitude: AppData.sharedInstance.onlineRequestedItems[indexPath.row].location.longitude)
+            
+            if(filteredRequestedItems.count>0){
+                sourceArray = filteredRequestedItems
+            }
+            else {
+                sourceArray = AppData.sharedInstance.onlineRequestedItems
+            }
+            
+            cell.itemTitleLabel.text = sourceArray[indexPath.row].name
+            cell.itemQualityLabel.text = sourceArray[indexPath.row].quality.rawValue
+            let destinationLocation: CLLocation = CLLocation(latitude: sourceArray[indexPath.row].location.latitude, longitude: sourceArray[indexPath.row].location.longitude)
             
             let distance = (destinationLocation.distance(from: getLocation())/1000)
             
             cell.itemDistanceLabel.text = String(format: "%.2f", distance) + " kms"
             
-            cell.itemImageView.sd_setImage(with: storageRef.child(AppData.sharedInstance.onlineRequestedItems[indexPath.row].photos[0]), placeholderImage: UIImage.init(named: "placeholder"))
+            cell.itemImageView.sd_setImage(with: storageRef.child(sourceArray[indexPath.row].photos[0]), placeholderImage: UIImage.init(named: "placeholder"))
         }
         else if (wantedAvailableSegmentedControl.selectedSegmentIndex == 1){
-            sourceArray = AppData.sharedInstance.onlineOfferedItems
-            cell.itemTitleLabel.text = AppData.sharedInstance.onlineOfferedItems[indexPath.row].name
-            cell.itemQualityLabel.text = AppData.sharedInstance.onlineOfferedItems[indexPath.row].quality.rawValue
-            let destinationLocation: CLLocation = CLLocation(latitude: AppData.sharedInstance.onlineOfferedItems[indexPath.row].location.latitude, longitude: AppData.sharedInstance.onlineOfferedItems[indexPath.row].location.longitude)
+            
+            if(filteredOfferedItems.count>0){
+                sourceArray = filteredOfferedItems
+            }
+            else {
+                sourceArray = AppData.sharedInstance.onlineOfferedItems
+            }
+            
+            cell.itemTitleLabel.text = sourceArray[indexPath.row].name
+            cell.itemQualityLabel.text = sourceArray[indexPath.row].quality.rawValue
+            let destinationLocation: CLLocation = CLLocation(latitude: sourceArray[indexPath.row].location.latitude, longitude: sourceArray[indexPath.row].location.longitude)
             
             let distance = (destinationLocation.distance(from: getLocation())/1000)
             
             cell.itemDistanceLabel.text = String(format: "%.2f", distance) + " kms"
-            cell.itemImageView.sd_setImage(with: storageRef.child(AppData.sharedInstance.onlineOfferedItems[indexPath.row].photos[0]), placeholderImage: UIImage.init(named: "placeholder"))
+            cell.itemImageView.sd_setImage(with: storageRef.child(sourceArray[indexPath.row].photos[0]), placeholderImage: UIImage.init(named: "placeholder"))
         }
  
         return cell
@@ -446,6 +506,101 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         self.homeTableView.scrollToRow(at: self.currentItemIndexPath, at: UITableViewScrollPosition.top, animated: true)
 
+    }
+    
+    
+    
+    //searchBar delegate methods
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        searchActive = true;
+        filteredOfferedItems = []
+        filteredRequestedItems = []
+        
+        tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard(_:)))
+        self.view.addGestureRecognizer(tapGesture)
+    }
+    
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        searchActive = false;
+        self.view.removeGestureRecognizer(tapGesture)
+     
+        
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchActive = false;
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchActive = false;
+        searchThroughData(searchText: searchBar.text!)
+        searchBar.resignFirstResponder()
+    }
+    
+    @objc func dismissKeyboard (_ sender: UITapGestureRecognizer) {
+        searchBar.resignFirstResponder()
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        
+        
+        
+        searchThroughData(searchText: searchText)
+        
+    }
+    
+    
+    func searchThroughData(searchText: String) {
+        
+        var containsTag: Bool = false
+        
+        for item in AppData.sharedInstance.onlineOfferedItems {
+            for tag in item.tags.tagsArray {
+                if (tag.lowercased().contains(searchText.lowercased())){
+                    containsTag = true
+                }
+                else { containsTag = false }
+                
+                
+                if (containsTag == true) {
+                    if !(filteredOfferedItems.contains(item)){
+                        filteredOfferedItems.append(item)
+                    }
+                    
+                    break
+                }
+                
+            }
+        }
+        
+        containsTag = false
+        
+        for item in AppData.sharedInstance.onlineRequestedItems {
+            for tag in item.tags.tagsArray {
+                if (tag.lowercased().contains(searchText.lowercased())){
+                    containsTag = true
+                }
+                else { containsTag = false }
+                
+                
+                if (containsTag == true) {
+                    if !(filteredRequestedItems.contains(item)){
+                        filteredRequestedItems.append(item)
+                    }
+                    break
+                }
+                
+            }
+        }
+        
+        searchActive = true
+        
+        //        if(filteredOfferedItems.count == 0){
+        //            searchActive = false;
+        //        } else {
+        //            searchActive = true;
+        //        }
+        self.homeTableView.reloadData()
     }
 }
 

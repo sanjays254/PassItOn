@@ -42,6 +42,8 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     
     var animateTable: Bool = false
     
+
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -126,9 +128,9 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         profileImageView.layer.borderColor = UIColor.black.cgColor
         profileImageView.layer.borderWidth = 5.0
         
-        profileImageView.image = AppData.sharedInstance.currentUserPhotos[(user?.profileImage)!]
+        //profileImageView.image = AppData.sharedInstance.currentUserPhotos[(user?.profileImage)!]
 
-        //profileImageView.sd_setImage(with: storageRef.child(photoRef!), placeholderImage: UIImage(named: "defaultProfile"))
+        profileImageView.sd_setImage(with: storageRef.child(photoRef!), placeholderImage: UIImage(named: "defaultProfile"))
     }
     
     @IBAction func donePressed(_ sender: Any) {
@@ -235,9 +237,9 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch offersRequestsSegmentedControl.selectedSegmentIndex {
         case 0:
-            return (AppData.sharedInstance.currentUser?.offeredItems.count)!
+             return (AppData.sharedInstance.currentUser?.offeredItems.count)! + 1
         case 1:
-            return (AppData.sharedInstance.currentUser?.requestedItems.count)!
+            return (AppData.sharedInstance.currentUser?.requestedItems.count)! + 1
         default:
             return 0
         }
@@ -247,24 +249,58 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "myPostsTableViewCell", for: indexPath) as! MyPostsTableViewCell
         
+        //cell.translatesAutoresizingMaskIntoConstraints = false
+        
         weak var item: Item!
         
         switch offersRequestsSegmentedControl.selectedSegmentIndex {
         case 0:
+            if (indexPath.row == AppData.sharedInstance.currentUser?.offeredItems.count){
+                cell.itemLabel.text = "Got something to offer?"
+                cell.itemLabel.font = UIFont.italicSystemFont(ofSize: 16)
+                //cell.itemImageView.isHidden = true
+                cell.itemImageViewWidthConstraint.constant = 0
+                cell.itemLabel.centerXAnchor.constraint(equalTo: cell.centerXAnchor).isActive = true
+                cell.setNeedsLayout()
+            }
+            else {
              item = AppData.sharedInstance.currentUserOfferedItems[indexPath.row]
+                cell.itemLabel?.text = item.name
+                cell.itemLabel.font = UIFont(name: "GillSans", size: 20)
+                cell.itemLabel.centerXAnchor.constraint(equalTo: cell.centerXAnchor).isActive = false
+                cell.itemImageViewWidthConstraint.constant = 77
+                cell.itemImageView?.sd_setImage(with: storageRef.child(item.photos[0]), placeholderImage: UIImage.init(named: "placeholder"))
+                cell.setNeedsLayout()
+            }
              //myOfferedPostsImages = ImageManager.downloadImage(imagePath: item.photos[0])
             
     
         case 1:
+            if (indexPath.row == AppData.sharedInstance.currentUser?.requestedItems.count){
+                cell.itemLabel.text = "Want something?"
+                cell.itemLabel.font = UIFont.italicSystemFont(ofSize: 16)
+                
+                //cell.itemImageView.isHidden = true
+                cell.itemImageViewWidthConstraint.constant = 0
+               cell.itemLabel.centerXAnchor.constraint(equalTo: cell.centerXAnchor).isActive = true
+                cell.setNeedsLayout()
+            }
+            else {
              item = AppData.sharedInstance.currentUserRequestedItems[indexPath.row]
+                cell.itemLabel?.text = item.name
+                cell.itemLabel.font = UIFont(name: "GillSans", size: 20)
+                cell.itemLabel.centerXAnchor.constraint(equalTo: cell.centerXAnchor).isActive = false
+                cell.itemImageViewWidthConstraint.constant = 77
+                cell.itemImageView?.sd_setImage(with: storageRef.child(item.photos[0]), placeholderImage: UIImage.init(named: "placeholder"))
+                cell.setNeedsLayout()
+            }
              //myRequestedPostsImages = ImageManager.downloadImage(imagePath: item.photos[0])
       
         default:
             item = nil
         }
        
-        cell.itemLabel?.text = item.name
-        cell.itemImageView?.sd_setImage(with: storageRef.child(item.photos[0]), placeholderImage: UIImage.init(named: "placeholder"))
+        
         
         
 //        if let image = (AppData.sharedInstance.currentUserPhotos[item.photos[0]]) {
@@ -294,10 +330,20 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         
         switch offersRequestsSegmentedControl.selectedSegmentIndex {
         case 0:
-            selectedItemToEdit = AppData.sharedInstance.currentUserOfferedItems[indexPath.row]
+            if (indexPath.row == AppData.sharedInstance.currentUser?.offeredItems.count){
+                performSegue(withIdentifier: "newPostSegue", sender: self)
+            }
+            else {
+                selectedItemToEdit = AppData.sharedInstance.currentUserOfferedItems[indexPath.row]
+            }
             
         case 1:
+            if (indexPath.row == AppData.sharedInstance.currentUser?.offeredItems.count){
+                performSegue(withIdentifier: "newPostSegue", sender: self)
+            }
+            else {
             selectedItemToEdit = AppData.sharedInstance.currentUserRequestedItems[indexPath.row]
+            }
             
         default:
             selectedItemToEdit = nil
@@ -312,6 +358,13 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
             let destinationPostVC = segue.destination as! PostViewController
             destinationPostVC.itemToEdit = selectedItemToEdit
             destinationPostVC.editingBool = true
+            destinationPostVC.offerRequestIndex = offersRequestsSegmentedControl.selectedSegmentIndex
+        }
+        
+        if (segue.identifier == "newPostSegue"){
+            let destinationPostVC = segue.destination as! PostViewController
+    
+            destinationPostVC.editingBool = false
             destinationPostVC.offerRequestIndex = offersRequestsSegmentedControl.selectedSegmentIndex
         }
     }

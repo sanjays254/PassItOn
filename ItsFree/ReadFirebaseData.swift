@@ -139,11 +139,12 @@ class ReadFirebaseData: NSObject {
                     let user: [String:Any] = any as! [String:Any]
                     let userUID: String = user["UID"] as! String
                     let ratingInt = user["rating"] as! NSNumber
-                    var readUserOffers: Array<Any> = user["offers"] as! Array<Any>
+                    var readUserOffers: Array<String> = user["offers"] as! Array<String>
+                    var readUserRequests: Array<String> = user["requests"] as! Array<String>
                     var index = 0
                     for i in readUserOffers{
                     
-                        if(i is NSNull){
+                        if(i is NSNull || i == ""){
                             readUserOffers.remove(at: index)
                         }
                         else {
@@ -151,7 +152,19 @@ class ReadFirebaseData: NSObject {
                         }
                     }
                     
-                    let readUser = User(email: (user["email"] ?? "no email") as! String, name: user["name"] as! String, rating: Int(truncating: ratingInt), uid: (user["UID"] ?? "no UID") as! String, profileImage: (user["profileImage"] ?? "no profileImage") as! String, offers: readUserOffers as! Array, requests: (user["requests"] ?? [""]) as! Array)
+                    
+                    index = 0
+                    for i in readUserRequests{
+                        
+                        if(i is NSNull || i == ""){
+                            readUserRequests.remove(at: index)
+                        }
+                        else {
+                            index = index+1
+                        }
+                    }
+                    
+                    let readUser = User(email: (user["email"] ?? "no email") as! String, name: user["name"] as! String, rating: Int(truncating: ratingInt), uid: (user["UID"] ?? "no UID") as! String, profileImage: (user["profileImage"] ?? "no profileImage") as! String, offers: readUserOffers as! Array, requests: readUserRequests as! Array)
                     
 //                    let readUser = User(email: (user["email"] ?? "no email") as! String, name: user["name"] as! String, rating: Int(truncating: ratingInt), uid: (user["UID"] ?? "no UID") as! String, profileImage: (user["profileImage"] ?? "no profileImage") as! String, offers: [""] as! Array, requests: (user["requests"] ?? [""]) as! Array)
                     
@@ -173,25 +186,25 @@ class ReadFirebaseData: NSObject {
         
     }
     
-   class func readUsersPhotos(){
-        let storageRef = Storage.storage().reference()
-        
-        // Create a reference to the file you want to download
-        let ref = AppData.sharedInstance.currentUser?.profileImage
-        let profilePhotoRef = storageRef.child(ref!)
-        
-        // Download in memory with a maximum allowed size of 1MB (1 * 1024 * 1024 bytes)
-        profilePhotoRef.getData(maxSize: 10 * 1024 * 1024) { data, error in
-            if let error = error {
-                // Uh-oh, an error occurred!
-                print("Errroorr")
-            } else {
-                // Data for "images/island.jpg" is returned
-                let image = UIImage(data: data!)
-                AppData.sharedInstance.currentUserPhotos[(AppData.sharedInstance.currentUser?.profileImage)!] = image
-                
-            }
-        }
+//   class func readUsersPhotos(){
+//        let storageRef = Storage.storage().reference()
+//        
+//        // Create a reference to the file you want to download
+//        let ref = AppData.sharedInstance.currentUser?.profileImage
+//        let profilePhotoRef = storageRef.child(ref!)
+//        
+//        // Download in memory with a maximum allowed size of 1MB (1 * 1024 * 1024 bytes)
+//        profilePhotoRef.getData(maxSize: 10 * 1024 * 1024) { data, error in
+//            if let error = error {
+//                // Uh-oh, an error occurred!
+//                print("Errroorr")
+//            } else {
+//                // Data for "images/island.jpg" is returned
+//                let image = UIImage(data: data!)
+//                AppData.sharedInstance.currentUserPhotos[(AppData.sharedInstance.currentUser?.profileImage)!] = image
+//                
+//            }
+//        }
 
 //        for offeredItem in AppData.sharedInstance.currentUserOfferedItems {
 //            for stringPhotoRef in offeredItem.photos{
@@ -232,10 +245,7 @@ class ReadFirebaseData: NSObject {
 //            }
 //
 //        }
-
-
-        
-    }
+//   }
     
     fileprivate class func readOffer(data:[String:Any]) {
         for any in data {

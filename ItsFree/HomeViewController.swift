@@ -32,6 +32,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet weak var newPostButton: UIBarButtonItem!
     @IBOutlet weak var homeMapView: MKMapView!
     @IBOutlet weak var homeTableView: UITableView!
+    
+    @IBOutlet weak var homeTableViewTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var toolbar: UIToolbar!
   
     @IBOutlet weak var searchBar: UISearchBar!
@@ -58,6 +60,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.homeTableView.delegate = self
         self.homeTableView.dataSource = self
         self.homeTableView.rowHeight = 70
+
         
         self.homeTableView.refreshControl = UIRefreshControl()
         self.homeTableView.refreshControl?.backgroundColor = UIProperties.sharedUIProperties.purpleColour
@@ -90,7 +93,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func setupSearchBar(){
         
-        searchBar.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 40)
+        searchBar.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 45)
         searchBar.delegate = self
         filteredOfferedItems = []
         filteredRequestedItems = []
@@ -204,7 +207,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: mySelectedItemNotificationKey), object: nil, queue: nil, using: catchNotification)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(readUserPhotos), name: NSNotification.Name(rawValue: "myUsersDownloadNotificationKey"), object: nil)
+        //NotificationCenter.default.addObserver(self, selector: #selector(readUserPhotos), name: NSNotification.Name(rawValue: "myUsersDownloadNotificationKey"), object: nil)
     }
     
 
@@ -214,9 +217,9 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.showItemDetail(item: name)
     }
     
-    @objc func readUserPhotos(){
-        ReadFirebaseData.readUsersPhotos()
-    }
+//    @objc func readUserPhotos(){
+//        ReadFirebaseData.readUsersPhotos()
+//    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -527,10 +530,17 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
         searchActive = false;
         searchApplied = true
+        
+        if (searchBar.text == ""){
+            searchApplied = false
+        }
+        
         self.view.removeGestureRecognizer(tapGesture)
      
         
     }
+    
+    
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchActive = false;
@@ -552,6 +562,14 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         
         searchApplied = true
+        
+        filteredOfferedItems = []
+        filteredRequestedItems = []
+        
+        
+        if (searchBar.text == ""){
+            searchApplied = false
+        }
         
         searchThroughData(searchText: searchText)
         

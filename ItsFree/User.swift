@@ -34,12 +34,35 @@ class User {
             let inpRating: NSNumber = inpDict["rating"] as? NSNumber,
             let inpUID: String = inpDict["UID"] as? String,
             let inpProfileImage: String = inpDict["profileImage"] as? String ?? "",
-            let inpOffers:[String] = inpDict["offers"] as? [String] ?? [""],
-
-            let inpRequests:[String] = inpDict["requests"] as? [String] ?? [""] else
+            
+            
+            var inpOffers:[String] = inpDict["offers"] as? [String],
+            var inpRequests:[String] = inpDict["requests"] as? [String] else
         {
             print("Error: Dictionary is not in the correct format")
             return nil
+        }
+        
+        var index = 0
+        for i in inpOffers{
+            
+            if(i == ""){
+                inpOffers.remove(at: index)
+            }
+            else {
+                index = index+1
+            }
+        }
+        
+        index = 0
+        for i in inpRequests{
+            
+            if(i == ""){
+                inpRequests.remove(at: index)
+            }
+            else {
+                index = index+1
+            }
         }
         
         self.init(email: inpEmail,

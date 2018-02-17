@@ -110,6 +110,7 @@
                     <connections>
                         <outlet property="homeMapView" destination="FyU-Hq-Xax" id="44g-ZF-7RD"/>
                         <outlet property="homeTableView" destination="PJe-Ph-xUe" id="dOu-3K-wwQ"/>
+                        <outlet property="homeTableViewTopConstraint" destination="bVg-r7-ruJ" id="XyS-xY-SXC"/>
                         <outlet property="newPostButton" destination="S6y-j2-V3P" id="stq-v6-yda"/>
                         <outlet property="searchBar" destination="TAE-8q-rN8" id="cpa-Fl-TxX"/>
                         <outlet property="toolbar" destination="sfN-Ue-xh3" id="tAR-Pn-p25"/>

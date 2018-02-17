@@ -84,6 +84,7 @@
                                         <color key="tintColor" red="0.61623996940000003" green="1" blue="0.3396967099" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <connections>
                                             <outlet property="itemImageView" destination="IJH-wm-GEe" id="SHd-2R-Yr7"/>
+                                            <outlet property="itemImageViewWidthConstraint" destination="k5H-r6-jIs" id="aYK-Zr-Isz"/>
                                             <outlet property="itemLabel" destination="buQ-RV-TP0" id="XKT-NA-0pE"/>
                                         </connections>
                                     </tableViewCell>
@@ -202,6 +203,7 @@
                         <outlet property="profileImageView" destination="xP3-iM-nzo" id="FlW-r2-dtd"/>
                         <outlet property="usernameLabel" destination="n16-cV-pxw" id="7o6-b8-3Kn"/>
                         <segue destination="PeL-VY-bKF" kind="show" identifier="editPostSegue" id="Vzt-2A-kUi"/>
+                        <segue destination="PeL-VY-bKF" kind="show" identifier="newPostSegue" id="OVC-ZH-Us7"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="azI-e2-bBJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -211,7 +213,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="374" y="68"/>
+            <point key="canvasLocation" x="332" y="44"/>
         </scene>
         <!--PostViewController-->
         <scene sceneID="JJq-0p-dqj">
@@ -246,4 +248,7 @@
         <image name="defaultProfile" width="300" height="300"/>
         <image name="edit" width="25" height="25"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="OVC-ZH-Us7"/>
+    </inferredMetricsTieBreakers>
 </document>

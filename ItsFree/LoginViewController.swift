@@ -13,6 +13,7 @@ public let rememberMeKey = "rememberMe"
 public let useTouchID = "useTouchID"
 public var loggedInBool: Bool!
 public var firstTimeUser: Bool!
+public var guestUser: Bool!
 
 class LoginViewController: UIViewController, UITextFieldDelegate {
     
@@ -42,6 +43,9 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var confirmPasswordLabel: UILabel!
     @IBOutlet weak var rememberMeSwitch: UISwitch!
     @IBOutlet weak var touchIDSwitch: UISwitch!
+    
+    @IBOutlet weak var guestLoginButton: UIButton!
+    
     
     var tapGesture: UITapGestureRecognizer!
     
@@ -322,6 +326,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     }
     
     func loginSuccess() {
+        
         performSegue(withIdentifier: "continueToHome", sender: self)
     }
     
@@ -352,4 +357,12 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         mismatchingPasswordsAlert.addAction(okayAction)
         present(mismatchingPasswordsAlert, animated: true, completion: nil)
     }
+    
+    @IBAction func guestLogin(_ sender: UIButton) {
+        
+        loggedInBool = true
+        guestUser = true
+        self.loginSuccess()
+    }
+    
 }

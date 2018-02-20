@@ -38,6 +38,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
   
     @IBOutlet weak var searchBar: UISearchBar!
     
+    @IBOutlet weak var searchBarHeightConstraint: NSLayoutConstraint!
+    
     var itemDetailContainerView: UIView!
     var filterContainerView: UIView!
     
@@ -72,12 +74,13 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         setInitalMapRegion()
         
         
-        
+        setupSearchBar()
         setupPostButton()
-        setupLeaderboardButton()
+        setupSearchButton()
+        //setupLeaderboardButton()
         setupCompassButton()
         setupMapListSegmentedControl()
-        setupSearchBar()
+       
         
         ReadFirebaseData.readOffers(category: nil)
         ReadFirebaseData.readRequests(category: nil)
@@ -93,7 +96,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func setupSearchBar(){
         
-        searchBar.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 45)
+        searchBar.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 0)
+        //searchBar.layer.zPosition = .greatestFiniteMagnitude
         searchBar.delegate = self
         filteredOfferedItems = []
         filteredRequestedItems = []
@@ -114,6 +118,56 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         let addPostBarButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.add, target: self, action: #selector(postItem))
         self.navigationItem.rightBarButtonItem = addPostBarButton
         addPostBarButton.tintColor = UIProperties.sharedUIProperties.whiteColour
+    }
+    
+    func setupSearchButton(){
+        
+        let searchButton  = UIButton(type: .system)
+        let leaderboardImage = UIImage(named: "leaderboard")?.withRenderingMode(.alwaysTemplate)
+        
+       
+        searchButton.setImage(leaderboardImage, for: .normal)
+        
+        searchButton.tintColor = UIProperties.sharedUIProperties.whiteColour
+        searchButton.addTarget(self, action: #selector(searchButtonAction), for: .touchUpInside)
+        searchButton.widthAnchor.constraint(equalToConstant: 32.0).isActive = true
+        searchButton.heightAnchor.constraint(equalToConstant: 32.0).isActive = true
+        
+        let searchBarButton = UIBarButtonItem(customView: searchButton)
+        self.navigationItem.leftBarButtonItem = searchBarButton
+        
+    }
+    
+    @objc func searchButtonAction(){
+        
+        view.bringSubview(toFront: searchBar)
+        
+        if (searchBarHeightConstraint.constant == 45){
+            UIView.animate(withDuration: 0.5, animations: {
+                self.searchBarHeightConstraint.constant = 0
+                self.view.layoutIfNeeded()
+                
+                
+            }, completion: {(finished: Bool) in
+                
+                
+            })
+        }
+        
+        else if (searchBarHeightConstraint.constant == 0){
+       
+        UIView.animate(withDuration: 0.5, animations: {
+            self.searchBarHeightConstraint.constant = 45
+             self.view.layoutIfNeeded()
+            
+            
+        }, completion: {(finished: Bool) in
+            
+
+        })
+        }
+        
+       
     }
     
     func setupLeaderboardButton(){
@@ -186,7 +240,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     func presentLocationAlert(){
         let alert = UIAlertController(title: "Your title", message: "GPS access is restricted. In order to use tracking, please enable GPS in the Settigs app under Privacy, Location Services.", preferredStyle: UIAlertControllerStyle.alert)
         alert.addAction(UIAlertAction(title: "Go to Settings now", style: UIAlertActionStyle.default, handler: { (alert: UIAlertAction!) in
-            print("")
             UIApplication.shared.open(URL(string:UIApplicationOpenSettingsURLString)!)
         }))
         present(alert, animated: true, completion: nil)
@@ -194,7 +247,14 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     override func viewWillAppear(_ animated: Bool) {
         //super.viewWillAppear(true)
+        
+        if (loggedInBool == false){
+            self.dismiss(animated: true, completion: nil)
+        }
+        
+        else {
         NotificationCenter.default.addObserver(self, selector: #selector(self.refreshTableData(sender:)), name: NSNotification.Name(rawValue: myDowloadCompletedNotificationKey), object: nil)
+        }
     }
     
     
@@ -245,14 +305,29 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     
     @objc func addAnnotationsWhenFinishedDownloadingData(notification: NSNotification){
-        
+        removeAndAddAnnotations()
+    }
+    
+    func removeAndAddAnnotations(){
         self.homeMapView.removeAnnotations(homeMapView.annotations)
         
-        if(wantedAvailableSegmentedControl.selectedSegmentIndex == 0){
-            self.homeMapView.addAnnotations(AppData.sharedInstance.onlineRequestedItems)
+        if (searchApplied == true){
+            if(wantedAvailableSegmentedControl.selectedSegmentIndex == 0){
+                self.homeMapView.addAnnotations(filteredRequestedItems)
+            }
+            else if (wantedAvailableSegmentedControl.selectedSegmentIndex == 1){
+                self.homeMapView.addAnnotations(filteredOfferedItems)
+            }
+            
         }
-        else if (wantedAvailableSegmentedControl.selectedSegmentIndex == 1){
-            self.homeMapView.addAnnotations(AppData.sharedInstance.onlineOfferedItems)
+        else {
+        
+            if(wantedAvailableSegmentedControl.selectedSegmentIndex == 0){
+                self.homeMapView.addAnnotations(AppData.sharedInstance.onlineRequestedItems)
+            }
+            else if (wantedAvailableSegmentedControl.selectedSegmentIndex == 1){
+                self.homeMapView.addAnnotations(AppData.sharedInstance.onlineOfferedItems)
+            }
         }
     }
     
@@ -297,6 +372,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         if sender.selectedSegmentIndex == 0 {
             self.view.bringSubview(toFront: homeMapView)
+            self.view.bringSubview(toFront: searchBar)
         }
         else if sender.selectedSegmentIndex == 1 {
             
@@ -327,11 +403,48 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
 
     //segues
     @objc func postItem() {
-        performSegue(withIdentifier: "postSegue", sender: self)
+        
+        if(guestUser == true){
+        
+        let postAsGuestAlert = UIAlertController(title: "Sorry", message: "You need an account to make a post", preferredStyle: .alert)
+        let createAccountAction = UIAlertAction(title: "Log in", style: .default, handler: { (alert: UIAlertAction!) in
+            self.dismiss(animated: true, completion: nil)
+            loggedInBool = false
+        })
+        let cancelAction = UIAlertAction(title: "Just browse", style: .cancel, handler: nil)
+        
+        postAsGuestAlert.addAction(createAccountAction)
+        postAsGuestAlert.addAction(cancelAction)
+        
+        self.present(postAsGuestAlert, animated: true, completion: nil)
+        }
+        
+        else {
+            self.performSegue(withIdentifier: "postSegue", sender: self)
+        }
     }
     
     @IBAction func toProfile(_ sender: Any) {
-        performSegue(withIdentifier: "toProfileSegue", sender: self)
+        
+        if(guestUser == true){
+            
+            let postAsGuestAlert = UIAlertController(title: "Login/Signup?", message: nil, preferredStyle: .alert)
+            let createAccountAction = UIAlertAction(title: "Yes", style: .default, handler: { (alert: UIAlertAction!) in
+                self.dismiss(animated: true, completion: nil)
+                loggedInBool = false
+            })
+            let cancelAction = UIAlertAction(title: "No, Just browse", style: .cancel, handler: nil)
+            
+            postAsGuestAlert.addAction(createAccountAction)
+            postAsGuestAlert.addAction(cancelAction)
+            
+            self.present(postAsGuestAlert, animated: true, completion: nil)
+        }
+            
+        else {
+    
+            performSegue(withIdentifier: "toProfileSegue", sender: self)
+        }
     }
     
     @objc func leaderboardButtonAction() {
@@ -343,9 +456,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         var itemToShow: Item
-        
-
-     
         
         switch(wantedAvailableSegmentedControl.selectedSegmentIndex){
         
@@ -500,17 +610,17 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     //0 for requests, 1 for offers
     func highlightLastCell(itemIndexPath: IndexPath, type: Int){
     
-        homeTableView.cellForRow(at: currentItemIndexPath)?.layer.backgroundColor = UIProperties.sharedUIProperties.purpleColour.cgColor
-        
-        UIView.animate(withDuration: 1, animations: {
-
-                        self.homeTableView.cellForRow(at: self.currentItemIndexPath)?.layer.backgroundColor = UIProperties.sharedUIProperties.whiteColour.cgColor
-            
-        }, completion: {(finished: Bool) in
-            
-        })
-        
-        self.homeTableView.scrollToRow(at: self.currentItemIndexPath, at: UITableViewScrollPosition.top, animated: true)
+//        homeTableView.cellForRow(at: currentItemIndexPath)?.layer.backgroundColor = UIProperties.sharedUIProperties.purpleColour.cgColor
+//
+//        UIView.animate(withDuration: 1, animations: {
+//
+//                        self.homeTableView.cellForRow(at: self.currentItemIndexPath)?.layer.backgroundColor = UIProperties.sharedUIProperties.whiteColour.cgColor
+//
+//        }, completion: {(finished: Bool) in
+//
+//        })
+//
+//        self.homeTableView.scrollToRow(at: self.currentItemIndexPath, at: UITableViewScrollPosition.top, animated: true)
 
     }
     
@@ -520,6 +630,11 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         searchActive = true;
         searchApplied = true
+        
+        if (searchBar.text == ""){
+            searchApplied = false
+        }
+        
         filteredOfferedItems = []
         filteredRequestedItems = []
         
@@ -551,6 +666,11 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchActive = false;
         searchApplied = true
+        
+        if (searchBar.text == ""){
+            searchApplied = false
+        }
+        
         searchThroughData(searchText: searchBar.text!)
         searchBar.resignFirstResponder()
     }
@@ -583,6 +703,11 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         var containsTag: Bool = false
         
         for item in AppData.sharedInstance.onlineOfferedItems {
+            
+            if (item.name.lowercased().contains(searchText.lowercased())){
+                filteredOfferedItems.append(item)
+            }
+            
             for tag in item.tags.tagsArray {
                 if (tag.lowercased().contains(searchText.lowercased())){
                     containsTag = true
@@ -604,6 +729,11 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         containsTag = false
         
         for item in AppData.sharedInstance.onlineRequestedItems {
+            
+            if (item.name.lowercased().contains(searchText.lowercased())){
+                filteredRequestedItems.append(item)
+            }
+            
             for tag in item.tags.tagsArray {
                 if (tag.lowercased().contains(searchText.lowercased())){
                     containsTag = true
@@ -629,6 +759,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         //            searchActive = true;
         //        }
         self.homeTableView.reloadData()
+        removeAndAddAnnotations()
     }
 }
 

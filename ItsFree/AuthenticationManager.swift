@@ -51,6 +51,7 @@ class AuthenticationManager {
                                 .setValue(addedUser.toDictionary())
                             print("Sign up successful")
                             AuthenticationManager.addToKeychain(email: email, password: password)
+                            guestUser = false
                         }
                         else {
                             print("Error setting profile name: \(String(describing: profileError))")
@@ -115,6 +116,7 @@ class AuthenticationManager {
                         AppData.sharedInstance.currentUser = User(with: userData)
                 })
                 print("Login Successful")
+                guestUser = false
                 addToKeychain(email: email, password: password)
                 let flag = true
                 completionHandler(flag)

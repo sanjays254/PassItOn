@@ -205,26 +205,52 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
     
     @objc func swipe(gesture: UIGestureRecognizer) {
         
+        let topOfFullViewFrame = (UIScreen.main.bounds.size.height-(itemDetailView.mainImageView.frame.minY+itemDetailView.photoCollectionView.frame.maxY)) - ((self.navigationController?.navigationBar.frame.height)! + (UIApplication.shared.statusBarFrame.size.height))
+        
+        let topOfPreviewFrame = (UIScreen.main.bounds.size.height-(itemDetailView.mainImageView.frame.minY+itemDetailView.categoryLabel.frame.maxY)) - ((self.navigationController?.navigationBar.frame.height)! + (UIApplication.shared.statusBarFrame.size.height))
+        
+        
+        
         if let swipeGesture = gesture as? UISwipeGestureRecognizer {
             
             if (swipeGesture.direction == UISwipeGestureRecognizerDirection.down) {
+                
+                if (self.itemDetailView.frame.minY == topOfFullViewFrame){
+                    
+                    detailViewTopAnchorConstant = topOfPreviewFrame
+                    
+            
+                    UIView.animate(withDuration: 0.5, animations: {
+                        self.itemDetailView.frame = CGRect(x: 0, y: self.detailViewTopAnchorConstant, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height)
+                        
+                        
+                        
+                        self.itemDetailView.leftUpArrow.transform = CGAffineTransform(rotationAngle: (CGFloat.pi*2))
+                        self.itemDetailView.rightUpArrow.transform = CGAffineTransform(rotationAngle: (CGFloat.pi * -0.9999*2))
+                        
+                    }, completion: {(finished: Bool) in
+                    })
+                    
+                }
+                
+                else if (self.itemDetailView.frame.minY == topOfPreviewFrame){
  
-            UIView.animate(withDuration: 0.5, animations: {
-                self.itemDetailView.frame = CGRect(x: 0, y: UIScreen.main.bounds.size.height, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height)
-                
-                self.itemDetailView.leftUpArrow.transform = CGAffineTransform(rotationAngle: (CGFloat.pi) * -0.9999)
-                self.itemDetailView.rightUpArrow.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
-                
-            }, completion: {(finished: Bool) in
-                
-                self.willMove(toParentViewController: nil)
-                let theParentViewController = self.parent as! HomeViewController
-                theParentViewController.itemDetailContainerView.removeFromSuperview()
-                theParentViewController.homeMapView.deselectAnnotation(self.currentItem, animated: true)
-
-                self.removeFromParentViewController()
-
-            })
+                    UIView.animate(withDuration: 0.5, animations: {
+                        self.itemDetailView.frame = CGRect(x: 0, y: UIScreen.main.bounds.size.height, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height)
+                        
+                       
+                        
+                    }, completion: {(finished: Bool) in
+                        
+                        self.willMove(toParentViewController: nil)
+                        let theParentViewController = self.parent as! HomeViewController
+                        theParentViewController.itemDetailContainerView.removeFromSuperview()
+                        theParentViewController.homeMapView.deselectAnnotation(self.currentItem, animated: true)
+                        
+                        self.removeFromParentViewController()
+                        
+                    })
+                }
                 
             } else if (swipeGesture.direction == UISwipeGestureRecognizerDirection.up) {
             

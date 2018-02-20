@@ -129,17 +129,26 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a04-RW-vBf">
+                                <rect key="frame" x="131" y="576" width="113" height="30"/>
+                                <state key="normal" title="Browse as guest"/>
+                                <connections>
+                                    <action selector="guestLogin:" destination="vvg-N4-Ees" eventType="touchUpInside" id="8su-PS-HGe"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="H3x-DL-s2d" firstAttribute="top" secondItem="qvC-b6-Dli" secondAttribute="top" constant="10" id="33E-LE-zZu"/>
                             <constraint firstItem="ZGQ-bV-6dT" firstAttribute="top" secondItem="lgU-y0-iga" secondAttribute="bottom" constant="1" id="57f-t4-Sbb"/>
+                            <constraint firstItem="a04-RW-vBf" firstAttribute="centerX" secondItem="PxZ-f3-TET" secondAttribute="centerX" id="5di-hp-vob"/>
                             <constraint firstItem="FG5-hC-Fr9" firstAttribute="top" secondItem="H3x-DL-s2d" secondAttribute="bottom" constant="10" id="CBk-I6-t1Z"/>
                             <constraint firstItem="tES-Cu-wq5" firstAttribute="top" secondItem="FG5-hC-Fr9" secondAttribute="bottom" constant="20" id="CNq-pg-ff2"/>
                             <constraint firstItem="FG5-hC-Fr9" firstAttribute="centerX" secondItem="qvC-b6-Dli" secondAttribute="centerX" id="MQA-TV-M5o"/>
                             <constraint firstItem="lgU-y0-iga" firstAttribute="centerX" secondItem="PxZ-f3-TET" secondAttribute="centerX" id="SOV-V9-fZu"/>
                             <constraint firstItem="lgU-y0-iga" firstAttribute="top" secondItem="tES-Cu-wq5" secondAttribute="bottom" constant="15" id="cpr-ni-8jz"/>
                             <constraint firstItem="tES-Cu-wq5" firstAttribute="width" secondItem="FG5-hC-Fr9" secondAttribute="width" id="dOh-fb-bPd"/>
+                            <constraint firstItem="a04-RW-vBf" firstAttribute="top" secondItem="ZGQ-bV-6dT" secondAttribute="bottom" constant="7.5" id="j68-Ei-vEa"/>
                             <constraint firstItem="ZGQ-bV-6dT" firstAttribute="width" secondItem="lgU-y0-iga" secondAttribute="width" id="lRb-QG-q1f"/>
                             <constraint firstItem="H3x-DL-s2d" firstAttribute="centerX" secondItem="PxZ-f3-TET" secondAttribute="centerX" id="lhQ-qO-e0n"/>
                             <constraint firstItem="lgU-y0-iga" firstAttribute="width" secondItem="tES-Cu-wq5" secondAttribute="width" id="ln1-7v-wQj"/>
@@ -155,6 +164,7 @@
                         <outlet property="emailLabel" destination="STO-bb-RrO" id="O3R-hL-mEM"/>
                         <outlet property="emailTextfield" destination="rbx-kF-qa1" id="Z7T-53-8td"/>
                         <outlet property="goButton" destination="tES-Cu-wq5" id="oBd-8Z-uON"/>
+                        <outlet property="guestLoginButton" destination="a04-RW-vBf" id="38n-hP-VIg"/>
                         <outlet property="passwordLabel" destination="1Qf-Nq-904" id="B9X-WK-0mf"/>
                         <outlet property="passwordTextfield" destination="Elg-M5-erR" id="MZt-5R-g6O"/>
                         <outlet property="rememberMeSwitch" destination="7C1-ky-8j0" id="6Dr-uA-XBA"/>

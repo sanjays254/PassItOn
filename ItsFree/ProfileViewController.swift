@@ -14,6 +14,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
 
     @IBOutlet weak var backButton: UIButton!
     @IBOutlet weak var editButton: UIButton!
+    @IBOutlet weak var logoutButton: UIButton!
     
     @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var usernameLabel: UILabel!
@@ -145,6 +146,29 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     @IBAction func backButton(_ sender: UIButton) {
               self.dismiss(animated: true, completion: nil)
     }
+    
+    @IBAction func logout(_ sender: UIButton) {
+        
+        let logoutAlert = UIAlertController(title: "Sure?", message: "Are you sure you want to log out?", preferredStyle: .alert)
+        let logoutAction = UIAlertAction(title: "Yes, Log out", style: .destructive, handler: { (alert: UIAlertAction!) in
+            
+            self.dismiss(animated: true, completion: nil)
+            AppData.sharedInstance.currentUser = nil
+            AppData.sharedInstance.currentUserOfferedItems = []
+            AppData.sharedInstance.currentUserRequestedItems = []
+            loggedInBool = false
+        })
+        
+        let cancelAction = UIAlertAction(title: "No, stay logged in", style: .cancel, handler: nil)
+        
+        logoutAlert.addAction(logoutAction)
+        logoutAlert.addAction(cancelAction)
+        
+        present(logoutAlert, animated: true, completion: nil)
+        
+        //self.navigationController?.popViewController(animated: true)
+    }
+    
     
     
     @IBAction func editProfile(_ sender: UIButton) {

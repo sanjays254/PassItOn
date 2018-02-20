@@ -157,13 +157,27 @@
                                 <color key="textColor" red="0.30666246755854526" green="0.14943884116484898" blue="0.95634310233160624" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BGP-j3-w4p" userLabel="Log Out Button">
+                                <rect key="frame" x="318" y="65" width="50" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="50" id="D7Y-KR-KEY"/>
+                                    <constraint firstAttribute="height" constant="50" id="kfh-qo-M0z"/>
+                                </constraints>
+                                <color key="tintColor" red="0.61623996940000003" green="1" blue="0.3396967099" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <state key="normal" image="edit"/>
+                                <connections>
+                                    <action selector="logout:" destination="9wv-wn-pjM" eventType="touchUpInside" id="oSa-ql-FTS"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="apo-xE-xyy" firstAttribute="trailing" secondItem="BGP-j3-w4p" secondAttribute="trailing" constant="7" id="0ix-AZ-D9F"/>
                             <constraint firstItem="7pi-MC-I6z" firstAttribute="top" secondItem="apo-xE-xyy" secondAttribute="top" constant="7" id="0uP-PA-AzH"/>
                             <constraint firstItem="apo-xE-xyy" firstAttribute="trailing" secondItem="EgC-jl-kXm" secondAttribute="trailing" id="5vd-YZ-O2u"/>
                             <constraint firstItem="48w-2B-IEK" firstAttribute="top" secondItem="EgC-jl-kXm" secondAttribute="bottom" constant="-3" id="ACa-Xe-759"/>
                             <constraint firstItem="n16-cV-pxw" firstAttribute="top" secondItem="xP3-iM-nzo" secondAttribute="bottom" constant="20" id="F6T-W0-HoU"/>
+                            <constraint firstItem="BGP-j3-w4p" firstAttribute="top" secondItem="7pi-MC-I6z" secondAttribute="bottom" constant="8" id="FQY-tp-sMt"/>
                             <constraint firstItem="I2y-oy-I5o" firstAttribute="top" secondItem="8Dm-5y-SA3" secondAttribute="bottom" constant="8" id="IcL-mn-Hty"/>
                             <constraint firstItem="8kg-8t-3qi" firstAttribute="top" secondItem="9Iv-nz-LsU" secondAttribute="bottom" constant="5" id="UXP-s9-dxJ"/>
                             <constraint firstItem="EgC-jl-kXm" firstAttribute="leading" secondItem="apo-xE-xyy" secondAttribute="leading" id="Uxh-zL-yT7"/>
@@ -197,6 +211,7 @@
                         <outlet property="backButton" destination="xl0-9u-a6U" id="31F-qd-jA8"/>
                         <outlet property="editButton" destination="7pi-MC-I6z" id="96V-eb-sir"/>
                         <outlet property="emailLabel" destination="8Dm-5y-SA3" id="gBU-be-e20"/>
+                        <outlet property="logoutButton" destination="BGP-j3-w4p" id="8Dc-9r-fe5"/>
                         <outlet property="myPostsTableView" destination="48w-2B-IEK" id="tpQ-tQ-FCa"/>
                         <outlet property="offersRequestsSegmentedControl" destination="EgC-jl-kXm" id="39e-7D-d0X"/>
                         <outlet property="pointsLabel" destination="9Iv-nz-LsU" id="UVI-pB-nBI"/>

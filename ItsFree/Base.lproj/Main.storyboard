@@ -25,6 +25,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="TAE-8q-rN8">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="0.0"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" id="tph-gz-R0q"/>
+                                </constraints>
+                                <color key="barTintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </searchBar>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" barStyle="black" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sfN-Ue-xh3">
                                 <rect key="frame" x="0.0" y="559" width="375" height="44"/>
                                 <constraints>
@@ -64,12 +72,6 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="PJe-Ph-xUe">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="559"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <searchBar key="tableHeaderView" contentMode="redraw" id="TAE-8q-rN8">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="0.0"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                    <color key="barTintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    <textInputTraits key="textInputTraits"/>
-                                </searchBar>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="rKZ-zW-fY9" customClass="ItemHomeTableViewCell" customModule="ItsFree" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="44"/>
@@ -91,18 +93,21 @@
                             <constraint firstItem="PJe-Ph-xUe" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="2dJ-B7-gBr"/>
                             <constraint firstItem="sfN-Ue-xh3" firstAttribute="top" secondItem="PJe-Ph-xUe" secondAttribute="bottom" id="5gF-sL-T8K"/>
                             <constraint firstItem="sfN-Ue-xh3" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="9Ht-Cc-jRQ"/>
+                            <constraint firstItem="TAE-8q-rN8" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="Bla-xm-iWJ"/>
                             <constraint firstItem="FyU-Hq-Xax" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="SGC-a3-n3w"/>
                             <constraint firstItem="sfN-Ue-xh3" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="YIR-F9-0Fg"/>
-                            <constraint firstItem="PJe-Ph-xUe" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="bVg-r7-ruJ"/>
+                            <constraint firstItem="TAE-8q-rN8" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="bMZ-Gw-yCG"/>
+                            <constraint firstItem="PJe-Ph-xUe" firstAttribute="top" secondItem="TAE-8q-rN8" secondAttribute="bottom" id="bVg-r7-ruJ"/>
                             <constraint firstItem="sfN-Ue-xh3" firstAttribute="top" secondItem="FyU-Hq-Xax" secondAttribute="bottom" id="c1y-tu-EHh"/>
                             <constraint firstItem="FyU-Hq-Xax" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="czj-oB-cj2"/>
+                            <constraint firstAttribute="trailing" secondItem="TAE-8q-rN8" secondAttribute="trailing" id="nAF-bS-esT"/>
                             <constraint firstItem="FyU-Hq-Xax" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="p8u-Js-Vh4"/>
                             <constraint firstItem="sfN-Ue-xh3" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="vmn-Le-iX9"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" id="XWZ-QN-ahw">
-                        <barButtonItem key="leftBarButtonItem" title="Item" id="9Yo-MC-Js1">
+                        <barButtonItem key="leftBarButtonItem" systemItem="search" id="9Yo-MC-Js1">
                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="S6y-j2-V3P"/>
@@ -113,6 +118,7 @@
                         <outlet property="homeTableViewTopConstraint" destination="bVg-r7-ruJ" id="XyS-xY-SXC"/>
                         <outlet property="newPostButton" destination="S6y-j2-V3P" id="stq-v6-yda"/>
                         <outlet property="searchBar" destination="TAE-8q-rN8" id="cpa-Fl-TxX"/>
+                        <outlet property="searchBarHeightConstraint" destination="tph-gz-R0q" id="nsS-F1-E5P"/>
                         <outlet property="toolbar" destination="sfN-Ue-xh3" id="tAR-Pn-p25"/>
                         <outlet property="wantedAvailableSegmentedControl" destination="kVJ-lR-ADn" id="BwG-Mp-ZZP"/>
                         <segue destination="uu9-5f-Eua" kind="show" identifier="postSegue" id="Ief-IJ-IS6"/>

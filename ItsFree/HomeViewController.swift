@@ -123,10 +123,9 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     func setupSearchButton(){
         
         let searchButton  = UIButton(type: .system)
-        let leaderboardImage = UIImage(named: "leaderboard")?.withRenderingMode(.alwaysTemplate)
+        let searchImage = UIImage(named: "search")?.withRenderingMode(.alwaysTemplate)
         
-       
-        searchButton.setImage(leaderboardImage, for: .normal)
+        searchButton.setImage(searchImage, for: .normal)
         
         searchButton.tintColor = UIProperties.sharedUIProperties.whiteColour
         searchButton.addTarget(self, action: #selector(searchButtonAction), for: .touchUpInside)

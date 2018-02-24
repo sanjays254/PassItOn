@@ -130,7 +130,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a04-RW-vBf">
-                                <rect key="frame" x="131" y="576" width="113" height="30"/>
+                                <rect key="frame" x="131" y="574" width="113" height="30"/>
                                 <state key="normal" title="Browse as guest"/>
                                 <connections>
                                     <action selector="guestLogin:" destination="vvg-N4-Ees" eventType="touchUpInside" id="8su-PS-HGe"/>
@@ -148,7 +148,7 @@
                             <constraint firstItem="lgU-y0-iga" firstAttribute="centerX" secondItem="PxZ-f3-TET" secondAttribute="centerX" id="SOV-V9-fZu"/>
                             <constraint firstItem="lgU-y0-iga" firstAttribute="top" secondItem="tES-Cu-wq5" secondAttribute="bottom" constant="15" id="cpr-ni-8jz"/>
                             <constraint firstItem="tES-Cu-wq5" firstAttribute="width" secondItem="FG5-hC-Fr9" secondAttribute="width" id="dOh-fb-bPd"/>
-                            <constraint firstItem="a04-RW-vBf" firstAttribute="top" secondItem="ZGQ-bV-6dT" secondAttribute="bottom" constant="7.5" id="j68-Ei-vEa"/>
+                            <constraint firstItem="a04-RW-vBf" firstAttribute="top" secondItem="ZGQ-bV-6dT" secondAttribute="bottom" constant="5" id="j68-Ei-vEa"/>
                             <constraint firstItem="ZGQ-bV-6dT" firstAttribute="width" secondItem="lgU-y0-iga" secondAttribute="width" id="lRb-QG-q1f"/>
                             <constraint firstItem="H3x-DL-s2d" firstAttribute="centerX" secondItem="PxZ-f3-TET" secondAttribute="centerX" id="lhQ-qO-e0n"/>
                             <constraint firstItem="lgU-y0-iga" firstAttribute="width" secondItem="tES-Cu-wq5" secondAttribute="width" id="ln1-7v-wQj"/>

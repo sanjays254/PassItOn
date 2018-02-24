@@ -70,6 +70,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         goButton.layer.borderColor = UIProperties.sharedUIProperties.blackColour.cgColor
         toggleButton.tintColor = UIProperties.sharedUIProperties.purpleColour
         
+        guestLoginButton.tintColor = UIProperties.sharedUIProperties.purpleColour
+        
         setToLogIn()
         login()
     }

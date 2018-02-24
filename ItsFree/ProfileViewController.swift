@@ -16,6 +16,8 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     @IBOutlet weak var editButton: UIButton!
     @IBOutlet weak var logoutButton: UIButton!
     
+    @IBOutlet weak var leaderboardButton: UIButton!
+    
     @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var emailLabel: UILabel!
@@ -60,6 +62,17 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         self.editButton.layer.backgroundColor = UIColor.black.cgColor
         self.editButton.layer.cornerRadius = self.backButton.frame.size.width/2
         self.editButton.layer.masksToBounds = false
+        
+        logoutButton.setImage(#imageLiteral(resourceName: "logout"), for: .normal)
+        self.logoutButton.imageView?.transform = CGAffineTransform(rotationAngle: (CGFloat.pi))
+        self.logoutButton.layer.backgroundColor = UIColor.black.cgColor
+        self.logoutButton.layer.cornerRadius = self.backButton.frame.size.width/2
+        self.logoutButton.layer.masksToBounds = false
+        
+        leaderboardButton.setImage(#imageLiteral(resourceName: "wreath"), for: .normal)
+        self.leaderboardButton.layer.backgroundColor = UIColor.black.cgColor
+        self.leaderboardButton.layer.cornerRadius = self.backButton.frame.size.width/2
+        self.leaderboardButton.layer.masksToBounds = false
         
         setUpProfilePicture()
         setUpProfileText()
@@ -146,6 +159,11 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     @IBAction func backButton(_ sender: UIButton) {
               self.dismiss(animated: true, completion: nil)
     }
+    
+    @IBAction func leaderboardButton(_ sender: UIButton) {
+        performSegue(withIdentifier: "leaderboardSegue", sender: self)
+    }
+    
     
     @IBAction func logout(_ sender: UIButton) {
         
@@ -359,6 +377,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
             }
             else {
                 selectedItemToEdit = AppData.sharedInstance.currentUserOfferedItems[indexPath.row]
+                 performSegue(withIdentifier: "editPostSegue", sender: self)
             }
             
         case 1:
@@ -367,12 +386,13 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
             }
             else {
             selectedItemToEdit = AppData.sharedInstance.currentUserRequestedItems[indexPath.row]
+                 performSegue(withIdentifier: "editPostSegue", sender: self)
             }
             
         default:
             selectedItemToEdit = nil
         }
-        performSegue(withIdentifier: "editPostSegue", sender: self)
+       
         
         tableView.deselectRow(at: indexPath, animated: true)
     }

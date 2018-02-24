@@ -13,18 +13,69 @@ import CoreLocation
 
 class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UITextViewDelegate, UICollectionViewDelegateFlowLayout{
     
-    @IBOutlet weak var titleTextField: UITextField!
-    @IBOutlet weak var descriptionTextField: UITextView!
-    @IBOutlet weak var qualitySegmentedControl: UISegmentedControl!
-    @IBOutlet weak var customTagTextField: UITextField!
-    @IBOutlet weak var valueTextField: UITextField!
-    @IBOutlet weak var addCustomTagButton: UIButton!
-    @IBOutlet weak var tagButtonView: UIView!
+    
+    @IBOutlet var titleTextField: UITextField!
+    @IBOutlet var descriptionTextField: UITextView!
+    @IBOutlet var qualitySegmentedControl: UISegmentedControl!
+    @IBOutlet var customTagTextField: UITextField!
+    @IBOutlet var valueTextField: UITextField!
+    @IBOutlet var addCustomTagButton: UIButton!
+    @IBOutlet var tagButtonView: UIView!
     @IBOutlet weak var defaultTagStackView: UIStackView!
     @IBOutlet weak var customTagStackView: UIStackView!
-    @IBOutlet weak var locationButton: UIButton!
-    @IBOutlet weak var addCategoryButton: UIButton!
-    @IBOutlet weak var photoCollectionView: UICollectionView!
+    @IBOutlet var locationButton: UIButton!
+    @IBOutlet var addCategoryButton: UIButton!
+    @IBOutlet var photoCollectionView: UICollectionView!
+    
+    @IBOutlet weak var stepByStepView: UIView!
+    var questionLabel: UILabel!
+    var responseView: UIView!
+    var nextPreviousButtonStackView: UIStackView!
+    var stepsArray: [String]!
+    var stepIndex: Int!
+    
+    @IBOutlet var titleTopConstraint: NSLayoutConstraint!
+    @IBOutlet var titleLeadingConstraint: NSLayoutConstraint!
+    @IBOutlet var titleTrailingConstraint: NSLayoutConstraint!
+    @IBOutlet var descriptionTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var descriptionHeight: NSLayoutConstraint!
+    @IBOutlet var descriptionLeadingConstraint: NSLayoutConstraint!
+    @IBOutlet var descriptionTrailingConstraint: NSLayoutConstraint!
+    @IBOutlet var customTagTextFieldTopConstraint: NSLayoutConstraint!
+    @IBOutlet var customTagTextFielLeadingConstraint: NSLayoutConstraint!
+    @IBOutlet var customTagTrailingConstraint: NSLayoutConstraint!
+    @IBOutlet var valueTextFieldTopConstraint: NSLayoutConstraint!
+    @IBOutlet var valueTextFieldTrailingConstraint: NSLayoutConstraint!
+    @IBOutlet var addTagButtonTopConstraint: NSLayoutConstraint!
+    @IBOutlet var addTagButtonBottomConstraint: NSLayoutConstraint!
+    @IBOutlet var addTagButtonTrailingConstraint: NSLayoutConstraint!
+    @IBOutlet var tagButtonTopConstraintToCustomTagTextFieldBottom: NSLayoutConstraint!
+    @IBOutlet var tagButtonTopConstraintToValueBottom: NSLayoutConstraint!
+    @IBOutlet var tagButtonLeadingConstraint: NSLayoutConstraint!
+    @IBOutlet var tagButtonTrailingConstraint: NSLayoutConstraint!
+    @IBOutlet var tagButtonHeightConstraint: NSLayoutConstraint!
+    @IBOutlet var photoCollectionViewTopConstraint: NSLayoutConstraint!
+    @IBOutlet var photoCollectionViewLeadingConstraint: NSLayoutConstraint!
+    @IBOutlet var photoCollectionViewTrailingConstraint: NSLayoutConstraint!
+    @IBOutlet var qualitySegmentTopConstraint: NSLayoutConstraint!
+    @IBOutlet var qualitySegmentHeightConstraint: NSLayoutConstraint!
+    @IBOutlet var qualitySegmentLeadingConstraint: NSLayoutConstraint!
+    @IBOutlet var qualitySegmentTrailingConstraint: NSLayoutConstraint!
+    @IBOutlet var categoryButtonTopConstraint: NSLayoutConstraint!
+    @IBOutlet var categoryButtonLeadingConstraint: NSLayoutConstraint!
+    @IBOutlet var categoryButtonTrailingConstraint: NSLayoutConstraint!
+    @IBOutlet var locationButtonTopConstraint: NSLayoutConstraint!
+    @IBOutlet var locationButtonLeadingConstraint: NSLayoutConstraint!
+    @IBOutlet var locationButtonTrailingConstraint: NSLayoutConstraint!
+    @IBOutlet var locationButtonBottomConstraint: NSLayoutConstraint!
+    
+    var topConstraintInResponseView: NSLayoutConstraint!
+    var bottomConstraintInResponseView: NSLayoutConstraint!
+    var leadingConstraintInResponseView: NSLayoutConstraint!
+    var trailingConstraintInResponseView: NSLayoutConstraint!
+    
+    var previousButton: UIButton!
+    var nextButton: UIButton!
     
     var chosenQuality: ItemQuality!
     var chosenTagsArray: [String] = []
@@ -54,8 +105,10 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        photosArray = []
         setupUI()
-        setupOfferRequestSegmentedControl()
+        
+        
         checkIfEditing()
         
         titleTextField.delegate = self
@@ -70,10 +123,379 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         photoCollectionView.dataSource = self
         imagePicker.delegate = self
         
-        photosArray = []
+       
+    }
+    func setupInitialUI(){
+        
+        stepsArray = ["Item to give away or item that you want?", "Item Title", "Optional Description", "Add some photos", "Add tags to enhance searches for this item", "What condition is it in?", "What category does it fall under?", "Pick up Location?", "What is it's value?"]
+        stepIndex = 0
+
+        view.bringSubview(toFront: stepByStepView)
+        
+        questionLabel = UILabel(frame: CGRect(x: 0, y: 20, width: view.frame.width, height: 20))
+        questionLabel.center.x = view.center.x
+        questionLabel.textAlignment = .center
+        questionLabel.text = stepsArray[stepIndex]
+        
+        stepByStepView.addSubview(questionLabel)
+        
+        responseView = UIView(frame: CGRect(x: 0, y: 50, width: view.frame.width, height: 190))
+        responseView.center.x = view.center.x
+        responseView.backgroundColor = UIProperties.sharedUIProperties.whiteColour
+        
+        stepByStepView.addSubview(responseView)
+        
+        nextButton = UIButton(type: .custom)
+        nextButton.frame = CGRect(x: 0, y: 0, width: 20, height: 20)
+        nextButton.setTitle("Next", for: .normal)
+        nextButton.addTarget(self, action: #selector(nextButtonAction), for: UIControlEvents.touchUpInside)
+        nextButton.tintColor = UIProperties.sharedUIProperties.whiteColour
+        nextButton.backgroundColor = UIProperties.sharedUIProperties.purpleColour
+        nextButton.layer.borderColor = UIProperties.sharedUIProperties.blackColour.cgColor
+        nextButton.layer.borderWidth = 3
+        nextButton.layer.cornerRadius = nextButton.frame.height/2
+        
+        previousButton = UIButton(type: .custom)
+        previousButton.frame = CGRect(x: 0, y: 0, width: 20, height: 20)
+        previousButton.setTitle("Previous", for: .normal)
+        previousButton.addTarget(self, action: #selector(previousButtonAction), for: UIControlEvents.touchUpInside)
+        previousButton.tintColor = UIProperties.sharedUIProperties.whiteColour
+        previousButton.backgroundColor = UIProperties.sharedUIProperties.purpleColour
+        previousButton.layer.borderColor = UIProperties.sharedUIProperties.blackColour.cgColor
+        previousButton.layer.borderWidth = 3
+        previousButton.layer.cornerRadius = previousButton.frame.height/2
+        
+        nextPreviousButtonStackView = UIStackView(arrangedSubviews: [previousButton,nextButton])
+        nextPreviousButtonStackView.backgroundColor = UIColor.black
+        nextPreviousButtonStackView.axis = .horizontal
+        nextPreviousButtonStackView.frame = CGRect.zero
+        //nextPreviousButtonStackView.frame = CGRect(x: 0, y: 250, width: view.frame.width*0.8, height: 30)
+        //nextPreviousButtonStackView.
+        //nextPreviousButtonStackView.center.x = stepByStepView.center.x
+        nextPreviousButtonStackView.translatesAutoresizingMaskIntoConstraints = false
+        nextPreviousButtonStackView.distribution = .fillEqually
+        stepByStepView.addSubview(nextPreviousButtonStackView)
+        
+        let nextPreviousStackViewTopConstraint = NSLayoutConstraint(item: nextPreviousButtonStackView, attribute: .top, relatedBy: .equal, toItem: responseView, attribute: .bottom, multiplier: 1, constant: 10)
+        
+        let nextPreviousStackViewWidthConstraint = NSLayoutConstraint(item: nextPreviousButtonStackView, attribute: .width, relatedBy: .equal,
+                                                 toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: view.frame.width*0.8)
+        
+        let nextPreviousStackViewHeightConstraint = NSLayoutConstraint(item: nextPreviousButtonStackView, attribute: .height, relatedBy: .equal,
+                                                  toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 30)
+        
+        let centralizeXconstraint = NSLayoutConstraint(item: nextPreviousButtonStackView, attribute: .centerX, relatedBy: .equal, toItem: view, attribute: .centerX, multiplier: 1, constant: 0)
+        
+        NSLayoutConstraint.activate([nextPreviousStackViewWidthConstraint, nextPreviousStackViewHeightConstraint, centralizeXconstraint, nextPreviousStackViewTopConstraint])
+//        stepByStepView.addSubview(questionLabel)
+//        stepByStepView.addSubview(responseView)
+        
+        
+        titleTopConstraint.isActive = false
+        descriptionTopConstraint.isActive = false
+        //tagButtonTopConstraintToCustomTagTextFieldBottom.isActive = false
+        tagButtonTopConstraintToValueBottom.isActive = false
+        valueTextFieldTopConstraint.isActive = false
+        customTagTrailingConstraint.isActive = false
+        customTagTextFieldTopConstraint.isActive = false
+        photoCollectionViewTopConstraint.isActive = false
+        qualitySegmentTopConstraint.isActive = false
+        categoryButtonTopConstraint.isActive = false
+        locationButtonTopConstraint.isActive = false
+        locationButtonBottomConstraint.isActive = false
+        
+        setupCascadingQuestions()
+        
     }
     
+    @objc func moveOfferRequestSegmentControl(sender: UISegmentedControl!){
+
+        if(stepIndex == 0){
+            offerRequestSegmentedControl.frame = CGRect(x: 0, y: 0, width: 120, height: 30)
+            self.navigationItem.titleView = offerRequestSegmentedControl
+            nextQuestion()
+        }
+        
+    }
+    @objc func previousButtonAction(sender:UIButton!) {
+        print("previous Clicked")
+        stepIndex = stepIndex - 1
+       setupCascadingQuestions()
+    }
+    
+    @objc func nextButtonAction(sender:UIButton!) {
+        nextQuestion()
+        print("next Clicked")
+        
+    }
+    func nextQuestion(){
+        
+        if  (nextButton.titleLabel?.text == "Preview"){
+            stepIndex = stepsArray.count
+        }
+        
+        else {
+            stepIndex = stepIndex + 1
+            if (stepIndex < stepsArray.count){
+                questionLabel.text = stepsArray[stepIndex]
+            }
+            
+        }
+            setupCascadingQuestions()
+    }
+    
+    func setupCascadingQuestions(){
+        
+        if (stepIndex == stepsArray.count){
+            
+            topConstraintInResponseView.isActive = false
+            bottomConstraintInResponseView.isActive = false
+            trailingConstraintInResponseView.isActive = false
+            leadingConstraintInResponseView.isActive = false
+            
+            questionLabel.removeFromSuperview()
+            responseView.removeFromSuperview()
+            nextPreviousButtonStackView.removeFromSuperview()
+            view.sendSubview(toBack: stepByStepView)
+        
+            view.addSubview(titleTextField)
+            view.addSubview(descriptionTextField)
+            view.addSubview(tagButtonView)
+            view.addSubview(customTagTextField)
+            view.addSubview(addCustomTagButton)
+            view.addSubview(photoCollectionView)
+            view.addSubview(addCategoryButton)
+            view.addSubview(locationButton)
+            
+            titleTextField.isHidden = false
+            descriptionTextField.isHidden = false
+            tagButtonView.isHidden = false
+            customTagTextField.isHidden = false
+            addCustomTagButton.isHidden = false
+            photoCollectionView.isHidden = false
+            addCategoryButton.isHidden = false
+            locationButton.isHidden = false
+            
+            titleTopConstraint.isActive = true
+            titleLeadingConstraint.isActive = true
+            titleTrailingConstraint.isActive = true
+            
+            descriptionTopConstraint.isActive = true
+            descriptionLeadingConstraint.isActive = true
+            descriptionTrailingConstraint.isActive = true
+            
+            tagButtonTopConstraintToCustomTagTextFieldBottom.isActive = true
+            tagButtonTopConstraintToValueBottom.isActive = true
+            tagButtonHeightConstraint.isActive = true
+            tagButtonLeadingConstraint.isActive = true
+            tagButtonTrailingConstraint.isActive = true
+            
+            valueTextFieldTopConstraint.isActive = true
+            valueTextFieldTrailingConstraint.isActive = true
+            
+            customTagTextFieldTopConstraint.isActive = true
+            customTagTextFielLeadingConstraint.isActive = true
+            customTagTrailingConstraint.isActive = true
+            
+            addTagButtonTopConstraint.isActive = true
+            addTagButtonTrailingConstraint.isActive = true
+            addTagButtonBottomConstraint.isActive = true
+            
+            photoCollectionViewTopConstraint.isActive = true
+            photoCollectionViewLeadingConstraint.isActive = true
+            photoCollectionViewTrailingConstraint.isActive = true
+            
+            qualitySegmentTopConstraint.isActive = true
+            qualitySegmentHeightConstraint.isActive = true
+            qualitySegmentLeadingConstraint.isActive = true
+            qualitySegmentTrailingConstraint.isActive = true
+            
+            categoryButtonTopConstraint.isActive = true
+            categoryButtonLeadingConstraint.isActive = true
+            categoryButtonTrailingConstraint.isActive = true
+            
+            locationButtonTopConstraint.isActive = true
+            locationButtonLeadingConstraint.isActive = true
+            locationButtonTrailingConstraint.isActive = true
+            locationButtonBottomConstraint.isActive = true
+            
+            view.layoutIfNeeded()
+        }
+        
+        else if (stepIndex == 0){
+            nextPreviousButtonStackView.isHidden = true
+          
+            offerRequestSegmentedControl.frame = CGRect(x: 0, y: 30, width: 300, height: 30)
+            offerRequestSegmentedControl.layer.cornerRadius = 4
+            offerRequestSegmentedControl.addTarget(self, action: #selector(moveOfferRequestSegmentControl), for: .valueChanged)
+            
+            responseView.addSubview(offerRequestSegmentedControl)
+            offerRequestSegmentedControl.center.x = responseView.center.x
+            
+        }
+        else if (stepIndex == 1){
+            
+           
+            nextPreviousButtonStackView.isHidden = false
+             previousButton.frame = CGRect(x: 0, y: 0, width: 0, height: 0)
+            
+           // nextButton.center.x = nextPreviousButtonStackView.center.x
+           
+            previousButton.isHidden = true
+            
+            for view in responseView.subviews {
+                view.isHidden = true
+            }
+            questionLabel.text = stepsArray[stepIndex]
+            titleTextField.isHidden = false
+            responseView.addSubview(titleTextField)
+            
+            topConstraintInResponseView = NSLayoutConstraint(item: titleTextField, attribute: NSLayoutAttribute.top, relatedBy: NSLayoutRelation.equal, toItem: responseView, attribute: NSLayoutAttribute.top, multiplier: 1, constant: 10)
+            responseView.addConstraints([topConstraintInResponseView])
+                                 
+//            titleTextField.center.y = responseView.center.y
+//            titleTextField.center.x = responseView.center.x
+            
+        }
+        else if (stepIndex == 2){
+            
+            previousButton.frame = CGRect(x: 0, y: 0, width: nextPreviousButtonStackView.frame.width/2, height: nextPreviousButtonStackView.frame.height)
+            nextPreviousButtonStackView.distribution = .fillEqually
+            previousButton.isHidden = false
+            
+            for view in responseView.subviews {
+                view.isHidden = true
+            }
+            
+            descriptionTextField.isHidden = false
+            questionLabel.text = stepsArray[stepIndex]
+            responseView.addSubview(descriptionTextField)
+            
+            topConstraintInResponseView = NSLayoutConstraint(item: descriptionTextField, attribute: NSLayoutAttribute.top, relatedBy: NSLayoutRelation.equal, toItem: responseView, attribute: NSLayoutAttribute.top, multiplier: 1, constant: 10)
+            responseView.addConstraints([topConstraintInResponseView])
+        }
+        else if (stepIndex == 3){
+            for view in responseView.subviews {
+               view.isHidden = true
+            }
+            photoCollectionView.isHidden = false
+            questionLabel.text = stepsArray[stepIndex]
+            setupPhotoCollectionView()
+            responseView.addSubview(photoCollectionView)
+            
+            topConstraintInResponseView = NSLayoutConstraint(item: photoCollectionView, attribute: NSLayoutAttribute.top, relatedBy: NSLayoutRelation.equal, toItem: responseView, attribute: NSLayoutAttribute.top, multiplier: 1, constant: 10)
+            
+            bottomConstraintInResponseView = NSLayoutConstraint(item: photoCollectionView, attribute: NSLayoutAttribute.bottom, relatedBy: NSLayoutRelation.equal, toItem: responseView, attribute: NSLayoutAttribute.bottom, multiplier: 1, constant: -50)
+            
+            trailingConstraintInResponseView = NSLayoutConstraint(item: photoCollectionView, attribute: NSLayoutAttribute.trailing, relatedBy: NSLayoutRelation.greaterThanOrEqual, toItem: responseView, attribute: NSLayoutAttribute.trailing, multiplier: 1, constant: 10)
+            
+            leadingConstraintInResponseView = NSLayoutConstraint(item: photoCollectionView, attribute: NSLayoutAttribute.leading, relatedBy: NSLayoutRelation.greaterThanOrEqual, toItem: responseView, attribute: NSLayoutAttribute.leading, multiplier: 1, constant: 10)
+            
+            responseView.addConstraints([topConstraintInResponseView, bottomConstraintInResponseView, leadingConstraintInResponseView, trailingConstraintInResponseView])
+        }
+        else if (stepIndex == 4){
+            for view in responseView.subviews {
+                view.isHidden = true
+            }
+            
+            customTagTextField.isHidden = false
+            tagButtonView.isHidden = false
+            addCustomTagButton.isHidden = false
+            
+            questionLabel.text = stepsArray[stepIndex]
+            responseView.addSubview(customTagTextField)
+            responseView.addSubview(tagButtonView)
+            responseView.addSubview(addCustomTagButton)
+            
+            topConstraintInResponseView = NSLayoutConstraint(item: customTagTextField, attribute: NSLayoutAttribute.top, relatedBy: NSLayoutRelation.equal, toItem: responseView, attribute: NSLayoutAttribute.top, multiplier: 1, constant: 10)
+            trailingConstraintInResponseView = NSLayoutConstraint(item: customTagTextField, attribute: NSLayoutAttribute.trailing, relatedBy: NSLayoutRelation.equal, toItem: responseView, attribute: NSLayoutAttribute.trailing, multiplier: 1, constant: -10)
+            leadingConstraintInResponseView = NSLayoutConstraint(item: customTagTextField, attribute: NSLayoutAttribute.leading, relatedBy: NSLayoutRelation.equal, toItem: responseView, attribute: NSLayoutAttribute.leading, multiplier: 1, constant: 10)
+            responseView.addConstraints([topConstraintInResponseView, trailingConstraintInResponseView, leadingConstraintInResponseView])
+            
+        }
+        else if (stepIndex == 5){
+            
+            
+            
+            for view in responseView.subviews {
+                view.isHidden = true
+            }
+            
+            
+            nextButton.titleLabel?.text = "Next"
+            
+            qualitySegmentedControl.isHidden = false
+            questionLabel.text = stepsArray[stepIndex]
+            responseView.addSubview(qualitySegmentedControl)
+            
+            topConstraintInResponseView = NSLayoutConstraint(item: qualitySegmentedControl, attribute: NSLayoutAttribute.top, relatedBy: NSLayoutRelation.equal, toItem: responseView, attribute: NSLayoutAttribute.top, multiplier: 1, constant: 10)
+            responseView.addConstraints([topConstraintInResponseView])
+            
+            
+        }
+        else if (stepIndex == 6){
+            
+            if (offerRequestSegmentedControl.selectedSegmentIndex == 1){
+                nextButton.titleLabel?.text = "Preview"
+            }
+            for view in responseView.subviews {
+                view.isHidden = true
+            }
+            
+            addCategoryButton.isHidden = false
+            questionLabel.text = stepsArray[stepIndex]
+            responseView.addSubview(addCategoryButton)
+            
+            topConstraintInResponseView = NSLayoutConstraint(item: addCategoryButton, attribute: NSLayoutAttribute.top, relatedBy: NSLayoutRelation.equal, toItem: responseView, attribute: NSLayoutAttribute.top, multiplier: 1, constant: 10)
+            responseView.addConstraints([topConstraintInResponseView])
+            
+           
+        }
+        else if (stepIndex == 7){
+
+            
+            nextButton.titleLabel?.text = "Next"
+            
+            for view in responseView.subviews {
+                view.isHidden = true
+            }
+            
+            
+            locationButton.isHidden = false
+            
+            questionLabel.text = stepsArray[stepIndex]
+            responseView.addSubview(locationButton)
+            
+            topConstraintInResponseView = NSLayoutConstraint(item: locationButton, attribute: NSLayoutAttribute.top, relatedBy: NSLayoutRelation.equal, toItem: responseView, attribute: NSLayoutAttribute.top, multiplier: 1, constant: 10)
+            responseView.addConstraints([topConstraintInResponseView])
+            
+        }
+        else if (stepIndex == 8){
+            
+            nextButton.titleLabel?.text = "Preview"
+            
+            for view in responseView.subviews {
+                view.isHidden = true
+            }
+            
+            valueTextField.isHidden = false
+            questionLabel.text = stepsArray[stepIndex]
+            responseView.addSubview(valueTextField)
+            
+            topConstraintInResponseView = NSLayoutConstraint(item: valueTextField, attribute: NSLayoutAttribute.top, relatedBy: NSLayoutRelation.equal, toItem: responseView, attribute: NSLayoutAttribute.top, multiplier: 1, constant: 10)
+            bottomConstraintInResponseView = NSLayoutConstraint(item: valueTextField, attribute: NSLayoutAttribute.bottom, relatedBy: NSLayoutRelation.equal, toItem: responseView, attribute: NSLayoutAttribute.bottom, multiplier: 1, constant: -70)
+            
+            leadingConstraintInResponseView = NSLayoutConstraint(item: valueTextField, attribute: NSLayoutAttribute.leading, relatedBy: NSLayoutRelation.equal, toItem: responseView, attribute: NSLayoutAttribute.leading, multiplier: 1, constant: 10)
+            
+            trailingConstraintInResponseView = NSLayoutConstraint(item: valueTextField, attribute: NSLayoutAttribute.trailing, relatedBy: NSLayoutRelation.equal, toItem: responseView, attribute: NSLayoutAttribute.trailing, multiplier: 1, constant: -10)
+           
+            responseView.addConstraints([topConstraintInResponseView,leadingConstraintInResponseView, trailingConstraintInResponseView, bottomConstraintInResponseView])
+        }
+         
+    }
     func setupUI(){
+        
+        self.navigationItem.backBarButtonItem?.title = "Browse"
         
         titleTextField.layer.borderColor = UIProperties.sharedUIProperties.purpleColour.cgColor
         titleTextField.layer.borderWidth = 1.0
@@ -118,15 +540,46 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         locationButton.layer.cornerRadius = 5
         locationButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 0)
         
+        setupPhotoCollectionView()
+        setupOfferRequestSegmentedControl()
+        setupTagButtonsView()
+        
+        
+    }
+    
+    func setupPhotoCollectionView(){
         let photoCollectionViewFlowLayout = UICollectionViewFlowLayout()
-
+        
         photoCollectionViewFlowLayout.scrollDirection = UICollectionViewScrollDirection.horizontal
         photoCollectionViewFlowLayout.minimumInteritemSpacing = 5.0
         
         photoCollectionView.collectionViewLayout = photoCollectionViewFlowLayout
         
-        setupOfferRequestSegmentedControl()
-        setupTagButtonsView()
+        
+        //photoCollectionView.center.x = view.center.x
+        var totalPhotosCount: Int!
+        
+        if (editingBool == true){
+            totalPhotosCount = photosArray.count + itemToEdit.photos.count + 1
+        }
+        else {
+            totalPhotosCount = photosArray.count + 1
+        }
+        
+        let viewWidth = CGFloat(photoCollectionView.frame.width * 1)
+        let totalCellWidth = (photoCollectionView.frame.size.width/3) * CGFloat(totalPhotosCount);
+        let totalSpacingWidth = 10 * CGFloat(totalPhotosCount - 1);
+        
+        let leftInset = (viewWidth - (totalCellWidth + totalSpacingWidth)) / 2;
+        let rightInset = leftInset;
+        
+        photoCollectionViewLeadingConstraint = NSLayoutConstraint(item: photoCollectionView, attribute: .leading, relatedBy: .greaterThanOrEqual, toItem: view, attribute: .leading, multiplier: 1, constant: 7)
+        photoCollectionViewTrailingConstraint = NSLayoutConstraint(item: photoCollectionView, attribute: .trailing, relatedBy: .greaterThanOrEqual, toItem: view, attribute: .trailing, multiplier: 1, constant: 7)
+        photoCollectionViewLeadingConstraint.constant = leftInset
+        photoCollectionViewTrailingConstraint.constant = rightInset
+        
+        view.layoutIfNeeded()
+        
     }
     
     func checkIfEditing(){
@@ -147,15 +600,20 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
             
             findLocationStringFromCoordinates(item: itemToEdit)
         }
+        
+        else {
+            setupInitialUI()
+        }
     }
     
     
     fileprivate func setupOfferRequestSegmentedControl() {
         offerRequestSegmentedControl = UISegmentedControl()
         offerRequestSegmentedControl.tintColor = UIProperties.sharedUIProperties.lightGreenColour
+        offerRequestSegmentedControl.backgroundColor = UIProperties.sharedUIProperties.blackColour
         offerRequestSegmentedControl.insertSegment(withTitle: "Offer", at: 0, animated: true)
         offerRequestSegmentedControl.insertSegment(withTitle: "Request", at: 1, animated: true)
-        self.navigationItem.titleView = offerRequestSegmentedControl
+        //self.navigationItem.titleView = offerRequestSegmentedControl
     }
     
     
@@ -637,17 +1095,38 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         }
     }
     
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+//
+//        var totalPhotosCount: Int!
+//
+//        if (editingBool == true){
+//            totalPhotosCount = photosArray.count + itemToEdit.photos.count + 1
+//        }
+//        else {
+//            totalPhotosCount = photosArray.count + 1
+//        }
+//
+//        let viewWidth = CGFloat(collectionView.frame.width * 1)
+//        let totalCellWidth = (collectionView.frame.size.width/3) * CGFloat(totalPhotosCount);
+//        let totalSpacingWidth = 10 * CGFloat(totalPhotosCount - 1);
+//
+//        let leftInset = (viewWidth - (totalCellWidth + totalSpacingWidth)) / 2;
+//        let rightInset = leftInset;
+//
+//        return UIEdgeInsetsMake(0, leftInset, 0, rightInset);
+//    }
+    
     //textView methods
-//    func textFieldDidBeginEditing(_ textField: UITextField) {
-//
-//        tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard(_:)))
-//        self.view.addGestureRecognizer(tapGesture)
-//    }
-//
-//    func textFieldDidEndEditing(_ textField: UITextField) {
-//        self.view.removeGestureRecognizer(tapGesture)
-//
-//    }
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+
+        tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard(_:)))
+        self.view.addGestureRecognizer(tapGesture)
+    }
+
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        self.view.removeGestureRecognizer(tapGesture)
+
+    }
     
     func textViewDidBeginEditing (_ textView: UITextView) {
         
@@ -669,6 +1148,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
             descriptionTextField.text = "Description"
         }
     }
+
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
@@ -701,5 +1181,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         self.tabBarController?.tabBar.isHidden = false
         sender.view?.removeFromSuperview()
     }
+    
+
     
 }

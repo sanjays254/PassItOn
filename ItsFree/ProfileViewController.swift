@@ -89,9 +89,9 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         myPostsTableView.reloadData()
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        self.navigationController?.setNavigationBarHidden(false, animated: animated)
-    }
+//    override func viewWillDisappear(_ animated: Bool) {
+//        self.navigationController?.setNavigationBarHidden(true, animated: animated)
+//    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -161,6 +161,9 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     }
     
     @IBAction func leaderboardButton(_ sender: UIButton) {
+        
+//        let leaderboardViewController = LeaderboardTableViewController()
+//        self.present(leaderboardViewController, animated: true, completion: nil)
         performSegue(withIdentifier: "leaderboardSegue", sender: self)
     }
     

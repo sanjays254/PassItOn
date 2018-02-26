@@ -31,7 +31,8 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
     var questionLabel: UILabel!
     var responseView: UIView!
     var nextPreviousButtonStackView: UIStackView!
-    var stepsArray: [String]!
+    var offerStepsArray: [String]!
+    var requestStepsArray: [String]!
     var stepIndex: Int!
     
     @IBOutlet var titleTopConstraint: NSLayoutConstraint!
@@ -105,16 +106,17 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
+        
         photosArray = []
         setupUI()
-        
-        
+
         checkIfEditing()
         
         titleTextField.delegate = self
         descriptionTextField.delegate = self
         descriptionTextField.textColor = .lightGray
-        descriptionTextField.text = "Description"
+        descriptionTextField.text = "Optional Description"
         customTagTextField.delegate = self
         valueTextField.delegate = self
         categoryTableView.delegate = self
@@ -123,23 +125,26 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         photoCollectionView.dataSource = self
         imagePicker.delegate = self
         
-       
     }
     func setupInitialUI(){
         
-        stepsArray = ["Item to give away or item that you want?", "Item Title", "Optional Description", "Add some photos", "Add tags to enhance searches for this item", "What condition is it in?", "What category does it fall under?", "Pick up Location?", "What is it's value?"]
+        offerStepsArray = ["What kind of post is this?", "Item Title & Description", "Add some photos", "Add tags/keywords to enhance searches for this item", "What condition is it in?", "What category does it fall under?", "Pick up Location?", "What is its value?"]
+        requestStepsArray = ["What kind of post is this?", "Item Title & Description", "Add some sample photos?", "Select or add tags/keywords to enhance searches for this item", "What's the worst condition you would accept?", "What category does it fall under?", "Drop off Location?", "Requests cannot have a value!"]
         stepIndex = 0
 
         view.bringSubview(toFront: stepByStepView)
         
-        questionLabel = UILabel(frame: CGRect(x: 0, y: 20, width: view.frame.width, height: 20))
+        questionLabel = UILabel(frame: CGRect(x: 10, y: 25, width: view.frame.width-20, height: 50))
+        questionLabel.numberOfLines = 0
+        questionLabel.lineBreakMode = .byWordWrapping
+        questionLabel.font = UIFont(name: "Avenir-Light", size: 15)
         questionLabel.center.x = view.center.x
         questionLabel.textAlignment = .center
-        questionLabel.text = stepsArray[stepIndex]
+        questionLabel.text = offerStepsArray[stepIndex]
         
         stepByStepView.addSubview(questionLabel)
         
-        responseView = UIView(frame: CGRect(x: 0, y: 50, width: view.frame.width, height: 190))
+        responseView = UIView(frame: CGRect(x: 0, y: 80, width: view.frame.width, height: 190))
         responseView.center.x = view.center.x
         responseView.backgroundColor = UIProperties.sharedUIProperties.whiteColour
         
@@ -148,6 +153,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         nextButton = UIButton(type: .custom)
         nextButton.frame = CGRect(x: 0, y: 0, width: 20, height: 20)
         nextButton.setTitle("Next", for: .normal)
+        nextButton.titleLabel?.font = UIFont(name: "Avenir-Light", size: 15)
         nextButton.addTarget(self, action: #selector(nextButtonAction), for: UIControlEvents.touchUpInside)
         nextButton.tintColor = UIProperties.sharedUIProperties.whiteColour
         nextButton.backgroundColor = UIProperties.sharedUIProperties.purpleColour
@@ -158,6 +164,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         previousButton = UIButton(type: .custom)
         previousButton.frame = CGRect(x: 0, y: 0, width: 20, height: 20)
         previousButton.setTitle("Previous", for: .normal)
+        previousButton.titleLabel?.font = UIFont(name: "Avenir-Light", size: 15)
         previousButton.addTarget(self, action: #selector(previousButtonAction), for: UIControlEvents.touchUpInside)
         previousButton.tintColor = UIProperties.sharedUIProperties.whiteColour
         previousButton.backgroundColor = UIProperties.sharedUIProperties.purpleColour
@@ -213,6 +220,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         if(stepIndex == 0){
             offerRequestSegmentedControl.frame = CGRect(x: 0, y: 0, width: 120, height: 30)
             self.navigationItem.titleView = offerRequestSegmentedControl
+            offerRequestSegmentedControl.center.x = (self.navigationItem.titleView?.center.x)!
             nextQuestion()
         }
         
@@ -231,13 +239,13 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
     func nextQuestion(){
         
         if  (nextButton.titleLabel?.text == "Preview"){
-            stepIndex = stepsArray.count
+            stepIndex = offerStepsArray.count
         }
         
         else {
             stepIndex = stepIndex + 1
-            if (stepIndex < stepsArray.count){
-                questionLabel.text = stepsArray[stepIndex]
+            if (stepIndex < offerStepsArray.count){
+                questionLabel.text = offerStepsArray[stepIndex]
             }
             
         }
@@ -246,7 +254,11 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
     
     func setupCascadingQuestions(){
         
-        if (stepIndex == stepsArray.count){
+        if (stepIndex == offerStepsArray.count){
+            
+            for view in responseView.subviews {
+                view.isHidden = true
+            }
             
             topConstraintInResponseView.isActive = false
             bottomConstraintInResponseView.isActive = false
@@ -264,8 +276,16 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
             view.addSubview(customTagTextField)
             view.addSubview(addCustomTagButton)
             view.addSubview(photoCollectionView)
+            photoCollectionView.reloadData()
             view.addSubview(addCategoryButton)
             view.addSubview(locationButton)
+            view.addSubview(valueTextField)
+            view.addSubview(qualitySegmentedControl)
+            
+            if (offerRequestSegmentedControl.selectedSegmentIndex == 1){
+                valueTextField.isEnabled = false
+                valueTextField.backgroundColor = UIColor.gray
+            }
             
             titleTextField.isHidden = false
             descriptionTextField.isHidden = false
@@ -275,6 +295,8 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
             photoCollectionView.isHidden = false
             addCategoryButton.isHidden = false
             locationButton.isHidden = false
+            valueTextField.isHidden = false
+            qualitySegmentedControl.isHidden = false
             
             titleTopConstraint.isActive = true
             titleLeadingConstraint.isActive = true
@@ -346,12 +368,17 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
             for view in responseView.subviews {
                 view.isHidden = true
             }
-            questionLabel.text = stepsArray[stepIndex]
+            questionLabel.text = offerStepsArray[stepIndex]
             titleTextField.isHidden = false
+            descriptionTextField.isHidden = false
             responseView.addSubview(titleTextField)
+            responseView.addSubview(descriptionTextField)
             
             topConstraintInResponseView = NSLayoutConstraint(item: titleTextField, attribute: NSLayoutAttribute.top, relatedBy: NSLayoutRelation.equal, toItem: responseView, attribute: NSLayoutAttribute.top, multiplier: 1, constant: 10)
-            responseView.addConstraints([topConstraintInResponseView])
+            
+            bottomConstraintInResponseView = NSLayoutConstraint(item: titleTextField, attribute: NSLayoutAttribute.bottom, relatedBy: NSLayoutRelation.equal, toItem: descriptionTextField, attribute: NSLayoutAttribute.top, multiplier: 1, constant: -10)
+            
+            responseView.addConstraints([topConstraintInResponseView, bottomConstraintInResponseView])
                                  
 //            titleTextField.center.y = responseView.center.y
 //            titleTextField.center.x = responseView.center.x
@@ -363,29 +390,25 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
             nextPreviousButtonStackView.distribution = .fillEqually
             previousButton.isHidden = false
             
+            if (offerRequestSegmentedControl.selectedSegmentIndex == 1){
+                questionLabel.text = requestStepsArray[stepIndex]
+            }
+                
+            else {
+                questionLabel.text = offerStepsArray[stepIndex]
+            }
+            
             for view in responseView.subviews {
                 view.isHidden = true
             }
-            
-            descriptionTextField.isHidden = false
-            questionLabel.text = stepsArray[stepIndex]
-            responseView.addSubview(descriptionTextField)
-            
-            topConstraintInResponseView = NSLayoutConstraint(item: descriptionTextField, attribute: NSLayoutAttribute.top, relatedBy: NSLayoutRelation.equal, toItem: responseView, attribute: NSLayoutAttribute.top, multiplier: 1, constant: 10)
-            responseView.addConstraints([topConstraintInResponseView])
-        }
-        else if (stepIndex == 3){
-            for view in responseView.subviews {
-               view.isHidden = true
-            }
             photoCollectionView.isHidden = false
-            questionLabel.text = stepsArray[stepIndex]
+           
             setupPhotoCollectionView()
             responseView.addSubview(photoCollectionView)
             
             topConstraintInResponseView = NSLayoutConstraint(item: photoCollectionView, attribute: NSLayoutAttribute.top, relatedBy: NSLayoutRelation.equal, toItem: responseView, attribute: NSLayoutAttribute.top, multiplier: 1, constant: 10)
             
-            bottomConstraintInResponseView = NSLayoutConstraint(item: photoCollectionView, attribute: NSLayoutAttribute.bottom, relatedBy: NSLayoutRelation.equal, toItem: responseView, attribute: NSLayoutAttribute.bottom, multiplier: 1, constant: -50)
+            bottomConstraintInResponseView = NSLayoutConstraint(item: photoCollectionView, attribute: NSLayoutAttribute.bottom, relatedBy: NSLayoutRelation.equal, toItem: responseView, attribute: NSLayoutAttribute.bottom, multiplier: 1, constant: -20)
             
             trailingConstraintInResponseView = NSLayoutConstraint(item: photoCollectionView, attribute: NSLayoutAttribute.trailing, relatedBy: NSLayoutRelation.greaterThanOrEqual, toItem: responseView, attribute: NSLayoutAttribute.trailing, multiplier: 1, constant: 10)
             
@@ -393,7 +416,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
             
             responseView.addConstraints([topConstraintInResponseView, bottomConstraintInResponseView, leadingConstraintInResponseView, trailingConstraintInResponseView])
         }
-        else if (stepIndex == 4){
+        else if (stepIndex == 3){
             for view in responseView.subviews {
                 view.isHidden = true
             }
@@ -402,7 +425,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
             tagButtonView.isHidden = false
             addCustomTagButton.isHidden = false
             
-            questionLabel.text = stepsArray[stepIndex]
+            questionLabel.text = offerStepsArray[stepIndex]
             responseView.addSubview(customTagTextField)
             responseView.addSubview(tagButtonView)
             responseView.addSubview(addCustomTagButton)
@@ -411,21 +434,23 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
             trailingConstraintInResponseView = NSLayoutConstraint(item: customTagTextField, attribute: NSLayoutAttribute.trailing, relatedBy: NSLayoutRelation.equal, toItem: responseView, attribute: NSLayoutAttribute.trailing, multiplier: 1, constant: -10)
             leadingConstraintInResponseView = NSLayoutConstraint(item: customTagTextField, attribute: NSLayoutAttribute.leading, relatedBy: NSLayoutRelation.equal, toItem: responseView, attribute: NSLayoutAttribute.leading, multiplier: 1, constant: 10)
             responseView.addConstraints([topConstraintInResponseView, trailingConstraintInResponseView, leadingConstraintInResponseView])
-            
         }
-        else if (stepIndex == 5){
-            
-            
-            
+        else if (stepIndex == 4){
             for view in responseView.subviews {
                 view.isHidden = true
             }
             
+            if (offerRequestSegmentedControl.selectedSegmentIndex == 1){
+                questionLabel.text = requestStepsArray[stepIndex]
+            }
             
-            nextButton.titleLabel?.text = "Next"
+            else {
+               questionLabel.text = offerStepsArray[stepIndex]
+            }
+           
             
             qualitySegmentedControl.isHidden = false
-            questionLabel.text = stepsArray[stepIndex]
+            
             responseView.addSubview(qualitySegmentedControl)
             
             topConstraintInResponseView = NSLayoutConstraint(item: qualitySegmentedControl, attribute: NSLayoutAttribute.top, relatedBy: NSLayoutRelation.equal, toItem: responseView, attribute: NSLayoutAttribute.top, multiplier: 1, constant: 10)
@@ -433,65 +458,79 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
             
             
         }
-        else if (stepIndex == 6){
+        else if (stepIndex == 5){
             
-            if (offerRequestSegmentedControl.selectedSegmentIndex == 1){
-                nextButton.titleLabel?.text = "Preview"
-            }
+           
+                nextButton.setTitle("Next", for: .normal)
+             
             for view in responseView.subviews {
                 view.isHidden = true
             }
             
             addCategoryButton.isHidden = false
-            questionLabel.text = stepsArray[stepIndex]
+            questionLabel.text = offerStepsArray[stepIndex]
             responseView.addSubview(addCategoryButton)
             
             topConstraintInResponseView = NSLayoutConstraint(item: addCategoryButton, attribute: NSLayoutAttribute.top, relatedBy: NSLayoutRelation.equal, toItem: responseView, attribute: NSLayoutAttribute.top, multiplier: 1, constant: 10)
             responseView.addConstraints([topConstraintInResponseView])
             
            
-        }
-        else if (stepIndex == 7){
-
             
-            nextButton.titleLabel?.text = "Next"
+        }
+        else if (stepIndex == 6){
+            
+            if (offerRequestSegmentedControl.selectedSegmentIndex == 1){
+                nextButton.setTitle("Preview", for: .normal)
+                
+            }
             
             for view in responseView.subviews {
                 view.isHidden = true
             }
             
+            if (offerRequestSegmentedControl.selectedSegmentIndex == 1){
+                questionLabel.text = "Drop off Location?"
+            }
+                
+            else {
+                questionLabel.text = offerStepsArray[stepIndex]
+            }
             
             locationButton.isHidden = false
-            
-            questionLabel.text = stepsArray[stepIndex]
             responseView.addSubview(locationButton)
             
             topConstraintInResponseView = NSLayoutConstraint(item: locationButton, attribute: NSLayoutAttribute.top, relatedBy: NSLayoutRelation.equal, toItem: responseView, attribute: NSLayoutAttribute.top, multiplier: 1, constant: 10)
             responseView.addConstraints([topConstraintInResponseView])
+           
             
+           
         }
-        else if (stepIndex == 8){
+        else if (stepIndex == 7){
+         
+                nextButton.setTitle("Preview", for: .normal)
             
-            nextButton.titleLabel?.text = "Preview"
             
             for view in responseView.subviews {
                 view.isHidden = true
             }
             
             valueTextField.isHidden = false
-            questionLabel.text = stepsArray[stepIndex]
+            questionLabel.text = offerStepsArray[stepIndex]
             responseView.addSubview(valueTextField)
             
             topConstraintInResponseView = NSLayoutConstraint(item: valueTextField, attribute: NSLayoutAttribute.top, relatedBy: NSLayoutRelation.equal, toItem: responseView, attribute: NSLayoutAttribute.top, multiplier: 1, constant: 10)
-            bottomConstraintInResponseView = NSLayoutConstraint(item: valueTextField, attribute: NSLayoutAttribute.bottom, relatedBy: NSLayoutRelation.equal, toItem: responseView, attribute: NSLayoutAttribute.bottom, multiplier: 1, constant: -70)
+            
             
             leadingConstraintInResponseView = NSLayoutConstraint(item: valueTextField, attribute: NSLayoutAttribute.leading, relatedBy: NSLayoutRelation.equal, toItem: responseView, attribute: NSLayoutAttribute.leading, multiplier: 1, constant: 10)
             
             trailingConstraintInResponseView = NSLayoutConstraint(item: valueTextField, attribute: NSLayoutAttribute.trailing, relatedBy: NSLayoutRelation.equal, toItem: responseView, attribute: NSLayoutAttribute.trailing, multiplier: 1, constant: -10)
-           
-            responseView.addConstraints([topConstraintInResponseView,leadingConstraintInResponseView, trailingConstraintInResponseView, bottomConstraintInResponseView])
-        }
+            
+            responseView.addConstraints([topConstraintInResponseView,leadingConstraintInResponseView, trailingConstraintInResponseView])
          
+            
+        }
+    
+        
     }
     func setupUI(){
         
@@ -555,6 +594,13 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         
         photoCollectionView.collectionViewLayout = photoCollectionViewFlowLayout
         
+       // centralizePhotoCollectionView()
+        
+
+        
+    }
+    
+    func centralizePhotoCollectionView(){
         
         //photoCollectionView.center.x = view.center.x
         var totalPhotosCount: Int!
@@ -579,7 +625,6 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         photoCollectionViewTrailingConstraint.constant = rightInset
         
         view.layoutIfNeeded()
-        
     }
     
     func checkIfEditing(){
@@ -613,9 +658,37 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         offerRequestSegmentedControl.backgroundColor = UIProperties.sharedUIProperties.blackColour
         offerRequestSegmentedControl.insertSegment(withTitle: "Offer", at: 0, animated: true)
         offerRequestSegmentedControl.insertSegment(withTitle: "Request", at: 1, animated: true)
+        offerRequestSegmentedControl.addTarget(self, action: #selector(offerRequestSegmentControlChanged), for: .valueChanged)
         //self.navigationItem.titleView = offerRequestSegmentedControl
     }
     
+    @objc func offerRequestSegmentControlChanged(){
+        switch offerRequestSegmentedControl.selectedSegmentIndex {
+        case 0: valueTextField.isEnabled = true
+            valueTextField.backgroundColor = UIColor.white
+            questionLabel.text = offerStepsArray[stepIndex]
+        
+        if (stepIndex == 7){
+            nextButton.setTitle("Preview", for: .normal)
+            }
+        else {
+            nextButton.setTitle("Next", for: .normal)
+            }
+        case 1: valueTextField.isEnabled = false
+            valueTextField.backgroundColor = UIColor.gray
+            questionLabel.text = requestStepsArray[stepIndex]
+        if (stepIndex == 6){
+            nextButton.setTitle("Preview", for: .normal)
+        }
+        else {
+            nextButton.setTitle("Next", for: .normal)
+            }
+        default: valueTextField.isEnabled = false
+            valueTextField.backgroundColor = UIColor.gray
+            
+
+        }
+    }
     
     func setupTagButtonsView(){
         
@@ -942,21 +1015,40 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
     //photos CollectionView methods
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
+        //centralizePhotoCollectionView()
+        
         if (editingBool){
             return (itemToEdit.photos.count+photosArray.count+1)
         }
         else {
             return (photosArray.count+1)
         }
+        
+        
+        
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
+        if (editingBool){
+            if(itemToEdit.photos.count+photosArray.count == 0){
+                 return CGSize(width: collectionView.frame.size.width, height: collectionView.frame.size.height);
+            }
+        }
+        else {
+            if (photosArray.count == 0){
+                 return CGSize(width: collectionView.frame.size.width, height: collectionView.frame.size.height);
+            }
+        }
+        
         return CGSize(width: collectionView.frame.size.width/3, height: collectionView.frame.size.height);
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "photoCollectionViewCell", for: indexPath) as! PostPhotoCollectionViewCell
+        
         
         if(editingBool){
             
@@ -1145,7 +1237,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         
         if descriptionTextField.text.isEmpty || descriptionTextField.text == "" {
             descriptionTextField.textColor = .lightGray
-            descriptionTextField.text = "Description"
+            descriptionTextField.text = "Optional Description"
         }
     }
 

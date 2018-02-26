@@ -183,7 +183,6 @@
                                     <color key="titleColor" red="0.61623996940000003" green="1" blue="0.3396967099" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
-                                    <action selector="backButton:" destination="9wv-wn-pjM" eventType="touchUpInside" id="LWR-HZ-6qx"/>
                                     <action selector="leaderboardButton:" destination="9wv-wn-pjM" eventType="touchUpInside" id="U0c-ks-zAv"/>
                                 </connections>
                             </button>

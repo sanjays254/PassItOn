@@ -25,7 +25,8 @@ class LocationManager: CLLocationManager{
             switch(CLLocationManager.authorizationStatus()) {
             case .notDetermined, .restricted, .denied:
                 print("No access")
-                           currentLocation = CLLocation.init(latitude: CLLocationDegrees(49.246292), longitude: CLLocationDegrees(-123.116226))
+                           currentLocation = CLLocation.init(latitude: CLLocationDegrees(49.261725), longitude: CLLocationDegrees(-123.244621))
+                
             case .authorizedAlways, .authorizedWhenInUse:
                 
                 currentLocation = self.location

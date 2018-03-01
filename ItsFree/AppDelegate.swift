@@ -28,7 +28,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 print("Error clearing Keychain")
             }
             UserDefaults.standard.set(true, forKey: key)
-            UserDefaults.standard.set(false, forKey: rememberMeKey)
+            UserDefaults.standard.set(false, forKey: "rememberMe")
             UserDefaults.standard.synchronize()
         }
         return true
@@ -98,7 +98,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     @objc func openedThroughSchema(url: URL) {
         
         let ratingSystem = RatingSystem()
-        ratingSystem.parseURLAndRateUser(url: url)
+        ratingSystem.updateDataBeforeRating(url: url)
         
         //should we deinitialize the instance of rating system?
    

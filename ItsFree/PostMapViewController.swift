@@ -60,7 +60,6 @@ class PostMapViewController: UIViewController, UISearchBarDelegate, MKMapViewDel
         self.searchCompleter.region = self.postMapView.region
         self.searchCompleter.filterType = MKSearchCompletionFilterType.locationsAndQueries
         
-        
         self.saveButton.tintColor = UIProperties.sharedUIProperties.lightGreenColour
         self.saveButton.layer.backgroundColor =  UIProperties.sharedUIProperties.blackColour.cgColor
         self.saveButton.layer.cornerRadius = 8

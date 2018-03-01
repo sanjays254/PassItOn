@@ -11,9 +11,14 @@ import FirebaseStorage
 import FirebaseDatabase
 
 class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate{
+    
+    let myDowloadCompletedNotificationKey = "myUsersDownloadNotificationKey"
 
     @IBOutlet weak var backButton: UIButton!
     @IBOutlet weak var editButton: UIButton!
+    @IBOutlet weak var logoutButton: UIButton!
+    
+    @IBOutlet weak var leaderboardButton: UIButton!
     
     @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var usernameLabel: UILabel!
@@ -42,9 +47,12 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     
     var animateTable: Bool = false
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(setUpProfileText), name: NSNotification.Name(rawValue: myDowloadCompletedNotificationKey), object: nil)
+        
+        ReadFirebaseData.readUsers()
         imagePicker.delegate = self
         editingProfile = false
         
@@ -58,6 +66,20 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         self.editButton.layer.cornerRadius = self.backButton.frame.size.width/2
         self.editButton.layer.masksToBounds = false
         
+        logoutButton.setImage(#imageLiteral(resourceName: "logout"), for: .normal)
+        self.logoutButton.imageView?.transform = CGAffineTransform(rotationAngle: (CGFloat.pi))
+        self.logoutButton.layer.backgroundColor = UIColor.black.cgColor
+        self.logoutButton.layer.cornerRadius = self.backButton.frame.size.width/2
+        self.logoutButton.layer.masksToBounds = false
+        
+        leaderboardButton.setImage(#imageLiteral(resourceName: "wreath"), for: .normal)
+        self.leaderboardButton.layer.backgroundColor = UIColor.black.cgColor
+        self.leaderboardButton.layer.cornerRadius = self.backButton.frame.size.width/2
+        self.leaderboardButton.layer.masksToBounds = false
+        
+        
+        
+        
         setUpProfilePicture()
         setUpProfileText()
         setupTextFields()
@@ -65,16 +87,12 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         
         offersRequestsSegmentedControl.layer.borderWidth = 3.0
         offersRequestsSegmentedControl.layer.borderColor = UIColor.black.cgColor
-        offersRequestsSegmentedControl.layer.cornerRadius = 5.0
+        offersRequestsSegmentedControl.layer.cornerRadius = 4.0
     }
     
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.setNavigationBarHidden(true, animated: true)
         myPostsTableView.reloadData()
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        self.navigationController?.setNavigationBarHidden(false, animated: animated)
     }
     
     override func didReceiveMemoryWarning() {
@@ -103,7 +121,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         usernameTextField.font = UIFont(name: "GillSans-Light", size: 25)
     }
     
-    func setUpProfileText() {
+    @objc func setUpProfileText() {
         self.navigationItem.title = "Profile"
         self.usernameLabel.text = username
         self.emailLabel.text = email
@@ -126,9 +144,9 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         profileImageView.layer.borderColor = UIColor.black.cgColor
         profileImageView.layer.borderWidth = 5.0
         
-        profileImageView.image = AppData.sharedInstance.currentUserPhotos[(user?.profileImage)!]
+        //profileImageView.image = AppData.sharedInstance.currentUserPhotos[(user?.profileImage)!]
 
-        //profileImageView.sd_setImage(with: storageRef.child(photoRef!), placeholderImage: UIImage(named: "defaultProfile"))
+        profileImageView.sd_setImage(with: storageRef.child(photoRef!), placeholderImage: #imageLiteral(resourceName: "userPlaceholder"))
     }
     
     @IBAction func donePressed(_ sender: Any) {
@@ -143,6 +161,34 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     @IBAction func backButton(_ sender: UIButton) {
               self.dismiss(animated: true, completion: nil)
     }
+    
+    @IBAction func leaderboardButton(_ sender: UIButton) {
+        
+        performSegue(withIdentifier: "leaderboardSegue", sender: self)
+    }
+    
+    
+    @IBAction func logout(_ sender: UIButton) {
+        
+        let logoutAlert = UIAlertController(title: "Sure?", message: "Are you sure you want to log out?", preferredStyle: .alert)
+        let logoutAction = UIAlertAction(title: "Yes, Log out", style: .destructive, handler: { (alert: UIAlertAction!) in
+            
+            //self.navigationController?.popToRootViewController(animated: true)
+            self.dismiss(animated: true, completion: nil)
+            AppData.sharedInstance.currentUser = nil
+            AppData.sharedInstance.currentUserOfferedItems = []
+            AppData.sharedInstance.currentUserRequestedItems = []
+            loggedInBool = false
+        })
+        
+        let cancelAction = UIAlertAction(title: "No, stay logged in", style: .cancel, handler: nil)
+        
+        logoutAlert.addAction(logoutAction)
+        logoutAlert.addAction(cancelAction)
+        
+        present(logoutAlert, animated: true, completion: nil)
+    }
+    
     
     
     @IBAction func editProfile(_ sender: UIButton) {
@@ -235,9 +281,9 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch offersRequestsSegmentedControl.selectedSegmentIndex {
         case 0:
-            return (AppData.sharedInstance.currentUser?.offeredItems.count)!
+             return (AppData.sharedInstance.currentUser?.offeredItems.count)! + 1
         case 1:
-            return (AppData.sharedInstance.currentUser?.requestedItems.count)!
+            return (AppData.sharedInstance.currentUser?.requestedItems.count)! + 1
         default:
             return 0
         }
@@ -251,29 +297,47 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         
         switch offersRequestsSegmentedControl.selectedSegmentIndex {
         case 0:
+            if (indexPath.row == AppData.sharedInstance.currentUser?.offeredItems.count){
+                cell.itemLabel.text = "Got something to offer?"
+                cell.itemLabel.font = UIFont.italicSystemFont(ofSize: 16)
+                //cell.itemImageView.isHidden = true
+                cell.itemImageViewWidthConstraint.constant = 0
+                cell.itemLabel.centerXAnchor.constraint(equalTo: cell.centerXAnchor).isActive = true
+                cell.setNeedsLayout()
+            }
+            else {
              item = AppData.sharedInstance.currentUserOfferedItems[indexPath.row]
-             //myOfferedPostsImages = ImageManager.downloadImage(imagePath: item.photos[0])
+                cell.itemLabel?.text = item.name
+                cell.itemLabel.font = UIFont(name: "GillSans", size: 20)
+                cell.itemLabel.centerXAnchor.constraint(equalTo: cell.centerXAnchor).isActive = false
+                cell.itemImageViewWidthConstraint.constant = 77
+                cell.itemImageView?.sd_setImage(with: storageRef.child(item.photos[0]), placeholderImage: UIImage.init(named: "placeholder"))
+                cell.setNeedsLayout()
+            }
             
-    
         case 1:
+            if (indexPath.row == AppData.sharedInstance.currentUser?.requestedItems.count){
+                cell.itemLabel.text = "Want something?"
+                cell.itemLabel.font = UIFont.italicSystemFont(ofSize: 16)
+                
+                cell.itemImageViewWidthConstraint.constant = 0
+               cell.itemLabel.centerXAnchor.constraint(equalTo: cell.centerXAnchor).isActive = true
+                cell.setNeedsLayout()
+            }
+            else {
              item = AppData.sharedInstance.currentUserRequestedItems[indexPath.row]
-             //myRequestedPostsImages = ImageManager.downloadImage(imagePath: item.photos[0])
+                cell.itemLabel?.text = item.name
+                cell.itemLabel.font = UIFont(name: "GillSans", size: 20)
+                cell.itemLabel.centerXAnchor.constraint(equalTo: cell.centerXAnchor).isActive = false
+                cell.itemImageViewWidthConstraint.constant = 77
+                cell.itemImageView?.sd_setImage(with: storageRef.child(item.photos[0]), placeholderImage: UIImage.init(named: "placeholder"))
+                cell.setNeedsLayout()
+            }
       
         default:
             item = nil
         }
        
-        cell.itemLabel?.text = item.name
-        cell.itemImageView?.sd_setImage(with: storageRef.child(item.photos[0]), placeholderImage: UIImage.init(named: "placeholder"))
-        
-        
-//        if let image = (AppData.sharedInstance.currentUserPhotos[item.photos[0]]) {
-//            cell.itemImageView.image = image
-//            cell.itemImageView?.sd_setImage(with: storageRef.child(item.photos[0]), placeholderImage: UIImage.init(named: "placeholder"))
-//        }
-//        else  {
-//            cell.itemImageView.image = #imageLiteral(resourceName: "placeholder")
-//        }
         
         if (animateTable){
             UIView.transition(with: cell.textLabel!, duration: 0.6, options: .transitionCrossDissolve, animations: {
@@ -294,15 +358,27 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         
         switch offersRequestsSegmentedControl.selectedSegmentIndex {
         case 0:
-            selectedItemToEdit = AppData.sharedInstance.currentUserOfferedItems[indexPath.row]
+            if (indexPath.row == AppData.sharedInstance.currentUser?.offeredItems.count){
+                performSegue(withIdentifier: "newPostSegue", sender: self)
+            }
+            else {
+                selectedItemToEdit = AppData.sharedInstance.currentUserOfferedItems[indexPath.row]
+                 performSegue(withIdentifier: "editPostSegue", sender: self)
+            }
             
         case 1:
+            if (indexPath.row == AppData.sharedInstance.currentUser?.offeredItems.count){
+                performSegue(withIdentifier: "newPostSegue", sender: self)
+            }
+            else {
             selectedItemToEdit = AppData.sharedInstance.currentUserRequestedItems[indexPath.row]
+                 performSegue(withIdentifier: "editPostSegue", sender: self)
+            }
             
         default:
             selectedItemToEdit = nil
         }
-        performSegue(withIdentifier: "editPostSegue", sender: self)
+       
         
         tableView.deselectRow(at: indexPath, animated: true)
     }
@@ -312,6 +388,13 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
             let destinationPostVC = segue.destination as! PostViewController
             destinationPostVC.itemToEdit = selectedItemToEdit
             destinationPostVC.editingBool = true
+            destinationPostVC.offerRequestIndex = offersRequestsSegmentedControl.selectedSegmentIndex
+        }
+        
+        if (segue.identifier == "newPostSegue"){
+            let destinationPostVC = segue.destination as! PostViewController
+    
+            destinationPostVC.editingBool = false
             destinationPostVC.offerRequestIndex = offersRequestsSegmentedControl.selectedSegmentIndex
         }
     }

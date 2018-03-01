@@ -9,12 +9,15 @@
 import UIKit
 import FirebaseAuth
 
-public let rememberMeKey = "rememberMe"
-public let useTouchID = "useTouchID"
+
 public var loggedInBool: Bool!
 public var firstTimeUser: Bool!
+public var guestUser: Bool!
 
 class LoginViewController: UIViewController, UITextFieldDelegate {
+    
+    var rememberMeKey = "rememberMe"
+    var useTouchID = "useTouchID"
     
     var schemaURL: URL!
 
@@ -43,6 +46,9 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var rememberMeSwitch: UISwitch!
     @IBOutlet weak var touchIDSwitch: UISwitch!
     
+    @IBOutlet weak var guestLoginButton: UIButton!
+    
+    
     var tapGesture: UITapGestureRecognizer!
     
     override func viewDidLoad() {
@@ -65,6 +71,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         goButton.backgroundColor = UIProperties.sharedUIProperties.purpleColour
         goButton.layer.borderColor = UIProperties.sharedUIProperties.blackColour.cgColor
         toggleButton.tintColor = UIProperties.sharedUIProperties.purpleColour
+        
+        guestLoginButton.tintColor = UIProperties.sharedUIProperties.purpleColour
         
         setToLogIn()
         login()
@@ -198,13 +206,27 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                     if success == true {
                         loggedInBool = true
                         self.loginSuccess()
+                        self.setUserDefaults()
                         
                     }
                     else {
                         print("Error logging in")
                     }
+
+                    
                 })
-                setUserDefaults()
+                
+                
+                if (loggedInBool == true){
+                    setUserDefaults()
+                }
+                else {
+                    let signUpFailedAlert = UIAlertController(title: "Signup failed", message: "Invalid email", preferredStyle: .alert)
+                    let okayAction = UIAlertAction(title: "Try again", style: .default, handler: nil)
+                    signUpFailedAlert.addAction(okayAction)
+                    present(signUpFailedAlert, animated: true, completion: nil)
+                }
+                
             }
             else {
                 print("Signup failed: invalid input")
@@ -220,17 +242,27 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                     if success == true {
                         loggedInBool = true
                         self.loginSuccess()
+                        self.setUserDefaults()
                     }
                     else {
-                        print("Error logging in")
+                        let loginFailedAlert = UIAlertController(title: "Login failed", message: "Incorrect Email or Password", preferredStyle: .alert)
+                        let okayAction = UIAlertAction(title: "Try again", style: .default, handler: nil)
+                        loginFailedAlert.addAction(okayAction)
+                        self.present(loginFailedAlert, animated: true, completion: nil)
                     }
                 })
-                setUserDefaults()
+                
+                if (loggedInBool == true){
+                    setUserDefaults()
+                }
+                else {
+                    
+                }
             }
             else {
                 print("Login failed: invalid input")
                 let loginFailedAlert = UIAlertController(title: "Login failed", message: "Incorrect Email or Password", preferredStyle: .alert)
-                let okayAction = UIAlertAction(title: "Okay", style: .default, handler: nil)
+                let okayAction = UIAlertAction(title: "Try again", style: .default, handler: nil)
                 loginFailedAlert.addAction(okayAction)
                 present(loginFailedAlert, animated: true, completion: nil)
                 
@@ -268,6 +300,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             }
             else {
                 reason = "Passwords do not match"
+                mismatchingPasswordsAlert()
             }
         }
         else if textfield === passwordTextfield {
@@ -279,6 +312,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             }
             else {
                 reason = "Passwords do not match"
+                mismatchingPasswordsAlert()
+                
             }
         }
         return (validated, reason)
@@ -297,6 +332,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     }
     
     func loginSuccess() {
+        
         performSegue(withIdentifier: "continueToHome", sender: self)
     }
     
@@ -320,4 +356,19 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         confirmPasswordTextfield.resignFirstResponder()
         emailTextfield.resignFirstResponder()
     }
+    
+    func mismatchingPasswordsAlert(){
+        let mismatchingPasswordsAlert = UIAlertController(title: "Oops", message: "Passwords don't match", preferredStyle: .alert)
+        let okayAction = UIAlertAction(title: "Try again", style: .default, handler: nil)
+        mismatchingPasswordsAlert.addAction(okayAction)
+        present(mismatchingPasswordsAlert, animated: true, completion: nil)
+    }
+    
+    @IBAction func guestLogin(_ sender: UIButton) {
+        
+        loggedInBool = true
+        guestUser = true
+        self.loginSuccess()
+    }
+    
 }

@@ -35,7 +35,7 @@ class MapViewDelegate: NSObject, MKMapViewDelegate {
     }
     
     @objc func setMapRegion(){
-        let span = MKCoordinateSpanMake(0.02, 0.02)
+        let span = MKCoordinateSpanMake(0.025, 0.025)
         
         theMapView.region = MKCoordinateRegionMake((self.currentLocation?.coordinate)!, span)
         theMapView.showsUserLocation = true

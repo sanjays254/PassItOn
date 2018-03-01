@@ -51,6 +51,7 @@ class AuthenticationManager {
                                 .setValue(addedUser.toDictionary())
                             print("Sign up successful")
                             AuthenticationManager.addToKeychain(email: email, password: password)
+                            guestUser = false
                         }
                         else {
                             print("Error setting profile name: \(String(describing: profileError))")
@@ -115,12 +116,23 @@ class AuthenticationManager {
                         AppData.sharedInstance.currentUser = User(with: userData)
                 })
                 print("Login Successful")
+                guestUser = false
                 addToKeychain(email: email, password: password)
                 let flag = true
                 completionHandler(flag)
             }
             else {
                 print("login failed: \(loginError.debugDescription)")
+                
+                 let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                
+                let mainVC = appDelegate.window?.rootViewController as! LoginViewController
+                
+                let loginFailedAlert = UIAlertController(title: "Login failed", message: "Incorrect Email or Password", preferredStyle: .alert)
+                let okayAction = UIAlertAction(title: "Try again", style: .default, handler: nil)
+                loginFailedAlert.addAction(okayAction)
+                mainVC.present(loginFailedAlert, animated: true, completion: nil)
+                
             }
         }
     }

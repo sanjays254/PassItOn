@@ -101,8 +101,8 @@ class LeaderboardTableViewController: UIViewController, UITableViewDataSource, U
         }
         else { cell.positionLabel.text = String(indexPath.row+1) }
         
-        //cell.profileImageView.sd_setImage(with: storageRef.child(photoRef), placeholderImage: UIImage.init(named: "userImage"))
-        //print("Storage Location: \(storageRef.child(previewPhotoRef))")
+        cell.profileImageView.sd_setImage(with: storageRef.child(photoRef), placeholderImage: #imageLiteral(resourceName: "userPlaceholder") )
+        
         //cell.profileImageView.image = sortedUsers[indexPath.row].profileImage
         cell.ratingLabel.text = String(sortedUsers[indexPath.row].rating)
         

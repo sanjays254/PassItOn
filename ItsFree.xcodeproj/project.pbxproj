@@ -29,7 +29,6 @@
 		CE014338201448290045A876 /* ItemPhotoCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE014336201448280045A876 /* ItemPhotoCollectionViewCell.xib */; };
 		CE01EA6B200D5BD2002C33D7 /* RatingSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE01EA6A200D5BD0002C33D7 /* RatingSystem.swift */; };
 		CE43E79A1FCF90290061A653 /* FilterTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE43E7991FCF90290061A653 /* FilterTableViewController.swift */; };
-		CE5249DC1FC6184A003F41D8 /* KeyboardLayoutConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5249DB1FC6184A003F41D8 /* KeyboardLayoutConstraint.swift */; };
 		CE5869CF1FBE445C0012F774 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5869CE1FBE445C0012F774 /* AppDelegate.swift */; };
 		CE5869D41FBE445C0012F774 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE5869D21FBE445C0012F774 /* Main.storyboard */; };
 		CE5869D61FBE445C0012F774 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE5869D51FBE445C0012F774 /* Assets.xcassets */; };
@@ -106,7 +105,6 @@
 		CE014336201448280045A876 /* ItemPhotoCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ItemPhotoCollectionViewCell.xib; sourceTree = "<group>"; };
 		CE01EA6A200D5BD0002C33D7 /* RatingSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingSystem.swift; sourceTree = "<group>"; };
 		CE43E7991FCF90290061A653 /* FilterTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterTableViewController.swift; sourceTree = "<group>"; };
-		CE5249DB1FC6184A003F41D8 /* KeyboardLayoutConstraint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardLayoutConstraint.swift; sourceTree = "<group>"; };
 		CE5869CB1FBE445C0012F774 /* ItsFree.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ItsFree.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE5869CE1FBE445C0012F774 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CE5869D31FBE445C0012F774 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -236,7 +234,6 @@
 				CEFC19941FC75E510082CB55 /* ItemDetailView.swift */,
 				CEFC19901FC65C320082CB55 /* ItemDetailViewController.swift */,
 				CEF41A1F1FC374520044C63E /* ItemHomeTableViewCell.swift */,
-				CE5249DB1FC6184A003F41D8 /* KeyboardLayoutConstraint.swift */,
 				CEBD48A21FCCD02600C5267F /* LeaderboardTableViewCell.swift */,
 				CEBD48A01FCC949800C5267F /* LeaderboardTableViewController.swift */,
 				CE9683CF1FBE655600DFA277 /* LocationManager.swift */,
@@ -654,7 +651,6 @@
 				01BAC9F71FBE5C9E0050C891 /* Item.swift in Sources */,
 				CE43E79A1FCF90290061A653 /* FilterTableViewController.swift in Sources */,
 				01BAC9F91FBF6CD10050C891 /* Enums.swift in Sources */,
-				CE5249DC1FC6184A003F41D8 /* KeyboardLayoutConstraint.swift in Sources */,
 				CE01EA6B200D5BD2002C33D7 /* RatingSystem.swift in Sources */,
 				CE014332200FFB960045A876 /* MyPostsTableViewCell.swift in Sources */,
 				CEF41A251FC3CF1C0044C63E /* PostMapViewController.swift in Sources */,

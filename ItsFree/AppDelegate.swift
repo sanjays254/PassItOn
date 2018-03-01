@@ -98,7 +98,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     @objc func openedThroughSchema(url: URL) {
         
         let ratingSystem = RatingSystem()
-        ratingSystem.parseURLAndRateUser(url: url)
+        ratingSystem.updateDataBeforeRating(url: url)
         
         //should we deinitialize the instance of rating system?
    

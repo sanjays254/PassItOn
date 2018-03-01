@@ -586,6 +586,14 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         //make the childViewController and add it into the containerView
         let detailViewController = ItemDetailViewController()
         detailViewController.currentItem = item
+        
+        if (wantedAvailableSegmentedControl.selectedSegmentIndex == 0){
+            detailViewController.kindOfItem = "Request"
+        }
+        else{
+            detailViewController.kindOfItem = "Offer"
+        }
+        
         addChildViewController(detailViewController)
         detailViewController.view.translatesAutoresizingMaskIntoConstraints = false
         itemDetailContainerView.addSubview(detailViewController.view)

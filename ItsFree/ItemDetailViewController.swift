@@ -21,6 +21,7 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
     weak var currentItem: Item!
     let storageRef = Storage.storage().reference()
   
+    var kindOfItem: String!
 
     var mainImageTapRecognizer: UITapGestureRecognizer!
    
@@ -99,8 +100,12 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
         itemDetailView.posterRating.text = "\(AppData.sharedInstance.onlineUsers.filter{ $0.UID == currentItem.posterUID }.first?.rating ?? 0)"
         
     
-        
-        itemDetailView.itemValueLabel.text = "Value: -"
+        if (kindOfItem == "Offer"){
+            itemDetailView.itemValueLabel.text = "Value: $\(currentItem.value)"
+        }
+        else if (kindOfItem == "Request"){
+            itemDetailView.itemValueLabel.text = ""
+        }
     }
     
     @objc func mainImageTapped(recognizer: UITapGestureRecognizer) {

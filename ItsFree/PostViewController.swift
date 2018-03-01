@@ -666,7 +666,10 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         switch offerRequestSegmentedControl.selectedSegmentIndex {
         case 0: valueTextField.isEnabled = true
             valueTextField.backgroundColor = UIColor.white
+        
+        if (stepIndex < 8){
             questionLabel.text = offerStepsArray[stepIndex]
+        }
         
         if (stepIndex == 7){
             nextButton.setTitle("Preview", for: .normal)
@@ -676,7 +679,9 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
             }
         case 1: valueTextField.isEnabled = false
             valueTextField.backgroundColor = UIColor.gray
+        if (stepIndex < 8){
             questionLabel.text = requestStepsArray[stepIndex]
+        }
         if (stepIndex == 6){
             nextButton.setTitle("Preview", for: .normal)
         }
@@ -901,7 +906,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
             return
         }
         
-        guard (titleTextField.text!.count > 18) else {
+        guard (titleTextField.text!.count < 18) else {
             let alert = UIAlertController(title: "Whoops", message: "Title needs to be less than 18 characters", preferredStyle: UIAlertControllerStyle.alert)
             alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.default, handler: nil))
             present(alert, animated: true, completion: nil)
@@ -931,8 +936,8 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
             return
         }
         
-        guard (selectedLocationCoordinates != nil) else {
-            let alert = UIAlertController(title: "Whoops", message: "You must give it a value", preferredStyle: UIAlertControllerStyle.alert)
+        guard (valueTextField.text != "" && offerRequestSegmentedControl.selectedSegmentIndex == 0) else {
+            let alert = UIAlertController(title: "Whoops", message: "Offered items must have a value", preferredStyle: UIAlertControllerStyle.alert)
             alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.default, handler: nil))
             present(alert, animated: true, completion: nil)
             return
@@ -945,7 +950,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
             tags.tagsArray = chosenTagsArray
         }
         
-        let realItem: Item = Item.init(name: titleTextField.text!, category: chosenCategory, description: descriptionTextField.text!, location: selectedLocationCoordinates, posterUID:  user.UID, quality: chosenQuality, tags: tags, photos: [""], itemUID: nil)
+        let realItem: Item = Item.init(name: titleTextField.text!, category: chosenCategory, description: descriptionTextField.text!, location: selectedLocationCoordinates, posterUID:  user.UID, quality: chosenQuality, tags: tags, photos: [""], value: Int(valueTextField.text!) ?? 0,  itemUID: nil)
         
         var photoRefs:[String] = []
         
@@ -1054,6 +1059,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
             
             if(itemToEdit.photos.count+photosArray.count == indexPath.item){
                 cell.postCollectionViewCellImageView.image = #imageLiteral(resourceName: "addImage")
+                cell.postCollectionViewCellImageView.layer.borderWidth = 0
                 cell.contentMode = .scaleAspectFit
             }
             
@@ -1080,6 +1086,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
             if(photosArray.count == indexPath.item){
                 cell.postCollectionViewCellImageView.image = #imageLiteral(resourceName: "addImage")
                 cell.postCollectionViewCellImageView.contentMode = .scaleAspectFit
+                cell.postCollectionViewCellImageView.layer.borderWidth = 0
                 
             }
         

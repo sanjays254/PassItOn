@@ -241,7 +241,10 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                         self.loginSuccess()
                     }
                     else {
-                        print("Error logging in")
+                        let loginFailedAlert = UIAlertController(title: "Login failed", message: "Incorrect Email or Password", preferredStyle: .alert)
+                        let okayAction = UIAlertAction(title: "Try again", style: .default, handler: nil)
+                        loginFailedAlert.addAction(okayAction)
+                        self.present(loginFailedAlert, animated: true, completion: nil)
                     }
                 })
                 
@@ -249,10 +252,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                     setUserDefaults()
                 }
                 else {
-                    let loginFailedAlert = UIAlertController(title: "Login failed", message: "Incorrect Email or Password", preferredStyle: .alert)
-                    let okayAction = UIAlertAction(title: "Try again", style: .default, handler: nil)
-                    loginFailedAlert.addAction(okayAction)
-                    present(loginFailedAlert, animated: true, completion: nil)
+                    
                 }
             }
             else {

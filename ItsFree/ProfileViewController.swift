@@ -81,7 +81,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         
         offersRequestsSegmentedControl.layer.borderWidth = 3.0
         offersRequestsSegmentedControl.layer.borderColor = UIColor.black.cgColor
-        offersRequestsSegmentedControl.layer.cornerRadius = 5.0
+        offersRequestsSegmentedControl.layer.cornerRadius = 4.0
     }
     
     override func viewWillAppear(_ animated: Bool) {

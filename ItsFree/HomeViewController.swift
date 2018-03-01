@@ -77,7 +77,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         setupSearchBar()
         setupPostButton()
         setupSearchButton()
-        //setupLeaderboardButton()
         setupCompassButton()
         setupMapListSegmentedControl()
        
@@ -91,13 +90,11 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         if(firstTimeUser){
             presentAlertIfFirstTime()
         }
-        
     }
     
     func setupSearchBar(){
         
         searchBar.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 0)
-        //searchBar.layer.zPosition = .greatestFiniteMagnitude
         searchBar.delegate = self
         filteredOfferedItems = []
         filteredRequestedItems = []
@@ -148,8 +145,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                 
                 
             }, completion: {(finished: Bool) in
-                
-                
             })
         }
         
@@ -161,12 +156,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             
             
         }, completion: {(finished: Bool) in
-            
-
         })
         }
-        
-       
     }
     
     func setupLeaderboardButton(){
@@ -265,8 +256,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         homeMapView.register(MKMarkerAnnotationView.self, forAnnotationViewWithReuseIdentifier: "itemMarkerView")
         
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: mySelectedItemNotificationKey), object: nil, queue: nil, using: catchNotification)
-        
-        //NotificationCenter.default.addObserver(self, selector: #selector(readUserPhotos), name: NSNotification.Name(rawValue: "myUsersDownloadNotificationKey"), object: nil)
     }
     
 
@@ -275,10 +264,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         guard let name = notification.userInfo!["name"] as? Item else { return }
         self.showItemDetail(item: name)
     }
-    
-//    @objc func readUserPhotos(){
-//        ReadFirebaseData.readUsersPhotos()
-//    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -317,7 +302,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             else if (wantedAvailableSegmentedControl.selectedSegmentIndex == 1){
                 self.homeMapView.addAnnotations(filteredOfferedItems)
             }
-            
         }
         else {
         
@@ -487,7 +471,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         homeMapView.selectAnnotation(itemToShow, animated: true)
         
         let span = MKCoordinateSpanMake(0.007, 0.007)
-
         homeMapView.setRegion(MKCoordinateRegionMake(itemToShow.coordinate, span) , animated: true)
      
     }
@@ -658,11 +641,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
         
         self.view.removeGestureRecognizer(tapGesture)
-     
-        
     }
-    
-    
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchActive = false;
@@ -702,11 +681,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
     }
     
-    
     func searchThroughData(searchText: String) {
-        
-        ///need to remove items form filtered results that dont have the right tags
-        
+    
         var containsTag: Bool = false
         
         for item in AppData.sharedInstance.onlineOfferedItems {
@@ -729,7 +705,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                     
                     break
                 }
-                
             }
         }
         
@@ -754,17 +729,10 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                     }
                     break
                 }
-                
             }
         }
         
         searchActive = true
-        
-        //        if(filteredOfferedItems.count == 0){
-        //            searchActive = false;
-        //        } else {
-        //            searchActive = true;
-        //        }
         self.homeTableView.reloadData()
         removeAndAddAnnotations()
     }

@@ -28,7 +28,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 print("Error clearing Keychain")
             }
             UserDefaults.standard.set(true, forKey: key)
-            UserDefaults.standard.set(false, forKey: rememberMeKey)
+            UserDefaults.standard.set(false, forKey: "rememberMe")
             UserDefaults.standard.synchronize()
         }
         return true

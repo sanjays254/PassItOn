@@ -9,13 +9,15 @@
 import UIKit
 import FirebaseAuth
 
-public let rememberMeKey = "rememberMe"
-public let useTouchID = "useTouchID"
+
 public var loggedInBool: Bool!
 public var firstTimeUser: Bool!
 public var guestUser: Bool!
 
 class LoginViewController: UIViewController, UITextFieldDelegate {
+    
+    var rememberMeKey = "rememberMe"
+    var useTouchID = "useTouchID"
     
     var schemaURL: URL!
 
@@ -204,6 +206,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                     if success == true {
                         loggedInBool = true
                         self.loginSuccess()
+                        self.setUserDefaults()
                         
                     }
                     else {
@@ -239,6 +242,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                     if success == true {
                         loggedInBool = true
                         self.loginSuccess()
+                        self.setUserDefaults()
                     }
                     else {
                         let loginFailedAlert = UIAlertController(title: "Login failed", message: "Incorrect Email or Password", preferredStyle: .alert)

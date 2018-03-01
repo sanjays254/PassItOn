@@ -174,7 +174,7 @@
                         <outlet property="touchIDSwitch" destination="FbF-Pt-5KV" id="Otp-bO-cz5"/>
                         <outlet property="usernameLabel" destination="0If-so-uRA" id="iHP-ds-c1i"/>
                         <outlet property="usernameTextfield" destination="lnn-ue-Vo4" id="fhW-z4-QsQ"/>
-                        <segue destination="RFQ-9e-1Er" kind="presentation" identifier="continueToHome" id="KaF-Mk-6Gz"/>
+                        <segue destination="RFQ-9e-1Er" kind="show" identifier="continueToHome" id="KaF-Mk-6Gz"/>
                         <segue destination="6Tv-DZ-tRk" kind="show" identifier="selectProfilePic" id="OfJ-pq-Nj8"/>
                     </connections>
                 </viewController>

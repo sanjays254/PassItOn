@@ -124,8 +124,6 @@ class ReadFirebaseData: NSObject {
     }
     
     //get all users
-
-    
     class func readUsers() {
         if ( Auth.auth().currentUser == nil) {
             return
@@ -150,7 +148,7 @@ class ReadFirebaseData: NSObject {
                     var index = 0
                     for i in readUserOffers{
                     
-                        if(i is NSNull || i == ""){
+                        if(i == ""){
                             readUserOffers.remove(at: index)
                         }
                         else {
@@ -162,7 +160,7 @@ class ReadFirebaseData: NSObject {
                     index = 0
                     for i in readUserRequests{
                         
-                        if(i is NSNull || i == ""){
+                        if(i == ""){
                             readUserRequests.remove(at: index)
                         }
                         else {
@@ -170,88 +168,25 @@ class ReadFirebaseData: NSObject {
                         }
                     }
                     
-                    let readUser = User(email: (user["email"] ?? "no email") as! String, name: user["name"] as! String, rating: Int(truncating: ratingInt), uid: (user["UID"] ?? "no UID") as! String, profileImage: (user["profileImage"] ?? "no profileImage") as! String, offers: readUserOffers as! Array, requests: readUserRequests as! Array)
-                    
-//                    let readUser = User(email: (user["email"] ?? "no email") as! String, name: user["name"] as! String, rating: Int(truncating: ratingInt), uid: (user["UID"] ?? "no UID") as! String, profileImage: (user["profileImage"] ?? "no profileImage") as! String, offers: [""] as! Array, requests: (user["requests"] ?? [""]) as! Array)
+                    let readUser = User(email: (user["email"] ?? "no email") as! String, name: user["name"] as! String, rating: Int(truncating: ratingInt), uid: (user["UID"] ?? "no UID") as! String, profileImage: (user["profileImage"] ?? "no profileImage") as! String, offers: readUserOffers, requests: readUserRequests)
                     
                     AppData.sharedInstance.onlineUsers.append(readUser)
                     print("appending items")
                     
                      if (userUID == AppData.sharedInstance.currentUser?.UID){
                         
+                        AppData.sharedInstance.currentUser = readUser
+                        
                         storeCurrentUsersItems(userUID: userUID)
                     }
                 
                 }
-                //let myDownloadNotificationKey = "myDownloadNotificationKey"
-                //NotificationCenter.default.post(name: Notification.Name(rawValue: myDownloadNotificationKey), object: nil)
-                
                 let myUsersDownloadNotificationKey = "myUsersDownloadNotificationKey"
                 NotificationCenter.default.post(name: Notification.Name(rawValue: myUsersDownloadNotificationKey), object: nil)
             })
         
     }
-    
-//   class func readUsersPhotos(){
-//        let storageRef = Storage.storage().reference()
-//        
-//        // Create a reference to the file you want to download
-//        let ref = AppData.sharedInstance.currentUser?.profileImage
-//        let profilePhotoRef = storageRef.child(ref!)
-//        
-//        // Download in memory with a maximum allowed size of 1MB (1 * 1024 * 1024 bytes)
-//        profilePhotoRef.getData(maxSize: 10 * 1024 * 1024) { data, error in
-//            if let error = error {
-//                // Uh-oh, an error occurred!
-//                print("Errroorr")
-//            } else {
-//                // Data for "images/island.jpg" is returned
-//                let image = UIImage(data: data!)
-//                AppData.sharedInstance.currentUserPhotos[(AppData.sharedInstance.currentUser?.profileImage)!] = image
-//                
-//            }
-//        }
 
-//        for offeredItem in AppData.sharedInstance.currentUserOfferedItems {
-//            for stringPhotoRef in offeredItem.photos{
-//
-//                let photoRef = storageRef.child(stringPhotoRef)
-//                // Download in memory with a maximum allowed size of 1MB (1 * 1024 * 1024 bytes)
-//                photoRef.getData(maxSize: 1 * 1024 * 1024) { data, error in
-//                    if let error = error {
-//                        print("error getting data")
-//                    } else {
-//                        // Data for "images/island.jpg" is returned
-//                        let image = UIImage(data: data!)
-//                        //let resizedImage = image?.resizeImage(40, opaque: true)
-//                        AppData.sharedInstance.currentUserPhotos[stringPhotoRef] = image
-//
-//                    }
-//                }
-//            }
-//
-//        }
-////
-//        for requestedItem in AppData.sharedInstance.currentUserRequestedItems {
-//            for stringPhotoRef in requestedItem.photos{
-//
-//                let photoRef = storageRef.child(stringPhotoRef)
-//                // Download in memory with a maximum allowed size of 1MB (1 * 1024 * 1024 bytes)
-//                photoRef.getData(maxSize: 1 * 1024 * 1024) { data, error in
-//                    if let error = error {
-//                        // Uh-oh, an error occurred!
-//                    } else {
-//                        // Data for "images/island.jpg" is returned
-//                        let image = UIImage(data: data!)
-//                        //let resizedImage = image?.resizeImage(40, opaque: true)
-//                        AppData.sharedInstance.currentUserPhotos[stringPhotoRef] = image
-//
-//                    }
-//                }
-//            }
-//
-//        }
-//   }
     
     fileprivate class func readOffer(data:[String:Any]) {
         for any in data {
@@ -274,7 +209,6 @@ class ReadFirebaseData: NSObject {
             let readItem = Item(with: item)
             if readItem != nil {
                 AppData.sharedInstance.onlineRequestedItems.append(readItem!)
-                print(readItem?.name)
                 print("appending requested items")
             }
             else {
@@ -302,10 +236,6 @@ class ReadFirebaseData: NSObject {
             AppData.sharedInstance.currentUserRequestedItems.append(item)
             
         }
-        
-        
-            
-        
     }
 }
     

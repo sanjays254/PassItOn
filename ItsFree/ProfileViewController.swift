@@ -11,6 +11,8 @@ import FirebaseStorage
 import FirebaseDatabase
 
 class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate{
+    
+    let myDowloadCompletedNotificationKey = "myUsersDownloadNotificationKey"
 
     @IBOutlet weak var backButton: UIButton!
     @IBOutlet weak var editButton: UIButton!
@@ -45,11 +47,12 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     
     var animateTable: Bool = false
     
-
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(setUpProfileText), name: NSNotification.Name(rawValue: myDowloadCompletedNotificationKey), object: nil)
+        
+        ReadFirebaseData.readUsers()
         imagePicker.delegate = self
         editingProfile = false
         
@@ -74,6 +77,9 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         self.leaderboardButton.layer.cornerRadius = self.backButton.frame.size.width/2
         self.leaderboardButton.layer.masksToBounds = false
         
+        
+        
+        
         setUpProfilePicture()
         setUpProfileText()
         setupTextFields()
@@ -88,10 +94,6 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         self.navigationController?.setNavigationBarHidden(true, animated: true)
         myPostsTableView.reloadData()
     }
-    
-//    override func viewWillDisappear(_ animated: Bool) {
-//        self.navigationController?.setNavigationBarHidden(true, animated: animated)
-//    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -119,7 +121,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         usernameTextField.font = UIFont(name: "GillSans-Light", size: 25)
     }
     
-    func setUpProfileText() {
+    @objc func setUpProfileText() {
         self.navigationItem.title = "Profile"
         self.usernameLabel.text = username
         self.emailLabel.text = email
@@ -144,7 +146,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         
         //profileImageView.image = AppData.sharedInstance.currentUserPhotos[(user?.profileImage)!]
 
-        profileImageView.sd_setImage(with: storageRef.child(photoRef!), placeholderImage: UIImage(named: "defaultProfile"))
+        profileImageView.sd_setImage(with: storageRef.child(photoRef!), placeholderImage: #imageLiteral(resourceName: "userPlaceholder"))
     }
     
     @IBAction func donePressed(_ sender: Any) {
@@ -162,8 +164,6 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     
     @IBAction func leaderboardButton(_ sender: UIButton) {
         
-//        let leaderboardViewController = LeaderboardTableViewController()
-//        self.present(leaderboardViewController, animated: true, completion: nil)
         performSegue(withIdentifier: "leaderboardSegue", sender: self)
     }
     
@@ -173,6 +173,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         let logoutAlert = UIAlertController(title: "Sure?", message: "Are you sure you want to log out?", preferredStyle: .alert)
         let logoutAction = UIAlertAction(title: "Yes, Log out", style: .destructive, handler: { (alert: UIAlertAction!) in
             
+            //self.navigationController?.popToRootViewController(animated: true)
             self.dismiss(animated: true, completion: nil)
             AppData.sharedInstance.currentUser = nil
             AppData.sharedInstance.currentUserOfferedItems = []
@@ -186,8 +187,6 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         logoutAlert.addAction(cancelAction)
         
         present(logoutAlert, animated: true, completion: nil)
-        
-        //self.navigationController?.popViewController(animated: true)
     }
     
     
@@ -294,8 +293,6 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "myPostsTableViewCell", for: indexPath) as! MyPostsTableViewCell
         
-        //cell.translatesAutoresizingMaskIntoConstraints = false
-        
         weak var item: Item!
         
         switch offersRequestsSegmentedControl.selectedSegmentIndex {
@@ -317,15 +314,12 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
                 cell.itemImageView?.sd_setImage(with: storageRef.child(item.photos[0]), placeholderImage: UIImage.init(named: "placeholder"))
                 cell.setNeedsLayout()
             }
-             //myOfferedPostsImages = ImageManager.downloadImage(imagePath: item.photos[0])
             
-    
         case 1:
             if (indexPath.row == AppData.sharedInstance.currentUser?.requestedItems.count){
                 cell.itemLabel.text = "Want something?"
                 cell.itemLabel.font = UIFont.italicSystemFont(ofSize: 16)
                 
-                //cell.itemImageView.isHidden = true
                 cell.itemImageViewWidthConstraint.constant = 0
                cell.itemLabel.centerXAnchor.constraint(equalTo: cell.centerXAnchor).isActive = true
                 cell.setNeedsLayout()
@@ -339,22 +333,11 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
                 cell.itemImageView?.sd_setImage(with: storageRef.child(item.photos[0]), placeholderImage: UIImage.init(named: "placeholder"))
                 cell.setNeedsLayout()
             }
-             //myRequestedPostsImages = ImageManager.downloadImage(imagePath: item.photos[0])
       
         default:
             item = nil
         }
        
-        
-        
-        
-//        if let image = (AppData.sharedInstance.currentUserPhotos[item.photos[0]]) {
-//            cell.itemImageView.image = image
-//            cell.itemImageView?.sd_setImage(with: storageRef.child(item.photos[0]), placeholderImage: UIImage.init(named: "placeholder"))
-//        }
-//        else  {
-//            cell.itemImageView.image = #imageLiteral(resourceName: "placeholder")
-//        }
         
         if (animateTable){
             UIView.transition(with: cell.textLabel!, duration: 0.6, options: .transitionCrossDissolve, animations: {

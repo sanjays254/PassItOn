@@ -44,7 +44,7 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
         
         itemDetailView.translatesAutoresizingMaskIntoConstraints = false
         
-        detailViewTopAnchorConstant = (UIScreen.main.bounds.size.height-(itemDetailView.mainImageView.frame.minY+itemDetailView.categoryLabel.frame.maxY)) - ((self.navigationController?.navigationBar.frame.height)! + (UIApplication.shared.statusBarFrame.size.height))
+        detailViewTopAnchorConstant = (UIScreen.main.bounds.size.height-(itemDetailView.mainImageView.frame.minY+itemDetailView.categoryLabel.frame.maxY)) - (44 + (UIApplication.shared.statusBarFrame.size.height))
         
         detailViewBottomAnchorConstant = 0
         
@@ -212,9 +212,9 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
     
     @objc func swipe(gesture: UIGestureRecognizer) {
         
-        let topOfFullViewFrame = (UIScreen.main.bounds.size.height-(itemDetailView.mainImageView.frame.minY+itemDetailView.photoCollectionView.frame.maxY)) - ((self.navigationController?.navigationBar.frame.height)! + (UIApplication.shared.statusBarFrame.size.height))
+        let topOfFullViewFrame = (UIScreen.main.bounds.size.height-(itemDetailView.mainImageView.frame.minY+itemDetailView.photoCollectionView.frame.maxY)) - (44 + (UIApplication.shared.statusBarFrame.size.height))
         
-        let topOfPreviewFrame = (UIScreen.main.bounds.size.height-(itemDetailView.mainImageView.frame.minY+itemDetailView.categoryLabel.frame.maxY)) - ((self.navigationController?.navigationBar.frame.height)! + (UIApplication.shared.statusBarFrame.size.height))
+        let topOfPreviewFrame = (UIScreen.main.bounds.size.height-(itemDetailView.mainImageView.frame.minY+itemDetailView.categoryLabel.frame.maxY)) - (44 + (UIApplication.shared.statusBarFrame.size.height))
         
         
         
@@ -263,7 +263,7 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
             
                 //this constant allows all details to be shown, and no empty space
                 
-                detailViewTopAnchorConstant = (UIScreen.main.bounds.size.height-(itemDetailView.mainImageView.frame.minY+itemDetailView.photoCollectionView.frame.maxY)) - ((self.navigationController?.navigationBar.frame.height)! + (UIApplication.shared.statusBarFrame.size.height))
+                detailViewTopAnchorConstant = (UIScreen.main.bounds.size.height-(itemDetailView.mainImageView.frame.minY+itemDetailView.photoCollectionView.frame.maxY)) - (44 + (UIApplication.shared.statusBarFrame.size.height))
             
                 
                 UIView.animate(withDuration: 0.5, animations: {

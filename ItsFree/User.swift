@@ -34,8 +34,6 @@ class User {
             let inpRating: NSNumber = inpDict["rating"] as? NSNumber,
             let inpUID: String = inpDict["UID"] as? String,
             let inpProfileImage: String = inpDict["profileImage"] as? String ?? "",
-            
-            
             var inpOffers:[String] = inpDict["offers"] as? [String],
             var inpRequests:[String] = inpDict["requests"] as? [String] else
         {

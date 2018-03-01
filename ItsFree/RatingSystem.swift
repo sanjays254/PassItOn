@@ -21,7 +21,7 @@ class RatingSystem: NSObject {
         ReadFirebaseData.readOffers(category: nil)
         ReadFirebaseData.readRequests(category: nil)
         
-       // parseURLAndRateUser()
+        parseURLAndRateUser()
         
     }
     
@@ -93,7 +93,14 @@ class RatingSystem: NSObject {
                 }
                     
                 else {
-                    alert = UIAlertController(title: "Do you like the \(item.name)?", message: "Upvote or downvote \(responder!.name) by a max of \(item.value) points", preferredStyle: UIAlertControllerStyle.alert)
+                    
+                    if(item.value < 10){
+                      alert = UIAlertController(title: "Do you like the \(item.name)?", message: "Upvote or downvote \(responder!.name) by a max of 10 points", preferredStyle: UIAlertControllerStyle.alert)
+                    }
+                    
+                    else {
+                        alert = UIAlertController(title: "Do you like the \(item.name)?", message: "Upvote or downvote \(responder!.name) by a max of \(item.value) points", preferredStyle: UIAlertControllerStyle.alert)
+                    }
                     
                     alert.addTextField { (textField : UITextField!) -> Void in
                         textField.placeholder = "\(item.value)"
@@ -104,7 +111,20 @@ class RatingSystem: NSObject {
                     
                     let upvoteAction = UIAlertAction(title: "Upvote", style: UIAlertActionStyle.default, handler: {(alertAction: UIAlertAction!) in
                         
-                        if (Int(responseTextField.text!)! > item.value) {
+                        if((item.value < 10) && (Int(responseTextField.text!)! > 10)){
+                            let alert = UIAlertController(title: "Whoops", message: "You can't upvote by more than 10 points for such an item", preferredStyle: UIAlertControllerStyle.alert)
+                            alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.default, handler: {_ in
+                                mainVC.schemaURL = self.urlToParse
+                                mainVC.rateUser()}))
+                            currentVC.present(alert, animated: true, completion: nil)
+                        }
+                            
+                        else if((item.value < 10) && (Int(responseTextField.text!)! < 11)){
+                            responder?.rating = (responder?.rating)! + Int(responseTextField.text!)!
+                            AppData.sharedInstance.usersNode.child("\(responderID!)/rating").setValue(responder?.rating)
+                        }
+                        
+                        else if (Int(responseTextField.text!)! > item.value) {
                             let alert = UIAlertController(title: "Whoops", message: "You can't upvote by more than \(item.value) points", preferredStyle: UIAlertControllerStyle.alert)
                             alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.default, handler: {_ in
                                 mainVC.schemaURL = self.urlToParse
@@ -112,13 +132,29 @@ class RatingSystem: NSObject {
                             currentVC.present(alert, animated: true, completion: nil)
             
                         }
+                        else if (Int(responseTextField.text!)! < item.value) {
+                            responder?.rating = (responder?.rating)! + Int(responseTextField.text!)!
+                            AppData.sharedInstance.usersNode.child("\(responderID!)/rating").setValue(responder?.rating)
+                        }
                         
-                        responder?.rating = (responder?.rating)! + Int(responseTextField.text!)!
-                        AppData.sharedInstance.usersNode.child("\(responderID!)/rating").setValue(responder?.rating)
+                        
                     })
                     let downvoteAction = UIAlertAction(title: "Downvote", style: UIAlertActionStyle.destructive, handler: {(alertAction: UIAlertAction!) in
                         
-                        if (Int(responseTextField.text!)! > item.value) {
+                        if((item.value < 10) && (Int(responseTextField.text!)! > 10)){
+                            let alert = UIAlertController(title: "Whoops", message: "You can't downvote by more than 10 points for such an item", preferredStyle: UIAlertControllerStyle.alert)
+                            alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.default, handler: {_ in
+                                mainVC.schemaURL = self.urlToParse
+                                mainVC.rateUser()}))
+                            currentVC.present(alert, animated: true, completion: nil)
+                        }
+                            
+                        else if((item.value < 10) && (Int(responseTextField.text!)! < 11)){
+                            responder?.rating = (responder?.rating)! - Int(responseTextField.text!)!
+                            AppData.sharedInstance.usersNode.child("\(responderID!)/rating").setValue(responder?.rating)
+                        }
+                        
+                        else if (Int(responseTextField.text!)! > item.value) {
                             let alert = UIAlertController(title: "Whoops", message: "You can't downvote by more than \(item.value) points", preferredStyle: UIAlertControllerStyle.alert)
                             alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.default, handler: {_ in
                                 mainVC.schemaURL = self.urlToParse
@@ -126,8 +162,12 @@ class RatingSystem: NSObject {
                             currentVC.present(alert, animated: true, completion: nil)
                             
                         }
-                        responder?.rating = (responder?.rating)! - Int(responseTextField.text!)!
-                        AppData.sharedInstance.usersNode.child("\(responderID!)/rating").setValue(responder?.rating)
+                        
+                        else if (Int(responseTextField.text!)! < item.value) {
+                            responder?.rating = (responder?.rating)! - Int(responseTextField.text!)!
+                            AppData.sharedInstance.usersNode.child("\(responderID!)/rating").setValue(responder?.rating)
+                        }
+    
                     })
                     
                     

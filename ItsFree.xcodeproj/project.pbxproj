@@ -29,7 +29,6 @@
 		CE014338201448290045A876 /* ItemPhotoCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE014336201448280045A876 /* ItemPhotoCollectionViewCell.xib */; };
 		CE01EA6B200D5BD2002C33D7 /* RatingSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE01EA6A200D5BD0002C33D7 /* RatingSystem.swift */; };
 		CE43E79A1FCF90290061A653 /* FilterTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE43E7991FCF90290061A653 /* FilterTableViewController.swift */; };
-		CE5249DC1FC6184A003F41D8 /* KeyboardLayoutConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5249DB1FC6184A003F41D8 /* KeyboardLayoutConstraint.swift */; };
 		CE5869CF1FBE445C0012F774 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5869CE1FBE445C0012F774 /* AppDelegate.swift */; };
 		CE5869D41FBE445C0012F774 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE5869D21FBE445C0012F774 /* Main.storyboard */; };
 		CE5869D61FBE445C0012F774 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE5869D51FBE445C0012F774 /* Assets.xcassets */; };
@@ -39,7 +38,6 @@
 		CE9683D01FBE655600DFA277 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9683CF1FBE655600DFA277 /* LocationManager.swift */; };
 		CE9683D21FBF6C9700DFA277 /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9683D11FBF6C9700DFA277 /* PostViewController.swift */; };
 		CE9683D51FBF8E5700DFA277 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9683D41FBF8E5600DFA277 /* HomeViewController.swift */; };
-		CEB52391203E57C400D531CA /* StepByStepPostView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CEB52390203E57C200D531CA /* StepByStepPostView.xib */; };
 		CEBD48A11FCC949800C5267F /* LeaderboardTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBD48A01FCC949800C5267F /* LeaderboardTableViewController.swift */; };
 		CEBD48A41FCCD02600C5267F /* LeaderboardTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBD48A21FCCD02600C5267F /* LeaderboardTableViewCell.swift */; };
 		CEBD48A51FCCD02600C5267F /* LeaderboardTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CEBD48A31FCCD02600C5267F /* LeaderboardTableViewCell.xib */; };
@@ -107,7 +105,6 @@
 		CE014336201448280045A876 /* ItemPhotoCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ItemPhotoCollectionViewCell.xib; sourceTree = "<group>"; };
 		CE01EA6A200D5BD0002C33D7 /* RatingSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingSystem.swift; sourceTree = "<group>"; };
 		CE43E7991FCF90290061A653 /* FilterTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterTableViewController.swift; sourceTree = "<group>"; };
-		CE5249DB1FC6184A003F41D8 /* KeyboardLayoutConstraint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardLayoutConstraint.swift; sourceTree = "<group>"; };
 		CE5869CB1FBE445C0012F774 /* ItsFree.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ItsFree.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE5869CE1FBE445C0012F774 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CE5869D31FBE445C0012F774 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -123,7 +120,6 @@
 		CE9683CF1FBE655600DFA277 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		CE9683D11FBF6C9700DFA277 /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
 		CE9683D41FBF8E5600DFA277 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
-		CEB52390203E57C200D531CA /* StepByStepPostView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StepByStepPostView.xib; sourceTree = "<group>"; };
 		CEBD48A01FCC949800C5267F /* LeaderboardTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderboardTableViewController.swift; sourceTree = "<group>"; };
 		CEBD48A21FCCD02600C5267F /* LeaderboardTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderboardTableViewCell.swift; sourceTree = "<group>"; };
 		CEBD48A31FCCD02600C5267F /* LeaderboardTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LeaderboardTableViewCell.xib; sourceTree = "<group>"; };
@@ -238,7 +234,6 @@
 				CEFC19941FC75E510082CB55 /* ItemDetailView.swift */,
 				CEFC19901FC65C320082CB55 /* ItemDetailViewController.swift */,
 				CEF41A1F1FC374520044C63E /* ItemHomeTableViewCell.swift */,
-				CE5249DB1FC6184A003F41D8 /* KeyboardLayoutConstraint.swift */,
 				CEBD48A21FCCD02600C5267F /* LeaderboardTableViewCell.swift */,
 				CEBD48A01FCC949800C5267F /* LeaderboardTableViewController.swift */,
 				CE9683CF1FBE655600DFA277 /* LocationManager.swift */,
@@ -247,7 +242,6 @@
 				CEF41A231FC3CF1C0044C63E /* PostMapViewController.swift */,
 				CEF41A291FC51D380044C63E /* PostPhotoCollectionViewCell.swift */,
 				CE9683D11FBF6C9700DFA277 /* PostViewController.swift */,
-				CEB52390203E57C200D531CA /* StepByStepPostView.xib */,
 				013517441FC8F1FD00977B2E /* ProfileViewController.swift */,
 				CEF41A1D1FC113290044C63E /* ReadFirebaseData.swift */,
 				01EA0BFB1FCD1A8A00AC54AC /* WriteFirebaseData.swift */,
@@ -419,7 +413,6 @@
 				CEF41A221FC374520044C63E /* ItemHomeTableViewCell.xib in Resources */,
 				CE5869D91FBE445C0012F774 /* LaunchScreen.storyboard in Resources */,
 				0135173E1FC6168700977B2E /* Login.storyboard in Resources */,
-				CEB52391203E57C400D531CA /* StepByStepPostView.xib in Resources */,
 				CEBD48A51FCCD02600C5267F /* LeaderboardTableViewCell.xib in Resources */,
 				CE014338201448290045A876 /* ItemPhotoCollectionViewCell.xib in Resources */,
 				01BAC9FB1FBF75A70050C891 /* GoogleService-Info.plist in Resources */,
@@ -658,7 +651,6 @@
 				01BAC9F71FBE5C9E0050C891 /* Item.swift in Sources */,
 				CE43E79A1FCF90290061A653 /* FilterTableViewController.swift in Sources */,
 				01BAC9F91FBF6CD10050C891 /* Enums.swift in Sources */,
-				CE5249DC1FC6184A003F41D8 /* KeyboardLayoutConstraint.swift in Sources */,
 				CE01EA6B200D5BD2002C33D7 /* RatingSystem.swift in Sources */,
 				CE014332200FFB960045A876 /* MyPostsTableViewCell.swift in Sources */,
 				CEF41A251FC3CF1C0044C63E /* PostMapViewController.swift in Sources */,

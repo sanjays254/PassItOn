@@ -39,6 +39,8 @@ class LeaderboardTableViewController: UIViewController, UITableViewDataSource, U
         
         NotificationCenter.default.addObserver(self, selector: #selector(reload), name: NSNotification.Name(rawValue: myDowloadCompletedNotificationKey), object: nil)
         
+        ReadFirebaseData.readUsers()
+        
         leaderboardTableView.delegate = self
         leaderboardTableView.dataSource = self
         leaderboardTableView.rowHeight = 80

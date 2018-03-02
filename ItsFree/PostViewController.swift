@@ -222,6 +222,13 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
     //setup default UI if editing, otherwise step by step questions
     func checkIfEditing(){
         if (editingBool){
+            offerRequestSegmentedControl.frame = CGRect(x: 0, y: 0, width: 120, height: 30)
+            offerRequestSegmentedControl.tintColor = UIProperties.sharedUIProperties.lightGreenColour
+            offerRequestSegmentedControl.backgroundColor = UIProperties.sharedUIProperties.blackColour
+            self.navigationItem.titleView = offerRequestSegmentedControl
+            offerRequestSegmentedControl.center.x = (self.navigationItem.titleView?.center.x)!
+            offerRequestSegmentedControl.selectedSegmentIndex = offerRequestIndex
+            
             titleTextField.text = itemToEdit.name
             descriptionTextField.text = itemToEdit.itemDescription
             chosenTagsArray = itemToEdit.tags.tagsArray
@@ -229,7 +236,6 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
             addCategoryButton.setTitle("Category: \(itemToEdit.itemCategory.rawValue)", for: .normal)
             chosenCategory = itemToEdit.itemCategory
             locationButton.setTitle("Location: \(String(describing: itemToEdit!.coordinate))", for: .normal)
-            offerRequestSegmentedControl.selectedSegmentIndex = offerRequestIndex
             valueTextField.text = String(itemToEdit.value)
             
             for tag in itemToEdit.tags.tagsArray {
@@ -1007,7 +1013,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         switch(qualitySegmentedControl.selectedSegmentIndex){
         case 0: chosenQuality = ItemQuality.New
         case 1: chosenQuality = ItemQuality.GentlyUsed
-        case 2: chosenQuality = ItemQuality.NeedsFixing
+        case 2: chosenQuality = ItemQuality.WellUsed
         case 3: chosenQuality = ItemQuality.DamagedButFunctional
         default:
             chosenQuality = ItemQuality.GentlyUsed
@@ -1025,7 +1031,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
  
         if (editingBool){
-            return (itemToEdit.photos.count+photosArray.count+1)
+            return ((itemToEdit.photos.count-1)+photosArray.count+1)
         }
         else {
             return (photosArray.count+1)
@@ -1055,20 +1061,22 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         
         if(editingBool){
             
-            if(itemToEdit.photos.count+photosArray.count == indexPath.item){
+            if((itemToEdit.photos.count-1)+photosArray.count == indexPath.item){
                 cell.postCollectionViewCellImageView.image = #imageLiteral(resourceName: "addImage")
                 cell.postCollectionViewCellImageView.layer.borderWidth = 0
+                cell.postCollectionViewCellImageView.layer.cornerRadius = 0
                 cell.contentMode = .scaleAspectFit
             }
             
-            else if(indexPath.item < itemToEdit.photos.count+photosArray.count){
+            else if(indexPath.item < (itemToEdit.photos.count-1)+photosArray.count){
                 
-                if(indexPath.item < itemToEdit.photos.count){
+                
+                if(indexPath.item < (itemToEdit.photos.count-1)){
                     cell.postCollectionViewCellImageView.sd_setImage(with:storageRef.child(itemToEdit.photos[indexPath.item]), placeholderImage: UIImage.init(named: "placeholder"))
                 }
                 
                 else {
-                    cell.postCollectionViewCellImageView.image = photosArray[(indexPath.item-itemToEdit.photos.count)]
+                    cell.postCollectionViewCellImageView.image = photosArray[(indexPath.item-(itemToEdit.photos.count-1))]
                 }
                 
                 cell.postCollectionViewCellImageView.layer.cornerRadius = 10
@@ -1109,7 +1117,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         //if we are editing an existing post
         if (editingBool){
             //if we click on the plus picture
-            if ((indexPath.item) + 1 > (self.photosArray.count + itemToEdit.photos.count)){
+            if ((indexPath.item) + 1 > (self.photosArray.count + (itemToEdit.photos.count-1))){
                 presentImagePickerAlert()
             }
             //else we click on an existing picture
@@ -1120,7 +1128,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
                 var changeAction: UIAlertAction!
                 
                 //if the picture was already existing
-                if(indexPath.item < itemToEdit.photos.count){
+                if(indexPath.item < (itemToEdit.photos.count-1)){
                     
                     viewAction = UIAlertAction(title: "View Photo", style: UIAlertActionStyle.default, handler:{ (action) in
                         //open photo
@@ -1140,13 +1148,13 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
                     
                     viewAction = UIAlertAction(title: "View Photo", style: UIAlertActionStyle.default, handler:{ (action) in
                         //open photo
-                        self.fullscreenImage(image: self.photosArray[indexPath.item - self.itemToEdit.photos.count])
+                        self.fullscreenImage(image: self.photosArray[indexPath.item - (self.itemToEdit.photos.count-1)])
                         
                     })
                     
                     changeAction = UIAlertAction(title: "Delete Photo", style: UIAlertActionStyle.destructive, handler:{ (action) in
                         
-                        self.photosArray.remove(at: (indexPath.item-self.itemToEdit.photos.count))
+                        self.photosArray.remove(at: (indexPath.item-self.itemToEdit.photos.count-1))
                         self.photoCollectionView.reloadData()
                     })
                 }

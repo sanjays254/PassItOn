@@ -316,16 +316,16 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
         
         let mailComposerVC = MFMailComposeViewController()
         mailComposerVC.mailComposeDelegate = self
-        
+
         let destinationUser = AppData.sharedInstance.onlineUsers.filter{ $0.UID == currentItem.posterUID }.first
-        
+
         if(AppData.sharedInstance.currentUser!.UID == destinationUser?.UID){
             //show alert
             let usersOwnItemAlert = UIAlertController(title: "Oops", message: "This item was posted by you", preferredStyle: UIAlertControllerStyle.alert)
             let okayAction = UIAlertAction(title: "Okay", style: UIAlertActionStyle.default, handler: nil)
             usersOwnItemAlert.addAction(okayAction)
             present(usersOwnItemAlert, animated: true, completion: nil)
-            
+
         }
         else {
             //show error if the VC cant send mail
@@ -335,10 +335,10 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
             } else {
                 self.showSendMailErrorAlert()
             }
-       
+
             if(AppData.sharedInstance.onlineOfferedItems.contains(currentItem)){
                 offerMessage(mailComposerVC: mailComposerVC)
-            
+
             }
             else if(AppData.sharedInstance.onlineRequestedItems.contains(currentItem)){
                 requestMessage(mailComposerVC: mailComposerVC)

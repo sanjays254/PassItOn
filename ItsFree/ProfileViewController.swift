@@ -35,13 +35,13 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     
     var username:String = (AppData.sharedInstance.currentUser?.name)!
     var email:String = (AppData.sharedInstance.currentUser?.email)!
-    weak var user : User? = AppData.sharedInstance.currentUser
+    var user : User? = AppData.sharedInstance.currentUser
     
-    let storageRef = Storage.storage().reference()
+    var storageRef = Storage.storage().reference()
     var photoRef = AppData.sharedInstance.currentUser?.profileImage
 
     let imagePicker = UIImagePickerController()
-    var myImage:UIImage?
+    weak var myImage:UIImage?
     
     var tapGesture: UITapGestureRecognizer!
     
@@ -144,9 +144,9 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         profileImageView.layer.borderColor = UIColor.black.cgColor
         profileImageView.layer.borderWidth = 5.0
         
-        //profileImageView.image = AppData.sharedInstance.currentUserPhotos[(user?.profileImage)!]
-
-        profileImageView.sd_setImage(with: storageRef.child(photoRef!), placeholderImage: #imageLiteral(resourceName: "userPlaceholder"))
+        storageRef = Storage.storage().reference()
+     
+        profileImageView.sd_setImage(with: storageRef.child((AppData.sharedInstance.currentUser?.profileImage)!), placeholderImage: #imageLiteral(resourceName: "userPlaceholder"))
     }
     
     @IBAction func donePressed(_ sender: Any) {
@@ -311,6 +311,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
                 cell.itemLabel.font = UIFont(name: "GillSans", size: 20)
                 cell.itemLabel.centerXAnchor.constraint(equalTo: cell.centerXAnchor).isActive = false
                 cell.itemImageViewWidthConstraint.constant = 77
+                storageRef = Storage.storage().reference()
                 cell.itemImageView?.sd_setImage(with: storageRef.child(item.photos[0]), placeholderImage: UIImage.init(named: "placeholder"))
                 cell.setNeedsLayout()
             }

@@ -102,7 +102,7 @@ public enum ItemQuality:String {
     case New  = "New",
     GentlyUsed = "Used",
     WellUsed = "Worn Out",
-    DamagedButFunctional = "Damaged but Functional",
+    DamagedButFunctional = "Damaged",
     NeedsFixing = "Needs Fixing"
     
     static func itemQualityIndex(quality: ItemQuality) -> Int {

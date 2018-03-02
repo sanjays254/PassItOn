@@ -400,7 +400,7 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
         
         //mailVC properties
         mailComposerVC.setToRecipients([destinationEmail, currentUserEmail])
-        mailComposerVC.setSubject("FreeBox: \(currentUserName) wants your item")
+        mailComposerVC.setSubject("Pass It On: \(currentUserName) wants your item")
         mailComposerVC.setMessageBody("Hey \(destinationName),<br><br> I want your \(currentItemName).<br><br>Thanks!<br><br>---------------------<br><br>Admin Message to \(currentUserName): Use the link below to rate \(destinationName), if you like or dislike the item. There will be a copy of this email in your inbox<br><br> \(linkString!)<br><br>Thanks! :)", isHTML: true)
         
         //send an email to current user with link instead of putting link in here
@@ -431,7 +431,7 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
         
         //mailVC properties
         mailComposerVC.setToRecipients([destinationEmail])
-        mailComposerVC.setSubject("FreeBox: \(currentUserName) has something you want")
+        mailComposerVC.setSubject("Pass It On: \(currentUserName) has something you want")
         mailComposerVC.setMessageBody("Hey \(destinationName),<br><br> I have a \(currentItemName).<br><br><br><br>Admin message to \(destinationName): Please click the link below if \(currentUserName) gives you the item, to easily delete your post from the app and so that you can rate him/her!<br><br>\(linkString!)<br><brThanks! :) ", isHTML: true)
     }
     

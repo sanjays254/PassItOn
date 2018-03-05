@@ -143,8 +143,8 @@ class ReadFirebaseData: NSObject {
                     let user: [String:Any] = any as! [String:Any]
                     let userUID: String = user["UID"] as! String
                     let ratingInt = user["rating"] as! NSNumber
-                    var readUserOffers: Array<String> = user["offers"] as! Array<String>
-                    var readUserRequests: Array<String> = user["requests"] as! Array<String>
+                    var readUserOffers: Array<String> = (user["offers"] as? Array<String>)!
+                    var readUserRequests: Array<String> = (user["requests"] as? Array<String>)!
                     var index = 0
                     for i in readUserOffers{
                     
@@ -176,7 +176,7 @@ class ReadFirebaseData: NSObject {
                      if (userUID == AppData.sharedInstance.currentUser?.UID){
                         
                         AppData.sharedInstance.currentUser = readUser
-                        
+                    
                         storeCurrentUsersItems(userUID: userUID)
                     }
                 
@@ -219,13 +219,20 @@ class ReadFirebaseData: NSObject {
     }
     
     class func storeCurrentUsersItems(userUID:String){
+        
+        AppData.sharedInstance.currentUserOfferedItems = []
+        AppData.sharedInstance.currentUserRequestedItems = []
        
         for itemRef in (AppData.sharedInstance.currentUser?.offeredItems)! {
                 
                 let itemUID = String(itemRef.suffix(20))
                 
                 let item = AppData.sharedInstance.onlineOfferedItems.filter{ $0.UID == itemUID}.first!
+            
+            if !(AppData.sharedInstance.currentUserOfferedItems.contains(item)){
+                
                 AppData.sharedInstance.currentUserOfferedItems.append(item)
+            }
             }
         
         for itemRef in (AppData.sharedInstance.currentUser?.requestedItems)! {
@@ -233,7 +240,10 @@ class ReadFirebaseData: NSObject {
             let itemUID = String(itemRef.suffix(20))
             
             let item = AppData.sharedInstance.onlineRequestedItems.filter{ $0.UID == itemUID}.first!
+            
+            if !(AppData.sharedInstance.currentUserRequestedItems.contains(item)){
             AppData.sharedInstance.currentUserRequestedItems.append(item)
+            }
             
         }
     }

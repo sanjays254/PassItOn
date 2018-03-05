@@ -13,6 +13,7 @@ import MapKit
 
 class Item: NSObject, MKAnnotation {
     
+    
     var coordinate: CLLocationCoordinate2D {
         get { return self.location }
         set { self.location = newValue }
@@ -37,7 +38,7 @@ class Item: NSObject, MKAnnotation {
          tags:Tag,
          photos:[String],
          value: Int,
-         itemUID:String?        ) {
+         itemUID:String?) {
         
         self.name = name
         self.itemCategory = category
@@ -58,6 +59,7 @@ class Item: NSObject, MKAnnotation {
         else {
             self.UID = itemUID
         }
+
     }
     
     convenience init?(with inpDict:[String:Any]) {

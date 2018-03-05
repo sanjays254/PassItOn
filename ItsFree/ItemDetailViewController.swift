@@ -284,18 +284,32 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
     
     func fullscreenImage(imagePath : String) {
         
-        let newImageView = UIImageView()
-        ImageManager.downloadImage(imagePath: imagePath, into: newImageView)
+        if (imagePath == ""){
+            let noImageAlert = UIAlertController(title: "Sorry", message: "This item doesn't have an image", preferredStyle: .alert)
+            let okayAction = UIAlertAction(title: "Okay", style: .default, handler: nil)
+            
+            noImageAlert.addAction(okayAction)
+            
+            present(noImageAlert, animated: true, completion: nil)
+        }
         
-        newImageView.frame = UIScreen.main.bounds
-        newImageView.backgroundColor = .black
-        newImageView.contentMode = .scaleAspectFit
-        newImageView.isUserInteractionEnabled = true
-        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissFullscreenImage))
-        newImageView.addGestureRecognizer(tap)
-        self.view.addSubview(newImageView)
-        self.navigationController?.isNavigationBarHidden = true
-        self.tabBarController?.tabBar.isHidden = true
+        else {
+        
+            let newImageView = UIImageView()
+            //ImageManager.downloadImage(imagePath: imagePath, into: newImageView)
+            newImageView.sd_setImage(with: storageRef.child(imagePath), placeholderImage: UIImage.init(named: "placeholder"))
+            
+            newImageView.frame = UIScreen.main.bounds
+            newImageView.backgroundColor = .black
+            newImageView.contentMode = .scaleAspectFit
+            newImageView.isUserInteractionEnabled = true
+            let tap = UITapGestureRecognizer(target: self, action: #selector(dismissFullscreenImage))
+            newImageView.addGestureRecognizer(tap)
+            self.view.addSubview(newImageView)
+            self.navigationController?.isNavigationBarHidden = true
+            self.tabBarController?.tabBar.isHidden = true
+            
+        }
     }
     
     @objc func dismissFullscreenImage(_ sender: UITapGestureRecognizer) {

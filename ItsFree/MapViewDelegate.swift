@@ -79,8 +79,15 @@ class MapViewDelegate: NSObject, MKMapViewDelegate {
         let newItemMarkerView = mapView.dequeueReusableAnnotationView(withIdentifier: "itemMarkerView", for: annotation) as! MKMarkerAnnotationView
         
         if let cluster = annotation as? MKClusterAnnotation {
-            newItemMarkerView.glyphText = String(cluster.memberAnnotations.count)
-            return newItemMarkerView
+            
+            if(cluster.memberAnnotations.count > 1){
+                newItemMarkerView.glyphText = String(cluster.memberAnnotations.count)
+                return newItemMarkerView
+            }
+                
+            else {
+                setMarkerPropertiesFor(newMarkerView: newItemMarkerView, item: item)
+            }
         }
         else {
         setMarkerPropertiesFor(newMarkerView: newItemMarkerView, item: item)

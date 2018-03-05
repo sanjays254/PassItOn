@@ -293,7 +293,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "myPostsTableViewCell", for: indexPath) as! MyPostsTableViewCell
         
-        weak var item: Item!
+       
         
         switch offersRequestsSegmentedControl.selectedSegmentIndex {
         case 0:
@@ -306,7 +306,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
                 cell.setNeedsLayout()
             }
             else {
-             item = AppData.sharedInstance.currentUserOfferedItems[indexPath.row]
+                let item = AppData.sharedInstance.currentUserOfferedItems[indexPath.row]
                 cell.itemLabel?.text = item.name
                 cell.itemLabel.font = UIFont(name: "GillSans", size: 20)
                 cell.itemLabel.centerXAnchor.constraint(equalTo: cell.centerXAnchor).isActive = false
@@ -326,7 +326,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
                 cell.setNeedsLayout()
             }
             else {
-             item = AppData.sharedInstance.currentUserRequestedItems[indexPath.row]
+                let item = AppData.sharedInstance.currentUserRequestedItems[indexPath.row]
                 cell.itemLabel?.text = item.name
                 cell.itemLabel.font = UIFont(name: "GillSans", size: 20)
                 cell.itemLabel.centerXAnchor.constraint(equalTo: cell.centerXAnchor).isActive = false
@@ -336,7 +336,8 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
             }
       
         default:
-            item = nil
+            return cell
+            
         }
        
         

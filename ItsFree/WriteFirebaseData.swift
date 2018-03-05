@@ -77,7 +77,7 @@ class WriteFirebaseData {
                         AppData.sharedInstance.currentUser!.requestedItems.remove(at: index)
                         AppData.sharedInstance.currentUserRequestedItems.remove(at: index)
                     
-                  
+            
                     }
                     break
                 }

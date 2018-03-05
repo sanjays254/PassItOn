@@ -113,7 +113,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         photosArray = []
         setupUI()
 
-        checkIfEditing()
+        
         
         titleTextField.delegate = self
         descriptionTextField.delegate = self
@@ -126,6 +126,8 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         photoCollectionView.delegate = self
         photoCollectionView.dataSource = self
         imagePicker.delegate = self
+        
+        checkIfEditing()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -231,11 +233,13 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
             
             titleTextField.text = itemToEdit.name
             descriptionTextField.text = itemToEdit.itemDescription
+            descriptionTextField.textColor = UIColor.black
             chosenTagsArray = itemToEdit.tags.tagsArray
             qualitySegmentedControl.selectedSegmentIndex = ItemQuality.itemQualityIndex(quality: itemToEdit.quality)
             addCategoryButton.setTitle("Category: \(itemToEdit.itemCategory.rawValue)", for: .normal)
             chosenCategory = itemToEdit.itemCategory
             locationButton.setTitle("Location: \(String(describing: itemToEdit!.coordinate))", for: .normal)
+            selectedLocationCoordinates = itemToEdit.location
             valueTextField.text = String(itemToEdit.value)
             
             for tag in itemToEdit.tags.tagsArray {
@@ -682,27 +686,34 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         case 0: valueTextField.isEnabled = true
             valueTextField.backgroundColor = UIColor.white
         
-        if (stepIndex < 8){
-            questionLabel.text = offerStepsArray[stepIndex]
-        }
+        if !(editingBool){
         
-        if (stepIndex == 7){
-            nextButton.setTitle("Preview", for: .normal)
+            if (stepIndex < 8){
+                questionLabel.text = offerStepsArray[stepIndex]
             }
-        else {
-            nextButton.setTitle("Next", for: .normal)
+        
+            if (stepIndex == 7){
+                nextButton.setTitle("Preview", for: .normal)
+            }
+            else {
+                nextButton.setTitle("Next", for: .normal)
+                }
             }
         case 1: valueTextField.isEnabled = false
             valueTextField.backgroundColor = UIColor.gray
-        if (stepIndex < 8){
-            questionLabel.text = requestStepsArray[stepIndex]
-        }
-        if (stepIndex == 6){
-            nextButton.setTitle("Preview", for: .normal)
-        }
-        else {
-            nextButton.setTitle("Next", for: .normal)
+        
+        if !(editingBool){
+            if (stepIndex < 8){
+                questionLabel.text = requestStepsArray[stepIndex]
             }
+            if (stepIndex == 6){
+                nextButton.setTitle("Preview", for: .normal)
+            }
+            else {
+                nextButton.setTitle("Next", for: .normal)
+                }
+            }
+            
         default: valueTextField.isEnabled = false
             valueTextField.backgroundColor = UIColor.gray
             
@@ -751,6 +762,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         self.view.addSubview(categoryTableView)
         categoryTableView.register(UITableViewCell.self, forCellReuseIdentifier: cellID)
         self.view.bringSubview(toFront: categoryTableView)
+        self.navigationController?.navigationBar.isHidden = true
     }
     
     func findLocationStringFromCoordinates(item: Item){
@@ -842,7 +854,9 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
             
             customTagStackView.addArrangedSubview(newButton)
             
-            chosenTagsArray.append(string)
+            if !(editingBool){
+                chosenTagsArray.append(string)
+            }
             
             customTagTextField.resignFirstResponder()
             customTagTextField.text = ""
@@ -895,6 +909,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         let cell = tableView.cellForRow(at: indexPath)!
         self.addCategoryButton.setTitle("Category: \(cell.textLabel?.text ?? "Unknown")", for: UIControlState.normal)
         chosenCategory = ItemCategory.enumName(index: indexPath.row)
+        self.navigationController?.navigationBar.isHidden = false
         categoryTableView.removeFromSuperview()
     }
     
@@ -923,13 +938,13 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
             return
         }
         
-        guard (descriptionTextField.text != "") else {
-            let alert = UIAlertController(title: "Whoops", message: "You must add a description", preferredStyle: UIAlertControllerStyle.alert)
-            alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.default, handler: nil))
-            present(alert, animated: true, completion: nil)
-            return
-            
-        }
+//        guard (descriptionTextField.text != "") else {
+//            let alert = UIAlertController(title: "Whoops", message: "You must add a description", preferredStyle: UIAlertControllerStyle.alert)
+//            alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.default, handler: nil))
+//            present(alert, animated: true, completion: nil)
+//            return
+//            
+//        }
         
         guard (chosenCategory != nil) else {
             let alert = UIAlertController(title: "Whoops", message: "You must add a category", preferredStyle: UIAlertControllerStyle.alert)
@@ -1031,7 +1046,12 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
  
         if (editingBool){
-            return ((itemToEdit.photos.count-1)+photosArray.count+1)
+            if(itemToEdit.photos[0] == ""){
+                return ((itemToEdit.photos.count-1)+photosArray.count+1)
+            }
+            else {
+                return ((itemToEdit.photos.count)+photosArray.count+1)
+            }
         }
         else {
             return (photosArray.count+1)
@@ -1061,6 +1081,8 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         
         if(editingBool){
             
+            if(itemToEdit.photos[0] == ""){
+            
             if((itemToEdit.photos.count-1)+photosArray.count == indexPath.item){
                 cell.postCollectionViewCellImageView.image = #imageLiteral(resourceName: "addImage")
                 cell.postCollectionViewCellImageView.layer.borderWidth = 0
@@ -1085,6 +1107,36 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
                 cell.postCollectionViewCellImageView.layer.masksToBounds = true
                 cell.postCollectionViewCellImageView.clipsToBounds = true
                 cell.postCollectionViewCellImageView.contentMode = .scaleAspectFill
+            }
+            }
+            else{
+                if((itemToEdit.photos.count)+photosArray.count == indexPath.item){
+                    cell.postCollectionViewCellImageView.image = #imageLiteral(resourceName: "addImage")
+                    cell.postCollectionViewCellImageView.layer.borderWidth = 0
+                    cell.postCollectionViewCellImageView.layer.cornerRadius = 0
+                    cell.contentMode = .scaleAspectFit
+                }
+                    
+                else if(indexPath.item < (itemToEdit.photos.count)+photosArray.count){
+                    
+                    
+                    if(indexPath.item < (itemToEdit.photos.count)){
+                        cell.postCollectionViewCellImageView.sd_setImage(with:storageRef.child(itemToEdit.photos[indexPath.item]), placeholderImage: UIImage.init(named: "placeholder"))
+                    }
+                        
+                    else {
+                        cell.postCollectionViewCellImageView.image = photosArray[(indexPath.item-(itemToEdit.photos.count))]
+                    }
+                    
+                    cell.postCollectionViewCellImageView.layer.cornerRadius = 10
+                    cell.postCollectionViewCellImageView.layer.borderWidth = 3.0
+                    cell.postCollectionViewCellImageView.layer.borderColor = UIProperties.sharedUIProperties.blackColour.cgColor
+                    cell.postCollectionViewCellImageView.layer.masksToBounds = true
+                    cell.postCollectionViewCellImageView.clipsToBounds = true
+                    cell.postCollectionViewCellImageView.contentMode = .scaleAspectFill
+                }
+                
+                
             }
         }
         
@@ -1116,6 +1168,8 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         
         //if we are editing an existing post
         if (editingBool){
+            
+            if (itemToEdit.photos[0] == ""){
             //if we click on the plus picture
             if ((indexPath.item) + 1 > (self.photosArray.count + (itemToEdit.photos.count-1))){
                 presentImagePickerAlert()
@@ -1166,6 +1220,60 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
                 changePhotoAlert.addAction(cancelAction)
                 
                 self.present(changePhotoAlert, animated: true, completion: nil)
+            }
+            }
+            else {
+                //if we click on the plus picture
+                if ((indexPath.item) + 1 > (self.photosArray.count + (itemToEdit.photos.count))){
+                    presentImagePickerAlert()
+                }
+                    //else we click on an existing picture
+                else {
+                    let changePhotoAlert = UIAlertController(title: "View or Delete Photo?", message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
+                    
+                    var viewAction: UIAlertAction!
+                    var changeAction: UIAlertAction!
+                    
+                    //if the picture was already existing
+                    if(indexPath.item < (itemToEdit.photos.count)){
+                        
+                        viewAction = UIAlertAction(title: "View Photo", style: UIAlertActionStyle.default, handler:{ (action) in
+                            //open photo
+                            
+                        })
+                        
+                        changeAction = UIAlertAction(title: "Delete Photo", style: UIAlertActionStyle.destructive, handler:{ (action) in
+                            //
+                            
+                            self.itemToEdit.photos.remove(at: indexPath.item)
+                            self.photoCollectionView.reloadData()
+                        })
+                    }
+                        
+                        //else if the picture was just added
+                    else {
+                        
+                        viewAction = UIAlertAction(title: "View Photo", style: UIAlertActionStyle.default, handler:{ (action) in
+                            //open photo
+                            self.fullscreenImage(image: self.photosArray[indexPath.item - (self.itemToEdit.photos.count)])
+                            
+                        })
+                        
+                        changeAction = UIAlertAction(title: "Delete Photo", style: UIAlertActionStyle.destructive, handler:{ (action) in
+                            
+                            self.photosArray.remove(at: (indexPath.item-self.itemToEdit.photos.count))
+                            self.photoCollectionView.reloadData()
+                        })
+                    }
+                    
+                    let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil)
+                    
+                    changePhotoAlert.addAction(viewAction)
+                    changePhotoAlert.addAction(changeAction)
+                    changePhotoAlert.addAction(cancelAction)
+                    
+                    self.present(changePhotoAlert, animated: true, completion: nil)
+                }
             }
             
         }

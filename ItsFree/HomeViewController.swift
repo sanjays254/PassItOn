@@ -96,13 +96,14 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         searchBar.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 0)
         searchBar.delegate = self
+        searchBar.keyboardAppearance = .dark
         filteredOfferedItems = []
         filteredRequestedItems = []
     }
     
     func presentAlertIfFirstTime(){
         
-        let firstTimeUseAlert = UIAlertController(title: "Welcome to FreeBox", message: "Remember! Free items only!", preferredStyle: .alert)
+        let firstTimeUseAlert = UIAlertController(title: "Welcome to Pass It On", message: "Remember! Free items only!", preferredStyle: .alert)
         let coolAction = UIAlertAction(title: "Sounds good", style: .default, handler: nil)
         firstTimeUseAlert.addAction(coolAction)
         
@@ -145,6 +146,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                 
                 
             }, completion: {(finished: Bool) in
+                self.searchBar.resignFirstResponder()
             })
         }
         
@@ -152,10 +154,12 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
        
         UIView.animate(withDuration: 0.5, animations: {
             self.searchBarHeightConstraint.constant = 45
+            
              self.view.layoutIfNeeded()
             
             
         }, completion: {(finished: Bool) in
+            self.searchBar.becomeFirstResponder()
         })
         }
     }
@@ -219,6 +223,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     @objc func setMapRegion(){
+        MapViewDelegate.theMapViewDelegate.theMapView = homeMapView
         MapViewDelegate.theMapViewDelegate.setMapRegion()
     }
     
@@ -237,6 +242,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     override func viewWillAppear(_ animated: Bool) {
         //super.viewWillAppear(true)
+        
+        MapViewDelegate.theMapViewDelegate.theMapView = homeMapView
         
         if (loggedInBool == false){
             self.dismiss(animated: true, completion: nil)
@@ -505,25 +512,31 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "itemHomeTableViewCellID") as! ItemHomeTableViewCell
         let storageRef = Storage.storage().reference()
-        let sourceArray:[Item]!
-        
-        
+        var sourceArray:[Item]!
+       
         if(wantedAvailableSegmentedControl.selectedSegmentIndex == 0){
-            
+       
             if(searchApplied == true){
                 sourceArray = filteredRequestedItems
+            
             }
             else {
                 sourceArray = AppData.sharedInstance.onlineRequestedItems
             }
             
-            cell.itemTitleLabel.text = sourceArray[indexPath.row].name
-            cell.itemQualityLabel.text = sourceArray[indexPath.row].quality.rawValue
             let destinationLocation: CLLocation = CLLocation(latitude: sourceArray[indexPath.row].location.latitude, longitude: sourceArray[indexPath.row].location.longitude)
             
             let distance = (destinationLocation.distance(from: getLocation())/1000)
             
-            cell.itemDistanceLabel.text = String(format: "%.2f", distance) + " kms"
+            cell.itemTitleLabel.text = sourceArray[indexPath.row].name
+            cell.itemQualityLabel.text = sourceArray[indexPath.row].quality.rawValue
+         
+            if (distance > 100){
+              cell.itemDistanceLabel.text = ">100 kms"
+            }
+            else {
+                cell.itemDistanceLabel.text = String(format: "%.1f", distance) + " kms"
+            }
             
             cell.itemImageView.sd_setImage(with: storageRef.child(sourceArray[indexPath.row].photos[0]), placeholderImage: UIImage.init(named: "placeholder"))
         }
@@ -536,13 +549,19 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                 sourceArray = AppData.sharedInstance.onlineOfferedItems
             }
             
-            cell.itemTitleLabel.text = sourceArray[indexPath.row].name
-            cell.itemQualityLabel.text = sourceArray[indexPath.row].quality.rawValue
             let destinationLocation: CLLocation = CLLocation(latitude: sourceArray[indexPath.row].location.latitude, longitude: sourceArray[indexPath.row].location.longitude)
             
             let distance = (destinationLocation.distance(from: getLocation())/1000)
             
-            cell.itemDistanceLabel.text = String(format: "%.2f", distance) + " kms"
+            cell.itemTitleLabel.text = sourceArray[indexPath.row].name
+            cell.itemQualityLabel.text = sourceArray[indexPath.row].quality.rawValue
+            
+            if (distance > 100){
+                cell.itemDistanceLabel.text = ">100 kms"
+            }
+            else {
+                cell.itemDistanceLabel.text = String(format: "%.1f", distance) + " kms"
+            }
             cell.itemImageView.sd_setImage(with: storageRef.child(sourceArray[indexPath.row].photos[0]), placeholderImage: UIImage.init(named: "placeholder"))
         }
  

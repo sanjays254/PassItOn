@@ -961,7 +961,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
             return
         }
         
-        guard (valueTextField.text != "" && offerRequestSegmentedControl.selectedSegmentIndex == 0) else {
+        guard !(valueTextField.text == "" && offerRequestSegmentedControl.selectedSegmentIndex == 0) else {
             let alert = UIAlertController(title: "Whoops", message: "Offered items must have a value", preferredStyle: UIAlertControllerStyle.alert)
             alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.default, handler: nil))
             present(alert, animated: true, completion: nil)

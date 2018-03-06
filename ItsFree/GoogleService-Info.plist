@@ -7,9 +7,9 @@
 	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
 	<string>ca-app-pub-3940256099942544/4411468910</string>
 	<key>CLIENT_ID</key>
-	<string>730110776932-p0ieb4jmjuhnttif4sde8r0jpovvpnj2.apps.googleusercontent.com</string>
+	<string>730110776932-j6n76sd35rc485h92ck8n2eu6cfh9986.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.730110776932-p0ieb4jmjuhnttif4sde8r0jpovvpnj2</string>
+	<string>com.googleusercontent.apps.730110776932-j6n76sd35rc485h92ck8n2eu6cfh9986</string>
 	<key>API_KEY</key>
 	<string>AIzaSyBqOYFPtMfjE2j5M-kIO9Vom5i0Fu90128</string>
 	<key>GCM_SENDER_ID</key>
@@ -17,7 +17,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.sanjayshah.ItsFree</string>
+	<string>com.sanjayshah.PassItOn</string>
 	<key>PROJECT_ID</key>
 	<string>itsfree-fce29</string>
 	<key>STORAGE_BUCKET</key>
@@ -33,7 +33,7 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:730110776932:ios:4f05299f3f004472</string>
+	<string>1:730110776932:ios:9bd3886a1a8c9288</string>
 	<key>DATABASE_URL</key>
 	<string>https://itsfree-fce29.firebaseio.com</string>
 </dict>

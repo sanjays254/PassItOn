@@ -143,8 +143,23 @@ class ReadFirebaseData: NSObject {
                     let user: [String:Any] = any as! [String:Any]
                     let userUID: String = user["UID"] as! String
                     let ratingInt = user["rating"] as! NSNumber
-                    var readUserOffers: Array<String> = (user["offers"] as? Array<String>)!
-                    var readUserRequests: Array<String> = (user["requests"] as? Array<String>)!
+                    var readUserOffers: [String]
+                    var readUserRequests: [String]
+                    
+                    if (user.keys.contains("offers")){
+                         readUserOffers = (user["offers"] as? [String])!
+                    }
+                    else {
+                         readUserOffers = [] as [String]
+                    }
+                    
+                    if (user.keys.contains("requests")){
+                         readUserRequests = (user["requests"] as? [String])!
+                    }
+                    else {
+                         readUserRequests = [] as [String]
+                    }
+                    
                     var index = 0
                     for i in readUserOffers{
                     
@@ -173,7 +188,7 @@ class ReadFirebaseData: NSObject {
                     AppData.sharedInstance.onlineUsers.append(readUser)
                     print("appending items")
                     
-                     if (userUID == AppData.sharedInstance.currentUser?.UID){
+                     if (userUID == Auth.auth().currentUser?.uid){
                         
                         AppData.sharedInstance.currentUser = readUser
                     
@@ -229,10 +244,10 @@ class ReadFirebaseData: NSObject {
                 
                 let item = AppData.sharedInstance.onlineOfferedItems.filter{ $0.UID == itemUID}.first!
             
-            if !(AppData.sharedInstance.currentUserOfferedItems.contains(item)){
+         //   if !(AppData.sharedInstance.currentUserOfferedItems.contains(item)){
                 
                 AppData.sharedInstance.currentUserOfferedItems.append(item)
-            }
+           // }
             }
         
         for itemRef in (AppData.sharedInstance.currentUser?.requestedItems)! {
@@ -241,9 +256,9 @@ class ReadFirebaseData: NSObject {
             
             let item = AppData.sharedInstance.onlineRequestedItems.filter{ $0.UID == itemUID}.first!
             
-            if !(AppData.sharedInstance.currentUserRequestedItems.contains(item)){
+           // if !(AppData.sharedInstance.currentUserRequestedItems.contains(item)){
             AppData.sharedInstance.currentUserRequestedItems.append(item)
-            }
+           // }
             
         }
     }

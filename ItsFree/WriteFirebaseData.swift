@@ -76,6 +76,7 @@ class WriteFirebaseData {
                         print("found it in requesteditems")
                         AppData.sharedInstance.currentUser!.requestedItems.remove(at: index)
                         AppData.sharedInstance.currentUserRequestedItems.remove(at: index)
+                        
                     
             
                     }

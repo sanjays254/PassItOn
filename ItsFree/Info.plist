@@ -34,11 +34,11 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>App needs to access your Camera</string>
+	<string>App needs to access your Camera if you want to upload photos</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>App needs to access your location</string>
+	<string>We need to know your location to show you nearby items</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>App needs to access your Photo Library</string>
+	<string>App needs to access your Photo Library if you want to upload photos</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

@@ -13,7 +13,6 @@ import MapKit
 
 class Item: NSObject, MKAnnotation {
     
-    
     var coordinate: CLLocationCoordinate2D {
         get { return self.location }
         set { self.location = newValue }

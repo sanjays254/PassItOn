@@ -23,6 +23,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var emailLabel: UILabel!
+    @IBOutlet weak var phoneNumberLabel: UILabel!
     @IBOutlet weak var pointsLabel: UILabel!
     @IBOutlet weak var offersRequestsSegmentedControl: UISegmentedControl!
     @IBOutlet weak var myPostsTableView: UITableView!
@@ -30,11 +31,13 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     var myOfferedPostsImages: [UIImage]?
     var myRequestedPostsImages: [UIImage]?
     weak var usernameTextField: UITextField!
+    weak var phoneNumberTextField: UITextField!
     weak var selectedItemToEdit: Item!
     var editingProfile: Bool!
     
     var username:String = (AppData.sharedInstance.currentUser?.name)!
     var email:String = (AppData.sharedInstance.currentUser?.email)!
+    var phoneNumber: Int = (AppData.sharedInstance.currentUser?.phoneNumber)!
     var user : User? = AppData.sharedInstance.currentUser
     
     var storageRef = Storage.storage().reference()
@@ -77,8 +80,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         self.leaderboardButton.layer.cornerRadius = self.backButton.frame.size.width/2
         self.leaderboardButton.layer.masksToBounds = false
         
-        
-        
+
         
         setUpProfilePicture()
         setUpProfileText()
@@ -105,7 +107,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         self.view.addSubview(usernameTextField)
         usernameTextField.translatesAutoresizingMaskIntoConstraints = false
         
-        let topConstraint = NSLayoutConstraint(item: usernameTextField, attribute: .top, relatedBy: .equal, toItem: profileImageView, attribute: .bottom , multiplier: 1, constant: 20)
+        let topConstraint = NSLayoutConstraint(item: usernameTextField, attribute: .top, relatedBy: .equal, toItem: profileImageView, attribute: .bottom , multiplier: 1, constant: 19)
         let bottomConstraint = NSLayoutConstraint(item: usernameTextField, attribute: .bottom, relatedBy: .equal, toItem: emailLabel, attribute: .top , multiplier: 1, constant: -10)
         let centralizeConstraint = NSLayoutConstraint(item: usernameTextField, attribute: NSLayoutAttribute.centerX, relatedBy: .equal, toItem: view, attribute: .centerX, multiplier: 1, constant: 0)
         let widthConstraint = NSLayoutConstraint(item: usernameTextField, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute , multiplier: 1, constant: 250)
@@ -119,12 +121,44 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         usernameTextField.textAlignment = .center
         usernameTextField.autocorrectionType = .no
         usernameTextField.font = UIFont(name: "GillSans-Light", size: 25)
+        
+        
+        phoneNumberTextField = UITextField()
+        phoneNumberTextField.delegate = self
+        phoneNumberTextField.keyboardType = .namePhonePad
+        self.view.addSubview(phoneNumberTextField)
+        phoneNumberTextField.translatesAutoresizingMaskIntoConstraints = false
+        
+        let topPNConstraint = NSLayoutConstraint(item: phoneNumberTextField, attribute: .top, relatedBy: .equal, toItem: emailLabel, attribute: .bottom , multiplier: 1, constant: 12)
+        let bottomPNConstraint = NSLayoutConstraint(item: phoneNumberTextField, attribute: .bottom, relatedBy: .equal, toItem: pointsLabel, attribute: .top , multiplier: 1, constant: -18)
+        let centralizePNConstraint = NSLayoutConstraint(item: phoneNumberTextField, attribute: NSLayoutAttribute.centerX, relatedBy: .equal, toItem: view, attribute: .centerX, multiplier: 1, constant: 0)
+        let widthPNConstraint = NSLayoutConstraint(item: phoneNumberTextField, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute , multiplier: 1, constant: 180)
+        
+        NSLayoutConstraint.activate([topPNConstraint, bottomPNConstraint, centralizePNConstraint, widthPNConstraint])
+        
+        phoneNumberTextField.isHidden = true
+        phoneNumberTextField.layer.borderWidth = 0.5
+        phoneNumberTextField.layer.borderColor = UIColor.gray.cgColor
+        phoneNumberTextField.layer.cornerRadius = 4
+        phoneNumberTextField.textAlignment = .center
+        phoneNumberTextField.autocorrectionType = .no
+        phoneNumberTextField.font = UIFont(name: "GillSans-Light", size: 20)
+        
     }
     
     @objc func setUpProfileText() {
         self.navigationItem.title = "Profile"
         self.usernameLabel.text = username
         self.emailLabel.text = email
+        
+        if(phoneNumber == 0){
+            self.phoneNumberLabel.text = "Add Phone Number"
+            self.phoneNumberLabel.font = UIFont(name: "GillSans-LightItalic", size: 20)
+        }
+        else {
+            self.phoneNumberLabel.text = String(phoneNumber)
+            self.phoneNumberLabel.font = UIFont(name: "GillSans-Light", size: 20)
+        }
         self.pointsLabel.text = String(AppData.sharedInstance.currentUser!.rating)
     }
     
@@ -206,6 +240,15 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
             usernameLabel.isHidden = true
             usernameTextField.isHidden = false
             usernameTextField.placeholder = username
+            
+            phoneNumberLabel.isHidden = true
+            phoneNumberTextField.isHidden = false
+            if(phoneNumber == 0){
+                phoneNumberTextField.placeholder = "xxx xxx xxxx"
+            }
+            else {
+                phoneNumberTextField.placeholder = String(phoneNumber)
+            }
         }
             
         else if (editingProfile == true){
@@ -220,13 +263,37 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
                 WriteFirebaseData.write(user: user!)
             }
             
+            if (phoneNumberTextField.text == ""){
+                if (user?.phoneNumber == 0){
+                    phoneNumberLabel.text = "Add Phone Number"
+                    self.phoneNumberLabel.font = UIFont(name: "GillSans-LightItalic", size: 20)
+                }
+                else {
+                    phoneNumberLabel!.text = String((user?.phoneNumber)!)
+                    phoneNumberLabel.font = UIFont(name: "GillSans-Light", size: 20)
+                }
+            }
+                
+            else {
+                user?.phoneNumber = Int(phoneNumberTextField.text!)!
+                phoneNumberLabel.text = String((user?.phoneNumber)!)
+                WriteFirebaseData.write(user: user!)
+            }
+            
             editingProfile = false
             
             usernameTextField.isHidden = true
             usernameLabel.isHidden = false
             textFieldDidEndEditing(usernameTextField)
             
+            phoneNumberTextField.isHidden = true
+            phoneNumberLabel.isHidden = false
+            textFieldDidEndEditing(phoneNumberTextField)
+            
             if(usernameTextField.isFirstResponder){
+                dismissKeyboard(tapGesture)
+            }
+            if(phoneNumberTextField.isFirstResponder){
                 dismissKeyboard(tapGesture)
             }
             
@@ -300,7 +367,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
             if (indexPath.row == AppData.sharedInstance.currentUser?.offeredItems.count){
                 cell.itemLabel.text = "Got something to offer?"
                 cell.itemLabel.font = UIFont.italicSystemFont(ofSize: 16)
-                //cell.itemImageView.isHidden = true
+                cell.itemImageView.isHidden = true
                 cell.itemImageViewWidthConstraint.constant = 0
                 cell.itemLabel.centerXAnchor.constraint(equalTo: cell.centerXAnchor).isActive = true
                 cell.setNeedsLayout()
@@ -320,7 +387,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
             if (indexPath.row == AppData.sharedInstance.currentUser?.requestedItems.count){
                 cell.itemLabel.text = "Want something?"
                 cell.itemLabel.font = UIFont.italicSystemFont(ofSize: 16)
-                
+                cell.itemImageView.isHidden = true
                 cell.itemImageViewWidthConstraint.constant = 0
                cell.itemLabel.centerXAnchor.constraint(equalTo: cell.centerXAnchor).isActive = true
                 cell.setNeedsLayout()
@@ -453,6 +520,9 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         usernameTextField.resignFirstResponder()
         usernameTextField.isHidden = true
         
+        phoneNumberTextField.resignFirstResponder()
+        phoneNumberTextField.isHidden = true
+        
         if(usernameTextField.text == ""){
             usernameLabel.text = user?.name
         }
@@ -461,7 +531,26 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
             usernameLabel.text = user?.name
         }
         
+        if(phoneNumberTextField.text == ""){
+            if(user?.phoneNumber == 0){
+                self.phoneNumberLabel.text = "Add Phone Number"
+                self.phoneNumberLabel.font = UIFont(name: "GillSans-LightItalic", size: 20)
+            }
+            else {
+                phoneNumberLabel.text = String((user?.phoneNumber)!)
+                phoneNumberLabel.font = UIFont(name: "GillSans-Light", size: 20)
+            }
+        }
+        else {
+            user?.phoneNumber = Int(phoneNumberTextField.text!)!
+            phoneNumberLabel.text = String((user?.phoneNumber)!)
+        }
+        
+ 
+        
+        
         usernameLabel.isHidden = false
+        phoneNumberLabel.isHidden = false
         editingProfile = false
         
         UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: {

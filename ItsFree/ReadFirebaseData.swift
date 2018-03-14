@@ -183,7 +183,7 @@ class ReadFirebaseData: NSObject {
                         }
                     }
                     
-                    let readUser = User(email: (user["email"] ?? "no email") as! String, name: user["name"] as! String, rating: Int(truncating: ratingInt), uid: (user["UID"] ?? "no UID") as! String, profileImage: (user["profileImage"] ?? "no profileImage") as! String, offers: readUserOffers, requests: readUserRequests)
+                    let readUser = User(email: (user["email"] ?? "no email") as! String,phoneNumber: (user["phoneNumber"] ?? 0) as! Int, name: user["name"] as! String, rating: Int(truncating: ratingInt), uid: (user["UID"] ?? "no UID") as! String, profileImage: (user["profileImage"] ?? "no profileImage") as! String, offers: readUserOffers, requests: readUserRequests)
                     
                     AppData.sharedInstance.onlineUsers.append(readUser)
                     print("appending items")

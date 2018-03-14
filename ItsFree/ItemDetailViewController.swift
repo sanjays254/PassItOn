@@ -10,7 +10,9 @@ import UIKit
 import MessageUI
 import FirebaseStorage
 
-class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIGestureRecognizerDelegate {
+class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDelegate, MFMessageComposeViewControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIGestureRecognizerDelegate {
+    
+
 
     var detailViewTopAnchorConstant: CGFloat!
     var detailViewBottomAnchorConstant: CGFloat!
@@ -328,9 +330,6 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
     
     @IBAction func sendEmail(_ sender: UIButton) {
         
-        let mailComposerVC = MFMailComposeViewController()
-        mailComposerVC.mailComposeDelegate = self
-
         let destinationUser = AppData.sharedInstance.onlineUsers.filter{ $0.UID == currentItem.posterUID }.first
 
         if(AppData.sharedInstance.currentUser!.UID == destinationUser?.UID){
@@ -342,23 +341,63 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
 
         }
         else {
-            //show error if the VC cant send mail
-            if MFMailComposeViewController.canSendMail()
-            {
-                self.present(mailComposerVC, animated: true, completion: nil)
-            } else {
-                self.showSendMailErrorAlert()
+            
+            if (destinationUser?.phoneNumber != 0){
+            
+            let textOrEmailAlert = UIAlertController(title: "How would you like to message \((destinationUser?.name)!)?", message: "", preferredStyle: .actionSheet)
+            
+            let emailAction = UIAlertAction(title: "Email", style: .default, handler: {_ in
+                self.emailChosen()})
+            
+            let textAction = UIAlertAction(title: "Text", style: .default, handler: {_ in
+                self.textChosen()})
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+            
+            textOrEmailAlert.addAction(emailAction)
+            textOrEmailAlert.addAction(textAction)
+            textOrEmailAlert.addAction(cancelAction)
+            
+            self.present(textOrEmailAlert, animated: true, completion: nil)
             }
-
-            if(AppData.sharedInstance.onlineOfferedItems.contains(currentItem)){
-                offerMessage(mailComposerVC: mailComposerVC)
-
-            }
-            else if(AppData.sharedInstance.onlineRequestedItems.contains(currentItem)){
-                requestMessage(mailComposerVC: mailComposerVC)
+            else {
+                emailChosen()
             }
         }
 
+    }
+    
+    func emailChosen(){
+        let mailComposerVC = MFMailComposeViewController()
+        mailComposerVC.mailComposeDelegate = self
+        
+        //show error if the VC cant send mail
+        if MFMailComposeViewController.canSendMail()
+        {
+            self.present(mailComposerVC, animated: true, completion: nil)
+        } else {
+            self.showSendMailErrorAlert()
+        }
+        
+        if(AppData.sharedInstance.onlineOfferedItems.contains(currentItem)){
+            offerMessage(mailComposerVC: mailComposerVC)
+            
+        }
+        else if(AppData.sharedInstance.onlineRequestedItems.contains(currentItem)){
+            requestMessage(mailComposerVC: mailComposerVC)
+        }
+    }
+    
+    func textChosen(){
+        
+        let destinationUser = AppData.sharedInstance.onlineUsers.filter{ $0.UID == currentItem.posterUID }.first
+        
+        if (MFMessageComposeViewController.canSendText()) {
+            let controller = MFMessageComposeViewController()
+            controller.body = "Message Body"
+            controller.recipients = [String((destinationUser!.phoneNumber))]
+            controller.messageComposeDelegate = self
+            self.present(controller, animated: true, completion: nil)
+        }
     }
     
     func showSendMailErrorAlert() {
@@ -366,6 +405,23 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
         
         self.present(sendMailErrorAlert, animated: true, completion: nil)
     }
+    
+    func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
+        
+        switch result {
+        case .cancelled:
+            break
+            
+        case .sent:
+            //self.performSegue(withIdentifier: "unwindToInitialVC", sender: self)
+            print ("Go back to mapView")
+            
+        case .failed:
+            print ("Message sent failure")
+        }
+        self.dismiss(animated: true, completion: nil)
+    }
+    
     
     
     func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {

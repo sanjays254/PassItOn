@@ -21,6 +21,7 @@ class LeaderboardTableViewController: UIViewController, UITableViewDataSource, U
     @IBOutlet weak var leaderboardTableView: UITableView!
     
     var currentUserIndexPath: IndexPath!
+    var crownImageView: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -93,15 +94,26 @@ class LeaderboardTableViewController: UIViewController, UITableViewDataSource, U
             
         else {
             cell.nameLabel.text = sortedUsers[indexPath.row].name
+            cell.nameLabel.textColor = UIProperties.sharedUIProperties.blackColour
+            cell.positionLabel.textColor = UIProperties.sharedUIProperties.blackColour
+            cell.ratingLabel.textColor = UIProperties.sharedUIProperties.blackColour
+            cell.profileImageView.layer.borderColor = UIProperties.sharedUIProperties.blackColour.cgColor
+            cell.layer.borderWidth = 0.0
+            cell.layer.borderColor = UIProperties.sharedUIProperties.blackColour.cgColor
+            cell.layer.cornerRadius = 0.0
+            cell.backgroundColor = UIProperties.sharedUIProperties.whiteColour
         }
         
         if(indexPath.row == 0){
-            let crownImageView = UIImageView(image: #imageLiteral(resourceName: "crown"))
+            crownImageView = UIImageView(image: #imageLiteral(resourceName: "crown"))
             crownImageView.frame = CGRect(x: -8, y: -12, width: 30, height: 20)
             cell.positionLabel.addSubview(crownImageView)
             cell.positionLabel.text = ""
         }
-        else { cell.positionLabel.text = String(indexPath.row+1) }
+        else {
+            crownImageView.image = nil
+            cell.positionLabel.text = String(indexPath.row+1)
+        }
         
         cell.profileImageView.sd_setImage(with: storageRef.child(photoRef), placeholderImage: #imageLiteral(resourceName: "userPlaceholder") )
         

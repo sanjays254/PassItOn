@@ -303,7 +303,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         if textfield === usernameTextfield {
             if (usernameTextfield.isHidden == false){
                 guard (usernameTextfield.text != "") else {
-                    reason = "Username is empty"
+                    reason = "Display name is empty"
                     signupFailureReason = reason
                     validated = false
                     return (validated, reason)

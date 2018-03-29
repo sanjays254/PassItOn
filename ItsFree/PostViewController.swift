@@ -1330,6 +1330,12 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         }
     }
     
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        let newText = (textView.text as NSString).replacingCharacters(in: range, with: text)
+        let numberOfChars = newText.count
+        return numberOfChars < 200
+    }
+    
     func textViewDidEndEditing (_ textView: UITextView) {
         
         self.view.removeGestureRecognizer(tapGesture)
@@ -1339,6 +1345,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
             descriptionTextField.text = "Optional Description"
         }
     }
+
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()

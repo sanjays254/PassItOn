@@ -364,13 +364,13 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Pz-Ob-8SC">
-                                                    <rect key="frame" x="110" y="19.5" width="203" height="21"/>
+                                                    <rect key="frame" x="110" y="19.5" width="195" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pkx-4l-gkt">
-                                                    <rect key="frame" x="323" y="19.5" width="42" height="21"/>
+                                                    <rect key="frame" x="315" y="19.5" width="42" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -398,7 +398,7 @@
                                                 <constraint firstItem="njU-PS-v9a" firstAttribute="centerY" secondItem="ie9-pw-msa" secondAttribute="centerY" id="IYy-2Y-f1h"/>
                                                 <constraint firstItem="Pkx-4l-gkt" firstAttribute="leading" secondItem="5Pz-Ob-8SC" secondAttribute="trailing" constant="10" id="UeI-4a-VVk"/>
                                                 <constraint firstItem="Pkx-4l-gkt" firstAttribute="centerY" secondItem="ie9-pw-msa" secondAttribute="centerY" id="ccB-gd-JfU"/>
-                                                <constraint firstItem="Pkx-4l-gkt" firstAttribute="trailing" secondItem="ie9-pw-msa" secondAttribute="trailingMargin" constant="5" id="fYj-pU-hlK"/>
+                                                <constraint firstItem="Pkx-4l-gkt" firstAttribute="trailing" secondItem="ie9-pw-msa" secondAttribute="trailingMargin" constant="-3" id="fYj-pU-hlK"/>
                                                 <constraint firstItem="5Pz-Ob-8SC" firstAttribute="leading" secondItem="njU-PS-v9a" secondAttribute="trailing" constant="12" id="ibi-76-NxZ"/>
                                                 <constraint firstItem="lw1-8j-f0z" firstAttribute="leading" secondItem="ie9-pw-msa" secondAttribute="leadingMargin" constant="5" id="js3-KV-DC1"/>
                                                 <constraint firstItem="5Pz-Ob-8SC" firstAttribute="centerY" secondItem="ie9-pw-msa" secondAttribute="centerY" id="s91-am-evL"/>

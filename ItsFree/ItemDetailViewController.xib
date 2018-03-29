@@ -96,7 +96,7 @@
                             </constraints>
                         </view>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YGv-KU-WLS">
-                            <rect key="frame" x="8" y="237.5" width="359" height="86"/>
+                            <rect key="frame" x="13" y="237.5" width="349" height="86"/>
                             <constraints>
                                 <constraint firstAttribute="height" relation="greaterThanOrEqual" priority="250" constant="86" id="Yfl-zr-4rl"/>
                                 <constraint firstAttribute="height" priority="500" constant="86" id="ZN6-Tv-NtC"/>
@@ -145,10 +145,10 @@
                         <constraint firstItem="sHA-bN-zLF" firstAttribute="centerX" secondItem="IvU-C1-Sgh" secondAttribute="centerX" id="1wd-el-J6r"/>
                         <constraint firstItem="L32-KL-sMa" firstAttribute="leading" secondItem="IvU-C1-Sgh" secondAttribute="leading" constant="15" id="8sk-ZF-hsb"/>
                         <constraint firstItem="agc-wE-eOD" firstAttribute="top" secondItem="Jzr-oE-szb" secondAttribute="bottom" constant="16" id="DST-Tk-VRh"/>
-                        <constraint firstAttribute="trailing" secondItem="YGv-KU-WLS" secondAttribute="trailing" constant="8" id="Dsj-ph-cFu"/>
+                        <constraint firstAttribute="trailing" secondItem="YGv-KU-WLS" secondAttribute="trailing" constant="13" id="Dsj-ph-cFu"/>
                         <constraint firstAttribute="trailing" secondItem="ckl-Ev-lut" secondAttribute="trailing" constant="7" id="Fn8-px-eFU"/>
                         <constraint firstAttribute="trailing" secondItem="agc-wE-eOD" secondAttribute="trailing" constant="28" id="HhL-ev-43g"/>
-                        <constraint firstItem="YGv-KU-WLS" firstAttribute="leading" secondItem="IvU-C1-Sgh" secondAttribute="leading" constant="8" id="LOh-6o-8aG"/>
+                        <constraint firstItem="YGv-KU-WLS" firstAttribute="leading" secondItem="IvU-C1-Sgh" secondAttribute="leading" constant="13" id="LOh-6o-8aG"/>
                         <constraint firstAttribute="trailing" secondItem="D3q-we-ffY" secondAttribute="trailing" constant="15" id="LdX-vF-SBm"/>
                         <constraint firstItem="0hf-Rx-BJL" firstAttribute="centerX" secondItem="IvU-C1-Sgh" secondAttribute="centerX" id="M96-Ji-jCI"/>
                         <constraint firstItem="L32-KL-sMa" firstAttribute="top" secondItem="58X-Bu-Kbi" secondAttribute="bottom" constant="1" id="O9w-3f-GYl"/>

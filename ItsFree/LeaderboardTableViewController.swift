@@ -110,8 +110,13 @@ class LeaderboardTableViewController: UIViewController, UITableViewDataSource, U
             cell.positionLabel.addSubview(crownImageView)
             cell.positionLabel.text = ""
         }
-        else {
-            crownImageView.image = nil
+        else if (indexPath.row > 0){
+            for subview in cell.positionLabel.subviews{
+                if subview .isKind(of: UIImageView.self){
+                    subview.removeFromSuperview()
+                }
+            }
+            //crownImageView.image = nil
             cell.positionLabel.text = String(indexPath.row+1)
         }
         

@@ -276,13 +276,13 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y79-dV-TwE">
-                                                    <rect key="frame" x="110" y="19.5" width="203" height="21"/>
+                                                    <rect key="frame" x="110" y="19.5" width="198" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UxI-ZT-GY8">
-                                                    <rect key="frame" x="323" y="19.5" width="42" height="21"/>
+                                                    <rect key="frame" x="318" y="19.5" width="42" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -311,7 +311,7 @@
                                                 <constraint firstItem="Kee-9y-UfQ" firstAttribute="leading" secondItem="B8G-Dw-YSO" secondAttribute="leadingMargin" constant="5" id="PfI-DT-QHE"/>
                                                 <constraint firstItem="ZWX-8d-wP2" firstAttribute="leading" secondItem="Kee-9y-UfQ" secondAttribute="trailing" constant="3" id="T89-nf-vMf"/>
                                                 <constraint firstItem="ZWX-8d-wP2" firstAttribute="centerY" secondItem="B8G-Dw-YSO" secondAttribute="centerY" id="WH3-Yd-2wW"/>
-                                                <constraint firstItem="UxI-ZT-GY8" firstAttribute="trailing" secondItem="B8G-Dw-YSO" secondAttribute="trailingMargin" constant="5" id="Wjg-jm-VVe"/>
+                                                <constraint firstItem="UxI-ZT-GY8" firstAttribute="trailing" secondItem="B8G-Dw-YSO" secondAttribute="trailingMargin" id="Wjg-jm-VVe"/>
                                                 <constraint firstItem="Y79-dV-TwE" firstAttribute="leading" secondItem="ZWX-8d-wP2" secondAttribute="trailing" constant="12" id="f7C-EO-UDg"/>
                                                 <constraint firstItem="Kee-9y-UfQ" firstAttribute="centerY" secondItem="B8G-Dw-YSO" secondAttribute="centerY" id="wxc-Iy-3js"/>
                                             </constraints>

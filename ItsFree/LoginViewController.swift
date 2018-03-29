@@ -50,6 +50,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var guestLoginButton: UIButton!
     
+    var signupFailureReason: String!
     
     var tapGesture: UITapGestureRecognizer!
     
@@ -237,7 +238,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                 
             }
             else {
-                let signUpFailedAlert = UIAlertController(title: "Signup failed", message: "Invalid input", preferredStyle: .alert)
+                let signUpFailedAlert = UIAlertController(title: "Signup failed", message: signupFailureReason, preferredStyle: .alert)
                 let okayAction = UIAlertAction(title: "Try again", style: .default, handler: nil)
                 signUpFailedAlert.addAction(okayAction)
                 present(signUpFailedAlert, animated: true, completion: nil)
@@ -300,8 +301,19 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         var validated = false
         var reason: String?
         if textfield === usernameTextfield {
-            validated = true
+            if (usernameTextfield.isHidden == false){
+                guard (usernameTextfield.text != "") else {
+                    reason = "Username is empty"
+                    signupFailureReason = reason
+                    validated = false
+                    return (validated, reason)
+                }
+            }
+            else {
+                validated = true
+            }
         }
+     
         else if textfield === emailTextfield {
             validated = true
         }
@@ -311,6 +323,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             }
             else {
                 reason = "Passwords do not match"
+                signupFailureReason = reason
                 mismatchingPasswordsAlert()
             }
         }
@@ -323,6 +336,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             }
             else {
                 reason = "Passwords do not match"
+                signupFailureReason = reason
                 mismatchingPasswordsAlert()
                 
             }

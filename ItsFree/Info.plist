@@ -22,10 +22,10 @@
 	<array>
 		<dict>
 			<key>CFBundleURLName</key>
-			<string>com.sanjayshah.anotherLife</string>
+			<string>com.sanjayshah.passiton</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>iOSAnotherLifeApp</string>
+				<string>iOSPassItOnApp</string>
 			</array>
 		</dict>
 	</array>

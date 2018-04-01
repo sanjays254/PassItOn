@@ -61,7 +61,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
 
         //make sure the url prefix/scheme is right.
-        if(url.scheme == "iosanotherlifeapp"){
+        if(url.scheme == "iOSPassItOnApp"){
             print("Scheme is: \(url.scheme!)")
             print("Query is: \(url.query!)")
             

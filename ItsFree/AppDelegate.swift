@@ -70,16 +70,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 
                 let mainVC = self.window?.rootViewController as! LoginViewController
                 
-                let loggedOutAlert = UIAlertController(title: "Oops", message: "You need to log in first", preferredStyle: UIAlertControllerStyle.alert)
-                let okayAction = UIAlertAction(title: "Okay", style: UIAlertActionStyle.default, handler: {_ in mainVC.loginAndRate(url: url)})
-                loggedOutAlert.addAction(okayAction)
+                mainVC.loginAndRate(url: url)
                 
-                mainVC.present(loggedOutAlert, animated: true, completion: nil)
+//                let loggedOutAlert = UIAlertController(title: "Oops", message: "You need to log in first", preferredStyle: UIAlertControllerStyle.alert)
+//                let okayAction = UIAlertAction(title: "Okay", style: UIAlertActionStyle.default, handler: {_ in mainVC.loginAndRate(url: url)})
+//                loggedOutAlert.addAction(okayAction)
+//                
+//                mainVC.present(loggedOutAlert, animated: true, completion: nil)
             }
                 
             //else if we were logged in, loggedInBool would be true. So just go to rating the user.
             else if (loggedInBool){
                 openedThroughSchema(url: url)
+                
             }
             
             //if it was a available item

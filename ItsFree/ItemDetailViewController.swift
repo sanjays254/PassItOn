@@ -546,7 +546,7 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
         }
         
         messageComposerVC.recipients = [destinationPhoneNumber]
-        messageComposerVC.body = "Hey \(destinationName),<br><br> I want your \(currentItemName).<br><br>Thanks!<br><br>---------------------<br><br>Admin Message to \(currentUserName): Use the link below to rate \(destinationName), if you like or dislike the item.<br><br>iOSPassItOnApp://?itemID=\(currentItemID!)&userID=\(destinationUserID!)!<br><br>Thanks! :)"
+        messageComposerVC.body = "Hey \(destinationName),\n\nI want your \(currentItemName). Thanks!\n\n-----------\n\nAdmin Message to \(currentUserName): Use the link below to rate \(destinationName), if you like or dislike the item.\n\niOSPassItOnApp://?itemID=\(currentItemID!)&userID=\(destinationUserID!)\n\nThanks! :)"
         //, isHTML: true)
         
         //send a message to current user with link instead of putting link in here
@@ -578,7 +578,7 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
         //mailVC properties
         messageComposerVC.recipients = [destinationPhoneNumber]
         
-        messageComposerVC.body = "Hey \(destinationName),<br><br> I have a \(currentItemName).<br><br><br><br>Admin message to \(destinationName): Please click the link below if \(currentUserName) gives you the item, to easily delete your post from the app and so that you can rate him/her!<br><br>iOSPassItOnApp://?itemID=\(currentItemID!)&userID=\(currentUserID!)<br><br>Thanks! :)"
+        messageComposerVC.body = "Hey \(destinationName),\n\nI have a \(currentItemName).\n\nAdmin message to \(destinationName): Please click the link below if \(currentUserName) gives you the item, to easily delete your post from the app and so that you can rate him/her!\n\niOSPassItOnApp://?itemID=\(currentItemID!)&userID=\(currentUserID!)\n\nThanks! :)"
     }
     
 }

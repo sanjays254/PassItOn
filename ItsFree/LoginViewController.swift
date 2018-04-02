@@ -143,7 +143,12 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     //this is called just after we log in
     @objc func popLoggedOutAlert(){
         if(self.presentedViewController is UIAlertController) {
-            self.presentedViewController?.dismiss(animated: true, completion: nil)
+            
+            let alertVC = presentedViewController as! UIAlertController
+            if alertVC.title == "Oops" {
+                self.presentedViewController?.dismiss(animated: true, completion: nil)
+            }
+
         }
     }
     

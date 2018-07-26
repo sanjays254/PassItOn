@@ -313,6 +313,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                     validated = false
                     return (validated, reason)
                 }
+                validated = true
             }
             else {
                 validated = true

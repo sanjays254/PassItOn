@@ -38,6 +38,7 @@ class AuthenticationManager {
                     { (profileError) in
                         if profileError == nil {
                             let addedUser = User(email: newUser!.email!,
+                                                 phoneNumber: 0,
                                                  name: newUser!.displayName!,
                                                  rating: 0,
                                                  uid: newUser!.uid, profileImage: "",

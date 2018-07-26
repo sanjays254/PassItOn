@@ -4,6 +4,8 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<key>CFBundleDisplayName</key>
+	<string>Pass It On</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -15,28 +17,28 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0</string>
+	<string>1.2</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
 			<key>CFBundleURLName</key>
-			<string>com.sanjayshah.anotherLife</string>
+			<string>com.sanjayshah.passiton</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>iOSAnotherLifeApp</string>
+				<string>iOSPassItOnApp</string>
 			</array>
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>2</string>
+	<string>6</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>App needs to access your Camera</string>
+	<string>App needs to access your Camera if you want to upload photos</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>App needs to access your location</string>
+	<string>We need to know your location to show you nearby items</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>App needs to access your Photo Library</string>
+	<string>App needs to access your Photo Library if you want to upload photos</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

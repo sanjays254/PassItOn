@@ -11,15 +11,17 @@ import Foundation
 class User {
     var UID:String!
     var email:String
+    var phoneNumber: Int
     var name:String
     var rating:Int
     var profileImage:String
     var offeredItems:[String]
     var requestedItems:[String]
     
-    init(email:String, name:String, rating:Int, uid:String, profileImage:String, offers:[String], requests:[String]) {
+    init(email:String, phoneNumber: Int, name:String, rating:Int, uid:String, profileImage:String, offers:[String], requests:[String]) {
         self.UID = uid
         self.email = email
+        self.phoneNumber = phoneNumber
         self.name = name
         self.rating = rating
         self.profileImage = profileImage
@@ -31,6 +33,7 @@ class User {
         guard
             let inpName: String = inpDict["name"] as? String,
             let inpEmail: String = inpDict["email"] as? String,
+            let inpPhoneNumber: Int = inpDict["phoneNumber"] as? Int ?? 0,
             let inpRating: NSNumber = inpDict["rating"] as? NSNumber,
             let inpUID: String = inpDict["UID"] as? String,
             let inpProfileImage: String = inpDict["profileImage"] as? String ?? "",
@@ -64,6 +67,7 @@ class User {
         }
         
         self.init(email: inpEmail,
+                  phoneNumber: inpPhoneNumber,
                   name: inpName,
                   rating: inpRating.intValue,
                   uid: inpUID,
@@ -75,6 +79,7 @@ class User {
     func toDictionary() -> [String:Any] {
         let userDict:[String:Any] = [ "UID":self.UID,
                                       "email":self.email,
+                                      "phoneNumber": self.phoneNumber,
                                       "name":self.name,
                                       "rating":self.rating,
                                       "profileImage":self.profileImage,

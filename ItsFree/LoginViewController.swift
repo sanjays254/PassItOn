@@ -30,6 +30,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     let loginSwitchStr = "Don't have an account yet?"
     let signupSwitchBtnStr = "Go to the login screen"
     let loginSwitchBtnStr = "Go to the sign up screen"
+    let loginPasswordLabelStr = "Password"
+    let signupPasswordLabelStr = "Password (8-20 characters)"
     
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var switchLabel: UILabel!
@@ -48,11 +50,13 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var guestLoginButton: UIButton!
     
+    var signupFailureReason: String!
     
     var tapGesture: UITapGestureRecognizer!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        firstTimeUser = true
         usernameTextfield.delegate = self
         passwordTextfield.delegate = self
         emailTextfield.delegate = self
@@ -139,7 +143,12 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     //this is called just after we log in
     @objc func popLoggedOutAlert(){
         if(self.presentedViewController is UIAlertController) {
-            self.presentedViewController?.dismiss(animated: true, completion: nil)
+            
+            let alertVC = presentedViewController as! UIAlertController
+            if alertVC.title == "Oops" {
+                self.presentedViewController?.dismiss(animated: true, completion: nil)
+            }
+
         }
     }
     
@@ -174,6 +183,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     func setToSignUp() {
         titleLabel.text = signupTitleStr
         switchLabel.text = signupSwitchStr
+        passwordLabel.text =  signupPasswordLabelStr
         goButton.setTitle(signupBtnStr, for: .normal)
         toggleButton.setTitle(signupSwitchBtnStr, for: .normal)
         usernameLabel.isHidden = false
@@ -185,6 +195,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     func setToLogIn() {
         titleLabel.text = loginTitleStr
         switchLabel.text = loginSwitchStr
+        passwordLabel.text = loginPasswordLabelStr
         goButton.setTitle(loginBtnStr, for: .normal)
         toggleButton.setTitle(loginSwitchBtnStr, for: .normal)
         usernameLabel.isHidden = true
@@ -210,7 +221,10 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                         
                     }
                     else {
-                        print("Error logging in")
+                        let signUpFailedAlert = UIAlertController(title: "Signup failed", message: "There was an error", preferredStyle: .alert)
+                        let okayAction = UIAlertAction(title: "Try again", style: .default, handler: nil)
+                        signUpFailedAlert.addAction(okayAction)
+                        self.present(signUpFailedAlert, animated: true, completion: nil)
                     }
 
                     
@@ -221,15 +235,18 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                     setUserDefaults()
                 }
                 else {
-                    let signUpFailedAlert = UIAlertController(title: "Signup failed", message: "Invalid email", preferredStyle: .alert)
-                    let okayAction = UIAlertAction(title: "Try again", style: .default, handler: nil)
-                    signUpFailedAlert.addAction(okayAction)
-                    present(signUpFailedAlert, animated: true, completion: nil)
+//                    let signUpFailedAlert = UIAlertController(title: "Signup failed", message: "Invalid email", preferredStyle: .alert)
+//                    let okayAction = UIAlertAction(title: "Try again", style: .default, handler: nil)
+//                    signUpFailedAlert.addAction(okayAction)
+//                    present(signUpFailedAlert, animated: true, completion: nil)
                 }
                 
             }
             else {
-                print("Signup failed: invalid input")
+                let signUpFailedAlert = UIAlertController(title: "Signup failed", message: signupFailureReason, preferredStyle: .alert)
+                let okayAction = UIAlertAction(title: "Try again", style: .default, handler: nil)
+                signUpFailedAlert.addAction(okayAction)
+                present(signUpFailedAlert, animated: true, completion: nil)
             }
         }
         else if titleLabel.text == loginTitleStr {
@@ -289,8 +306,20 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         var validated = false
         var reason: String?
         if textfield === usernameTextfield {
-            validated = true
+            if (usernameTextfield.isHidden == false){
+                guard (usernameTextfield.text != "") else {
+                    reason = "Display name is empty"
+                    signupFailureReason = reason
+                    validated = false
+                    return (validated, reason)
+                }
+                validated = true
+            }
+            else {
+                validated = true
+            }
         }
+     
         else if textfield === emailTextfield {
             validated = true
         }
@@ -300,6 +329,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             }
             else {
                 reason = "Passwords do not match"
+                signupFailureReason = reason
                 mismatchingPasswordsAlert()
             }
         }
@@ -312,6 +342,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             }
             else {
                 reason = "Passwords do not match"
+                signupFailureReason = reason
                 mismatchingPasswordsAlert()
                 
             }

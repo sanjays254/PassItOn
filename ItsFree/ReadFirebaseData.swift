@@ -143,8 +143,23 @@ class ReadFirebaseData: NSObject {
                     let user: [String:Any] = any as! [String:Any]
                     let userUID: String = user["UID"] as! String
                     let ratingInt = user["rating"] as! NSNumber
-                    var readUserOffers: Array<String> = user["offers"] as! Array<String>
-                    var readUserRequests: Array<String> = user["requests"] as! Array<String>
+                    var readUserOffers: [String]
+                    var readUserRequests: [String]
+                    
+                    if (user.keys.contains("offers")){
+                         readUserOffers = (user["offers"] as? [String])!
+                    }
+                    else {
+                         readUserOffers = [] as [String]
+                    }
+                    
+                    if (user.keys.contains("requests")){
+                         readUserRequests = (user["requests"] as? [String])!
+                    }
+                    else {
+                         readUserRequests = [] as [String]
+                    }
+                    
                     var index = 0
                     for i in readUserOffers{
                     
@@ -168,15 +183,15 @@ class ReadFirebaseData: NSObject {
                         }
                     }
                     
-                    let readUser = User(email: (user["email"] ?? "no email") as! String, name: user["name"] as! String, rating: Int(truncating: ratingInt), uid: (user["UID"] ?? "no UID") as! String, profileImage: (user["profileImage"] ?? "no profileImage") as! String, offers: readUserOffers, requests: readUserRequests)
+                    let readUser = User(email: (user["email"] ?? "no email") as! String,phoneNumber: (user["phoneNumber"] ?? 0) as! Int, name: user["name"] as! String, rating: Int(truncating: ratingInt), uid: (user["UID"] ?? "no UID") as! String, profileImage: (user["profileImage"] ?? "no profileImage") as! String, offers: readUserOffers, requests: readUserRequests)
                     
                     AppData.sharedInstance.onlineUsers.append(readUser)
                     print("appending items")
                     
-                     if (userUID == AppData.sharedInstance.currentUser?.UID){
+                     if (userUID == Auth.auth().currentUser?.uid){
                         
                         AppData.sharedInstance.currentUser = readUser
-                        
+                    
                         storeCurrentUsersItems(userUID: userUID)
                     }
                 
@@ -219,13 +234,20 @@ class ReadFirebaseData: NSObject {
     }
     
     class func storeCurrentUsersItems(userUID:String){
+        
+        AppData.sharedInstance.currentUserOfferedItems = []
+        AppData.sharedInstance.currentUserRequestedItems = []
        
         for itemRef in (AppData.sharedInstance.currentUser?.offeredItems)! {
                 
                 let itemUID = String(itemRef.suffix(20))
                 
                 let item = AppData.sharedInstance.onlineOfferedItems.filter{ $0.UID == itemUID}.first!
+            
+         //   if !(AppData.sharedInstance.currentUserOfferedItems.contains(item)){
+                
                 AppData.sharedInstance.currentUserOfferedItems.append(item)
+           // }
             }
         
         for itemRef in (AppData.sharedInstance.currentUser?.requestedItems)! {
@@ -233,7 +255,10 @@ class ReadFirebaseData: NSObject {
             let itemUID = String(itemRef.suffix(20))
             
             let item = AppData.sharedInstance.onlineRequestedItems.filter{ $0.UID == itemUID}.first!
+            
+           // if !(AppData.sharedInstance.currentUserRequestedItems.contains(item)){
             AppData.sharedInstance.currentUserRequestedItems.append(item)
+           // }
             
         }
     }

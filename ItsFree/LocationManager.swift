@@ -33,6 +33,10 @@ class LocationManager: CLLocationManager{
                 LocationManager.theLocationManager.startUpdatingLocation()
                 print("Access")
             }
+            
+            if (self.location == nil){
+                currentLocation = CLLocation.init(latitude: CLLocationDegrees(49.261725), longitude: CLLocationDegrees(-123.244621))
+            }
         } else {
            currentLocation = CLLocation.init(latitude: CLLocationDegrees(49.246292), longitude: CLLocationDegrees(-123.116226))
             print("Location services are not enabled")

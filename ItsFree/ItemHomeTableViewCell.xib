@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
-        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -34,7 +33,7 @@
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ktN-AR-rEF">
-                        <rect key="frame" x="86" y="8" width="176" height="51"/>
+                        <rect key="frame" x="86" y="11" width="158" height="48"/>
                         <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="21"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
@@ -45,17 +44,19 @@
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Distance" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Qj-Be-pdK">
-                        <rect key="frame" x="273.5" y="14" width="42.5" height="52"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Distance" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Qj-Be-pdK">
+                        <rect key="frame" x="246" y="17" width="70" height="46"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="70" id="nuo-ve-NUK"/>
+                        </constraints>
                         <fontDescription key="fontDescription" name="GillSans-LightItalic" family="Gill Sans" pointSize="13"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="7Qj-Be-pdK" firstAttribute="leading" secondItem="ktN-AR-rEF" secondAttribute="trailing" constant="11.5" id="18M-P1-KjQ"/>
+                    <constraint firstItem="7Qj-Be-pdK" firstAttribute="leading" secondItem="ktN-AR-rEF" secondAttribute="trailing" constant="2" id="18M-P1-KjQ"/>
                     <constraint firstItem="g2B-PB-j23" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="1VN-Kb-RzV"/>
-                    <constraint firstItem="ktN-AR-rEF" firstAttribute="width" secondItem="H2p-sc-9uM" secondAttribute="width" multiplier="0.55" priority="500" id="2ZS-h6-V1e"/>
                     <constraint firstItem="ktN-AR-rEF" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" id="DpA-9k-vxc"/>
                     <constraint firstItem="7PZ-mV-kmm" firstAttribute="leading" secondItem="g2B-PB-j23" secondAttribute="trailing" constant="8" id="Gfq-bs-58D"/>
                     <constraint firstAttribute="trailing" secondItem="7Qj-Be-pdK" secondAttribute="trailing" constant="4" id="H1m-w1-dde"/>

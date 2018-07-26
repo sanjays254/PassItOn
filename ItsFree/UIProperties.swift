@@ -16,7 +16,7 @@ class UIProperties: NSObject {
     public var blackColour = UIColor.black
     public var whiteColour = UIColor.white
     public var lightGreenColour = UIColor(red: (153.0/255.0), green: 1, blue: (51.0/255.0), alpha: 1)
-     public var purpleColour = UIColor(red: (51.0/255.0), green: (0/255.0), blue: (128.0/255.0), alpha: 1)
+    public var purpleColour = UIColor(red: (51.0/255.0), green: (0/255.0), blue: (128.0/255.0), alpha: 1)
     
 
 }

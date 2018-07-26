@@ -37,7 +37,7 @@ class Item: NSObject, MKAnnotation {
          tags:Tag,
          photos:[String],
          value: Int,
-         itemUID:String?        ) {
+         itemUID:String?) {
         
         self.name = name
         self.itemCategory = category
@@ -58,6 +58,7 @@ class Item: NSObject, MKAnnotation {
         else {
             self.UID = itemUID
         }
+
     }
     
     convenience init?(with inpDict:[String:Any]) {

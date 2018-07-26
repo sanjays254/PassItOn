@@ -56,8 +56,9 @@ class WriteFirebaseData {
         
         for post in user.offeredItems {
             if post.range(of: itemUID) != nil {
-                itemPath = post
+                
                 if let index = user.offeredItems.index(of: post) {
+                    itemPath = post
                     AppData.sharedInstance.currentUser!.offeredItems.remove(at: index)
                    AppData.sharedInstance.currentUserOfferedItems.remove(at: index)
                     
@@ -69,13 +70,15 @@ class WriteFirebaseData {
         if itemPath == nil {
             for post in user.requestedItems {
                 if post.range(of: itemUID) != nil {
-                    itemPath = post
+                    
                     if let index = user.requestedItems.index(of: post) {
+                        itemPath = post
                         print("found it in requesteditems")
                         AppData.sharedInstance.currentUser!.requestedItems.remove(at: index)
                         AppData.sharedInstance.currentUserRequestedItems.remove(at: index)
+                        
                     
-                  
+            
                     }
                     break
                 }

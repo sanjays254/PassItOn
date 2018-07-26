@@ -10,7 +10,9 @@ import UIKit
 import MessageUI
 import FirebaseStorage
 
-class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIGestureRecognizerDelegate {
+class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDelegate, MFMessageComposeViewControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIGestureRecognizerDelegate {
+    
+
 
     var detailViewTopAnchorConstant: CGFloat!
     var detailViewBottomAnchorConstant: CGFloat!
@@ -284,18 +286,32 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
     
     func fullscreenImage(imagePath : String) {
         
-        let newImageView = UIImageView()
-        ImageManager.downloadImage(imagePath: imagePath, into: newImageView)
+        if (imagePath == ""){
+            let noImageAlert = UIAlertController(title: "Sorry", message: "This item doesn't have an image", preferredStyle: .alert)
+            let okayAction = UIAlertAction(title: "Okay", style: .default, handler: nil)
+            
+            noImageAlert.addAction(okayAction)
+            
+            present(noImageAlert, animated: true, completion: nil)
+        }
         
-        newImageView.frame = UIScreen.main.bounds
-        newImageView.backgroundColor = .black
-        newImageView.contentMode = .scaleAspectFit
-        newImageView.isUserInteractionEnabled = true
-        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissFullscreenImage))
-        newImageView.addGestureRecognizer(tap)
-        self.view.addSubview(newImageView)
-        self.navigationController?.isNavigationBarHidden = true
-        self.tabBarController?.tabBar.isHidden = true
+        else {
+        
+            let newImageView = UIImageView()
+            //ImageManager.downloadImage(imagePath: imagePath, into: newImageView)
+            newImageView.sd_setImage(with: storageRef.child(imagePath), placeholderImage: UIImage.init(named: "placeholder"))
+            
+            newImageView.frame = UIScreen.main.bounds
+            newImageView.backgroundColor = .black
+            newImageView.contentMode = .scaleAspectFit
+            newImageView.isUserInteractionEnabled = true
+            let tap = UITapGestureRecognizer(target: self, action: #selector(dismissFullscreenImage))
+            newImageView.addGestureRecognizer(tap)
+            self.view.addSubview(newImageView)
+            self.navigationController?.isNavigationBarHidden = true
+            self.tabBarController?.tabBar.isHidden = true
+            
+        }
     }
     
     @objc func dismissFullscreenImage(_ sender: UITapGestureRecognizer) {
@@ -314,37 +330,85 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
     
     @IBAction func sendEmail(_ sender: UIButton) {
         
-        let mailComposerVC = MFMailComposeViewController()
-        mailComposerVC.mailComposeDelegate = self
-        
         let destinationUser = AppData.sharedInstance.onlineUsers.filter{ $0.UID == currentItem.posterUID }.first
-        
+
         if(AppData.sharedInstance.currentUser!.UID == destinationUser?.UID){
             //show alert
             let usersOwnItemAlert = UIAlertController(title: "Oops", message: "This item was posted by you", preferredStyle: UIAlertControllerStyle.alert)
             let okayAction = UIAlertAction(title: "Okay", style: UIAlertActionStyle.default, handler: nil)
             usersOwnItemAlert.addAction(okayAction)
             present(usersOwnItemAlert, animated: true, completion: nil)
-            
+
         }
         else {
-            //show error if the VC cant send mail
-            if MFMailComposeViewController.canSendMail()
-            {
-                self.present(mailComposerVC, animated: true, completion: nil)
-            } else {
-                self.showSendMailErrorAlert()
-            }
-       
-            if(AppData.sharedInstance.onlineOfferedItems.contains(currentItem)){
-                offerMessage(mailComposerVC: mailComposerVC)
             
+            if (destinationUser?.phoneNumber != 0){
+            
+            let textOrEmailAlert = UIAlertController(title: "How would you like to message \((destinationUser?.name)!)?", message: "", preferredStyle: .actionSheet)
+            
+            let emailAction = UIAlertAction(title: "Email", style: .default, handler: {_ in
+                self.emailChosen()})
+            
+            let textAction = UIAlertAction(title: "Text", style: .default, handler: {_ in
+                self.textChosen()})
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+            
+            textOrEmailAlert.addAction(emailAction)
+            textOrEmailAlert.addAction(textAction)
+            textOrEmailAlert.addAction(cancelAction)
+            
+            self.present(textOrEmailAlert, animated: true, completion: nil)
             }
-            else if(AppData.sharedInstance.onlineRequestedItems.contains(currentItem)){
-                requestMessage(mailComposerVC: mailComposerVC)
+            else {
+                emailChosen()
             }
         }
 
+    }
+    
+    func emailChosen(){
+        let mailComposerVC = MFMailComposeViewController()
+        mailComposerVC.mailComposeDelegate = self
+        
+        //show error if the VC cant send mail
+        if MFMailComposeViewController.canSendMail()
+        {
+            self.present(mailComposerVC, animated: true, completion: nil)
+        } else {
+            self.showSendMailErrorAlert()
+        }
+        
+        if(AppData.sharedInstance.onlineOfferedItems.contains(currentItem)){
+            offerMessage(mailComposerVC: mailComposerVC)
+            
+        }
+        else if(AppData.sharedInstance.onlineRequestedItems.contains(currentItem)){
+            requestMessage(mailComposerVC: mailComposerVC)
+        }
+    }
+    
+    func textChosen(){
+        
+        let destinationUser = AppData.sharedInstance.onlineUsers.filter{ $0.UID == currentItem.posterUID }.first
+        
+        let messageController = MFMessageComposeViewController()
+        messageController.messageComposeDelegate = self
+        
+        if (MFMessageComposeViewController.canSendText()) {
+            self.present(messageController, animated: true, completion: nil)
+        }
+        else {
+            self.showSendTextErrorAlert()
+        }
+        
+        if(AppData.sharedInstance.onlineOfferedItems.contains(currentItem)){
+            offerText(messageComposerVC: messageController)
+            
+        }
+        else if(AppData.sharedInstance.onlineRequestedItems.contains(currentItem)){
+            requestText(messageComposerVC: messageController)
+        }
+        
     }
     
     func showSendMailErrorAlert() {
@@ -352,6 +416,29 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
         
         self.present(sendMailErrorAlert, animated: true, completion: nil)
     }
+    
+    func showSendTextErrorAlert() {
+        let sendMailErrorAlert = UIAlertController.init(title: "Could Not Send Text", message: "Your device could not send a text.  Please check your message configuration and try again.", preferredStyle: UIAlertControllerStyle.actionSheet)
+        
+        self.present(sendMailErrorAlert, animated: true, completion: nil)
+    }
+    
+    func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
+        
+        switch result {
+        case .cancelled:
+            break
+            
+        case .sent:
+            //self.performSegue(withIdentifier: "unwindToInitialVC", sender: self)
+            print ("Go back to mapView")
+            
+        case .failed:
+            print ("Message sent failure")
+        }
+        self.dismiss(animated: true, completion: nil)
+    }
+    
     
     
     func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
@@ -387,7 +474,7 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
         let currentItemID = currentItem.UID
         
         let attrLinkString = NSMutableAttributedString(string: "Click here to Rate \(destinationName)")
-        attrLinkString.addAttribute(NSAttributedStringKey.link, value: NSURL(string: "iOSAnotherLifeApp://?itemID=\(currentItemID!)&userID=\(destinationUserID!)")! , range: NSMakeRange(0, attrLinkString.length))
+        attrLinkString.addAttribute(NSAttributedStringKey.link, value: NSURL(string: "iOSPassItOnApp://?itemID=\(currentItemID!)&userID=\(destinationUserID!)")! , range: NSMakeRange(0, attrLinkString.length))
         
         var linkString: String! = ""
         
@@ -400,7 +487,7 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
         
         //mailVC properties
         mailComposerVC.setToRecipients([destinationEmail, currentUserEmail])
-        mailComposerVC.setSubject("FreeBox: \(currentUserName) wants your item")
+        mailComposerVC.setSubject("Pass It On: \(currentUserName) wants your item")
         mailComposerVC.setMessageBody("Hey \(destinationName),<br><br> I want your \(currentItemName).<br><br>Thanks!<br><br>---------------------<br><br>Admin Message to \(currentUserName): Use the link below to rate \(destinationName), if you like or dislike the item. There will be a copy of this email in your inbox<br><br> \(linkString!)<br><br>Thanks! :)", isHTML: true)
         
         //send an email to current user with link instead of putting link in here
@@ -418,7 +505,7 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
         let currentItemID = currentItem.UID
         
         let attrLinkString = NSMutableAttributedString(string: "Click Here to Rate \(currentUserName)")
-        attrLinkString.addAttribute(NSAttributedStringKey.link, value: NSURL(string: "iOSAnotherLifeApp://?itemID=\(currentItemID!)&userID=\(currentUserID!)")! , range: NSMakeRange(0, attrLinkString.length))
+        attrLinkString.addAttribute(NSAttributedStringKey.link, value: NSURL(string: "iOSPassItOnApp://?itemID=\(currentItemID!)&userID=\(currentUserID!)")! , range: NSMakeRange(0, attrLinkString.length))
         
         var linkString: String! = ""
         
@@ -431,8 +518,67 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
         
         //mailVC properties
         mailComposerVC.setToRecipients([destinationEmail])
-        mailComposerVC.setSubject("FreeBox: \(currentUserName) has something you want")
+        mailComposerVC.setSubject("Pass It On: \(currentUserName) has something you want")
         mailComposerVC.setMessageBody("Hey \(destinationName),<br><br> I have a \(currentItemName).<br><br><br><br>Admin message to \(destinationName): Please click the link below if \(currentUserName) gives you the item, to easily delete your post from the app and so that you can rate him/her!<br><br>\(linkString!)<br><brThanks! :) ", isHTML: true)
+    }
+    
+    func offerText(messageComposerVC: MFMessageComposeViewController){
+        let destinationUser = AppData.sharedInstance.onlineUsers.filter{ $0.UID == currentItem.posterUID }.first
+        
+        let destinationName = destinationUser!.name
+        let destinationUserID = destinationUser!.UID
+        let destinationPhoneNumber = String((destinationUser!.phoneNumber))
+        
+        let currentUserName = AppData.sharedInstance.currentUser!.name
+        let currentItemName = currentItem.name
+        let currentItemID = currentItem.UID
+        
+        let attrLinkString = NSMutableAttributedString(string: "Click here to Rate \(destinationName)")
+        attrLinkString.addAttribute(NSAttributedStringKey.link, value: NSURL(string: "iOSPassItOnApp://?itemID=\(currentItemID!)&userID=\(destinationUserID!)")! , range: NSMakeRange(0, attrLinkString.length))
+        
+        var linkString: String! = ""
+        
+        do {
+            let data = try attrLinkString.data(from: NSMakeRange(0, attrLinkString.length), documentAttributes: [NSAttributedString.DocumentAttributeKey.documentType : NSAttributedString.DocumentType.html])
+            linkString = String(data: data, encoding: String.Encoding.utf8)
+        }catch {
+            print("error creating HTML from Attributed String")
+        }
+        
+        messageComposerVC.recipients = [destinationPhoneNumber]
+        messageComposerVC.body = "Hey \(destinationName),\n\nI want your \(currentItemName). Thanks!\n\n-----------\n\nAdmin Message to \(currentUserName): Use the link below to rate \(destinationName), if you like or dislike the item.\n\niOSPassItOnApp://?itemID=\(currentItemID!)&userID=\(destinationUserID!)\n\nThanks! :)"
+        //, isHTML: true)
+        
+        //send a message to current user with link instead of putting link in here
+    }
+    
+    func requestText(messageComposerVC: MFMessageComposeViewController){
+        let destinationUser = AppData.sharedInstance.onlineUsers.filter{ $0.UID == currentItem.posterUID }.first
+        
+        let destinationName = destinationUser!.name
+        let destinationPhoneNumber = String((destinationUser!.phoneNumber))
+        
+        let currentUserName = AppData.sharedInstance.currentUser!.name
+        let currentUserID = AppData.sharedInstance.currentUser!.UID
+        let currentItemName = currentItem.name
+        let currentItemID = currentItem.UID
+        
+        let attrLinkString = NSMutableAttributedString(string: "Click Here to Rate \(currentUserName)")
+        attrLinkString.addAttribute(NSAttributedStringKey.link, value: NSURL(string: "iOSPassItOnApp://?itemID=\(currentItemID!)&userID=\(currentUserID!)")! , range: NSMakeRange(0, attrLinkString.length))
+        
+        var linkString: String! = ""
+        
+        do {
+            let data = try attrLinkString.data(from: NSMakeRange(0, attrLinkString.length), documentAttributes: [NSAttributedString.DocumentAttributeKey.documentType : NSAttributedString.DocumentType.html])
+            linkString = String(data: data, encoding: String.Encoding.utf8)
+        }catch {
+            print("error creating HTML from Attributed String")
+        }
+        
+        //mailVC properties
+        messageComposerVC.recipients = [destinationPhoneNumber]
+        
+        messageComposerVC.body = "Hey \(destinationName),\n\nI have a \(currentItemName).\n\nAdmin message to \(destinationName): Please click the link below if \(currentUserName) gives you the item, to easily delete your post from the app and so that you can rate him/her!\n\niOSPassItOnApp://?itemID=\(currentItemID!)&userID=\(currentUserID!)\n\nThanks! :)"
     }
     
 }

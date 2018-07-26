@@ -80,9 +80,13 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         setupCompassButton()
         setupMapListSegmentedControl()
        
+        BusyActivityView.show(inpVc: self)
         
         ReadFirebaseData.readOffers(category: nil)
         ReadFirebaseData.readRequests(category: nil)
+        //readCurrentUserOnly first
+        
+        
         ReadFirebaseData.readUsers()
         
         setupNotifications()
@@ -297,6 +301,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     @objc func addAnnotationsWhenFinishedDownloadingData(notification: NSNotification){
         removeAndAddAnnotations()
+        BusyActivityView.hide()
     }
     
     func removeAndAddAnnotations(){

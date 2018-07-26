@@ -205,6 +205,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func goPressed(_ sender: Any) {
+        
+        BusyActivityView.show(inpVc: self)
 
         if titleLabel.text == signupTitleStr {
             firstTimeUser = true
@@ -214,6 +216,9 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                 validateInputOf(textfield: passwordTextfield).valid {
                 print("Signing up...")
                 AuthenticationManager.signUp(withEmail: emailTextfield.text!, password: passwordTextfield.text!, name: usernameTextfield.text!, completionHandler: { (success) -> Void in
+                    
+                    BusyActivityView.hide()
+                    
                     if success == true {
                         loggedInBool = true
                         self.loginSuccess()
@@ -256,6 +261,9 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                 validateInputOf(textfield: passwordTextfield).valid {
                 print("Logging in...")
                 AuthenticationManager.login(withEmail: emailTextfield.text!, password: passwordTextfield.text!, completionHandler: { (success) -> Void in
+                    
+                    BusyActivityView.hide()
+                    
                     if success == true {
                         loggedInBool = true
                         self.loginSuccess()
@@ -272,11 +280,12 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                 if (loggedInBool == true){
                     setUserDefaults()
                 }
-                else {
-                    
-                }
+
             }
             else {
+                
+                BusyActivityView.hide()
+                
                 print("Login failed: invalid input")
                 let loginFailedAlert = UIAlertController(title: "Login failed", message: "Incorrect Email or Password", preferredStyle: .alert)
                 let okayAction = UIAlertAction(title: "Try again", style: .default, handler: nil)
@@ -363,6 +372,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     }
     
     func loginSuccess() {
+        
+        
         
         performSegue(withIdentifier: "continueToHome", sender: self)
     }

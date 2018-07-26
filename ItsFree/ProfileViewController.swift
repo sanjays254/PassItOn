@@ -95,6 +95,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.setNavigationBarHidden(true, animated: true)
         myPostsTableView.reloadData()
+        
     }
     
     override func didReceiveMemoryWarning() {
@@ -314,10 +315,48 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         myImage = info[UIImagePickerControllerOriginalImage] as? UIImage
         
-        let imagePath = ImageManager.uploadImage(image: myImage!, userUID: (user?.UID)!, filename: "profileImage")
+        BusyActivityView.show(inpVc: self)
         
-        AppData.sharedInstance.usersNode.child((user?.UID)!).child("profileImage").setValue(imagePath)
-        profileImageView.image = myImage
+        ImageManager.uploadImage(image: myImage!, userUID: (user?.UID)!, filename: "profileImage", completion: {(success, path) in
+        
+            if (success){
+                
+                AppData.sharedInstance.usersNode.child((self.user?.UID)!).child("profileImage").setValue(path, withCompletionBlock: {(error, ref) in
+                    
+                    if (error == nil){
+                        
+                        DispatchQueue.main.async {
+                            
+                            self.profileImageView.image = self.myImage
+                            self.profileImageView.setNeedsDisplay()
+                        }
+                        
+                        Alert.Show(inpVc: self, customAlert: nil, inpTitle: "Success", inpMessage: "Your profile picture was updated", inpOkTitle: "Ok")
+                        
+                        BusyActivityView.hide()
+                        
+                    }
+                    else {
+                        Alert.Show(inpVc: self, customAlert: nil, inpTitle: "Error", inpMessage: "Your profile picture didnt get saved", inpOkTitle: "Try again")
+                        
+                        BusyActivityView.hide()
+                        
+                    }
+                    
+                })
+            }
+            else {
+                
+                //error
+                Alert.Show(inpVc: self, customAlert: nil, inpTitle: "Error", inpMessage: "Your new profile picture was uploaded, but there was error in your account", inpOkTitle: "Try again")
+                
+                BusyActivityView.hide()
+                
+            }
+            
+            
+        })
+        
         dismiss(animated: true, completion: nil)
     }
     

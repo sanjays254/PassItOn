@@ -35,6 +35,8 @@
 		CE5869D91FBE445C0012F774 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE5869D71FBE445C0012F774 /* LaunchScreen.storyboard */; };
 		CE5869E41FBE445C0012F774 /* ItsFreeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5869E31FBE445C0012F774 /* ItsFreeTests.swift */; };
 		CE5869EF1FBE445C0012F774 /* ItsFreeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5869EE1FBE445C0012F774 /* ItsFreeUITests.swift */; };
+		CE5DC8BB210A661B008E3F01 /* BusyActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5DC8BA210A661B008E3F01 /* BusyActivityView.swift */; };
+		CE5DC8BD210A688A008E3F01 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5DC8BC210A688A008E3F01 /* Alert.swift */; };
 		CE9683D01FBE655600DFA277 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9683CF1FBE655600DFA277 /* LocationManager.swift */; };
 		CE9683D21FBF6C9700DFA277 /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9683D11FBF6C9700DFA277 /* PostViewController.swift */; };
 		CE9683D51FBF8E5700DFA277 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9683D41FBF8E5600DFA277 /* HomeViewController.swift */; };
@@ -117,6 +119,8 @@
 		CE5869EA1FBE445C0012F774 /* ItsFreeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ItsFreeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE5869EE1FBE445C0012F774 /* ItsFreeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItsFreeUITests.swift; sourceTree = "<group>"; };
 		CE5869F01FBE445C0012F774 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CE5DC8BA210A661B008E3F01 /* BusyActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusyActivityView.swift; sourceTree = "<group>"; };
+		CE5DC8BC210A688A008E3F01 /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
 		CE9683CF1FBE655600DFA277 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		CE9683D11FBF6C9700DFA277 /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
 		CE9683D41FBF8E5600DFA277 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
@@ -257,6 +261,8 @@
 				CEF41A241FC3CF1C0044C63E /* PostMapViewController.xib */,
 				CE5869D71FBE445C0012F774 /* LaunchScreen.storyboard */,
 				CE5869D21FBE445C0012F774 /* Main.storyboard */,
+				CE5DC8BA210A661B008E3F01 /* BusyActivityView.swift */,
+				CE5DC8BC210A688A008E3F01 /* Alert.swift */,
 			);
 			path = ItsFree;
 			sourceTree = "<group>";
@@ -649,6 +655,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				01BAC9F71FBE5C9E0050C891 /* Item.swift in Sources */,
+				CE5DC8BB210A661B008E3F01 /* BusyActivityView.swift in Sources */,
 				CE43E79A1FCF90290061A653 /* FilterTableViewController.swift in Sources */,
 				01BAC9F91FBF6CD10050C891 /* Enums.swift in Sources */,
 				CE01EA6B200D5BD2002C33D7 /* RatingSystem.swift in Sources */,
@@ -677,6 +684,7 @@
 				CEF41A281FC501FA0044C63E /* SearchResultsTableTableViewController.swift in Sources */,
 				01D5DF461FBF86F40029A276 /* User.swift in Sources */,
 				CEF41A2A1FC51D390044C63E /* PostPhotoCollectionViewCell.swift in Sources */,
+				CE5DC8BD210A688A008E3F01 /* Alert.swift in Sources */,
 				CE9683D51FBF8E5700DFA277 /* HomeViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

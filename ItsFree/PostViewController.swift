@@ -979,6 +979,8 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         
         var photoRefs:[String] = []
         
+        BusyActivityView.show(inpVc: self)
+        
         if (editingBool){
             WriteFirebaseData.delete(itemUID: itemToEdit.UID)
             
@@ -992,11 +994,50 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
                 for index in 0..<photosArray.count {
                     let storagePath = "\(realItem.UID!)/\(index)"
                     
-                    let photoRefStr = ImageManager.uploadImage(image: photosArray[index],
-                                                               userUID: (AppData.sharedInstance.currentUser?.UID)!,
-                                                               filename: storagePath)
-                    photoRefs.append(photoRefStr)
-                    print("\(realItem.UID)/\(photoRefStr)")
+                    ImageManager.uploadImage(image: photosArray[index],
+                                             userUID: (AppData.sharedInstance.currentUser?.UID)!,
+                                             filename: storagePath, completion : {(success, photoRefStr) in
+                                                
+                                                if (success){
+                                                    
+                                                    photoRefs.append(photoRefStr!)
+                                                    
+                                                    if (index == self.photosArray.count) {
+                                                        
+                                                        realItem.photos = photoRefs
+                                                        
+                                                        WriteFirebaseData.write(item: realItem, type: self.offerRequestSegmentedControl.selectedSegmentIndex){(success) in
+                                                            
+                                                            if (success){
+                                                                
+                                                                Alert.Show(inpVc: self, customAlert: nil, inpTitle: "Done", inpMessage: "Your item was successfully uploaded", inpOkTitle: "Ok")
+                                                                
+                                                                BusyActivityView.hide()
+                                                                self.navigationController?.popToRootViewController(animated: true)
+                                                                
+                                                            }
+                                                            else {
+                                                                Alert.Show(inpVc: self, customAlert: nil, inpTitle: "Error", inpMessage: "Your item could not be posted. Please try again", inpOkTitle: "Ok")
+                                                                
+                                                                BusyActivityView.hide()
+                                                            }
+                                                            
+                                                            
+                                                        }
+                                                        
+                                                        
+                                                        
+                                                    }}
+                                                else {
+                                                    
+                                                    Alert.Show(inpVc: self, customAlert: nil, inpTitle: "Error", inpMessage: "There was an error uploading one or more of your images & so your item wasnt uploaded", inpOkTitle: "Try again")
+                                                    
+                                                    BusyActivityView.hide()
+                                                    
+                                                }
+                                                
+                                                
+                    })
                 }
             }
         }
@@ -1009,19 +1050,54 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
                 for index in 0..<photosArray.count {
                     let storagePath = "\(realItem.UID!)/\(index)"
                     
-                    
-                    let photoRefStr = ImageManager.uploadImage(image: photosArray[index],
+                    ImageManager.uploadImage(image: photosArray[index],
                                                                userUID: (AppData.sharedInstance.currentUser?.UID)!,
-                                                               filename: storagePath)
-                    photoRefs.append(photoRefStr)
-                    print("\(realItem.UID)/\(photoRefStr)")
+                                                               filename: storagePath, completion : {(success, photoRefStr) in
+                                                                
+                                                                if (success){
+                                                                
+                                                                    photoRefs.append(photoRefStr!)
+                                                                    
+                                                                    if (index == self.photosArray.count) {
+                                                                    
+                                                                    realItem.photos = photoRefs
+                                                                    
+                                                                        WriteFirebaseData.write(item: realItem, type: self.offerRequestSegmentedControl.selectedSegmentIndex){(success) in
+                                                                        
+                                                                        if (success){
+                                                                            
+                                                                            Alert.Show(inpVc: self, customAlert: nil, inpTitle: "Done", inpMessage: "Your item was successfully uploaded", inpOkTitle: "Ok")
+                                                                            
+                                                                            BusyActivityView.hide()
+                                                                            self.navigationController?.popToRootViewController(animated: true)
+                                                                            
+                                                                        }
+                                                                        else {
+                                                                            Alert.Show(inpVc: self, customAlert: nil, inpTitle: "Error", inpMessage: "Your item could not be posted. Please try again", inpOkTitle: "Ok")
+                                                                            
+                                                                            BusyActivityView.hide()
+                                                                        }
+                                                                        
+                                                                        
+                                                                    }
+                                                                    
+                                                                    
+                                                                    
+                                                                    }}
+                                                                else {
+                                                                    
+                                                                    Alert.Show(inpVc: self, customAlert: nil, inpTitle: "Error", inpMessage: "There was an error uploading one or more of your images & so your item wasnt uploaded", inpOkTitle: "Try again")
+                                                                    
+                                                                }
+                                                                    
+                                                                
+                    })
+                    
                 }
             }
         }
-        realItem.photos = photoRefs
+
         
-        WriteFirebaseData.write(item: realItem, type: offerRequestSegmentedControl.selectedSegmentIndex)
-        self.navigationController?.popToRootViewController(animated: true)
     }
     
     @IBAction func postItem(_ sender: UIBarButtonItem) {

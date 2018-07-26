@@ -14,7 +14,9 @@ import Firebase
 
 class WriteFirebaseData {
     
-    class func write(item:Item, type:Int) {
+     typealias writeListingClosure = (Bool) -> Void;
+    
+    class func write(item:Item, type:Int, completion: @escaping writeListingClosure) {
         let user = AppData.sharedInstance.currentUser!
         print("# of offered items: \(user.offeredItems.count), # of requested items: \(user.requestedItems.count)")
         let itemPath:String = "\(item.itemCategory.rawValue)/\(item.UID!)"
@@ -43,11 +45,26 @@ class WriteFirebaseData {
             print("Error: Invalid argument passed for 'type'")
             return
         }
-        Database.database().reference().child(itemRef).setValue(item.toDictionary())
-        
-        
-        print("# of offered items: \(user.offeredItems.count), # of requested items: \(user.requestedItems.count), itemPath: \(itemRef)")
-        AppData.sharedInstance.usersNode.child(user.UID).setValue(AppData.sharedInstance.currentUser?.toDictionary())
+        Database.database().reference().child(itemRef).setValue(item.toDictionary(), withCompletionBlock:{(error, ref) in
+            
+            if error == nil {
+                //present alert
+                completion(false)
+    
+            }
+            
+            else {
+                AppData.sharedInstance.usersNode.child(user.UID).setValue(AppData.sharedInstance.currentUser?.toDictionary(), withCompletionBlock: {(error, ref) in
+                    
+                    if error == nil {
+                        completion(false)
+                    }
+                    else {
+                        completion(true)
+                    }
+                })
+            }
+        })
     }
     
     class func delete(itemUID: String) {

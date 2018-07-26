@@ -102,6 +102,8 @@ class AuthenticationManager {
         Auth.auth().signIn(withEmail: email,
                            password: password)
         { (authUser, loginError) in
+            
+            
             if loginError == nil {
                 let userUID = Auth.auth().currentUser?.uid
                 AppData.sharedInstance.usersNode.child(userUID!)
@@ -119,6 +121,9 @@ class AuthenticationManager {
                 print("Login Successful")
                 guestUser = false
                 addToKeychain(email: email, password: password)
+                
+                BusyActivityView.hide()
+                
                 let flag = true
                 completionHandler(flag)
             }
@@ -133,6 +138,8 @@ class AuthenticationManager {
                 let okayAction = UIAlertAction(title: "Try again", style: .default, handler: nil)
                 loginFailedAlert.addAction(okayAction)
                 mainVC.present(loginFailedAlert, animated: true, completion: nil)
+                
+                BusyActivityView.hide()
                 
             }
         }

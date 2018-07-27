@@ -47,7 +47,7 @@ class WriteFirebaseData {
         }
         Database.database().reference().child(itemRef).setValue(item.toDictionary(), withCompletionBlock:{(error, ref) in
             
-            if error == nil {
+            if error != nil {
                 //present alert
                 completion(false)
     
@@ -56,7 +56,7 @@ class WriteFirebaseData {
             else {
                 AppData.sharedInstance.usersNode.child(user.UID).setValue(AppData.sharedInstance.currentUser?.toDictionary(), withCompletionBlock: {(error, ref) in
                     
-                    if error == nil {
+                    if error != nil {
                         completion(false)
                     }
                     else {
@@ -67,7 +67,9 @@ class WriteFirebaseData {
         })
     }
     
-    class func delete(itemUID: String) {
+    
+    typealias deleteListingClosure = (Bool) -> Void;
+    class func delete(itemUID: String, completion: @escaping deleteListingClosure) {
         let user = AppData.sharedInstance.currentUser!
         var itemPath:String? = nil
         
@@ -109,6 +111,7 @@ class WriteFirebaseData {
         //itemPath should exist now since its = post
         if itemPath == nil {
             print("Error: Cannot delete item; Item not found")
+            completion(false)
             return
         }
         else {
@@ -131,18 +134,55 @@ class WriteFirebaseData {
                             }
                         })
                     }
-                    Database.database().reference().child(itemPath!).removeValue()
-                    WriteFirebaseData.write(user: AppData.sharedInstance.currentUser!)
+                    Database.database().reference().child(itemPath!).removeValue(completionBlock: {(error, ref) in
+                        if(error == nil){
+                            
+                            
+                            WriteFirebaseData.write(user: AppData.sharedInstance.currentUser!, completion:{(success) in
+                                
+                                if (success){
+                                    
+                                    completion(true)
+                                }
+                                else  {
+                                    completion(false)
+                                }
+                                
+                            })
+                            
+                        }
+                        else {
+                            
+                            completion(false)
+                            
+                        }
+                        
+                        
+                    })
                 }
                 else {
                     print("Nil found in read items")
+                    completion(false)
+                    
                 }
             })
         }
     }
     
-    class func write(user:User) {
-        AppData.sharedInstance.usersNode.child(user.UID).setValue(user.toDictionary())
+    
+    typealias writeUserClosure = (Bool) -> Void;
+    class func write(user:User, completion: @escaping writeUserClosure) {
+        AppData.sharedInstance.usersNode.child(user.UID).setValue(user.toDictionary(), withCompletionBlock: {(error, ref) in
+            
+            if (error == nil){
+                completion(true)
+                
+            }
+            else {
+                completion(false)
+            }
+            
+        })
     }
     
     

@@ -16,13 +16,13 @@ class BusyActivityView: NSObject {
     
     class func show(inpVc: UIViewController)
     {
-        activityIndicatorOverlayView = UIView(frame:  (UIApplication.shared.keyWindow?.bounds)!)
+        activityIndicatorOverlayView = UIView(frame: (UIApplication.shared.keyWindow?.bounds)!)
         activityIndicatorOverlayView.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.5)
         activityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
         activityIndicatorView.hidesWhenStopped  = true
         
         //activityIndicatorView.frame = activityIndicatorOverlayView.frame
-        inpVc.view.addSubview(activityIndicatorOverlayView)
+        UIApplication.shared.keyWindow?.addSubview(activityIndicatorOverlayView)
         activityIndicatorOverlayView.addSubview(activityIndicatorView)
         activityIndicatorView.center = activityIndicatorOverlayView.center
         //UIApplication.shared.keyWindow?.addSubview(busyV)

@@ -982,7 +982,19 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         BusyActivityView.show(inpVc: self)
         
         if (editingBool){
-            WriteFirebaseData.delete(itemUID: itemToEdit.UID)
+            //NEED TO CHANGE THIS APPROACH OF DELETING THE ITEM FIRST
+            WriteFirebaseData.delete(itemUID: itemToEdit.UID, completion: {(success) in
+                
+                if (success){
+                    
+                    
+                }
+                else {
+                    
+                    
+                }
+                
+            })
             
             
             if (photosArray.count+itemToEdit.photos.count) == 0 {
@@ -1058,7 +1070,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
                                                                 
                                                                     photoRefs.append(photoRefStr!)
                                                                     
-                                                                    if (index == self.photosArray.count) {
+                                                                    if (index == (self.photosArray.count - 1)) {
                                                                     
                                                                     realItem.photos = photoRefs
                                                                     
@@ -1087,6 +1099,8 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
                                                                 else {
                                                                     
                                                                     Alert.Show(inpVc: self, customAlert: nil, inpTitle: "Error", inpMessage: "There was an error uploading one or more of your images & so your item wasnt uploaded", inpOkTitle: "Try again")
+                                                                    
+                                                                    BusyActivityView.hide()
                                                                     
                                                                 }
                                                                     

@@ -261,7 +261,23 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
             else {
                 user?.name = usernameTextField.text!
                 usernameLabel.text = user?.name
-                WriteFirebaseData.write(user: user!)
+                WriteFirebaseData.write(user: user!, completion: {(success) in
+                    
+                    if (success){
+                        
+                        BusyActivityView.hide()
+                        
+                    }
+                    else {
+                        
+                        
+                        Alert.Show(inpVc: self, customAlert: nil, inpTitle: "Error", inpMessage: "Couldn't change your details", inpOkTitle: "Try again")
+                        
+                        BusyActivityView.hide()
+                        
+                    }
+                    
+                })
             }
             
             if (phoneNumberTextField.text == ""){
@@ -278,7 +294,23 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
             else {
                 user?.phoneNumber = Int(phoneNumberTextField.text!)!
                 phoneNumberLabel.text = String((user?.phoneNumber)!)
-                WriteFirebaseData.write(user: user!)
+                WriteFirebaseData.write(user: user!, completion: {(success) in
+                    
+                    if (success){
+                        
+                        BusyActivityView.hide()
+                        
+                    }
+                    else {
+                        
+                        
+                        Alert.Show(inpVc: self, customAlert: nil, inpTitle: "Error", inpMessage: "Couldn't change your details", inpOkTitle: "Try again")
+                        
+                        BusyActivityView.hide()
+                        
+                    }
+                    
+                })
             }
             
             editingProfile = false
@@ -522,11 +554,18 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
             switch offersRequestsSegmentedControl.selectedSegmentIndex {
             case 0:
                 itemUID = AppData.sharedInstance.currentUserOfferedItems[indexPath.row].UID
-                WriteFirebaseData.delete(itemUID: itemUID)
+                WriteFirebaseData.delete(itemUID: itemUID, completion: {(success) in
+                    
+                    
+                    
+                })
                 
             case 1:
                 itemUID = AppData.sharedInstance.currentUserRequestedItems[indexPath.row].UID
-                WriteFirebaseData.delete(itemUID: itemUID)
+                WriteFirebaseData.delete(itemUID: itemUID, completion: {(success) in
+                    
+                    
+                })
                 
             default:
                 return
@@ -598,13 +637,46 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
             self.editButton.setImage(#imageLiteral(resourceName: "edit"), for: .normal)
         }, completion: nil)
         
+        BusyActivityView.show(inpVc: self)
         
-        WriteFirebaseData.write(user: user!)
+        WriteFirebaseData.write(user: user!, completion: {(success) in
+            
+            if (success){
+                
+                BusyActivityView.hide()
+                
+            }
+            else {
+                
+                
+                Alert.Show(inpVc: self, customAlert: nil, inpTitle: "Error", inpMessage: "Couldn't change your details", inpOkTitle: "Try again")
+                
+                BusyActivityView.hide()
+                
+            }
+            
+        })
     }
     
     func saveUserData(){
         
-        WriteFirebaseData.write(user: user!)
+        WriteFirebaseData.write(user: user!, completion: {(success) in
+            
+            if (success){
+                
+                BusyActivityView.hide()
+                
+            }
+            else {
+                
+                
+                Alert.Show(inpVc: self, customAlert: nil, inpTitle: "Error", inpMessage: "Couldn't change your details", inpOkTitle: "Try again")
+                
+                BusyActivityView.hide()
+                
+            }
+            
+        })
     }
     
 }

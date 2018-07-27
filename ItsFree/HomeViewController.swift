@@ -244,6 +244,14 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         present(alert, animated: true, completion: nil)
     }
     
+    func sortTableView()
+    {
+        AppData.sharedInstance.onlineOfferedItems.sort(by:
+            { $0.distance(to: getLocation()) < $1.distance(to: getLocation())})
+        
+        self.homeTableView.reloadData();
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         //super.viewWillAppear(true)
         
@@ -301,6 +309,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     @objc func addAnnotationsWhenFinishedDownloadingData(notification: NSNotification){
         removeAndAddAnnotations()
+        sortTableView()
         BusyActivityView.hide()
     }
     

@@ -124,4 +124,9 @@ class Item: NSObject, MKAnnotation {
         return itemDict
     }
     
+    func distance(to location: CLLocation) -> CLLocationDistance
+    {
+        return location.distance(from: CLLocation(latitude: self.coordinate.latitude, longitude: self.coordinate.longitude))
+    }
+    
 }

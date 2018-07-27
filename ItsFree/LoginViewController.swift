@@ -90,6 +90,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             print ("\((Auth.auth().currentUser?.email)!)")
             emailTextfield.text = Auth.auth().currentUser?.email
             
+            BusyActivityView.show(inpVc: self)
             
             AuthenticationManager.loginWithTouchID(email: (Auth.auth().currentUser?.email)!,
                                                    completionHandler: { (success) -> Void in

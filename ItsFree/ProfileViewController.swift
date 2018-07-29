@@ -12,7 +12,7 @@ import FirebaseDatabase
 
 class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate{
     
-    let myDowloadCompletedNotificationKey = "myUsersDownloadNotificationKey"
+    let myDowloadCompletedNotificationKey = "myUserDownloadNotificationKey"
 
     @IBOutlet weak var backButton: UIButton!
     @IBOutlet weak var editButton: UIButton!
@@ -55,7 +55,6 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         
         NotificationCenter.default.addObserver(self, selector: #selector(setUpProfileText), name: NSNotification.Name(rawValue: myDowloadCompletedNotificationKey), object: nil)
         
-        ReadFirebaseData.readUsers()
         imagePicker.delegate = self
         editingProfile = false
         
@@ -81,6 +80,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         self.leaderboardButton.layer.masksToBounds = false
         
 
+        ReadFirebaseData.readCurrentUser()
         
         setUpProfilePicture()
         setUpProfileText()
@@ -551,12 +551,27 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
             
             var itemUID: String
             
+            BusyActivityView.show(inpVc: self)
+            
             switch offersRequestsSegmentedControl.selectedSegmentIndex {
             case 0:
                 itemUID = AppData.sharedInstance.currentUserOfferedItems[indexPath.row].UID
                 WriteFirebaseData.delete(itemUID: itemUID, completion: {(success) in
                     
                     
+                    BusyActivityView.hide()
+                    
+                    if (success){
+                        
+                        tableView.deleteRows(at: [indexPath], with: .automatic)
+                        
+                        Alert.Show(inpVc: self, customAlert: nil, inpTitle: "Done", inpMessage: "Your item was successfully deleted", inpOkTitle: "Ok")
+                        
+                        
+                    }
+                    else {
+                        Alert.Show(inpVc: self, customAlert: nil, inpTitle: "Error", inpMessage: "Your item could not be deleted", inpOkTitle: "Try again later")
+                    }
                     
                 })
                 
@@ -564,13 +579,24 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
                 itemUID = AppData.sharedInstance.currentUserRequestedItems[indexPath.row].UID
                 WriteFirebaseData.delete(itemUID: itemUID, completion: {(success) in
                     
+                    BusyActivityView.hide()
                     
+                    if (success){
+                        
+                        tableView.deleteRows(at: [indexPath], with: .automatic)
+                    
+                        Alert.Show(inpVc: self, customAlert: nil, inpTitle: "Done", inpMessage: "Your item was successfully deleted", inpOkTitle: "Ok")
+                    
+                    }
+                    else {
+                        Alert.Show(inpVc: self, customAlert: nil, inpTitle: "Error", inpMessage: "Your item could not be deleted", inpOkTitle: "Try again later")
+                    }
                 })
                 
             default:
                 return
             }
-            tableView.deleteRows(at: [indexPath], with: .automatic)
+           
         }
     }
     

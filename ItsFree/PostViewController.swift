@@ -1014,7 +1014,8 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
                                                     
                                                     photoRefs.append(photoRefStr!)
                                                     
-                                                    if (index == self.photosArray.count) {
+                                                    //if (index == self.photosArray.count) {
+                                                    if (photoRefs.count == self.photosArray.count + self.itemToEdit.photos.count) {
                                                         
                                                         realItem.photos = photoRefs
                                                         
@@ -1070,7 +1071,8 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
                                                                 
                                                                     photoRefs.append(photoRefStr!)
                                                                     
-                                                                    if (index == (self.photosArray.count - 1)) {
+                                                                    //if (index == (self.photosArray.count - 1)) {
+                                                                    if (photoRefs.count == self.photosArray.count) {
                                                                     
                                                                     realItem.photos = photoRefs
                                                                     
@@ -1078,10 +1080,19 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
                                                                         
                                                                         if (success){
                                                                             
-                                                                            Alert.Show(inpVc: self, customAlert: nil, inpTitle: "Done", inpMessage: "Your item was successfully uploaded", inpOkTitle: "Ok")
+                                                                        let successAlert = UIAlertController(title: "Done", message: "Your item was successfully uploaded", preferredStyle: .alert)
+                                                                            
+                                                                            let okayAction = UIAlertAction(title: "Ok", style: .default, handler: {(action) in
+                                                                                
+                                                                                self.navigationController?.popToRootViewController(animated: true)
+                                                                                
+                                                                            })
+                                                                            successAlert.addAction(okayAction)
+                                                                            
+                                                                            Alert.Show(inpVc: self, customAlert: successAlert, inpTitle: "", inpMessage: "", inpOkTitle: "")
                                                                             
                                                                             BusyActivityView.hide()
-                                                                            self.navigationController?.popToRootViewController(animated: true)
+                                                                            
                                                                             
                                                                         }
                                                                         else {

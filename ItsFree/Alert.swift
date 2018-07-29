@@ -29,9 +29,10 @@ class Alert: NSObject {
             alert = UIAlertController(title: inpTitle,
                                          message: inpMessage,
                                          preferredStyle: UIAlertControllerStyle.alert);
+            alert.addAction(okAction);
         }
         
-        alert.addAction(okAction);
+        
         inpVc.present(alert,
                      animated: true,
                      completion: nil)

@@ -31,17 +31,37 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
         super.viewDidLoad()
         
         view.backgroundColor = UIColor.clear
+        
     
         setupCollectionView()
         setupItemDetailContainer()
         setupItemLabels()
         setupGestures()
+        
+        
+        ReadFirebaseData.readUserBasics(userUID: currentItem.posterUID, completion: {(success, user) in
+            if (success){
+                
+                self.itemDetailView.posterUsername.text = user!.name
+                self.itemDetailView.posterRating.text = "\(user!.rating)"
+                
+            }
+            else {
+                
+                Alert.Show(inpVc: self, customAlert: nil, inpTitle: "Oops", inpMessage: "The poster seems to have left the app", inpOkTitle: "Ok")
+                
+            }
+            
+            
+        })
+        
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
     
+
     func setupItemDetailContainer(){
         
         itemDetailView.translatesAutoresizingMaskIntoConstraints = false
@@ -98,8 +118,8 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
         itemDetailView.mainImageView.sd_setImage(with: storageRef.child(previewPhotoRef), placeholderImage: UIImage.init(named: "placeholder"))
         //ImageManager.downloadImage(imagePath: previewPhotoRef, into: itemDetailView.mainImageView)
         
-        itemDetailView.posterUsername.text = AppData.sharedInstance.onlineUsers.filter{ $0.UID == currentItem.posterUID }.first?.name
-        itemDetailView.posterRating.text = "\(AppData.sharedInstance.onlineUsers.filter{ $0.UID == currentItem.posterUID }.first?.rating ?? 0)"
+        itemDetailView.posterUsername.text = "Loading ..."
+        itemDetailView.posterRating.text = "0"
         
     
         if (kindOfItem == "Offer"){

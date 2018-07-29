@@ -85,10 +85,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         ReadFirebaseData.readOffers(category: nil)
         ReadFirebaseData.readRequests(category: nil)
         //readCurrentUserOnly first
-        
-        
-        ReadFirebaseData.readUsers()
-        
+        ReadFirebaseData.readCurrentUser()
+    
         setupNotifications()
     
         if(firstTimeUser){
@@ -271,6 +269,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         // NotificationCenter.default.addObserver(self, selector: #selector(self.refreshData), name: NSNotification.Name(rawValue: filterAppliedKey), object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.addAnnotationsWhenFinishedDownloadingData), name: NSNotification.Name(rawValue: myDowloadCompletedNotificationKey), object: nil)
+        
         
         homeMapView.register(MKMarkerAnnotationView.self, forAnnotationViewWithReuseIdentifier: "itemMarkerView")
         

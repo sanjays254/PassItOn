@@ -13,7 +13,7 @@ import FirebaseStorage
 
 class LeaderboardTableViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
-     let myDowloadCompletedNotificationKey = "myUsersDownloadNotificationKey"
+   
     
     @IBOutlet weak var doneButton: UIButton!
     @IBOutlet weak var leaderboardLabel: UILabel!
@@ -22,6 +22,8 @@ class LeaderboardTableViewController: UIViewController, UITableViewDataSource, U
     
     var currentUserIndexPath: IndexPath!
     var crownImageView: UIImageView!
+    
+    var sortedUsers: [User]!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,15 +40,40 @@ class LeaderboardTableViewController: UIViewController, UITableViewDataSource, U
         findMeButton.layer.borderWidth = 2.0
         findMeButton.layer.cornerRadius = doneButton.frame.width/2
         
-        NotificationCenter.default.addObserver(self, selector: #selector(reload), name: NSNotification.Name(rawValue: myDowloadCompletedNotificationKey), object: nil)
         
-        ReadFirebaseData.readUsers()
+        BusyActivityView.show(inpVc: self)
+        
+        sortedUsers = []
+        ReadFirebaseData.readUsers(completion: {(success) in
+            
+            self.sortedUsers = AppData.sharedInstance.onlineUsers.sorted(by: { $0.rating > $1.rating })
+            
+            var index = 0
+            for user in self.sortedUsers {
+                
+                if user.rating < 1 {
+                    self.sortedUsers.remove(at: index)
+                }
+                else {
+                    index += 1
+                }
+            }
+            
+            self.leaderboardTableView.reloadData()
+            BusyActivityView.hide()
+            
+        })
         
         leaderboardTableView.delegate = self
         leaderboardTableView.dataSource = self
         leaderboardTableView.rowHeight = 80
         
-        self.navigationController?.navigationBar.isHidden = true
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        
+        self.navigationController?.setNavigationBarHidden(true, animated: true)
     }
     
     func setupTitle(){
@@ -61,18 +88,17 @@ class LeaderboardTableViewController: UIViewController, UITableViewDataSource, U
     }
     
     @IBAction func dismissLeaderboard(_ sender: UIButton) {
-        self.dismiss(animated: true, completion: nil)
+        self.navigationController?.popViewController(animated: true)
     }
     
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return AppData.sharedInstance.onlineUsers.count
+        return sortedUsers.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let sortedUsers = AppData.sharedInstance.onlineUsers.sorted(by: { $0.rating > $1.rating })
-    
+   
         let storageRef = Storage.storage().reference()
         let photoRef: String = sortedUsers[indexPath.row].profileImage
         
@@ -138,9 +164,6 @@ class LeaderboardTableViewController: UIViewController, UITableViewDataSource, U
         leaderboardTableView.scrollToRow(at: currentUserIndexPath, at: .top, animated: true)
     }
     
-    @objc func reload(){
-        leaderboardTableView.reloadData()
-    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

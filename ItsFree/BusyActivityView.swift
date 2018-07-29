@@ -63,7 +63,7 @@ class BusyActivityView: NSObject {
         
         activityIndicatorView.startAnimating()
         
-        timer = Timer.scheduledTimer(withTimeInterval: 100.0,
+        timer = Timer.scheduledTimer(withTimeInterval: 60.0,
                                      repeats: false)
         { (myTimer) in
             activityIndicatorOverlayView.removeFromSuperview();

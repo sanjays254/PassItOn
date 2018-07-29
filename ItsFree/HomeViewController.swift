@@ -14,13 +14,24 @@ import MapKit
 import FirebaseStorage
 
 
-public var availableBool: Bool!
 
-class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate, MKMapViewDelegate, UINavigationControllerDelegate, UISearchBarDelegate {
+public var offerRequestBool: Bool!
+
+class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate, MKMapViewDelegate, UINavigationControllerDelegate, UISearchBarDelegate, NotificationDelegate {
+
+    
+    
+
     
     let mySelectedItemNotificationKey = "theNotificationKey"
-    let myDowloadCompletedNotificationKey = "myDownloadNotificationKey"
+    
+    let myOffersDownloadedNotificationKey = "myOffersDownloadedNotificationKey"
+    let myRequestsDownloadedNotificationKey = "myRequestsDownloadedNotificationKey"
+    
     let filterAppliedKey = "filterAppliedKey"
+    
+    var offersDownloaded: Bool!
+    var requestsDownloaded: Bool!
     
     weak var currentLocation: CLLocation!
     weak var locationManager: CLLocationManager!
@@ -40,6 +51,9 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     @IBOutlet weak var searchBarHeightConstraint: NSLayoutConstraint!
     
+    
+    @IBOutlet weak var profileButton: UIBarButtonItem!
+    
     var itemDetailContainerView: UIView!
     var filterContainerView: UIView!
     
@@ -56,7 +70,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         super.viewDidLoad()
         
         wantedAvailableSegmentedControl.selectedSegmentIndex = 1
-        availableBool = true
+        offerRequestBool = true
         
         //delegating the tableView
         self.homeTableView.delegate = self
@@ -72,6 +86,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.homeMapView.delegate = MapViewDelegate.theMapViewDelegate
         MapViewDelegate.theMapViewDelegate.theMapView = homeMapView
         setInitalMapRegion()
+        homeMapView.register(MKMarkerAnnotationView.self, forAnnotationViewWithReuseIdentifier: "itemMarkerView")
         
         
         setupSearchBar()
@@ -79,15 +94,16 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         setupSearchButton()
         setupCompassButton()
         setupMapListSegmentedControl()
+        profileButton.isEnabled = false
        
         BusyActivityView.show(inpVc: self)
         
+        setupNotifications()
+        
         ReadFirebaseData.readOffers(category: nil)
         ReadFirebaseData.readRequests(category: nil)
-        //readCurrentUserOnly first
+     
         ReadFirebaseData.readCurrentUser()
-    
-        setupNotifications()
     
         if(firstTimeUser){
             presentAlertIfFirstTime()
@@ -260,21 +276,39 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
         
         else {
-        NotificationCenter.default.addObserver(self, selector: #selector(self.refreshTableData(sender:)), name: NSNotification.Name(rawValue: myDowloadCompletedNotificationKey), object: nil)
+//            NotificationCenter.default.addObserver(self, selector: #selector(notificationsPosted(notification:)), name: NSNotification.Name(rawValue: myRequestsDownloadedNotificationKey), object: nil)
+            
         }
     }
     
     
     func setupNotifications(){
         // NotificationCenter.default.addObserver(self, selector: #selector(self.refreshData), name: NSNotification.Name(rawValue: filterAppliedKey), object: nil)
+    
+        setupItemsDownloadNotifications()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(self.addAnnotationsWhenFinishedDownloadingData), name: NSNotification.Name(rawValue: myDowloadCompletedNotificationKey), object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(allowProfileAccess), name: NSNotification.Name(rawValue: "myUserDownloadNotificationKey"), object: nil)
         
         
-        homeMapView.register(MKMarkerAnnotationView.self, forAnnotationViewWithReuseIdentifier: "itemMarkerView")
         
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: mySelectedItemNotificationKey), object: nil, queue: nil, using: catchNotification)
     }
+    
+    func setupItemsDownloadNotifications(){
+        
+        offersDownloaded = false
+        requestsDownloaded = false
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(notificationsPosted(notification:)), name: NSNotification.Name(rawValue: myOffersDownloadedNotificationKey), object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(notificationsPosted(notification:)), name: NSNotification.Name(rawValue: myRequestsDownloadedNotificationKey), object: nil)
+    }
+    
+    func setNotificationsFromDelegator() {
+        setupItemsDownloadNotifications()
+    }
+    
     
 
     //receives info from mapViewDelegate about which itemAnnotation was clicked on
@@ -305,11 +339,40 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
 //
 //    }
     
+    @objc func notificationsPosted(notification: NSNotification){
+        
+
+        if(notification.name == NSNotification.Name(rawValue: myOffersDownloadedNotificationKey)){
+            offersDownloaded = true
+            NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: myOffersDownloadedNotificationKey), object: nil)
+            
+        }
+        
+        if(notification.name == NSNotification.Name(rawValue: myRequestsDownloadedNotificationKey)){
+            requestsDownloaded = true
+            NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: myRequestsDownloadedNotificationKey), object: nil)
+            
+        }
+        
+        if(offersDownloaded && requestsDownloaded){
+            
+            offersDownloaded = false
+            requestsDownloaded = false
+            
+            addAnnotationsWhenFinishedDownloadingData()
+            
+        }
+        
+ 
+    }
     
-    @objc func addAnnotationsWhenFinishedDownloadingData(notification: NSNotification){
+    
+    @objc func addAnnotationsWhenFinishedDownloadingData(){
         removeAndAddAnnotations()
         sortTableView()
         BusyActivityView.hide()
+        
+       
     }
     
     func removeAndAddAnnotations(){
@@ -338,11 +401,14 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBAction func filterTapped(_ sender: UIBarButtonItem) {
         
         let filterViewController = FilterTableViewController()
+        filterViewController.notificationDelegate = self
         self.navigationController?.pushViewController(filterViewController, animated: true)
        
         filterViewController.view.translatesAutoresizingMaskIntoConstraints = false
   
         filterViewController.view.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height)
+        
+        
     }
     
     //wantedAvailable segmenetd control
@@ -351,13 +417,13 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         lastItemSelected = nil
         
         if(sender.selectedSegmentIndex == 0){
-            availableBool = false
+            offerRequestBool = false
             self.homeMapView.removeAnnotations(AppData.sharedInstance.onlineOfferedItems)
             self.homeMapView.addAnnotations(AppData.sharedInstance.onlineRequestedItems)
             homeTableView.reloadData()
         }
         else if (sender.selectedSegmentIndex == 1){
-            availableBool = true
+            offerRequestBool = true
             self.homeMapView.removeAnnotations(AppData.sharedInstance.onlineRequestedItems)
             self.homeMapView.addAnnotations(AppData.sharedInstance.onlineOfferedItems)
             homeTableView.reloadData()
@@ -425,6 +491,13 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         else {
             self.performSegue(withIdentifier: "postSegue", sender: self)
         }
+    }
+    
+    @objc func allowProfileAccess(){
+        
+        profileButton.isEnabled = true
+        
+        
     }
     
     @IBAction func toProfile(_ sender: Any) {

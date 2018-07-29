@@ -36,6 +36,10 @@ class ReadFirebaseData: NSObject {
             
             if ( value == nil) {
                 NotificationCenter.default.post(name: Notification.Name(rawValue: "noOfferedItemsInCategoryKey"), object: nil)
+                
+                let myOffersDownloadedNotificationKey = "myOffersDownloadedNotificationKey"
+                NotificationCenter.default.post(name: Notification.Name(rawValue: myOffersDownloadedNotificationKey), object: nil)
+                
                 return
             }
             AppData.sharedInstance.onlineOfferedItems.removeAll()
@@ -53,14 +57,14 @@ class ReadFirebaseData: NSObject {
                 let data = value as? [String:Any]
                 readOffer(data: data!)
             }
-            let myDownloadNotificationKey = "myDownloadNotificationKey"
-            NotificationCenter.default.post(name: Notification.Name(rawValue: myDownloadNotificationKey), object: nil)
+            let myOffersDownloadedNotificationKey = "myOffersDownloadedNotificationKey"
+            NotificationCenter.default.post(name: Notification.Name(rawValue: myOffersDownloadedNotificationKey), object: nil)
             
-            let myOffersDownloadNotificationKey = "myOffersDownloadNotificationKey"
-            NotificationCenter.default.post(name: Notification.Name(rawValue: myOffersDownloadNotificationKey), object: nil)
+//            let myOffersDownloadNotificationKey = "myOffersDownloadNotificationKey"
+//            NotificationCenter.default.post(name: Notification.Name(rawValue: myOffersDownloadNotificationKey), object: nil)
             
-            let myDownloadCompleteNotificationKey = "myDownloadCompleteNotificationKey"
-            NotificationCenter.default.post(name: Notification.Name(rawValue: myDownloadCompleteNotificationKey), object: nil)
+//            let myDownloadCompleteNotificationKey = "myDownloadCompleteNotificationKey"
+//            NotificationCenter.default.post(name: Notification.Name(rawValue: myDownloadCompleteNotificationKey), object: nil)
         })
         
         if offersHandle != nil {
@@ -90,6 +94,10 @@ class ReadFirebaseData: NSObject {
             
             if ( value == nil) {
                 NotificationCenter.default.post(name: Notification.Name(rawValue: "noRequestedItemsInCategoryKey"), object: nil)
+                
+                let myRequestsDownloadedNotificationKey = "myRequestsDownloadedNotificationKey"
+                NotificationCenter.default.post(name: Notification.Name(rawValue: myRequestsDownloadedNotificationKey), object: nil)
+                
                 return
             }
             
@@ -108,14 +116,14 @@ class ReadFirebaseData: NSObject {
                 let data = value as? [String:Any]
                 readRequest(data: data!)
             }
-            let myDownloadNotificationKey = "myDownloadNotificationKey"
-            NotificationCenter.default.post(name: Notification.Name(rawValue: myDownloadNotificationKey), object: nil)
+            let myRequestsDownloadedNotificationKey = "myRequestsDownloadedNotificationKey"
+            NotificationCenter.default.post(name: Notification.Name(rawValue: myRequestsDownloadedNotificationKey), object: nil)
+//
+//            let myRequestsDownloadNotificationKey = "myRequestsDownloadNotificationKey"
+//            NotificationCenter.default.post(name: Notification.Name(rawValue: myRequestsDownloadNotificationKey), object: nil)
             
-            let myRequestsDownloadNotificationKey = "myRequestsDownloadNotificationKey"
-            NotificationCenter.default.post(name: Notification.Name(rawValue: myRequestsDownloadNotificationKey), object: nil)
-            
-            let myDownloadCompleteNotificationKey = "myDownloadCompleteNotificationKey"
-            NotificationCenter.default.post(name: Notification.Name(rawValue: myDownloadCompleteNotificationKey), object: nil)
+//            let myDownloadCompleteNotificationKey = "myDownloadCompleteNotificationKey"
+//            NotificationCenter.default.post(name: Notification.Name(rawValue: myDownloadCompleteNotificationKey), object: nil)
         })
         if requestsHandle != nil {
             ref.removeObserver(withHandle: requestsHandle!)

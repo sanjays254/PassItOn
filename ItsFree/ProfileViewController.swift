@@ -53,6 +53,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     override func viewDidLoad() {
         super.viewDidLoad()
         
+    
         NotificationCenter.default.addObserver(self, selector: #selector(setUpProfileText), name: NSNotification.Name(rawValue: myDowloadCompletedNotificationKey), object: nil)
         
         imagePicker.delegate = self

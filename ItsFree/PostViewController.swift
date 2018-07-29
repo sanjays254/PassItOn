@@ -998,7 +998,17 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
             
             
             if (photosArray.count+itemToEdit.photos.count) == 0 {
-                photoRefs.append("")
+                
+                if(offerRequestSegmentedControl.selectedSegmentIndex == 0){
+                    Alert.Show(inpVc: self, customAlert: nil, inpTitle: "No Photos", inpMessage: "You must upload at least one photo of your item", inpOkTitle: "Okay")
+                    BusyActivityView.hide()
+                
+                    return
+                }
+                else {
+                    photoRefs = []
+                    
+                }
             }
             else {
                 
@@ -1057,7 +1067,19 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         else {
         
             if (photosArray.count == 0) {
-                photoRefs.append("")
+                
+                if(offerRequestSegmentedControl.selectedSegmentIndex == 0){
+                
+                    Alert.Show(inpVc: self, customAlert: nil, inpTitle: "No Photos", inpMessage: "You must upload at least one photo of your item", inpOkTitle: "Okay")
+                    BusyActivityView.hide()
+                
+                    return
+                }
+                
+                else {
+                    photoRefs = []
+                    
+                }
             }
             else {
                 for index in 0..<photosArray.count {

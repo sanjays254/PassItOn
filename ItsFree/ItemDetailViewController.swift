@@ -349,40 +349,46 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
     
     
     @IBAction func sendEmail(_ sender: UIButton) {
+        //open chat here
         
-        let destinationUser = AppData.sharedInstance.onlineUsers.filter{ $0.UID == currentItem.posterUID }.first
-
-        if(AppData.sharedInstance.currentUser!.UID == destinationUser?.UID){
-            //show alert
-            let usersOwnItemAlert = UIAlertController(title: "Oops", message: "This item was posted by you", preferredStyle: UIAlertControllerStyle.alert)
-            let okayAction = UIAlertAction(title: "Okay", style: UIAlertActionStyle.default, handler: nil)
-            usersOwnItemAlert.addAction(okayAction)
-            present(usersOwnItemAlert, animated: true, completion: nil)
-
-        }
-        else {
-            
-            if (destinationUser?.phoneNumber != 0){
-            
-            let textOrEmailAlert = UIAlertController(title: "How would you like to message \((destinationUser?.name)!)?", message: "", preferredStyle: .actionSheet)
-            
-            let emailAction = UIAlertAction(title: "Email", style: .default, handler: {_ in
-                self.emailChosen()})
-            
-            let textAction = UIAlertAction(title: "Text", style: .default, handler: {_ in
-                self.textChosen()})
-            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-            
-            textOrEmailAlert.addAction(emailAction)
-            textOrEmailAlert.addAction(textAction)
-            textOrEmailAlert.addAction(cancelAction)
-            
-            self.present(textOrEmailAlert, animated: true, completion: nil)
-            }
-            else {
-                emailChosen()
-            }
-        }
+        
+        
+        
+        
+        
+//        let destinationUser = AppData.sharedInstance.onlineUsers.filter{ $0.UID == currentItem.posterUID }.first
+//
+//        if(AppData.sharedInstance.currentUser!.UID == destinationUser?.UID){
+//            //show alert
+//            let usersOwnItemAlert = UIAlertController(title: "Oops", message: "This item was posted by you", preferredStyle: UIAlertControllerStyle.alert)
+//            let okayAction = UIAlertAction(title: "Okay", style: UIAlertActionStyle.default, handler: nil)
+//            usersOwnItemAlert.addAction(okayAction)
+//            present(usersOwnItemAlert, animated: true, completion: nil)
+//
+//        }
+//        else {
+//
+//            if (destinationUser?.phoneNumber != 0){
+//
+//            let textOrEmailAlert = UIAlertController(title: "How would you like to message \((destinationUser?.name)!)?", message: "", preferredStyle: .actionSheet)
+//
+//            let emailAction = UIAlertAction(title: "Email", style: .default, handler: {_ in
+//                self.emailChosen()})
+//
+//            let textAction = UIAlertAction(title: "Text", style: .default, handler: {_ in
+//                self.textChosen()})
+//            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+//
+//            textOrEmailAlert.addAction(emailAction)
+//            textOrEmailAlert.addAction(textAction)
+//            textOrEmailAlert.addAction(cancelAction)
+//
+//            self.present(textOrEmailAlert, animated: true, completion: nil)
+//            }
+//            else {
+//                emailChosen()
+//            }
+//        }
 
     }
     

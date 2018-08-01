@@ -20,9 +20,6 @@ public var offerRequestBool: Bool!
 class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate, MKMapViewDelegate, UINavigationControllerDelegate, UISearchBarDelegate, NotificationDelegate {
 
     
-    
-
-    
     let mySelectedItemNotificationKey = "theNotificationKey"
     
     let myOffersDownloadedNotificationKey = "myOffersDownloadedNotificationKey"
@@ -39,6 +36,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     var compassButton: UIButton!
     
     var mapListSegmentedControl: UISegmentedControl!
+    
+    
     @IBOutlet weak var wantedAvailableSegmentedControl: UISegmentedControl!
     @IBOutlet weak var newPostButton: UIBarButtonItem!
     @IBOutlet weak var homeMapView: MKMapView!
@@ -59,6 +58,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     var currentItemIndexPath: IndexPath!
     var lastItemSelected: Item!
+    
+    var currentCategory: ItemCategory?
   
     var searchActive : Bool = false
     var searchApplied : Bool = false
@@ -73,6 +74,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         offerRequestBool = true
         
         //delegating the tableView
+    
         self.homeTableView.delegate = self
         self.homeTableView.dataSource = self
         self.homeTableView.rowHeight = 70
@@ -88,6 +90,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         setInitalMapRegion()
         homeMapView.register(MKMarkerAnnotationView.self, forAnnotationViewWithReuseIdentifier: "itemMarkerView")
         
+        homeMapView.register(ItemClusterView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultClusterAnnotationViewReuseIdentifier)
+
         
         setupSearchBar()
         setupPostButton()
@@ -155,6 +159,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     @objc func searchButtonAction(){
         
+  
         view.bringSubview(toFront: searchBar)
         
         if (searchBarHeightConstraint.constant == 45){
@@ -263,6 +268,9 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         AppData.sharedInstance.onlineOfferedItems.sort(by:
             { $0.distance(to: getLocation()) < $1.distance(to: getLocation())})
         
+        AppData.sharedInstance.onlineRequestedItems.sort(by:
+            { $0.distance(to: getLocation()) < $1.distance(to: getLocation())})
+        
         self.homeTableView.reloadData();
     }
     
@@ -305,7 +313,9 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         NotificationCenter.default.addObserver(self, selector: #selector(notificationsPosted(notification:)), name: NSNotification.Name(rawValue: myRequestsDownloadedNotificationKey), object: nil)
     }
     
-    func setNotificationsFromDelegator() {
+    func setNotificationsFromDelegator(category: ItemCategory?) {
+        
+        currentCategory = category
         setupItemsDownloadNotifications()
     }
     
@@ -466,7 +476,11 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             self.homeTableView.refreshControl?.attributedTitle = attributedTitle
         }
         
-        self.homeTableView.reloadData()
+        setupItemsDownloadNotifications()
+        
+        ReadFirebaseData.readOffers(category: currentCategory)
+        ReadFirebaseData.readRequests(category: currentCategory)
+    
         self.homeTableView.refreshControl?.endRefreshing()
     }
 

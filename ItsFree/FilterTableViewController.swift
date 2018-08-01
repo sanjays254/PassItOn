@@ -10,7 +10,7 @@ import UIKit
 
 protocol NotificationDelegate {
     
-    func setNotificationsFromDelegator()
+    func setNotificationsFromDelegator(category: ItemCategory?)
     
 }
 
@@ -92,16 +92,19 @@ class FilterTableViewController: UITableViewController {
                     if(indexPath.row == 0){
                         ReadFirebaseData.readOffers(category:nil)
                         ReadFirebaseData.readRequests(category: nil)
+                         notificationDelegate.setNotificationsFromDelegator(category: nil)
 
                     }
                     else {
                         ReadFirebaseData.readOffers(category: ItemCategory.enumName(index:indexPath.row-1))
                         
                         ReadFirebaseData.readRequests(category: ItemCategory.enumName(index:indexPath.row-1))
+                        
+                        notificationDelegate.setNotificationsFromDelegator(category: ItemCategory.enumName(index:indexPath.row-1))
                     }
         
 
-        notificationDelegate.setNotificationsFromDelegator()
+       
         
    
      

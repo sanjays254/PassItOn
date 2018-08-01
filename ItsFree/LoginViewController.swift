@@ -80,6 +80,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         
         setToLogIn()
         login()
+        
+        
     }
     
     func login(){

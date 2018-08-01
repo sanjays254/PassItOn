@@ -29,8 +29,21 @@ class WriteFirebaseData {
             if AppData.sharedInstance.currentUser!.offeredItems.first == "" {
                 AppData.sharedInstance.currentUser!.offeredItems.remove(at: 0)
             }
-            AppData.sharedInstance.currentUser!.offeredItems.append(itemRef)
-            AppData.sharedInstance.currentUserOfferedItems.append(item)
+            
+            //if were editing, dont append, but replace
+ 
+                if let index = AppData.sharedInstance.currentUser!.offeredItems.index(of: itemRef){
+                    AppData.sharedInstance.currentUserOfferedItems[index] = item
+                }
+                else {
+                    
+                    AppData.sharedInstance.currentUser!.offeredItems.append(itemRef)
+                    AppData.sharedInstance.currentUserOfferedItems.append(item)
+                    
+                }
+                
+            
+            
             break
         case 1:
             itemRef = "requests/"
@@ -38,8 +51,17 @@ class WriteFirebaseData {
             if AppData.sharedInstance.currentUser!.requestedItems.first == "" {
                 AppData.sharedInstance.currentUser!.requestedItems.remove(at: 0)
             }
-            AppData.sharedInstance.currentUser!.requestedItems.append(itemRef)
-            AppData.sharedInstance.currentUserRequestedItems.append(item)
+            
+            //if were editing, dont append, but replace
+            if let index = AppData.sharedInstance.currentUser!.requestedItems.index(of: itemRef){
+                AppData.sharedInstance.currentUserRequestedItems[index] = item
+            }
+            else {
+                
+                AppData.sharedInstance.currentUser!.requestedItems.append(itemRef)
+                AppData.sharedInstance.currentUserRequestedItems.append(item)
+                
+            }
             break
         default:
             print("Error: Invalid argument passed for 'type'")

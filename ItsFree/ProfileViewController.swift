@@ -441,16 +441,17 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
                 cell.itemLabel.font = UIFont.italicSystemFont(ofSize: 16)
                 cell.itemImageView.isHidden = true
                 cell.itemImageViewWidthConstraint.constant = 0
-                cell.itemLabel.centerXAnchor.constraint(equalTo: cell.centerXAnchor).isActive = true
+                //cell.itemLabel.centerXAnchor.constraint(equalTo: cell.centerXAnchor).isActive = true
                 cell.setNeedsLayout()
             }
             else {
                 let item = AppData.sharedInstance.currentUserOfferedItems[indexPath.row]
                 cell.itemLabel?.text = item.name
                 cell.itemLabel.font = UIFont(name: "GillSans", size: 20)
-                cell.itemLabel.centerXAnchor.constraint(equalTo: cell.centerXAnchor).isActive = false
+                //cell.itemLabel.centerXAnchor.constraint(equalTo: cell.centerXAnchor).isActive = false
                 cell.itemImageViewWidthConstraint.constant = 77
                 storageRef = Storage.storage().reference()
+                cell.itemImageView.isHidden = false
                 cell.itemImageView?.sd_setImage(with: storageRef.child(item.photos[0]), placeholderImage: UIImage.init(named: "placeholder"))
                 cell.setNeedsLayout()
             }
@@ -461,15 +462,16 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
                 cell.itemLabel.font = UIFont.italicSystemFont(ofSize: 16)
                 cell.itemImageView.isHidden = true
                 cell.itemImageViewWidthConstraint.constant = 0
-               cell.itemLabel.centerXAnchor.constraint(equalTo: cell.centerXAnchor).isActive = true
+               //cell.itemLabel.centerXAnchor.constraint(equalTo: cell.centerXAnchor).isActive = true
                 cell.setNeedsLayout()
             }
             else {
                 let item = AppData.sharedInstance.currentUserRequestedItems[indexPath.row]
                 cell.itemLabel?.text = item.name
                 cell.itemLabel.font = UIFont(name: "GillSans", size: 20)
-                cell.itemLabel.centerXAnchor.constraint(equalTo: cell.centerXAnchor).isActive = false
+                //cell.itemLabel.centerXAnchor.constraint(equalTo: cell.centerXAnchor).isActive = false
                 cell.itemImageViewWidthConstraint.constant = 77
+                cell.itemImageView.isHidden = false
                 cell.itemImageView?.sd_setImage(with: storageRef.child(item.photos[0]), placeholderImage: UIImage.init(named: "placeholder"))
                 cell.setNeedsLayout()
             }
@@ -525,6 +527,8 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        
         if (segue.identifier == "editPostSegue"){
             let destinationPostVC = segue.destination as! PostViewController
             destinationPostVC.itemToEdit = selectedItemToEdit

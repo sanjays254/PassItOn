@@ -227,6 +227,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
             offerRequestSegmentedControl.frame = CGRect(x: 0, y: 0, width: 120, height: 30)
             offerRequestSegmentedControl.tintColor = UIProperties.sharedUIProperties.lightGreenColour
             offerRequestSegmentedControl.backgroundColor = UIProperties.sharedUIProperties.blackColour
+            offerRequestSegmentedControl.isEnabled = false
             self.navigationItem.titleView = offerRequestSegmentedControl
             offerRequestSegmentedControl.center.x = (self.navigationItem.titleView?.center.x)!
             offerRequestSegmentedControl.selectedSegmentIndex = offerRequestIndex
@@ -946,6 +947,12 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
 //            
 //        }
         
+        if (descriptionTextField.text == "Optional Description"){
+            
+            descriptionTextField.text = ""
+            
+        }
+        
         guard (chosenCategory != nil) else {
             let alert = UIAlertController(title: "Whoops", message: "You must add a category", preferredStyle: UIAlertControllerStyle.alert)
             alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.default, handler: nil))
@@ -975,26 +982,30 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
             tags.tagsArray = chosenTagsArray
         }
         
-        let realItem: Item = Item.init(name: titleTextField.text!, category: chosenCategory, description: descriptionTextField.text!, location: selectedLocationCoordinates, posterUID:  user.UID, quality: chosenQuality, tags: tags, photos: [""], value: Int(valueTextField.text!) ?? 0,  itemUID: nil)
+//        let realItem: Item = Item.init(name: titleTextField.text!, category: chosenCategory, description: descriptionTextField.text!, location: selectedLocationCoordinates, posterUID:  user.UID, quality: chosenQuality, tags: tags, photos: [""], value: Int(valueTextField.text!) ?? 0,  itemUID: nil)
         
         var photoRefs:[String] = []
         
         BusyActivityView.show(inpVc: self)
         
         if (editingBool){
+            
+             let realItem: Item = Item.init(name: titleTextField.text!, category: chosenCategory, description: descriptionTextField.text!, location: selectedLocationCoordinates, posterUID:  user.UID, quality: chosenQuality, tags: tags, photos: [""], value: Int(valueTextField.text!) ?? 0,  itemUID: itemToEdit.UID)
+            
+            
             //NEED TO CHANGE THIS APPROACH OF DELETING THE ITEM FIRST
-            WriteFirebaseData.delete(itemUID: itemToEdit.UID, completion: {(success) in
-                
-                if (success){
-                    
-                    
-                }
-                else {
-                    
-                    
-                }
-                
-            })
+//            WriteFirebaseData.delete(itemUID: itemToEdit.UID, completion: {(success) in
+//
+//                if (success){
+//
+//
+//                }
+//                else {
+//
+//
+//                }
+//
+//            })
             
             
             if (photosArray.count+itemToEdit.photos.count) == 0 {
@@ -1013,6 +1024,9 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
             else {
                 
                 photoRefs = itemToEdit.photos
+                
+                if (photosArray.count > 0){
+                
                 for index in 0..<photosArray.count {
                     let storagePath = "\(realItem.UID!)/\(index)"
                     
@@ -1033,14 +1047,14 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
                                                             
                                                             if (success){
                                                                 
-                                                                Alert.Show(inpVc: self, customAlert: nil, inpTitle: "Done", inpMessage: "Your item was successfully uploaded", inpOkTitle: "Ok")
+                                                                Alert.Show(inpVc: self, customAlert: nil, inpTitle: "Done", inpMessage: "Your item was successfully edited", inpOkTitle: "Ok")
                                                                 
                                                                 BusyActivityView.hide()
                                                                 self.navigationController?.popToRootViewController(animated: true)
                                                                 
                                                             }
                                                             else {
-                                                                Alert.Show(inpVc: self, customAlert: nil, inpTitle: "Error", inpMessage: "Your item could not be posted. Please try again", inpOkTitle: "Ok")
+                                                                Alert.Show(inpVc: self, customAlert: nil, inpTitle: "Error", inpMessage: "Your item could not be edited. Please try again", inpOkTitle: "Ok")
                                                                 
                                                                 BusyActivityView.hide()
                                                             }
@@ -1062,10 +1076,38 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
                                                 
                     })
                 }
+                }
+                else{
+                    
+                    realItem.photos = photoRefs
+                    
+                    WriteFirebaseData.write(item: realItem, type: self.offerRequestSegmentedControl.selectedSegmentIndex){(success) in
+                        
+                        if (success){
+                            
+                            Alert.Show(inpVc: self, customAlert: nil, inpTitle: "Done", inpMessage: "Your item was successfully uploaded", inpOkTitle: "Ok")
+                            
+                            BusyActivityView.hide()
+                            self.navigationController?.popToRootViewController(animated: true)
+                            
+                        }
+                        else {
+                            Alert.Show(inpVc: self, customAlert: nil, inpTitle: "Error", inpMessage: "Your item could not be posted. Please try again", inpOkTitle: "Ok")
+                            
+                            BusyActivityView.hide()
+                        }
+                    }
+                    
+                    
+                }
             }
         }
         else {
         
+            
+             let realItem: Item = Item.init(name: titleTextField.text!, category: chosenCategory, description: descriptionTextField.text!, location: selectedLocationCoordinates, posterUID:  user.UID, quality: chosenQuality, tags: tags, photos: [""], value: Int(valueTextField.text!) ?? 0,  itemUID: nil)
+            
+            
             if (photosArray.count == 0) {
                 
                 if(offerRequestSegmentedControl.selectedSegmentIndex == 0){
@@ -1148,6 +1190,9 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
     }
     
     @IBAction func postItem(_ sender: UIBarButtonItem) {
+        
+        resignAllKeyboardResponders()
+        
         switch(qualitySegmentedControl.selectedSegmentIndex){
         case 0: chosenQuality = ItemQuality.New
         case 1: chosenQuality = ItemQuality.GentlyUsed
@@ -1475,11 +1520,15 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         return true
     }
     
-    @objc func dismissKeyboard (_ sender: UITapGestureRecognizer) {
+    fileprivate func resignAllKeyboardResponders() {
         titleTextField.resignFirstResponder()
         descriptionTextField.resignFirstResponder()
         customTagTextField.resignFirstResponder()
         valueTextField.resignFirstResponder()
+    }
+    
+    @objc func dismissKeyboard (_ sender: UITapGestureRecognizer) {
+        resignAllKeyboardResponders()
     }
     
     //fullcreen image methods

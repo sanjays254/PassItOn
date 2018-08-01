@@ -17,7 +17,6 @@ class ReadFirebaseData: NSObject {
     static var offersHandle:UInt? = nil
     static var requestsHandle:UInt? = nil
     
-    //get all offered items
     class func readOffers(category:ItemCategory?) {
         if ( Auth.auth().currentUser == nil)
         {
@@ -31,11 +30,15 @@ class ReadFirebaseData: NSObject {
         else {
             ref = AppData.sharedInstance.offersNode.child("\(category!.rawValue)")
         }
-        let tempHandle = ref.observe(DataEventType.value, with: { (snapshot) in
+        ref.observeSingleEvent(of: .value, with: { (snapshot) in
             let value = snapshot.value as? NSDictionary;
             
             if ( value == nil) {
                 NotificationCenter.default.post(name: Notification.Name(rawValue: "noOfferedItemsInCategoryKey"), object: nil)
+                
+                let myOffersDownloadedNotificationKey = "myOffersDownloadedNotificationKey"
+                NotificationCenter.default.post(name: Notification.Name(rawValue: myOffersDownloadedNotificationKey), object: nil)
+                
                 return
             }
             AppData.sharedInstance.onlineOfferedItems.removeAll()
@@ -53,22 +56,14 @@ class ReadFirebaseData: NSObject {
                 let data = value as? [String:Any]
                 readOffer(data: data!)
             }
-            let myDownloadNotificationKey = "myDownloadNotificationKey"
-            NotificationCenter.default.post(name: Notification.Name(rawValue: myDownloadNotificationKey), object: nil)
+            let myOffersDownloadedNotificationKey = "myOffersDownloadedNotificationKey"
+            NotificationCenter.default.post(name: Notification.Name(rawValue: myOffersDownloadedNotificationKey), object: nil)
             
-            let myOffersDownloadNotificationKey = "myOffersDownloadNotificationKey"
-            NotificationCenter.default.post(name: Notification.Name(rawValue: myOffersDownloadNotificationKey), object: nil)
-            
-            let myDownloadCompleteNotificationKey = "myDownloadCompleteNotificationKey"
-            NotificationCenter.default.post(name: Notification.Name(rawValue: myDownloadCompleteNotificationKey), object: nil)
         })
         
-        if offersHandle != nil {
-            ref.removeObserver(withHandle: offersHandle!)
-        }
-        offersHandle = tempHandle
-        
+
     }
+    
     
     //get all requested items
     class func readRequests(category:ItemCategory?) {
@@ -84,12 +79,16 @@ class ReadFirebaseData: NSObject {
             ref = AppData.sharedInstance.requestsNode.child("\(category!.rawValue)")
         }
         
-        let tempHandle = ref.observe(DataEventType.value, with: { (snapshot) in
+        ref.observeSingleEvent(of: .value, with: { (snapshot) in
             
             let value = snapshot.value as? NSDictionary
             
             if ( value == nil) {
                 NotificationCenter.default.post(name: Notification.Name(rawValue: "noRequestedItemsInCategoryKey"), object: nil)
+                
+                let myRequestsDownloadedNotificationKey = "myRequestsDownloadedNotificationKey"
+                NotificationCenter.default.post(name: Notification.Name(rawValue: myRequestsDownloadedNotificationKey), object: nil)
+                
                 return
             }
             
@@ -108,66 +107,177 @@ class ReadFirebaseData: NSObject {
                 let data = value as? [String:Any]
                 readRequest(data: data!)
             }
-            let myDownloadNotificationKey = "myDownloadNotificationKey"
-            NotificationCenter.default.post(name: Notification.Name(rawValue: myDownloadNotificationKey), object: nil)
+            let myRequestsDownloadedNotificationKey = "myRequestsDownloadedNotificationKey"
+            NotificationCenter.default.post(name: Notification.Name(rawValue: myRequestsDownloadedNotificationKey), object: nil)
             
-            let myRequestsDownloadNotificationKey = "myRequestsDownloadNotificationKey"
-            NotificationCenter.default.post(name: Notification.Name(rawValue: myRequestsDownloadNotificationKey), object: nil)
-            
-            let myDownloadCompleteNotificationKey = "myDownloadCompleteNotificationKey"
-            NotificationCenter.default.post(name: Notification.Name(rawValue: myDownloadCompleteNotificationKey), object: nil)
         })
-        if requestsHandle != nil {
-            ref.removeObserver(withHandle: requestsHandle!)
-        }
-        requestsHandle = tempHandle
     }
     
-    //get all users
-    class func readUsers() {
+    
+//    class func readRequests(category:ItemCategory?) {
+//        if ( Auth.auth().currentUser == nil) {
+//            return
+//        }
+//
+//        var ref:DatabaseReference
+//        if category == nil {
+//            ref = AppData.sharedInstance.requestsNode
+//        }
+//        else {
+//            ref = AppData.sharedInstance.requestsNode.child("\(category!.rawValue)")
+//        }
+//
+//        let tempHandle = ref.observe(DataEventType.value, with: { (snapshot) in
+//
+//            let value = snapshot.value as? NSDictionary
+//
+//            if ( value == nil) {
+//                NotificationCenter.default.post(name: Notification.Name(rawValue: "noRequestedItemsInCategoryKey"), object: nil)
+//
+//                let myRequestsDownloadedNotificationKey = "myRequestsDownloadedNotificationKey"
+//                NotificationCenter.default.post(name: Notification.Name(rawValue: myRequestsDownloadedNotificationKey), object: nil)
+//
+//                return
+//            }
+//
+//            AppData.sharedInstance.onlineRequestedItems.removeAll()
+//
+//            //if no category filter applied**
+//            if category == nil {
+//                for thisCategory in value! {
+//                    print("\n\n\(thisCategory.key)")
+//                    let data = thisCategory.value as! [String:Any]
+//                    print(data)
+//                    readRequest(data: data)
+//                }
+//            }
+//            else {
+//                let data = value as? [String:Any]
+//                readRequest(data: data!)
+//            }
+//            let myRequestsDownloadedNotificationKey = "myRequestsDownloadedNotificationKey"
+//            NotificationCenter.default.post(name: Notification.Name(rawValue: myRequestsDownloadedNotificationKey), object: nil)
+//
+//        })
+//        if requestsHandle != nil {
+//            ref.removeObserver(withHandle: requestsHandle!)
+//        }
+//        requestsHandle = tempHandle
+//    }
+    
+    
+    //getMyCurrentUser
+    class func readCurrentUser(){
         if ( Auth.auth().currentUser == nil) {
             return
         }
         
-        AppData.sharedInstance.onlineUsers.removeAll()        
-        AppData.sharedInstance.usersNode
-            .observeSingleEvent(of: .value, with: { (snapshot) in
+        AppData.sharedInstance.usersNode.observeSingleEvent(of: .value, with: {(snapshot) in
+            
+            let value = snapshot.value as? NSDictionary
+            
+            if ( value == nil) {
+                return
+            }
+            if let currentUserUID = Auth.auth().currentUser?.uid {
+                if let currentUser = value?["\(currentUserUID)"] {
+            
+                let user: [String:Any] = currentUser as! [String:Any]
+                 
+                    let userUID: String = user["UID"] as! String
+                let ratingInt = user["rating"] as! NSNumber
+                var readUserOffers: [String]
+                var readUserRequests: [String]
                 
-                let value = snapshot.value as? NSDictionary
-                
-                if ( value == nil) {
-                    return
+                if (user.keys.contains("offers")){
+                    readUserOffers = (user["offers"] as? [String])!
+                }
+                else {
+                    readUserOffers = [] as [String]
                 }
                 
-                for any in (value?.allValues)! {
-                    let user: [String:Any] = any as! [String:Any]
-                    let userUID: String = user["UID"] as! String
+                if (user.keys.contains("requests")){
+                    readUserRequests = (user["requests"] as? [String])!
+                }
+                else {
+                    readUserRequests = [] as [String]
+                }
+                
+                var index = 0
+                for i in readUserOffers{
+                    
+                    if(i == ""){
+                        readUserOffers.remove(at: index)
+                    }
+                    else {
+                        index = index+1
+                    }
+                }
+                
+                
+                index = 0
+                for i in readUserRequests{
+                    
+                    if(i == ""){
+                        readUserRequests.remove(at: index)
+                    }
+                    else {
+                        index = index+1
+                    }
+                }
+                
+                let readUser = User(email: (user["email"] ?? "no email") as! String,phoneNumber: (user["phoneNumber"] ?? 0) as! Int, name: user["name"] as! String, rating: Int(truncating: ratingInt), uid: (user["UID"] ?? "no UID") as! String, profileImage: (user["profileImage"] ?? "no profileImage") as! String, offers: readUserOffers, requests: readUserRequests)
+            
+            
+                    AppData.sharedInstance.currentUser = readUser
+                    
+                    storeCurrentUsersItems(userUID: userUID)
+                    
+                    let myUserDownloadNotificationKey = "myUserDownloadNotificationKey"
+                    NotificationCenter.default.post(name: Notification.Name(rawValue: myUserDownloadNotificationKey), object: nil)
+           
+                }
+            }
+            
+        })
+        
+    }
+    
+    //readUserBasics
+    class func readUserBasics(userUID: String, completion: @escaping (_ success: Bool, _ user: User?) -> Void ){
+        
+        AppData.sharedInstance.usersNode.child(userUID).observeSingleEvent(of: .value, with: {(snapshot) in
+            
+            if let userSnapshot = snapshot.value as? NSDictionary {
+       
+                    let user: [String:Any] = userSnapshot as! [String:Any]
+                
                     let ratingInt = user["rating"] as! NSNumber
                     var readUserOffers: [String]
                     var readUserRequests: [String]
                     
                     if (user.keys.contains("offers")){
-                         readUserOffers = (user["offers"] as? [String])!
+                        readUserOffers = (user["offers"] as? [String])!
                     }
                     else {
-                         readUserOffers = [] as [String]
+                        readUserOffers = [] as [String]
                     }
                     
                     if (user.keys.contains("requests")){
-                         readUserRequests = (user["requests"] as? [String])!
+                        readUserRequests = (user["requests"] as? [String])!
                     }
                     else {
-                         readUserRequests = [] as [String]
+                        readUserRequests = [] as [String]
                     }
                     
                     var index = 0
                     for i in readUserOffers{
-                    
+                        
                         if(i == ""){
                             readUserOffers.remove(at: index)
                         }
                         else {
-                        index = index+1
+                            index = index+1
                         }
                     }
                     
@@ -184,16 +294,62 @@ class ReadFirebaseData: NSObject {
                     }
                     
                     let readUser = User(email: (user["email"] ?? "no email") as! String,phoneNumber: (user["phoneNumber"] ?? 0) as! Int, name: user["name"] as! String, rating: Int(truncating: ratingInt), uid: (user["UID"] ?? "no UID") as! String, profileImage: (user["profileImage"] ?? "no profileImage") as! String, offers: readUserOffers, requests: readUserRequests)
+                
+                
+                completion(true, readUser)
+                
+            
+            }
+            else {
+                completion(false, nil)
+            }
+        })
+    }
+    
+    
+    //get all users
+    class func readUsers(completion: @escaping (_ success: Bool) -> Void) {
+        if ( Auth.auth().currentUser == nil) {
+            return
+        }
+        
+        AppData.sharedInstance.onlineUsers.removeAll()        
+        AppData.sharedInstance.usersNode
+            .observeSingleEvent(of: .value, with: { (snapshot) in
+                
+                let value = snapshot.value as? NSDictionary
+                
+                if ( value == nil) {
+                    return
+                }
+                
+                var index = 0
+                
+                for any in (value?.allValues)! {
+                
+                    let user: [String:Any] = any as! [String:Any]
+                    let userUID: String = user["UID"] as! String
                     
-                    AppData.sharedInstance.onlineUsers.append(readUser)
-                    print("appending items")
                     
-                     if (userUID == Auth.auth().currentUser?.uid){
+                    readUserBasics(userUID: userUID, completion: {(success, user) in
                         
-                        AppData.sharedInstance.currentUser = readUser
-                    
-                        storeCurrentUsersItems(userUID: userUID)
-                    }
+                        index += 1
+                        
+                        if (success){
+                            AppData.sharedInstance.onlineUsers.append(user!)
+                            
+                        }
+                        else {
+                            print("Error reading user with uid: \(userUID)")
+                        }
+                        
+                        if (value?.count == index){
+                            completion(true)
+                        }
+                        
+                    })
+
+
                 
                 }
                 let myUsersDownloadNotificationKey = "myUsersDownloadNotificationKey"
@@ -208,11 +364,19 @@ class ReadFirebaseData: NSObject {
             let item: [String:Any] = any.value as! [String:Any]
             let readItem = Item(with: item)
             if readItem != nil {
-                AppData.sharedInstance.onlineOfferedItems.append(readItem!)
-                print("appending offered items")
+                if (!AppData.sharedInstance.onlineOfferedItems.contains(readItem!)){
+                    AppData.sharedInstance.onlineOfferedItems.append(readItem!)
+                    print("appending offered items")
+                }
+                else {
+                    print("item has already been added")
+                }
+                
+               
             }
             else {
                 print("Nil found in offered items")
+                
             }
         }
     }
@@ -223,8 +387,13 @@ class ReadFirebaseData: NSObject {
             let item: [String:Any] = any.value as! [String:Any]
             let readItem = Item(with: item)
             if readItem != nil {
-                AppData.sharedInstance.onlineRequestedItems.append(readItem!)
-                print("appending requested items")
+                 if (!AppData.sharedInstance.onlineRequestedItems.contains(readItem!)){
+                    AppData.sharedInstance.onlineRequestedItems.append(readItem!)
+                    print("appending requested items")
+                }
+                 else {
+                    print("item has already been added")
+                }
             }
             else {
                 print("Nil found in requested items")
@@ -239,26 +408,86 @@ class ReadFirebaseData: NSObject {
         AppData.sharedInstance.currentUserRequestedItems = []
        
         for itemRef in (AppData.sharedInstance.currentUser?.offeredItems)! {
-                
-                let itemUID = String(itemRef.suffix(20))
-                
-                let item = AppData.sharedInstance.onlineOfferedItems.filter{ $0.UID == itemUID}.first!
             
-         //   if !(AppData.sharedInstance.currentUserOfferedItems.contains(item)){
+            
+            let ref:DatabaseReference = Database.database().reference().child(itemRef)
+        
+            ref.observeSingleEvent(of: .value, with: { (snapshot) in
                 
-                AppData.sharedInstance.currentUserOfferedItems.append(item)
-           // }
-            }
+                if let value = snapshot.value as? NSDictionary{
+            
+                let item: [String:Any] = value as! [String:Any]
+                
+                let readItem = Item(with: item)
+                
+                if readItem != nil {
+                    if (!AppData.sharedInstance.currentUserOfferedItems.contains(readItem!)){
+                        AppData.sharedInstance.currentUserOfferedItems.append(readItem!)
+                        print("appending offered items")
+                    }
+                    else {
+                        print("item has already been added")
+                    }
+                    
+                    
+                }
+                }
+                else {
+                    //remove itemRef from my refs
+                    if let itemRefToRemoveIndex = AppData.sharedInstance.currentUser?.offeredItems.index(of:itemRef) {
+                        AppData.sharedInstance.currentUser?.offeredItems.remove(at: itemRefToRemoveIndex)
+                        
+                        WriteFirebaseData.write(user: AppData.sharedInstance.currentUser!, completion: { (success) in
+                            
+                            print("user was updated")
+                            
+                            })
+                    }
+                    
+                    
+                }
+         
+            })
+        }
         
         for itemRef in (AppData.sharedInstance.currentUser?.requestedItems)! {
             
-            let itemUID = String(itemRef.suffix(20))
+            let ref:DatabaseReference = Database.database().reference().child(itemRef)
             
-            let item = AppData.sharedInstance.onlineRequestedItems.filter{ $0.UID == itemUID}.first!
-            
-           // if !(AppData.sharedInstance.currentUserRequestedItems.contains(item)){
-            AppData.sharedInstance.currentUserRequestedItems.append(item)
-           // }
+            ref.observeSingleEvent(of: .value, with: { (snapshot) in
+                
+                if let value = snapshot.value as? NSDictionary {
+                
+                let item: [String:Any] = value as! [String:Any]
+                
+                let readItem = Item(with: item)
+                
+                if readItem != nil {
+                    if (!AppData.sharedInstance.currentUserRequestedItems.contains(readItem!)){
+                        AppData.sharedInstance.currentUserRequestedItems.append(readItem!)
+                        print("appending offered items")
+                    }
+                    else {
+                        print("item has already been added")
+                    }
+                    
+                    
+                }
+                }
+                else {
+                    //remove itemRef from my refs
+                    if let itemRefToRemoveIndex = AppData.sharedInstance.currentUser?.requestedItems.index(of:itemRef) {
+                        AppData.sharedInstance.currentUser?.requestedItems.remove(at: itemRefToRemoveIndex)
+                        
+                        WriteFirebaseData.write(user: AppData.sharedInstance.currentUser!, completion: { (success) in
+                            
+                            print("user was updated")
+                            
+                        })
+                    }
+                }
+                
+            })
             
         }
     }

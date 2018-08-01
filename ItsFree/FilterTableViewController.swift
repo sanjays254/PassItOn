@@ -8,9 +8,17 @@
 
 import UIKit
 
+protocol NotificationDelegate {
+    
+    func setNotificationsFromDelegator(category: ItemCategory?)
+    
+}
+
+
 class FilterTableViewController: UITableViewController {
 
     var categoryTableView: UITableView!
+    var notificationDelegate: NotificationDelegate!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,30 +66,48 @@ class FilterTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        switch availableBool {
-        case true :
-            if(indexPath.row == 0){
-                ReadFirebaseData.readOffers(category:nil)
-            }
-            else {
-                ReadFirebaseData.readOffers(category: ItemCategory.enumName(index:indexPath.row-1))
-            }
-            
-        case false :
-            if(indexPath.row == 0){
-                ReadFirebaseData.readRequests(category: nil)
-            }
-            else {
-                ReadFirebaseData.readRequests(category: ItemCategory.enumName(index:indexPath.row-1))
-            }
-            
-        case .none:
-            break
-            
-        case .some(_):
-            break
-        }
+        //switch offerRequestBool {
+       // case true :
+//            if(indexPath.row == 0){
+//                ReadFirebaseData.readOffers(category:nil)
+//            }
+//            else {
+//                ReadFirebaseData.readOffers(category: ItemCategory.enumName(index:indexPath.row-1))
+//            }
         
+       // case false :
+//            if(indexPath.row == 0){
+//                ReadFirebaseData.readRequests(category: nil)
+//            }
+//            else {
+//                ReadFirebaseData.readRequests(category: ItemCategory.enumName(index:indexPath.row-1))
+//            }
+//
+      //  case .none:
+      //      break
+            
+      //  case .some(_):
+      //      break
+        
+                    if(indexPath.row == 0){
+                        ReadFirebaseData.readOffers(category:nil)
+                        ReadFirebaseData.readRequests(category: nil)
+                         notificationDelegate.setNotificationsFromDelegator(category: nil)
+
+                    }
+                    else {
+                        ReadFirebaseData.readOffers(category: ItemCategory.enumName(index:indexPath.row-1))
+                        
+                        ReadFirebaseData.readRequests(category: ItemCategory.enumName(index:indexPath.row-1))
+                        
+                        notificationDelegate.setNotificationsFromDelegator(category: ItemCategory.enumName(index:indexPath.row-1))
+                    }
+        
+
+       
+        
+   
+     
         NotificationCenter.default.addObserver(self, selector: #selector(presentNonRequestedAlert), name: NSNotification.Name(rawValue: "noRequestedItemsInCategoryKey"), object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(presentNonAvailableAlert), name: NSNotification.Name(rawValue: "noOfferedItemsInCategoryKey"), object: nil)
@@ -92,7 +118,7 @@ class FilterTableViewController: UITableViewController {
     
     @objc func presentNonAvailableAlert(){
 
-        let noValuesAlert = UIAlertController(title: "No items!", message: "Nothing is available in this category", preferredStyle: UIAlertControllerStyle.alert)
+        let noValuesAlert = UIAlertController(title: "No items!", message: "Nothing is available in this category, but there may be some requests", preferredStyle: UIAlertControllerStyle.alert)
 
         let okayAction = UIAlertAction(title: "Okay", style: UIAlertActionStyle.default, handler: nil)
 
@@ -103,7 +129,7 @@ class FilterTableViewController: UITableViewController {
 
     @objc func presentNonRequestedAlert(){
 
-        let noValuesAlert = UIAlertController(title: "No items!", message: "Nothing is requested for in this category", preferredStyle: UIAlertControllerStyle.alert)
+        let noValuesAlert = UIAlertController(title: "No items!", message: "Nothing is requested for in this category, but there may be something available", preferredStyle: UIAlertControllerStyle.alert)
 
         let okayAction = UIAlertAction(title: "Okay", style: UIAlertActionStyle.default, handler: nil)
 

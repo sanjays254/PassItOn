@@ -9,7 +9,6 @@
 import UIKit
 import MapKit
 
-
 class MapViewDelegate: NSObject, MKMapViewDelegate {
     
     var theMapView: MKMapView!
@@ -69,7 +68,6 @@ class MapViewDelegate: NSObject, MKMapViewDelegate {
         case .indoorDecor : newMarkerView.glyphImage = #imageLiteral(resourceName: "indoorDecor")
         case .outdoorDecor : newMarkerView.glyphImage = #imageLiteral(resourceName: "outdoorDecor")
         case .other : newMarkerView.glyphImage = #imageLiteral(resourceName: "random")
-        default :newMarkerView.glyphImage = #imageLiteral(resourceName: "compass")
         }
     }
     
@@ -78,26 +76,27 @@ class MapViewDelegate: NSObject, MKMapViewDelegate {
         
         let newItemMarkerView = mapView.dequeueReusableAnnotationView(withIdentifier: "itemMarkerView", for: annotation) as! MKMarkerAnnotationView
         
-        if let cluster = annotation as? MKClusterAnnotation {
-            
-            if(cluster.memberAnnotations.count > 1){
-                newItemMarkerView.glyphText = String(cluster.memberAnnotations.count)
-                return newItemMarkerView
-            }
-                
-            else {
-                setMarkerPropertiesFor(newMarkerView: newItemMarkerView, item: item)
-            }
-        }
-        else {
+        newItemMarkerView.clusteringIdentifier = "clusteringIdentifier"
+        
+//        if let cluster = annotation as? MKClusterAnnotation {
+//
+//            if(cluster.memberAnnotations.count > 1){
+//                newItemMarkerView.glyphText = String(cluster.memberAnnotations.count)
+//                return newItemMarkerView
+//            }
+//
+//            else {
+//                setMarkerPropertiesFor(newMarkerView: newItemMarkerView, item: item)
+//            }
+//        }
+//        else {
         setMarkerPropertiesFor(newMarkerView: newItemMarkerView, item: item)
-        }
+//        }
         return newItemMarkerView
     }
     
     func getPostMarkerFor(annotation: MKAnnotation, mapView: MKMapView) -> MKAnnotationView? {
        
-        
         let postLocationMarkerView = mapView.dequeueReusableAnnotationView(withIdentifier: "postLocationMarkerView", for: annotation) as! MKMarkerAnnotationView
         
         postLocationMarkerView.glyphTintColor = UIProperties.sharedUIProperties.purpleColour
@@ -105,7 +104,39 @@ class MapViewDelegate: NSObject, MKMapViewDelegate {
         return postLocationMarkerView
     }
     
+    
+    func mapView(_ mapView: MKMapView, clusterAnnotationForMemberAnnotations memberAnnotations: [MKAnnotation]) -> MKClusterAnnotation {
+        
+        return MKClusterAnnotation(memberAnnotations: memberAnnotations)
+        
+    }
+    
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        
+        if let cluster = annotation as? MKClusterAnnotation {
+            
+     //       if(cluster.memberAnnotations.count > 1){
+                
+                let markerAnnotationView = MKMarkerAnnotationView()
+                markerAnnotationView.glyphText = String(cluster.memberAnnotations.count)
+                markerAnnotationView.markerTintColor = UIProperties.sharedUIProperties.purpleColour
+                markerAnnotationView.glyphTintColor = UIProperties.sharedUIProperties.lightGreenColour
+                markerAnnotationView.titleVisibility = .hidden
+                markerAnnotationView.subtitleVisibility = .hidden
+                markerAnnotationView.canShowCallout = false
+                
+                return markerAnnotationView
+    //        }
+                
+    //        else {
+                //setMarkerPropertiesFor(newMarkerView: newItemMarkerView, item: item)
+    //        }
+        }
+        else {
+           // setMarkerPropertiesFor(newMarkerView: newItemMarkerView, item: item)
+        }
+        
+        
         if (annotation is MKUserLocation){
             return nil
         }
@@ -128,6 +159,19 @@ class MapViewDelegate: NSObject, MKMapViewDelegate {
         if (view.annotation is MKUserLocation){
            return
         }
+        else if (view.annotation is MKClusterAnnotation){
+            
+            if let cluster = view.annotation as? MKClusterAnnotation {
+                //span needs to show all annotations, so needs to be a dynamic number
+                let span = getDistanceOfFurthestAnnotations(annotations: cluster.memberAnnotations)
+                
+                
+                
+                theMapView.setRegion(MKCoordinateRegionMake((view.annotation?.coordinate)!, span) , animated: true)
+            }
+            
+            
+        }
         else {
             let span = MKCoordinateSpanMake(0.02, 0.02)
             theMapView.setRegion(MKCoordinateRegionMake((view.annotation?.coordinate)!, span) , animated: true)
@@ -145,6 +189,40 @@ class MapViewDelegate: NSObject, MKMapViewDelegate {
     func displaySelectedAnnotation(annotation: MKPointAnnotation){
         theMapView.removeAnnotations(theMapView.annotations)
         theMapView.addAnnotation(annotation)
+    }
+    
+    func getDistanceOfFurthestAnnotations(annotations: [MKAnnotation]) -> MKCoordinateSpan{
+        
+        var furthestDistance: CLLocationDistance = 0.0
+        var span: MKCoordinateSpan = MKCoordinateSpanMake(0, 0)
+        
+        for firstAnnotation in annotations {
+            for secondAnnotation in annotations {
+                
+                let firstAnnotationCoordinate = firstAnnotation.coordinate
+                let secondAnnotationCoordinate = secondAnnotation.coordinate
+                
+                let firstAnnotationLocation = CLLocation(latitude: firstAnnotationCoordinate.latitude, longitude: firstAnnotationCoordinate.longitude)
+                let secondAnnotationLocation = CLLocation(latitude: secondAnnotationCoordinate.latitude, longitude: secondAnnotationCoordinate.longitude)
+                
+               
+                
+                
+                let distance = firstAnnotationLocation.distance(from: secondAnnotationLocation)
+                
+                if distance > furthestDistance {
+                    furthestDistance = distance
+                    
+                    span =  MKCoordinateSpanMake(CLLocationDegrees(abs(firstAnnotationCoordinate.latitude - secondAnnotationCoordinate.latitude)*1.4), CLLocationDegrees(abs(firstAnnotationCoordinate.longitude - secondAnnotationCoordinate.longitude)*1.4))
+                    
+                }
+                
+            }
+        }
+       
+        
+        return span
+        
     }
 
 }

@@ -185,6 +185,8 @@ class PostMapViewController: UIViewController, UISearchBarDelegate, MKMapViewDel
     
     @objc func tappedALocation(sender: UITapGestureRecognizer) {
         
+        BusyActivityView.show(inpVc: self)
+        
         let touchLocation = sender.location(in: postMapView)
         let locationCoordinate = postMapView.convert(touchLocation, toCoordinateFrom: postMapView)
         
@@ -199,6 +201,8 @@ class PostMapViewController: UIViewController, UISearchBarDelegate, MKMapViewDel
         CLGeocoder().reverseGeocodeLocation(CLLocation(latitude: locationCoordinate.latitude, longitude: locationCoordinate.longitude), completionHandler: {(placemarks, error) -> Void in
             if error != nil {
                 print("Reverse geocoder failed with error" + (error?.localizedDescription)!)
+                
+                BusyActivityView.hide()
                 return
             }
             
@@ -225,11 +229,15 @@ class PostMapViewController: UIViewController, UISearchBarDelegate, MKMapViewDel
                     print("Problem with the data received from geocoder")
                     
                 }
+                
+                BusyActivityView.hide()
             }
             else {
                 self.pointAnnotation.title = "Unknown Place"
                 self.postMapView.addAnnotation(self.pointAnnotation)
                 print("Problem with the data received from geocoder")
+                
+                BusyActivityView.hide()
             }
            // places.append(["name":annotation.title,"latitude":"\(locationCoordinate.latitude)","longitude":"\(locationCoordinate.longitude)"])
         })
@@ -239,10 +247,14 @@ class PostMapViewController: UIViewController, UISearchBarDelegate, MKMapViewDel
     
     @IBAction func useMyLocationButton(_ sender: UIButton) {
         
+        BusyActivityView.show(inpVc: self)
+        
         
         CLGeocoder().reverseGeocodeLocation(LocationManager.theLocationManager.getLocation(), completionHandler: {(placemarks, error) -> Void in
             if error != nil {
                 print("Reverse geocoder failed with error" + (error?.localizedDescription)!)
+                
+                BusyActivityView.hide()
                 return
             }
             
@@ -253,12 +265,16 @@ class PostMapViewController: UIViewController, UISearchBarDelegate, MKMapViewDel
                 self.previousVC.selectedLocationString = pm.thoroughfare! + ", " + pm.subThoroughfare!
                 self.previousVC.selectedLocationCoordinates = LocationManager.theLocationManager.getLocation().coordinate
                 
+                BusyActivityView.hide()
+                
                 // not all places have thoroughfare & subThoroughfare so validate those values
             }
             else {
                 self.pointAnnotation.title = "Unknown Place"
                 self.postMapView.addAnnotation(self.pointAnnotation)
                 print("Problem with the data received from geocoder")
+                
+                BusyActivityView.hide()
             }
             // places.append(["name":annotation.title,"latitude":"\(locationCoordinate.latitude)","longitude":"\(locationCoordinate.longitude)"])
         })

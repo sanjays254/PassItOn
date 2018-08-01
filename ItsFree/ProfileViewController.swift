@@ -12,7 +12,7 @@ import FirebaseDatabase
 
 class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate{
     
-    let myDowloadCompletedNotificationKey = "myUsersDownloadNotificationKey"
+    let myDowloadCompletedNotificationKey = "myUserDownloadNotificationKey"
 
     @IBOutlet weak var backButton: UIButton!
     @IBOutlet weak var editButton: UIButton!
@@ -53,9 +53,9 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     override func viewDidLoad() {
         super.viewDidLoad()
         
+    
         NotificationCenter.default.addObserver(self, selector: #selector(setUpProfileText), name: NSNotification.Name(rawValue: myDowloadCompletedNotificationKey), object: nil)
         
-        ReadFirebaseData.readUsers()
         imagePicker.delegate = self
         editingProfile = false
         
@@ -81,6 +81,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         self.leaderboardButton.layer.masksToBounds = false
         
 
+        ReadFirebaseData.readCurrentUser()
         
         setUpProfilePicture()
         setUpProfileText()
@@ -95,6 +96,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.setNavigationBarHidden(true, animated: true)
         myPostsTableView.reloadData()
+        
     }
     
     override func didReceiveMemoryWarning() {
@@ -260,7 +262,23 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
             else {
                 user?.name = usernameTextField.text!
                 usernameLabel.text = user?.name
-                WriteFirebaseData.write(user: user!)
+                WriteFirebaseData.write(user: user!, completion: {(success) in
+                    
+                    if (success){
+                        
+                        BusyActivityView.hide()
+                        
+                    }
+                    else {
+                        
+                        
+                        Alert.Show(inpVc: self, customAlert: nil, inpTitle: "Error", inpMessage: "Couldn't change your details", inpOkTitle: "Try again")
+                        
+                        BusyActivityView.hide()
+                        
+                    }
+                    
+                })
             }
             
             if (phoneNumberTextField.text == ""){
@@ -277,7 +295,23 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
             else {
                 user?.phoneNumber = Int(phoneNumberTextField.text!)!
                 phoneNumberLabel.text = String((user?.phoneNumber)!)
-                WriteFirebaseData.write(user: user!)
+                WriteFirebaseData.write(user: user!, completion: {(success) in
+                    
+                    if (success){
+                        
+                        BusyActivityView.hide()
+                        
+                    }
+                    else {
+                        
+                        
+                        Alert.Show(inpVc: self, customAlert: nil, inpTitle: "Error", inpMessage: "Couldn't change your details", inpOkTitle: "Try again")
+                        
+                        BusyActivityView.hide()
+                        
+                    }
+                    
+                })
             }
             
             editingProfile = false
@@ -314,10 +348,48 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         myImage = info[UIImagePickerControllerOriginalImage] as? UIImage
         
-        let imagePath = ImageManager.uploadImage(image: myImage!, userUID: (user?.UID)!, filename: "profileImage")
+        BusyActivityView.show(inpVc: self)
         
-        AppData.sharedInstance.usersNode.child((user?.UID)!).child("profileImage").setValue(imagePath)
-        profileImageView.image = myImage
+        ImageManager.uploadImage(image: myImage!, userUID: (user?.UID)!, filename: "profileImage", completion: {(success, path) in
+        
+            if (success){
+                
+                AppData.sharedInstance.usersNode.child((self.user?.UID)!).child("profileImage").setValue(path, withCompletionBlock: {(error, ref) in
+                    
+                    if (error == nil){
+                        
+                        DispatchQueue.main.async {
+                            
+                            self.profileImageView.image = self.myImage
+                            self.profileImageView.setNeedsDisplay()
+                        }
+                        
+                        Alert.Show(inpVc: self, customAlert: nil, inpTitle: "Success", inpMessage: "Your profile picture was updated", inpOkTitle: "Ok")
+                        
+                        BusyActivityView.hide()
+                        
+                    }
+                    else {
+                        Alert.Show(inpVc: self, customAlert: nil, inpTitle: "Error", inpMessage: "Your profile picture didnt get saved", inpOkTitle: "Try again")
+                        
+                        BusyActivityView.hide()
+                        
+                    }
+                    
+                })
+            }
+            else {
+                
+                //error
+                Alert.Show(inpVc: self, customAlert: nil, inpTitle: "Error", inpMessage: "Your new profile picture was uploaded, but there was error in your account", inpOkTitle: "Try again")
+                
+                BusyActivityView.hide()
+                
+            }
+            
+            
+        })
+        
         dismiss(animated: true, completion: nil)
     }
     
@@ -369,16 +441,17 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
                 cell.itemLabel.font = UIFont.italicSystemFont(ofSize: 16)
                 cell.itemImageView.isHidden = true
                 cell.itemImageViewWidthConstraint.constant = 0
-                cell.itemLabel.centerXAnchor.constraint(equalTo: cell.centerXAnchor).isActive = true
+                //cell.itemLabel.centerXAnchor.constraint(equalTo: cell.centerXAnchor).isActive = true
                 cell.setNeedsLayout()
             }
             else {
                 let item = AppData.sharedInstance.currentUserOfferedItems[indexPath.row]
                 cell.itemLabel?.text = item.name
                 cell.itemLabel.font = UIFont(name: "GillSans", size: 20)
-                cell.itemLabel.centerXAnchor.constraint(equalTo: cell.centerXAnchor).isActive = false
+                //cell.itemLabel.centerXAnchor.constraint(equalTo: cell.centerXAnchor).isActive = false
                 cell.itemImageViewWidthConstraint.constant = 77
                 storageRef = Storage.storage().reference()
+                cell.itemImageView.isHidden = false
                 cell.itemImageView?.sd_setImage(with: storageRef.child(item.photos[0]), placeholderImage: UIImage.init(named: "placeholder"))
                 cell.setNeedsLayout()
             }
@@ -389,15 +462,16 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
                 cell.itemLabel.font = UIFont.italicSystemFont(ofSize: 16)
                 cell.itemImageView.isHidden = true
                 cell.itemImageViewWidthConstraint.constant = 0
-               cell.itemLabel.centerXAnchor.constraint(equalTo: cell.centerXAnchor).isActive = true
+               //cell.itemLabel.centerXAnchor.constraint(equalTo: cell.centerXAnchor).isActive = true
                 cell.setNeedsLayout()
             }
             else {
                 let item = AppData.sharedInstance.currentUserRequestedItems[indexPath.row]
                 cell.itemLabel?.text = item.name
                 cell.itemLabel.font = UIFont(name: "GillSans", size: 20)
-                cell.itemLabel.centerXAnchor.constraint(equalTo: cell.centerXAnchor).isActive = false
+                //cell.itemLabel.centerXAnchor.constraint(equalTo: cell.centerXAnchor).isActive = false
                 cell.itemImageViewWidthConstraint.constant = 77
+                cell.itemImageView.isHidden = false
                 cell.itemImageView?.sd_setImage(with: storageRef.child(item.photos[0]), placeholderImage: UIImage.init(named: "placeholder"))
                 cell.setNeedsLayout()
             }
@@ -453,6 +527,8 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        
         if (segue.identifier == "editPostSegue"){
             let destinationPostVC = segue.destination as! PostViewController
             destinationPostVC.itemToEdit = selectedItemToEdit
@@ -480,19 +556,52 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
             
             var itemUID: String
             
+            BusyActivityView.show(inpVc: self)
+            
             switch offersRequestsSegmentedControl.selectedSegmentIndex {
             case 0:
                 itemUID = AppData.sharedInstance.currentUserOfferedItems[indexPath.row].UID
-                WriteFirebaseData.delete(itemUID: itemUID)
+                WriteFirebaseData.delete(itemUID: itemUID, completion: {(success) in
+                    
+                    
+                    BusyActivityView.hide()
+                    
+                    if (success){
+                        
+                        tableView.deleteRows(at: [indexPath], with: .automatic)
+                        
+                        Alert.Show(inpVc: self, customAlert: nil, inpTitle: "Done", inpMessage: "Your item was successfully deleted", inpOkTitle: "Ok")
+                        
+                        
+                    }
+                    else {
+                        Alert.Show(inpVc: self, customAlert: nil, inpTitle: "Error", inpMessage: "Your item could not be deleted", inpOkTitle: "Try again later")
+                    }
+                    
+                })
                 
             case 1:
                 itemUID = AppData.sharedInstance.currentUserRequestedItems[indexPath.row].UID
-                WriteFirebaseData.delete(itemUID: itemUID)
+                WriteFirebaseData.delete(itemUID: itemUID, completion: {(success) in
+                    
+                    BusyActivityView.hide()
+                    
+                    if (success){
+                        
+                        tableView.deleteRows(at: [indexPath], with: .automatic)
+                    
+                        Alert.Show(inpVc: self, customAlert: nil, inpTitle: "Done", inpMessage: "Your item was successfully deleted", inpOkTitle: "Ok")
+                    
+                    }
+                    else {
+                        Alert.Show(inpVc: self, customAlert: nil, inpTitle: "Error", inpMessage: "Your item could not be deleted", inpOkTitle: "Try again later")
+                    }
+                })
                 
             default:
                 return
             }
-            tableView.deleteRows(at: [indexPath], with: .automatic)
+           
         }
     }
     
@@ -559,13 +668,46 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
             self.editButton.setImage(#imageLiteral(resourceName: "edit"), for: .normal)
         }, completion: nil)
         
+        BusyActivityView.show(inpVc: self)
         
-        WriteFirebaseData.write(user: user!)
+        WriteFirebaseData.write(user: user!, completion: {(success) in
+            
+            if (success){
+                
+                BusyActivityView.hide()
+                
+            }
+            else {
+                
+                
+                Alert.Show(inpVc: self, customAlert: nil, inpTitle: "Error", inpMessage: "Couldn't change your details", inpOkTitle: "Try again")
+                
+                BusyActivityView.hide()
+                
+            }
+            
+        })
     }
     
     func saveUserData(){
         
-        WriteFirebaseData.write(user: user!)
+        WriteFirebaseData.write(user: user!, completion: {(success) in
+            
+            if (success){
+                
+                BusyActivityView.hide()
+                
+            }
+            else {
+                
+                
+                Alert.Show(inpVc: self, customAlert: nil, inpTitle: "Error", inpMessage: "Couldn't change your details", inpOkTitle: "Try again")
+                
+                BusyActivityView.hide()
+                
+            }
+            
+        })
     }
     
 }

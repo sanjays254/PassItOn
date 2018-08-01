@@ -31,17 +31,37 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
         super.viewDidLoad()
         
         view.backgroundColor = UIColor.clear
+        
     
         setupCollectionView()
         setupItemDetailContainer()
         setupItemLabels()
         setupGestures()
+        
+        
+        ReadFirebaseData.readUserBasics(userUID: currentItem.posterUID, completion: {(success, user) in
+            if (success){
+                
+                self.itemDetailView.posterUsername.text = user!.name
+                self.itemDetailView.posterRating.text = "\(user!.rating)"
+                
+            }
+            else {
+                
+                Alert.Show(inpVc: self, customAlert: nil, inpTitle: "Oops", inpMessage: "The poster seems to have left the app", inpOkTitle: "Ok")
+                
+            }
+            
+            
+        })
+        
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
     
+
     func setupItemDetailContainer(){
         
         itemDetailView.translatesAutoresizingMaskIntoConstraints = false
@@ -98,8 +118,8 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
         itemDetailView.mainImageView.sd_setImage(with: storageRef.child(previewPhotoRef), placeholderImage: UIImage.init(named: "placeholder"))
         //ImageManager.downloadImage(imagePath: previewPhotoRef, into: itemDetailView.mainImageView)
         
-        itemDetailView.posterUsername.text = AppData.sharedInstance.onlineUsers.filter{ $0.UID == currentItem.posterUID }.first?.name
-        itemDetailView.posterRating.text = "\(AppData.sharedInstance.onlineUsers.filter{ $0.UID == currentItem.posterUID }.first?.rating ?? 0)"
+        itemDetailView.posterUsername.text = "Loading ..."
+        itemDetailView.posterRating.text = "0"
         
     
         if (kindOfItem == "Offer"){
@@ -329,40 +349,46 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
     
     
     @IBAction func sendEmail(_ sender: UIButton) {
+        //open chat here
         
-        let destinationUser = AppData.sharedInstance.onlineUsers.filter{ $0.UID == currentItem.posterUID }.first
-
-        if(AppData.sharedInstance.currentUser!.UID == destinationUser?.UID){
-            //show alert
-            let usersOwnItemAlert = UIAlertController(title: "Oops", message: "This item was posted by you", preferredStyle: UIAlertControllerStyle.alert)
-            let okayAction = UIAlertAction(title: "Okay", style: UIAlertActionStyle.default, handler: nil)
-            usersOwnItemAlert.addAction(okayAction)
-            present(usersOwnItemAlert, animated: true, completion: nil)
-
-        }
-        else {
-            
-            if (destinationUser?.phoneNumber != 0){
-            
-            let textOrEmailAlert = UIAlertController(title: "How would you like to message \((destinationUser?.name)!)?", message: "", preferredStyle: .actionSheet)
-            
-            let emailAction = UIAlertAction(title: "Email", style: .default, handler: {_ in
-                self.emailChosen()})
-            
-            let textAction = UIAlertAction(title: "Text", style: .default, handler: {_ in
-                self.textChosen()})
-            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-            
-            textOrEmailAlert.addAction(emailAction)
-            textOrEmailAlert.addAction(textAction)
-            textOrEmailAlert.addAction(cancelAction)
-            
-            self.present(textOrEmailAlert, animated: true, completion: nil)
-            }
-            else {
-                emailChosen()
-            }
-        }
+        
+        
+        
+        
+        
+//        let destinationUser = AppData.sharedInstance.onlineUsers.filter{ $0.UID == currentItem.posterUID }.first
+//
+//        if(AppData.sharedInstance.currentUser!.UID == destinationUser?.UID){
+//            //show alert
+//            let usersOwnItemAlert = UIAlertController(title: "Oops", message: "This item was posted by you", preferredStyle: UIAlertControllerStyle.alert)
+//            let okayAction = UIAlertAction(title: "Okay", style: UIAlertActionStyle.default, handler: nil)
+//            usersOwnItemAlert.addAction(okayAction)
+//            present(usersOwnItemAlert, animated: true, completion: nil)
+//
+//        }
+//        else {
+//
+//            if (destinationUser?.phoneNumber != 0){
+//
+//            let textOrEmailAlert = UIAlertController(title: "How would you like to message \((destinationUser?.name)!)?", message: "", preferredStyle: .actionSheet)
+//
+//            let emailAction = UIAlertAction(title: "Email", style: .default, handler: {_ in
+//                self.emailChosen()})
+//
+//            let textAction = UIAlertAction(title: "Text", style: .default, handler: {_ in
+//                self.textChosen()})
+//            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+//
+//            textOrEmailAlert.addAction(emailAction)
+//            textOrEmailAlert.addAction(textAction)
+//            textOrEmailAlert.addAction(cancelAction)
+//
+//            self.present(textOrEmailAlert, animated: true, completion: nil)
+//            }
+//            else {
+//                emailChosen()
+//            }
+//        }
 
     }
     

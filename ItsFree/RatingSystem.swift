@@ -16,7 +16,7 @@ class RatingSystem: NSObject {
         
         urlToParse = url
         
-        NotificationCenter.default.addObserver(self, selector: #selector(parseURLAndRateUser), name: NSNotification.Name(rawValue: "myDownloadCompleteNotificationKey"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(parseURLAndRateUser), name: NSNotification.Name(rawValue: "myRequestsDownloadedCompleteNotificationKey"), object: nil)
         
         ReadFirebaseData.readOffers(category: nil)
         ReadFirebaseData.readRequests(category: nil)

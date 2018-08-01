@@ -67,6 +67,9 @@ class AuthenticationManager {
     
     
     class func addToKeychain(email:String, password:String) {
+        
+        
+        
         print("Adding to keychain...")
         let keychain = Keychain(service: "com.itsFree")
         
@@ -102,6 +105,8 @@ class AuthenticationManager {
         Auth.auth().signIn(withEmail: email,
                            password: password)
         { (authUser, loginError) in
+            
+            
             if loginError == nil {
                 let userUID = Auth.auth().currentUser?.uid
                 AppData.sharedInstance.usersNode.child(userUID!)
@@ -119,6 +124,9 @@ class AuthenticationManager {
                 print("Login Successful")
                 guestUser = false
                 addToKeychain(email: email, password: password)
+                
+                BusyActivityView.hide()
+                
                 let flag = true
                 completionHandler(flag)
             }
@@ -134,12 +142,19 @@ class AuthenticationManager {
                 loginFailedAlert.addAction(okayAction)
                 mainVC.present(loginFailedAlert, animated: true, completion: nil)
                 
+                BusyActivityView.hide()
+                
             }
         }
     }
     
-    class func loginWithTouchID(email:String, completionHandler: @escaping (_ success: Bool) -> Void ) {
+    class func loginWithTouchID(vc: UIViewController, email:String, completionHandler: @escaping (_ success: Bool) -> Void ) {
+        
+        
+        
         let keychain = Keychain(service: "com.itsFree")
+    
+        
         DispatchQueue.global().async {
             do {
                 let password = try keychain
@@ -147,6 +162,11 @@ class AuthenticationManager {
                     .get(email)
                 
                 print("password: \(String(describing: password))")
+                
+                DispatchQueue.main.async {
+                    
+                    BusyActivityView.show(inpVc: vc)
+                }
                 AuthenticationManager.login(withEmail: email, password: password!, completionHandler: completionHandler)
             } catch let error {
                 // Error handling if needed...

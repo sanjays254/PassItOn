@@ -13,18 +13,13 @@ import UIKit
 import MapKit
 import FirebaseStorage
 
-
-
 public var offerRequestBool: Bool!
 
-class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate, MKMapViewDelegate, UINavigationControllerDelegate, UISearchBarDelegate, NotificationDelegate {
-
+class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate, MKMapViewDelegate, UINavigationControllerDelegate, UISearchBarDelegate, NotificationDelegate, LoggedOutDelegate {
     
-    let mySelectedItemNotificationKey = "theNotificationKey"
-    
+    let mySelectedItemNotificationKey = "mySelectedItemNotificationKey"
     let myOffersDownloadedNotificationKey = "myOffersDownloadedNotificationKey"
     let myRequestsDownloadedNotificationKey = "myRequestsDownloadedNotificationKey"
-    
     let filterAppliedKey = "filterAppliedKey"
     
     var offersDownloaded: Bool!
@@ -34,24 +29,18 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     weak var locationManager: CLLocationManager!
     
     var compassButton: UIButton!
-    
     var mapListSegmentedControl: UISegmentedControl!
-    
     
     @IBOutlet weak var wantedAvailableSegmentedControl: UISegmentedControl!
     @IBOutlet weak var newPostButton: UIBarButtonItem!
     @IBOutlet weak var homeMapView: MKMapView!
     @IBOutlet weak var homeTableView: UITableView!
-    
-    @IBOutlet weak var homeTableViewTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var toolbar: UIToolbar!
-  
     @IBOutlet weak var searchBar: UISearchBar!
+    @IBOutlet weak var profileButton: UIBarButtonItem!
     
     @IBOutlet weak var searchBarHeightConstraint: NSLayoutConstraint!
-    
-    
-    @IBOutlet weak var profileButton: UIBarButtonItem!
+    @IBOutlet weak var homeTableViewTopConstraint: NSLayoutConstraint!
     
     var itemDetailContainerView: UIView!
     var filterContainerView: UIView!
@@ -74,11 +63,9 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         offerRequestBool = true
         
         //delegating the tableView
-    
         self.homeTableView.delegate = self
         self.homeTableView.dataSource = self
         self.homeTableView.rowHeight = 70
-
         
         self.homeTableView.refreshControl = UIRefreshControl()
         self.homeTableView.refreshControl?.backgroundColor = UIProperties.sharedUIProperties.purpleColour
@@ -107,12 +94,38 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         ReadFirebaseData.readOffers(category: nil)
         ReadFirebaseData.readRequests(category: nil)
      
-        ReadFirebaseData.readCurrentUser()
+        readCurrentUser()
     
-        if(firstTimeUser){
-            presentAlertIfFirstTime()
+        if let firstTimeUserUnwrapped = firstTimeUser{
+            if (firstTimeUserUnwrapped){
+                presentAlertIfFirstTime()
+            }
         }
     }
+    func readCurrentUser(){
+        
+        profileButton.isEnabled = false
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(allowProfileAccess), name: NSNotification.Name(rawValue: "myUserDownloadNotificationKey"), object: nil)
+        
+        ReadFirebaseData.readCurrentUser()
+    }
+    
+    
+    func goToLoginVC() {
+        
+        if (UIApplication.shared.keyWindow?.rootViewController as? LoginViewController) != nil {
+            self.navigationController?.popToRootViewController(animated: true)
+            
+        }
+        else {
+            let storyboard = UIStoryboard(name: "Login", bundle: nil)
+            let loginVC = storyboard.instantiateViewController(withIdentifier: "loginViewController")
+    
+            self.present(loginVC, animated: true, completion: nil)
+        }
+    }
+    
     
     func setupSearchBar(){
         
@@ -159,14 +172,12 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     @objc func searchButtonAction(){
         
-  
         view.bringSubview(toFront: searchBar)
         
         if (searchBarHeightConstraint.constant == 45){
             UIView.animate(withDuration: 0.5, animations: {
                 self.searchBarHeightConstraint.constant = 0
                 self.view.layoutIfNeeded()
-                
                 
             }, completion: {(finished: Bool) in
                 self.searchBar.resignFirstResponder()
@@ -179,7 +190,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             self.searchBarHeightConstraint.constant = 45
             
              self.view.layoutIfNeeded()
-            
             
         }, completion: {(finished: Bool) in
             self.searchBar.becomeFirstResponder()
@@ -275,30 +285,15 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        //super.viewWillAppear(true)
-        
+        super.viewWillAppear(true)
         MapViewDelegate.theMapViewDelegate.theMapView = homeMapView
-        
-        if (loggedInBool == false){
-            self.dismiss(animated: true, completion: nil)
-        }
-        
-        else {
-//            NotificationCenter.default.addObserver(self, selector: #selector(notificationsPosted(notification:)), name: NSNotification.Name(rawValue: myRequestsDownloadedNotificationKey), object: nil)
-            
-        }
+
     }
     
     
     func setupNotifications(){
-        // NotificationCenter.default.addObserver(self, selector: #selector(self.refreshData), name: NSNotification.Name(rawValue: filterAppliedKey), object: nil)
     
         setupItemsDownloadNotifications()
-        
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(allowProfileAccess), name: NSNotification.Name(rawValue: "myUserDownloadNotificationKey"), object: nil)
-        
-        
         
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: mySelectedItemNotificationKey), object: nil, queue: nil, using: catchNotification)
     }
@@ -334,24 +329,10 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
         self.homeTableView.reloadData()
     }
-    
-//    @objc func refreshData(){
-//        if(wantedAvailableSegmentedControl.selectedSegmentIndex == 0){
-//            self.homeMapView.removeAnnotations(AppData.sharedInstance.onlineOfferedItems)
-//            self.homeMapView.addAnnotations(AppData.sharedInstance.onlineRequestedItems)
-//            homeTableView.reloadData()
-//        }
-//        else if (wantedAvailableSegmentedControl.selectedSegmentIndex == 1){
-//            self.homeMapView.removeAnnotations(AppData.sharedInstance.onlineRequestedItems)
-//            self.homeMapView.addAnnotations(AppData.sharedInstance.onlineOfferedItems)
-//            homeTableView.reloadData()
-//        }
-//
-//    }
+
     
     @objc func notificationsPosted(notification: NSNotification){
-        
-
+    
         if(notification.name == NSNotification.Name(rawValue: myOffersDownloadedNotificationKey)){
             offersDownloaded = true
             NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: myOffersDownloadedNotificationKey), object: nil)
@@ -372,8 +353,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             addAnnotationsWhenFinishedDownloadingData()
             
         }
-        
- 
     }
     
     
@@ -382,7 +361,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         sortTableView()
         BusyActivityView.hide()
         
-       
     }
     
     func removeAndAddAnnotations(){
@@ -491,7 +469,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         let postAsGuestAlert = UIAlertController(title: "Sorry", message: "You need an account to make a post", preferredStyle: .alert)
         let createAccountAction = UIAlertAction(title: "Log in", style: .default, handler: { (alert: UIAlertAction!) in
-            self.dismiss(animated: true, completion: nil)
+            self.goToLoginVC()
             loggedInBool = false
         })
         let cancelAction = UIAlertAction(title: "Just browse", style: .cancel, handler: nil)
@@ -509,9 +487,9 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     @objc func allowProfileAccess(){
         
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: "myUserDownloadNotificationKey"), object: nil)
+    
         profileButton.isEnabled = true
-        
-        
     }
     
     @IBAction func toProfile(_ sender: Any) {
@@ -520,7 +498,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             
             let postAsGuestAlert = UIAlertController(title: "Login/Signup?", message: nil, preferredStyle: .alert)
             let createAccountAction = UIAlertAction(title: "Yes", style: .default, handler: { (alert: UIAlertAction!) in
-                self.dismiss(animated: true, completion: nil)
+                self.goToLoginVC()
                 loggedInBool = false
             })
             let cancelAction = UIAlertAction(title: "No, Just browse", style: .cancel, handler: nil)
@@ -534,6 +512,18 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         else {
     
             performSegue(withIdentifier: "toProfileSegue", sender: self)
+            
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if (segue.identifier == "toProfileSegue"){
+            let profileNavC = segue.destination as! UINavigationController
+            
+            let profileVC = profileNavC.viewControllers[0] as! ProfileViewController
+            profileVC.logoutDelegate = self
+            
+            
         }
     }
     

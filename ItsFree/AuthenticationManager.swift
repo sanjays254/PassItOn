@@ -11,8 +11,14 @@ import KeychainAccess
 import FirebaseAuth
 import Firebase
 
+protocol AlertDelegate {
+    func presentAlert(alert: UIAlertController)
+}
+
 
 class AuthenticationManager {
+    
+    static var alertDelegate: AlertDelegate!
     
     class func signUp(withEmail email:String, password:String, name:String, completionHandler: @escaping (_ success: Bool) -> Void )  {
         print("Signing up with email: \(email), password: \(password), name: \(name)")
@@ -132,15 +138,25 @@ class AuthenticationManager {
             }
             else {
                 print("login failed: \(loginError.debugDescription)")
+//
+//                var loginVC: LoginViewController
+//
+//                let appDelegate = UIApplication.shared.delegate as! AppDelegate
+//
+//                if let rootVC = appDelegate.window?.rootViewController as? LoginViewController{
+//                    loginVC = rootVC
+//                }
+//                else {
+//                    loginVC =
+//                }
                 
-                 let appDelegate = UIApplication.shared.delegate as! AppDelegate
                 
-                let mainVC = appDelegate.window?.rootViewController as! LoginViewController
                 
                 let loginFailedAlert = UIAlertController(title: "Login failed", message: "Incorrect Email or Password", preferredStyle: .alert)
                 let okayAction = UIAlertAction(title: "Try again", style: .default, handler: nil)
                 loginFailedAlert.addAction(okayAction)
-                mainVC.present(loginFailedAlert, animated: true, completion: nil)
+                
+                alertDelegate.presentAlert(alert: loginFailedAlert)
                 
                 BusyActivityView.hide()
                 
@@ -150,11 +166,8 @@ class AuthenticationManager {
     
     class func loginWithTouchID(vc: UIViewController, email:String, completionHandler: @escaping (_ success: Bool) -> Void ) {
         
-        
-        
         let keychain = Keychain(service: "com.itsFree")
     
-        
         DispatchQueue.global().async {
             do {
                 let password = try keychain

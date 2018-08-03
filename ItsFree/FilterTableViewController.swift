@@ -36,15 +36,12 @@ class FilterTableViewController: UITableViewController {
         // Dispose of any resources that can be recreated.
     }
 
-    // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         return ItemCategory.count+1
     }
 
@@ -65,30 +62,7 @@ class FilterTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        //switch offerRequestBool {
-       // case true :
-//            if(indexPath.row == 0){
-//                ReadFirebaseData.readOffers(category:nil)
-//            }
-//            else {
-//                ReadFirebaseData.readOffers(category: ItemCategory.enumName(index:indexPath.row-1))
-//            }
-        
-       // case false :
-//            if(indexPath.row == 0){
-//                ReadFirebaseData.readRequests(category: nil)
-//            }
-//            else {
-//                ReadFirebaseData.readRequests(category: ItemCategory.enumName(index:indexPath.row-1))
-//            }
-//
-      //  case .none:
-      //      break
-            
-      //  case .some(_):
-      //      break
-        
+ 
                     if(indexPath.row == 0){
                         ReadFirebaseData.readOffers(category:nil)
                         ReadFirebaseData.readRequests(category: nil)
@@ -104,9 +78,6 @@ class FilterTableViewController: UITableViewController {
                     }
         
 
-       
-        
-   
      
         NotificationCenter.default.addObserver(self, selector: #selector(presentNonRequestedAlert), name: NSNotification.Name(rawValue: "noRequestedItemsInCategoryKey"), object: nil)
         

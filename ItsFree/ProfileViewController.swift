@@ -7,8 +7,13 @@
 //
 
 import UIKit
+import FirebaseAuth
 import FirebaseStorage
 import FirebaseDatabase
+
+protocol LoggedOutDelegate {
+    func goToLoginVC()
+}
 
 class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate{
     
@@ -49,6 +54,8 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     var tapGesture: UITapGestureRecognizer!
     
     var animateTable: Bool = false
+    
+    var logoutDelegate: LoggedOutDelegate!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -211,10 +218,35 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
             
             //self.navigationController?.popToRootViewController(animated: true)
             self.dismiss(animated: true, completion: nil)
+
+                
+                
+//                if let navController = self.navigationController {
+//                    let homeVC = navController.viewControllers[0]
+//
+//                    let storyboard = UIStoryboard(name: "Login", bundle: nil)
+//
+//                    let loginVC = storyboard.instantiateViewController(withIdentifier: "loginViewController")
+//
+//                    homeVC.present(loginVC, animated: true, completion: nil)
+//
+//                }
+            
+ //           })
+            self.logoutDelegate.goToLoginVC()
+            
+            
+            //to stop touchID prompt when we go back to loginVC
+            UserDefaults.standard.set(false, forKey: "useTouchID")
+
+            
             AppData.sharedInstance.currentUser = nil
             AppData.sharedInstance.currentUserOfferedItems = []
             AppData.sharedInstance.currentUserRequestedItems = []
             loggedInBool = false
+            
+          
+            
         })
         
         let cancelAction = UIAlertAction(title: "No, stay logged in", style: .cancel, handler: nil)

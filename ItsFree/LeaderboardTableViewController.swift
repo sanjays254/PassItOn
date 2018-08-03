@@ -12,9 +12,7 @@ import FirebaseStorage
 
 
 class LeaderboardTableViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
-    
-   
-    
+
     @IBOutlet weak var doneButton: UIButton!
     @IBOutlet weak var leaderboardLabel: UILabel!
     @IBOutlet weak var findMeButton: UIButton!
@@ -147,8 +145,6 @@ class LeaderboardTableViewController: UIViewController, UITableViewDataSource, U
         }
         
         cell.profileImageView.sd_setImage(with: storageRef.child(photoRef), placeholderImage: #imageLiteral(resourceName: "userPlaceholder") )
-        
-        //cell.profileImageView.image = sortedUsers[indexPath.row].profileImage
         cell.ratingLabel.text = String(sortedUsers[indexPath.row].rating)
         
         return cell

@@ -14,7 +14,7 @@ public var loggedInBool: Bool!
 public var firstTimeUser: Bool!
 public var guestUser: Bool!
 
-class LoginViewController: UIViewController, UITextFieldDelegate {
+class LoginViewController: UIViewController, UITextFieldDelegate, AlertDelegate{
     
     var rememberMeKey = "rememberMe"
     var useTouchID = "useTouchID"
@@ -78,6 +78,9 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         
         guestLoginButton.tintColor = UIProperties.sharedUIProperties.purpleColour
         
+        AuthenticationManager.alertDelegate = self
+        
+        
         setToLogIn()
         login()
         
@@ -119,6 +122,11 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
+    //delegated method
+    func presentAlert(alert: UIAlertController) {
+        self.present(alert, animated: true, completion: nil)
+    }
+
 
     //this is called from the AppDelegate, if the app was opened with a URL Schema, and we werent logged in
     func loginAndRate(url: URL){
@@ -375,9 +383,15 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     
     func loginSuccess() {
         
-        
-        
-        performSegue(withIdentifier: "continueToHome", sender: self)
+        if let homeNavV = self.presentingViewController as? UINavigationController {
+            let homeVC = homeNavV.viewControllers[0] as! HomeViewController
+            homeVC.readCurrentUser()
+            
+            self.dismiss(animated: true, completion: nil)
+        }
+        else {
+            performSegue(withIdentifier: "continueToHome", sender: self)
+        }
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

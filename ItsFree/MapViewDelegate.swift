@@ -14,7 +14,7 @@ class MapViewDelegate: NSObject, MKMapViewDelegate {
     var theMapView: MKMapView!
     var currentLocation: CLLocation? = LocationManager.theLocationManager.getLocation()
     
-    let myNotificationKey = "theNotificationKey"
+    let myNotificationKey = "mySelectedItemNotificationKey"
     
     static let theMapViewDelegate = MapViewDelegate()
     

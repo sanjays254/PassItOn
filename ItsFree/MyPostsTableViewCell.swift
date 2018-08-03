@@ -12,7 +12,6 @@ class MyPostsTableViewCell: UITableViewCell {
 
     @IBOutlet weak var itemImageView: UIImageView!
     @IBOutlet weak var itemImageViewWidthConstraint: NSLayoutConstraint!
-    
     @IBOutlet weak var itemLabel: UILabel!
     
     override func awakeFromNib() {

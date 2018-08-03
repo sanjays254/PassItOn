@@ -12,8 +12,7 @@ import FirebaseStorage
 
 class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDelegate, MFMessageComposeViewControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIGestureRecognizerDelegate {
     
-
-
+    
     var detailViewTopAnchorConstant: CGFloat!
     var detailViewBottomAnchorConstant: CGFloat!
     
@@ -31,13 +30,11 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
         super.viewDidLoad()
         
         view.backgroundColor = UIColor.clear
-        
     
         setupCollectionView()
         setupItemDetailContainer()
         setupItemLabels()
         setupGestures()
-        
         
         ReadFirebaseData.readUserBasics(userUID: currentItem.posterUID, completion: {(success, user) in
             if (success){
@@ -51,10 +48,7 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
                 Alert.Show(inpVc: self, customAlert: nil, inpTitle: "Oops", inpMessage: "The poster seems to have left the app", inpOkTitle: "Ok")
                 
             }
-            
-            
         })
-        
     }
     
     override func didReceiveMemoryWarning() {
@@ -116,7 +110,6 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
         itemDetailView.mainImageView.layer.borderWidth = 5
         itemDetailView.mainImageView.layer.cornerRadius = 5
         itemDetailView.mainImageView.sd_setImage(with: storageRef.child(previewPhotoRef), placeholderImage: UIImage.init(named: "placeholder"))
-        //ImageManager.downloadImage(imagePath: previewPhotoRef, into: itemDetailView.mainImageView)
         
         itemDetailView.posterUsername.text = "Loading ..."
         itemDetailView.posterRating.text = "0"
@@ -205,7 +198,7 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
         cell.layer.borderColor = UIProperties.sharedUIProperties.blackColour.cgColor
         cell.layer.borderWidth = 5.0
         cell.layer.cornerRadius = 5.0
-        //ImageManager.downloadImage(imagePath: photoRef[indexPath.item], into: cell.collectionViewImageVew)
+   
         cell.collectionViewImageVew.sd_setImage(with: storageRef.child(photoRef[indexPath.item]), placeholderImage: UIImage.init(named: "placeholder"))
 
         return cell
@@ -318,7 +311,6 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
         else {
         
             let newImageView = UIImageView()
-            //ImageManager.downloadImage(imagePath: imagePath, into: newImageView)
             newImageView.sd_setImage(with: storageRef.child(imagePath), placeholderImage: UIImage.init(named: "placeholder"))
             
             newImageView.frame = UIScreen.main.bounds

@@ -22,6 +22,7 @@ class ImageManager {
         let imageData:Data = UIImageJPEGRepresentation(image, 0.2)!
         let metedata = StorageMetadata()
         metedata.contentType = "image/jpeg"
+
         storageRef.child(storagePath).putData(imageData, metadata: metedata, completion: {(metadata, error) in
             
             if error == nil {
@@ -33,7 +34,37 @@ class ImageManager {
             
             
         })
-    }    
+    }
+    class func uploadUserProfileImage(image:UIImage, userUID:String, completion: @escaping uploadImageClosure) {
+        let storageRef = Storage.storage().reference()
+        let storagePath = "\(userUID)/profileImage"
+        let imageData:Data = UIImageJPEGRepresentation(image, 0.2)!
+        let metedata = StorageMetadata()
+        metedata.contentType = "image/jpeg"
+        
+        storageRef.child(storagePath).putData(imageData).observe(.success, handler: {(snapshot) in
+            if let downloadURL = snapshot.metadata?.downloadURL()?.absoluteString {
+            // Write the download URL to the Realtime Database
+            
+                AppData.sharedInstance.currentUser?.profileImage = downloadURL
+            
+                completion(true, downloadURL)
+            }
+            else {
+                completion(false, nil)
+            }
+            
+            })
+        
+    }
+    
+    
+
+    
+    
 }
+
+
+
 
 

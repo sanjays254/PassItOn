@@ -190,7 +190,8 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         
         storageRef = Storage.storage().reference()
      
-        profileImageView.sd_setImage(with: storageRef.child((AppData.sharedInstance.currentUser?.profileImage)!), placeholderImage: #imageLiteral(resourceName: "userPlaceholder"))
+        profileImageView.sd_setImage(with: URL(string: (user?.profileImage)!), placeholderImage: #imageLiteral(resourceName: "userPlaceholder"), options: .refreshCached, completed: nil)
+    
     }
     
     @IBAction func donePressed(_ sender: Any) {
@@ -366,23 +367,24 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         
         BusyActivityView.show(inpVc: self)
         
-        ImageManager.uploadImage(image: myImage!, userUID: (user?.UID)!, filename: "profileImage", completion: {(success, path) in
+        ImageManager.uploadUserProfileImage(image: myImage!, userUID: (user?.UID)!, completion: {(success, path) in
         
             if (success){
-                
                 AppData.sharedInstance.usersNode.child((self.user?.UID)!).child("profileImage").setValue(path, withCompletionBlock: {(error, ref) in
                     
                     if (error == nil){
+                        //https://firebasestorage.googleapis.com/v0/b/itsfree-fce29.appspot.com/o/HjlZ3CaBZGQbha33p5CLoLwMEFs2%2FprofileImage?alt=media&token=0189daca-cbcc-49f6-adf9-962454555eaa
                         
                         DispatchQueue.main.async {
                             
                         //need to clear this cached image
+                        //USE DOWNLOAD WITH URL WITH OPTIONS!!!
+                            self.profileImageView.sd_setImage(with: URL(string: path!), placeholderImage: self.myImage, options: .refreshCached, completed: nil)
                             
-                            
-                            self.profileImageView.image = self.myImage
+                            //self.profileImageView.image = self.myImage
                             
                            // self.profileImageView.sd_setImage
-                            self.profileImageView.sd_setImage(with: self.storageRef.child((AppData.sharedInstance.currentUser?.profileImage)!), placeholderImage: self.myImage)
+                           // self.profileImageView.sd_setImage(with: self.storageRef.child((AppData.sharedInstance.currentUser?.profileImage)!), placeholderImage: self.myImage)
                            
                         }
                         

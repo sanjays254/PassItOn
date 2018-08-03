@@ -73,7 +73,7 @@ class Item: NSObject, MKAnnotation {
             let inpTagsArray: [String] =  inpDict["tags"] as? [String],
             let inpLocationDict: [String:Double] = inpDict["location"] as? [String:Double],
         
-            let inpValue: Int = (inpDict["value"] as? Int) ?? 0 else
+            let inpValue: Int = (inpDict["value"] as? Int) else
         {
             print("Error: Dictionary is not in the correct format")
             return nil

@@ -407,8 +407,6 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
     
     func textChosen(){
         
-        let destinationUser = AppData.sharedInstance.onlineUsers.filter{ $0.UID == currentItem.posterUID }.first
-        
         let messageController = MFMessageComposeViewController()
         messageController.messageComposeDelegate = self
         

@@ -96,8 +96,6 @@ class LeaderboardTableViewController: UIViewController, UITableViewDataSource, U
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-   
-        let storageRef = Storage.storage().reference()
         let photoRef: String = sortedUsers[indexPath.row].profileImage
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "leaderboardTableViewCell", for: indexPath) as! LeaderboardTableViewCell
@@ -144,7 +142,7 @@ class LeaderboardTableViewController: UIViewController, UITableViewDataSource, U
             cell.positionLabel.text = String(indexPath.row+1)
         }
         
-        cell.profileImageView.sd_setImage(with: storageRef.child(photoRef), placeholderImage: #imageLiteral(resourceName: "userPlaceholder") )
+        cell.profileImageView.sd_setImage(with: URL(string: photoRef), placeholderImage: #imageLiteral(resourceName: "userPlaceholder"), options: .refreshCached, completed: nil)
         cell.ratingLabel.text = String(sortedUsers[indexPath.row].rating)
         
         return cell

@@ -14,9 +14,6 @@ import CoreLocation
 
 class ReadFirebaseData: NSObject {
     
-    static var offersHandle:UInt? = nil
-    static var requestsHandle:UInt? = nil
-    
     class func readOffers(category:ItemCategory?) {
         if ( Auth.auth().currentUser == nil)
         {
@@ -113,57 +110,6 @@ class ReadFirebaseData: NSObject {
         })
     }
     
-    
-//    class func readRequests(category:ItemCategory?) {
-//        if ( Auth.auth().currentUser == nil) {
-//            return
-//        }
-//
-//        var ref:DatabaseReference
-//        if category == nil {
-//            ref = AppData.sharedInstance.requestsNode
-//        }
-//        else {
-//            ref = AppData.sharedInstance.requestsNode.child("\(category!.rawValue)")
-//        }
-//
-//        let tempHandle = ref.observe(DataEventType.value, with: { (snapshot) in
-//
-//            let value = snapshot.value as? NSDictionary
-//
-//            if ( value == nil) {
-//                NotificationCenter.default.post(name: Notification.Name(rawValue: "noRequestedItemsInCategoryKey"), object: nil)
-//
-//                let myRequestsDownloadedNotificationKey = "myRequestsDownloadedNotificationKey"
-//                NotificationCenter.default.post(name: Notification.Name(rawValue: myRequestsDownloadedNotificationKey), object: nil)
-//
-//                return
-//            }
-//
-//            AppData.sharedInstance.onlineRequestedItems.removeAll()
-//
-//            //if no category filter applied**
-//            if category == nil {
-//                for thisCategory in value! {
-//                    print("\n\n\(thisCategory.key)")
-//                    let data = thisCategory.value as! [String:Any]
-//                    print(data)
-//                    readRequest(data: data)
-//                }
-//            }
-//            else {
-//                let data = value as? [String:Any]
-//                readRequest(data: data!)
-//            }
-//            let myRequestsDownloadedNotificationKey = "myRequestsDownloadedNotificationKey"
-//            NotificationCenter.default.post(name: Notification.Name(rawValue: myRequestsDownloadedNotificationKey), object: nil)
-//
-//        })
-//        if requestsHandle != nil {
-//            ref.removeObserver(withHandle: requestsHandle!)
-//        }
-//        requestsHandle = tempHandle
-//    }
     
     
     //getMyCurrentUser

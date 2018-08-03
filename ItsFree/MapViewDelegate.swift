@@ -14,7 +14,7 @@ class MapViewDelegate: NSObject, MKMapViewDelegate {
     var theMapView: MKMapView!
     var currentLocation: CLLocation? = LocationManager.theLocationManager.getLocation()
     
-    let myNotificationKey = "theNotificationKey"
+    let myNotificationKey = "mySelectedItemNotificationKey"
     
     static let theMapViewDelegate = MapViewDelegate()
     
@@ -49,8 +49,53 @@ class MapViewDelegate: NSObject, MKMapViewDelegate {
         theMapView.showsPointsOfInterest = false
     }
     
-    func setMarkerPropertiesFor(newMarkerView: MKMarkerAnnotationView, item: Item){
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        
+        if let cluster = annotation as? MKClusterAnnotation {
+        
+            let markerAnnotationView = MKMarkerAnnotationView()
+            markerAnnotationView.glyphText = String(cluster.memberAnnotations.count)
+            markerAnnotationView.markerTintColor = UIProperties.sharedUIProperties.purpleColour
+            markerAnnotationView.glyphTintColor = UIProperties.sharedUIProperties.lightGreenColour
+            markerAnnotationView.titleVisibility = .hidden
+            markerAnnotationView.subtitleVisibility = .hidden
+            markerAnnotationView.canShowCallout = false
+            
+            return markerAnnotationView
+         
+        }
+        
+        if (annotation is MKUserLocation){
+            return nil
+        }
+        else if (annotation is Item){
+            
+            return self.getMarkerFor(annotation: annotation, mapView: mapView)
+        }
+        else if (annotation is MKPointAnnotation){
+            return self.getPostMarkerFor(annotation: annotation, mapView: mapView)
+        }
+            
+        else {
+            return nil
+        }
+    }
 
+    func getMarkerFor(annotation: MKAnnotation, mapView: MKMapView) -> MKAnnotationView? {
+        let item = annotation as! Item
+        
+        let newItemMarkerView = mapView.dequeueReusableAnnotationView(withIdentifier: "itemMarkerView", for: annotation) as! MKMarkerAnnotationView
+        
+        newItemMarkerView.clusteringIdentifier = "clusteringIdentifier"
+        
+        setMarkerPropertiesFor(newMarkerView: newItemMarkerView, item: item)
+
+        return newItemMarkerView
+    }
+    
+    
+    func setMarkerPropertiesFor(newMarkerView: MKMarkerAnnotationView, item: Item){
+        
         newMarkerView.markerTintColor = UIProperties.sharedUIProperties.purpleColour
         newMarkerView.glyphTintColor = UIProperties.sharedUIProperties.lightGreenColour
         
@@ -71,29 +116,6 @@ class MapViewDelegate: NSObject, MKMapViewDelegate {
         }
     }
     
-    func getMarkerFor(annotation: MKAnnotation, mapView: MKMapView) -> MKAnnotationView? {
-        let item = annotation as! Item
-        
-        let newItemMarkerView = mapView.dequeueReusableAnnotationView(withIdentifier: "itemMarkerView", for: annotation) as! MKMarkerAnnotationView
-        
-        newItemMarkerView.clusteringIdentifier = "clusteringIdentifier"
-        
-//        if let cluster = annotation as? MKClusterAnnotation {
-//
-//            if(cluster.memberAnnotations.count > 1){
-//                newItemMarkerView.glyphText = String(cluster.memberAnnotations.count)
-//                return newItemMarkerView
-//            }
-//
-//            else {
-//                setMarkerPropertiesFor(newMarkerView: newItemMarkerView, item: item)
-//            }
-//        }
-//        else {
-        setMarkerPropertiesFor(newMarkerView: newItemMarkerView, item: item)
-//        }
-        return newItemMarkerView
-    }
     
     func getPostMarkerFor(annotation: MKAnnotation, mapView: MKMapView) -> MKAnnotationView? {
        
@@ -111,47 +133,7 @@ class MapViewDelegate: NSObject, MKMapViewDelegate {
         
     }
     
-    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        
-        if let cluster = annotation as? MKClusterAnnotation {
-            
-     //       if(cluster.memberAnnotations.count > 1){
-                
-                let markerAnnotationView = MKMarkerAnnotationView()
-                markerAnnotationView.glyphText = String(cluster.memberAnnotations.count)
-                markerAnnotationView.markerTintColor = UIProperties.sharedUIProperties.purpleColour
-                markerAnnotationView.glyphTintColor = UIProperties.sharedUIProperties.lightGreenColour
-                markerAnnotationView.titleVisibility = .hidden
-                markerAnnotationView.subtitleVisibility = .hidden
-                markerAnnotationView.canShowCallout = false
-                
-                return markerAnnotationView
-    //        }
-                
-    //        else {
-                //setMarkerPropertiesFor(newMarkerView: newItemMarkerView, item: item)
-    //        }
-        }
-        else {
-           // setMarkerPropertiesFor(newMarkerView: newItemMarkerView, item: item)
-        }
-        
-        
-        if (annotation is MKUserLocation){
-            return nil
-        }
-        else if (annotation is Item){
-            
-            return self.getMarkerFor(annotation: annotation, mapView: mapView)
-        }
-        else if (annotation is MKPointAnnotation){
-            return self.getPostMarkerFor(annotation: annotation, mapView: mapView)
-        }
-    
-        else {
-            return nil
-        }
-    }
+
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
        // mapView.selectAnnotation(view.annotation!, animated: true)
@@ -162,25 +144,51 @@ class MapViewDelegate: NSObject, MKMapViewDelegate {
         else if (view.annotation is MKClusterAnnotation){
             
             if let cluster = view.annotation as? MKClusterAnnotation {
-                //span needs to show all annotations, so needs to be a dynamic number
-                let span = getDistanceOfFurthestAnnotations(annotations: cluster.memberAnnotations)
+                let span = getSpanOfFurthestAnnotations(annotations: cluster.memberAnnotations)
                 
-                
-                
+                //if theyre in the same exact place
+                if (span.latitudeDelta == 0 && span.longitudeDelta == 0){
+                    
+                    theMapView.setRegion(MKCoordinateRegionMake((view.annotation?.coordinate)!, span) , animated: true)
+                    
+                    var index = 0
+                    for annotation in cluster.memberAnnotations{
+                       
+                        if let item = annotation as? Item {
+                           item.coordinate.longitude = item.coordinate.longitude + (Double(index) * 0.0001)
+                        }
+                        theMapView.removeAnnotation(annotation)
+                         index += 1
+                    }
+                    
+                    theMapView.addAnnotations(cluster.memberAnnotations)
+                }
+                else {
                 theMapView.setRegion(MKCoordinateRegionMake((view.annotation?.coordinate)!, span) , animated: true)
+                }
             }
-            
-            
         }
         else {
-            let span = MKCoordinateSpanMake(0.02, 0.02)
-            theMapView.setRegion(MKCoordinateRegionMake((view.annotation?.coordinate)!, span) , animated: true)
             
             guard let myItem = view.annotation as? Item
                 
                 else {
                     return
             }
+            
+            var span: MKCoordinateSpan
+            
+            //keep zoom the same unless were zoomed out
+            if (theMapView.region.span.latitudeDelta > 0.02 || theMapView.region.span.longitudeDelta > 0.02 ) {
+                span = MKCoordinateSpanMake(0.02, 0.02)
+            }
+            else {
+                span = theMapView.region.span
+            }
+            
+            theMapView.setRegion(MKCoordinateRegionMake((view.annotation?.coordinate)!, span) , animated: true)
+            
+    
             
             NotificationCenter.default.post(name: Notification.Name(rawValue: myNotificationKey), object: nil, userInfo: ["name" : myItem])
         }
@@ -191,7 +199,7 @@ class MapViewDelegate: NSObject, MKMapViewDelegate {
         theMapView.addAnnotation(annotation)
     }
     
-    func getDistanceOfFurthestAnnotations(annotations: [MKAnnotation]) -> MKCoordinateSpan{
+    func getSpanOfFurthestAnnotations(annotations: [MKAnnotation]) -> MKCoordinateSpan{
         
         var furthestDistance: CLLocationDistance = 0.0
         var span: MKCoordinateSpan = MKCoordinateSpanMake(0, 0)
@@ -204,9 +212,7 @@ class MapViewDelegate: NSObject, MKMapViewDelegate {
                 
                 let firstAnnotationLocation = CLLocation(latitude: firstAnnotationCoordinate.latitude, longitude: firstAnnotationCoordinate.longitude)
                 let secondAnnotationLocation = CLLocation(latitude: secondAnnotationCoordinate.latitude, longitude: secondAnnotationCoordinate.longitude)
-                
-               
-                
+            
                 
                 let distance = firstAnnotationLocation.distance(from: secondAnnotationLocation)
                 

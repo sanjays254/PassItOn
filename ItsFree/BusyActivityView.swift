@@ -17,28 +17,17 @@ class BusyActivityView: NSObject {
     class func show(inpVc: UIViewController)
     {
         //need this for the loginVC, where UIApplication.shared.keyWindow is still nil
-        var frame: CGRect
-        
-//        if let window = UIApplication.shared.keyWindow {
-//            frame = window.bounds
-//        }
-//        else {
-//            frame = inpVc.view.bounds
-//        }
         
         activityIndicatorOverlayView = UIView()
         activityIndicatorOverlayView.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.5)
         activityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
         activityIndicatorView.hidesWhenStopped  = true
         
-        //activityIndicatorView.frame = activityIndicatorOverlayView.frame
-        
         if let navigationController = inpVc.navigationController {
             
             activityIndicatorOverlayView.frame = navigationController.view.bounds
             navigationController.view.addSubview(activityIndicatorOverlayView)
             navigationController.view.bringSubview(toFront: activityIndicatorOverlayView)
-            
             
         }
         else {

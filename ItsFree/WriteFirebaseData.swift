@@ -72,7 +72,6 @@ class WriteFirebaseData {
             if error != nil {
                 //present alert
                 completion(false)
-    
             }
             
             else {
@@ -176,10 +175,7 @@ class WriteFirebaseData {
                         else {
                             
                             completion(false)
-                            
                         }
-                        
-                        
                     })
                 }
                 else {

@@ -7,8 +7,14 @@
 //
 
 import UIKit
+import FirebaseAuth
 import FirebaseStorage
 import FirebaseDatabase
+import SDWebImage
+
+protocol LoggedOutDelegate {
+    func goToLoginVC()
+}
 
 class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate{
     
@@ -49,6 +55,8 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     var tapGesture: UITapGestureRecognizer!
     
     var animateTable: Bool = false
+    
+    var logoutDelegate: LoggedOutDelegate!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -182,7 +190,8 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         
         storageRef = Storage.storage().reference()
      
-        profileImageView.sd_setImage(with: storageRef.child((AppData.sharedInstance.currentUser?.profileImage)!), placeholderImage: #imageLiteral(resourceName: "userPlaceholder"))
+        profileImageView.sd_setImage(with: URL(string: (user?.profileImage)!), placeholderImage: #imageLiteral(resourceName: "userPlaceholder"), options: .refreshCached, completed: nil)
+    
     }
     
     @IBAction func donePressed(_ sender: Any) {
@@ -209,12 +218,20 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         let logoutAlert = UIAlertController(title: "Sure?", message: "Are you sure you want to log out?", preferredStyle: .alert)
         let logoutAction = UIAlertAction(title: "Yes, Log out", style: .destructive, handler: { (alert: UIAlertAction!) in
             
-            //self.navigationController?.popToRootViewController(animated: true)
             self.dismiss(animated: true, completion: nil)
+
+            self.logoutDelegate.goToLoginVC()
+            
+            //to stop touchID prompt when we go back to loginVC
+            UserDefaults.standard.set(false, forKey: "useTouchID")
+            
             AppData.sharedInstance.currentUser = nil
             AppData.sharedInstance.currentUserOfferedItems = []
             AppData.sharedInstance.currentUserRequestedItems = []
             loggedInBool = false
+            
+          
+            
         })
         
         let cancelAction = UIAlertAction(title: "No, stay logged in", style: .cancel, handler: nil)
@@ -350,18 +367,25 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         
         BusyActivityView.show(inpVc: self)
         
-        ImageManager.uploadImage(image: myImage!, userUID: (user?.UID)!, filename: "profileImage", completion: {(success, path) in
+        ImageManager.uploadUserProfileImage(image: myImage!, userUID: (user?.UID)!, completion: {(success, path) in
         
             if (success){
-                
                 AppData.sharedInstance.usersNode.child((self.user?.UID)!).child("profileImage").setValue(path, withCompletionBlock: {(error, ref) in
                     
                     if (error == nil){
+                        //https://firebasestorage.googleapis.com/v0/b/itsfree-fce29.appspot.com/o/HjlZ3CaBZGQbha33p5CLoLwMEFs2%2FprofileImage?alt=media&token=0189daca-cbcc-49f6-adf9-962454555eaa
                         
                         DispatchQueue.main.async {
                             
-                            self.profileImageView.image = self.myImage
-                            self.profileImageView.setNeedsDisplay()
+                        //need to clear this cached image
+                        //USE DOWNLOAD WITH URL WITH OPTIONS!!!
+                            self.profileImageView.sd_setImage(with: URL(string: path!), placeholderImage: self.myImage, options: .refreshCached, completed: nil)
+                            
+                            //self.profileImageView.image = self.myImage
+                            
+                           // self.profileImageView.sd_setImage
+                           // self.profileImageView.sd_setImage(with: self.storageRef.child((AppData.sharedInstance.currentUser?.profileImage)!), placeholderImage: self.myImage)
+                           
                         }
                         
                         Alert.Show(inpVc: self, customAlert: nil, inpTitle: "Success", inpMessage: "Your profile picture was updated", inpOkTitle: "Ok")
@@ -441,14 +465,12 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
                 cell.itemLabel.font = UIFont.italicSystemFont(ofSize: 16)
                 cell.itemImageView.isHidden = true
                 cell.itemImageViewWidthConstraint.constant = 0
-                //cell.itemLabel.centerXAnchor.constraint(equalTo: cell.centerXAnchor).isActive = true
                 cell.setNeedsLayout()
             }
             else {
                 let item = AppData.sharedInstance.currentUserOfferedItems[indexPath.row]
                 cell.itemLabel?.text = item.name
                 cell.itemLabel.font = UIFont(name: "GillSans", size: 20)
-                //cell.itemLabel.centerXAnchor.constraint(equalTo: cell.centerXAnchor).isActive = false
                 cell.itemImageViewWidthConstraint.constant = 77
                 storageRef = Storage.storage().reference()
                 cell.itemImageView.isHidden = false
@@ -462,7 +484,6 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
                 cell.itemLabel.font = UIFont.italicSystemFont(ofSize: 16)
                 cell.itemImageView.isHidden = true
                 cell.itemImageViewWidthConstraint.constant = 0
-               //cell.itemLabel.centerXAnchor.constraint(equalTo: cell.centerXAnchor).isActive = true
                 cell.setNeedsLayout()
             }
             else {
@@ -522,7 +543,6 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
             selectedItemToEdit = nil
         }
        
-        
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
@@ -563,7 +583,6 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
                 itemUID = AppData.sharedInstance.currentUserOfferedItems[indexPath.row].UID
                 WriteFirebaseData.delete(itemUID: itemUID, completion: {(success) in
                     
-                    
                     BusyActivityView.hide()
                     
                     if (success){
@@ -571,8 +590,6 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
                         tableView.deleteRows(at: [indexPath], with: .automatic)
                         
                         Alert.Show(inpVc: self, customAlert: nil, inpTitle: "Done", inpMessage: "Your item was successfully deleted", inpOkTitle: "Ok")
-                        
-                        
                     }
                     else {
                         Alert.Show(inpVc: self, customAlert: nil, inpTitle: "Error", inpMessage: "Your item could not be deleted", inpOkTitle: "Try again later")
@@ -601,7 +618,6 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
             default:
                 return
             }
-           
         }
     }
     
@@ -655,9 +671,6 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
             phoneNumberLabel.text = String((user?.phoneNumber)!)
         }
         
- 
-        
-        
         usernameLabel.isHidden = false
         phoneNumberLabel.isHidden = false
         editingProfile = false
@@ -673,19 +686,14 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         WriteFirebaseData.write(user: user!, completion: {(success) in
             
             if (success){
-                
                 BusyActivityView.hide()
-                
             }
             else {
-                
-                
                 Alert.Show(inpVc: self, customAlert: nil, inpTitle: "Error", inpMessage: "Couldn't change your details", inpOkTitle: "Try again")
                 
                 BusyActivityView.hide()
                 
             }
-            
         })
     }
     
@@ -694,19 +702,13 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         WriteFirebaseData.write(user: user!, completion: {(success) in
             
             if (success){
-                
                 BusyActivityView.hide()
-                
             }
             else {
-                
-                
                 Alert.Show(inpVc: self, customAlert: nil, inpTitle: "Error", inpMessage: "Couldn't change your details", inpOkTitle: "Try again")
                 
                 BusyActivityView.hide()
-                
             }
-            
         })
     }
     

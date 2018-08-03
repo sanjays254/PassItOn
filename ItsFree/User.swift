@@ -33,10 +33,10 @@ class User {
         guard
             let inpName: String = inpDict["name"] as? String,
             let inpEmail: String = inpDict["email"] as? String,
-            let inpPhoneNumber: Int = inpDict["phoneNumber"] as? Int ?? 0,
+            let inpPhoneNumber: Int = inpDict["phoneNumber"] as? Int,
             let inpRating: NSNumber = inpDict["rating"] as? NSNumber,
             let inpUID: String = inpDict["UID"] as? String,
-            let inpProfileImage: String = inpDict["profileImage"] as? String ?? "",
+            let inpProfileImage: String = inpDict["profileImage"] as? String,
             var inpOffers:[String] = inpDict["offers"] as? [String],
             var inpRequests:[String] = inpDict["requests"] as? [String] else
         {

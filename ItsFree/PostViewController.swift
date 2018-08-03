@@ -939,18 +939,9 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
             return
         }
         
-//        guard (descriptionTextField.text != "") else {
-//            let alert = UIAlertController(title: "Whoops", message: "You must add a description", preferredStyle: UIAlertControllerStyle.alert)
-//            alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.default, handler: nil))
-//            present(alert, animated: true, completion: nil)
-//            return
-//            
-//        }
         
         if (descriptionTextField.text == "Optional Description"){
-            
             descriptionTextField.text = ""
-            
         }
         
         guard (chosenCategory != nil) else {
@@ -981,9 +972,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         if chosenTagsArray.count > 0 {
             tags.tagsArray = chosenTagsArray
         }
-        
-//        let realItem: Item = Item.init(name: titleTextField.text!, category: chosenCategory, description: descriptionTextField.text!, location: selectedLocationCoordinates, posterUID:  user.UID, quality: chosenQuality, tags: tags, photos: [""], value: Int(valueTextField.text!) ?? 0,  itemUID: nil)
-        
+
         var photoRefs:[String] = []
         
         BusyActivityView.show(inpVc: self)
@@ -991,21 +980,6 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         if (editingBool){
             
              let realItem: Item = Item.init(name: titleTextField.text!, category: chosenCategory, description: descriptionTextField.text!, location: selectedLocationCoordinates, posterUID:  user.UID, quality: chosenQuality, tags: tags, photos: [""], value: Int(valueTextField.text!) ?? 0,  itemUID: itemToEdit.UID)
-            
-            
-            //NEED TO CHANGE THIS APPROACH OF DELETING THE ITEM FIRST
-//            WriteFirebaseData.delete(itemUID: itemToEdit.UID, completion: {(success) in
-//
-//                if (success){
-//
-//
-//                }
-//                else {
-//
-//
-//                }
-//
-//            })
             
             
             if (photosArray.count+itemToEdit.photos.count) == 0 {
@@ -1038,7 +1012,6 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
                                                     
                                                     photoRefs.append(photoRefStr!)
                                                     
-                                                    //if (index == self.photosArray.count) {
                                                     if (photoRefs.count == self.photosArray.count + self.itemToEdit.photos.count) {
                                                         
                                                         realItem.photos = photoRefs
@@ -1135,7 +1108,6 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
                                                                 
                                                                     photoRefs.append(photoRefStr!)
                                                                     
-                                                                    //if (index == (self.photosArray.count - 1)) {
                                                                     if (photoRefs.count == self.photosArray.count) {
                                                                     
                                                                     realItem.photos = photoRefs

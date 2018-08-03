@@ -20,7 +20,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         FirebaseApp.configure()
         
-      //  if let currentUser = FirebaseApp.
+        //launch directly into HomeVC if a user is cached
+        if Auth.auth().currentUser != nil {
+            
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            
+            let initialViewController = storyboard.instantiateViewController(withIdentifier: "homeNavigationController")
+            
+            self.window?.rootViewController = initialViewController
+            self.window?.makeKeyAndVisible()
+            
+            return true
+            
+        }
         
         let key = "FirstRun"
         if UserDefaults.standard.object(forKey: key) == nil {
@@ -74,12 +86,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 let mainVC = self.window?.rootViewController as! LoginViewController
                 
                 mainVC.loginAndRate(url: url)
-                
-//                let loggedOutAlert = UIAlertController(title: "Oops", message: "You need to log in first", preferredStyle: UIAlertControllerStyle.alert)
-//                let okayAction = UIAlertAction(title: "Okay", style: UIAlertActionStyle.default, handler: {_ in mainVC.loginAndRate(url: url)})
-//                loggedOutAlert.addAction(okayAction)
-//                
-//                mainVC.present(loggedOutAlert, animated: true, completion: nil)
+        
             }
                 
             //else if we were logged in, loggedInBool would be true. So just go to rating the user.

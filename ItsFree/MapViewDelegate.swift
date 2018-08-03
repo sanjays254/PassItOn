@@ -146,18 +146,49 @@ class MapViewDelegate: NSObject, MKMapViewDelegate {
             if let cluster = view.annotation as? MKClusterAnnotation {
                 let span = getSpanOfFurthestAnnotations(annotations: cluster.memberAnnotations)
                 
+                //if theyre in the same exact place
+                if (span.latitudeDelta == 0 && span.longitudeDelta == 0){
+                    
+                    theMapView.setRegion(MKCoordinateRegionMake((view.annotation?.coordinate)!, span) , animated: true)
+                    
+                    var index = 0
+                    for annotation in cluster.memberAnnotations{
+                       
+                        if let item = annotation as? Item {
+                           item.coordinate.longitude = item.coordinate.longitude + (Double(index) * 0.0001)
+                        }
+                        theMapView.removeAnnotation(annotation)
+                         index += 1
+                    }
+                    
+                    theMapView.addAnnotations(cluster.memberAnnotations)
+                }
+                else {
                 theMapView.setRegion(MKCoordinateRegionMake((view.annotation?.coordinate)!, span) , animated: true)
+                }
             }
         }
         else {
-            let span = MKCoordinateSpanMake(0.02, 0.02)
-            theMapView.setRegion(MKCoordinateRegionMake((view.annotation?.coordinate)!, span) , animated: true)
             
             guard let myItem = view.annotation as? Item
                 
                 else {
                     return
             }
+            
+            var span: MKCoordinateSpan
+            
+            //keep zoom the same unless were zoomed out
+            if (theMapView.region.span.latitudeDelta > 0.02 || theMapView.region.span.longitudeDelta > 0.02 ) {
+                span = MKCoordinateSpanMake(0.02, 0.02)
+            }
+            else {
+                span = theMapView.region.span
+            }
+            
+            theMapView.setRegion(MKCoordinateRegionMake((view.annotation?.coordinate)!, span) , animated: true)
+            
+    
             
             NotificationCenter.default.post(name: Notification.Name(rawValue: myNotificationKey), object: nil, userInfo: ["name" : myItem])
         }
@@ -181,9 +212,7 @@ class MapViewDelegate: NSObject, MKMapViewDelegate {
                 
                 let firstAnnotationLocation = CLLocation(latitude: firstAnnotationCoordinate.latitude, longitude: firstAnnotationCoordinate.longitude)
                 let secondAnnotationLocation = CLLocation(latitude: secondAnnotationCoordinate.latitude, longitude: secondAnnotationCoordinate.longitude)
-                
-               
-                
+            
                 
                 let distance = firstAnnotationLocation.distance(from: secondAnnotationLocation)
                 

@@ -13,8 +13,8 @@ import MapKit
 class PostMapViewController: UIViewController, UISearchBarDelegate, MKMapViewDelegate, MKLocalSearchCompleterDelegate {
     
     @IBOutlet weak var myLocationButton: UIButton!
-    
     @IBOutlet weak var saveButton: UIButton!
+    
     var previousVC: PostViewController!
     
     var searchController: UISearchController!
@@ -239,7 +239,7 @@ class PostMapViewController: UIViewController, UISearchBarDelegate, MKMapViewDel
                 
                 BusyActivityView.hide()
             }
-           // places.append(["name":annotation.title,"latitude":"\(locationCoordinate.latitude)","longitude":"\(locationCoordinate.longitude)"])
+          
         })
         
     }
@@ -276,7 +276,7 @@ class PostMapViewController: UIViewController, UISearchBarDelegate, MKMapViewDel
                 
                 BusyActivityView.hide()
             }
-            // places.append(["name":annotation.title,"latitude":"\(locationCoordinate.latitude)","longitude":"\(locationCoordinate.longitude)"])
+
         })
     }
     

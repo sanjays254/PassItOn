@@ -77,7 +77,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         setInitalMapRegion()
         homeMapView.register(MKMarkerAnnotationView.self, forAnnotationViewWithReuseIdentifier: "itemMarkerView")
         
-        homeMapView.register(ItemClusterView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultClusterAnnotationViewReuseIdentifier)
+        //homeMapView.register(ItemClusterView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultClusterAnnotationViewReuseIdentifier)
 
         
         setupSearchBar()

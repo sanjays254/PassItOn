@@ -16,13 +16,13 @@ class BusyActivityView: NSObject {
     
     class func show(inpVc: UIViewController)
     {
-        //need this for the loginVC, where UIApplication.shared.keyWindow is still nil
         
         activityIndicatorOverlayView = UIView()
         activityIndicatorOverlayView.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.5)
         activityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
         activityIndicatorView.hidesWhenStopped  = true
         
+        //need this for the loginVC, where UIApplication.shared.keyWindow is still nil
         if let navigationController = inpVc.navigationController {
             
             activityIndicatorOverlayView.frame = navigationController.view.bounds
@@ -48,7 +48,6 @@ class BusyActivityView: NSObject {
         
         activityIndicatorOverlayView.addSubview(activityIndicatorView)
         activityIndicatorView.center = activityIndicatorOverlayView.center
-        
         
         activityIndicatorView.startAnimating()
         
@@ -83,6 +82,36 @@ class BusyActivityView: NSObject {
     }
     
     
+    class func showMini(inpVC: UIViewController, inpView: UIView) {
+        
+        activityIndicatorOverlayView = UIView()
+        activityIndicatorOverlayView.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.5)
+        activityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .white)
+        activityIndicatorView.hidesWhenStopped  = true
+    
+
+        activityIndicatorOverlayView.frame = inpView.frame
+        inpView.addSubview(activityIndicatorOverlayView)
+        inpView.bringSubview(toFront: activityIndicatorOverlayView)
+                
+
+        activityIndicatorOverlayView.addSubview(activityIndicatorView)
+        activityIndicatorView.center = activityIndicatorOverlayView.center
+        
+        activityIndicatorView.startAnimating()
+        
+        timer = Timer.scheduledTimer(withTimeInterval: 60.0,
+                                     repeats: false)
+        { (myTimer) in
+            activityIndicatorOverlayView.removeFromSuperview();
+            
+            Alert.Show(inpVc: inpVC,
+                       customAlert: nil,
+                       inpTitle: "Hmmmm..",
+                       inpMessage: "This is taking too long, there might be an issue with the network. Please try again in a while",
+                       inpOkTitle: "Ok");
+        }
+    }
     
     
     

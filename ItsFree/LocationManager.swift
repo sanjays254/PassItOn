@@ -31,7 +31,6 @@ class LocationManager: CLLocationManager{
                 
                 currentLocation = self.location
                 LocationManager.theLocationManager.startUpdatingLocation()
-                print("Access")
             }
             
             if (self.location == nil){

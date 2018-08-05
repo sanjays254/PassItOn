@@ -77,9 +77,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         //delegating the tableView
         self.homeTableView.delegate = self
         self.homeTableView.dataSource = self
-        self.homeTableView.rowHeight = 70
-    
-       // self.homeTableView.rowHeight = UITableViewAutomaticDimension
+        self.homeTableView.estimatedRowHeight = 140
+  
         rowSelected = false
         
         
@@ -381,6 +380,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     //mapList segmented control
     @objc func mapListSegmentAction(sender: UISegmentedControl) {
+        
+        //BusyActivityView.show(inpVc: self)
         
         if(!self.childViewControllers.isEmpty){
         let itemDetailViewController = self.childViewControllers[0] as! ItemDetailViewController

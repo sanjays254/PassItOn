@@ -26,6 +26,8 @@
 		CE014334200FFCAA0045A876 /* UIProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE014333200FFCAA0045A876 /* UIProperties.swift */; };
 		CE014337201448290045A876 /* ItemPhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE014335201448280045A876 /* ItemPhotoCollectionViewCell.swift */; };
 		CE014338201448290045A876 /* ItemPhotoCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE014336201448280045A876 /* ItemPhotoCollectionViewCell.xib */; };
+		CE01A15C21176B3E003AC827 /* ItemDetailHomeTableViewCellPhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE01A15A21176B3E003AC827 /* ItemDetailHomeTableViewCellPhotoCollectionViewCell.swift */; };
+		CE01A15D21176B3E003AC827 /* ItemDetailHomeTableViewCellPhotoCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE01A15B21176B3E003AC827 /* ItemDetailHomeTableViewCellPhotoCollectionViewCell.xib */; };
 		CE01EA6B200D5BD2002C33D7 /* RatingSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE01EA6A200D5BD0002C33D7 /* RatingSystem.swift */; };
 		CE2217F1211565AE003CC553 /* PostViewController+SubmitPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2217F0211565AE003CC553 /* PostViewController+SubmitPost.swift */; };
 		CE2217F321156652003CC553 /* PostViewController+PhotoCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2217F221156652003CC553 /* PostViewController+PhotoCollectionView.swift */; };
@@ -117,6 +119,8 @@
 		CE014333200FFCAA0045A876 /* UIProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIProperties.swift; sourceTree = "<group>"; };
 		CE014335201448280045A876 /* ItemPhotoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemPhotoCollectionViewCell.swift; sourceTree = "<group>"; };
 		CE014336201448280045A876 /* ItemPhotoCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ItemPhotoCollectionViewCell.xib; sourceTree = "<group>"; };
+		CE01A15A21176B3E003AC827 /* ItemDetailHomeTableViewCellPhotoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDetailHomeTableViewCellPhotoCollectionViewCell.swift; sourceTree = "<group>"; };
+		CE01A15B21176B3E003AC827 /* ItemDetailHomeTableViewCellPhotoCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ItemDetailHomeTableViewCellPhotoCollectionViewCell.xib; sourceTree = "<group>"; };
 		CE01EA6A200D5BD0002C33D7 /* RatingSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingSystem.swift; sourceTree = "<group>"; };
 		CE2217F0211565AE003CC553 /* PostViewController+SubmitPost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PostViewController+SubmitPost.swift"; sourceTree = "<group>"; };
 		CE2217F221156652003CC553 /* PostViewController+PhotoCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PostViewController+PhotoCollectionView.swift"; sourceTree = "<group>"; };
@@ -277,6 +281,8 @@
 				CEFC19911FC65C320082CB55 /* ItemDetailViewController.xib */,
 				CEF9C96A2116802200B3C595 /* ItemDetailHomeTableViewCell.xib */,
 				CEF9C96621167D7100B3C595 /* ItemDetailHomeTableViewCell.swift */,
+				CE01A15A21176B3E003AC827 /* ItemDetailHomeTableViewCellPhotoCollectionViewCell.swift */,
+				CE01A15B21176B3E003AC827 /* ItemDetailHomeTableViewCellPhotoCollectionViewCell.xib */,
 				CE014335201448280045A876 /* ItemPhotoCollectionViewCell.swift */,
 				CE014336201448280045A876 /* ItemPhotoCollectionViewCell.xib */,
 				CEF41A201FC374520044C63E /* ItemHomeTableViewCell.xib */,
@@ -543,6 +549,7 @@
 				CE014338201448290045A876 /* ItemPhotoCollectionViewCell.xib in Resources */,
 				01BAC9FB1FBF75A70050C891 /* GoogleService-Info.plist in Resources */,
 				CE5869D61FBE445C0012F774 /* Assets.xcassets in Resources */,
+				CE01A15D21176B3E003AC827 /* ItemDetailHomeTableViewCellPhotoCollectionViewCell.xib in Resources */,
 				CE5869D41FBE445C0012F774 /* Main.storyboard in Resources */,
 				CEF9C96B2116802200B3C595 /* ItemDetailHomeTableViewCell.xib in Resources */,
 				CEF41A261FC3CF1C0044C63E /* PostMapViewController.xib in Resources */,
@@ -788,6 +795,7 @@
 				CE43E79A1FCF90290061A653 /* FilterTableViewController.swift in Sources */,
 				01BAC9F91FBF6CD10050C891 /* Enums.swift in Sources */,
 				CE01EA6B200D5BD2002C33D7 /* RatingSystem.swift in Sources */,
+				CE01A15C21176B3E003AC827 /* ItemDetailHomeTableViewCellPhotoCollectionViewCell.swift in Sources */,
 				CE014332200FFB960045A876 /* MyPostsTableViewCell.swift in Sources */,
 				CEF41A251FC3CF1C0044C63E /* PostMapViewController.swift in Sources */,
 				CE2F141A2114F38B009C330F /* ReadGoogleImages.swift in Sources */,

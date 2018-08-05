@@ -19,26 +19,32 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="79.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="g2B-PB-j23">
-                        <rect key="frame" x="8" y="5" width="70" height="69.5"/>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="g2B-PB-j23">
+                        <rect key="frame" x="8" y="5" width="70" height="69"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="70" id="h1R-cj-UV8"/>
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ktN-AR-rEF">
-                        <rect key="frame" x="86" y="11" width="158" height="48"/>
+                        <rect key="frame" x="86" y="11" width="158" height="45"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="45" id="1Eb-yn-hjN"/>
+                        </constraints>
                         <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="21"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" verticalCompressionResistancePriority="748" text="Quality" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7PZ-mV-kmm">
-                        <rect key="frame" x="86" y="59" width="37" height="15"/>
+                        <rect key="frame" x="86" y="56" width="37" height="15"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="15" id="yE7-QH-g8L"/>
+                        </constraints>
                         <fontDescription key="fontDescription" name="GillSans-Light" family="Gill Sans" pointSize="13"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Distance" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Qj-Be-pdK">
-                        <rect key="frame" x="246" y="17" width="70" height="46"/>
+                        <rect key="frame" x="246" y="17" width="70" height="15"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="70" id="nuo-ve-NUK"/>
                         </constraints>

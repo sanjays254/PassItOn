@@ -33,6 +33,19 @@ class ItemDetailHomeTableViewCell: UITableViewCell, UICollectionViewDelegate, UI
     @IBOutlet weak var locationButton: UIButton!
     
     
+    @IBOutlet weak var valueLabel: UILabel!
+    
+    
+    @IBOutlet weak var descriptionLabel: UILabel!
+    
+    
+    @IBOutlet weak var posterNameLabel: UILabel!
+    
+    @IBOutlet weak var posterRatingLabel: UILabel!
+    
+    
+    @IBOutlet weak var messagePosterButton: UIButton!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         
@@ -52,7 +65,7 @@ class ItemDetailHomeTableViewCell: UITableViewCell, UICollectionViewDelegate, UI
     
     func setupCollectionView(){
         
-        photoCollectionView.register(UINib(nibName: "ItemPhotoCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "itemPhotoCollectionViewCell")
+        photoCollectionView.register(UINib(nibName: "ItemDetailHomeTableViewCellPhotoCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "itemDetailTVCPhotoCVCId")
         
         photoCollectionView.delegate = self
         photoCollectionView.dataSource = self
@@ -67,19 +80,22 @@ class ItemDetailHomeTableViewCell: UITableViewCell, UICollectionViewDelegate, UI
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "itemPhotoCollectionViewCell", for: indexPath) as! ItemPhotoCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "itemDetailTVCPhotoCVCId", for: indexPath) as! ItemDetailHomeTableViewCellPhotoCollectionViewCell
     
         let photoRef: [String] = currentItem.photos
         
-        cell.layer.borderColor = UIProperties.sharedUIProperties.blackColour.cgColor
-        cell.layer.borderWidth = 5.0
-        cell.layer.cornerRadius = 5.0
+//        cell.layer.borderColor = UIProperties.sharedUIProperties.blackColour.cgColor
+//        cell.layer.borderWidth = 5.0
+//        cell.layer.cornerRadius = 5.0
         
-        cell.collectionViewImageVew.sd_setImage(with: storageRef.child(photoRef[indexPath.item]), placeholderImage: UIImage.init(named: "placeholder"))
+        
+        
+        cell.imageView.sd_setImage(with: storageRef.child(photoRef[indexPath.item]), placeholderImage: UIImage.init(named: "placeholder"))
         
         return cell
     }
     
+
     @objc func showItemOnMap(){
 
         homeMapDelegate.selectMarker(item: currentItem)

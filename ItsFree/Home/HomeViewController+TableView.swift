@@ -79,6 +79,8 @@ extension HomeViewController {
             
                 let cell = generateExpandedCell(indexPath: indexPath)
             
+            
+            
                 return cell
             }
     
@@ -195,19 +197,16 @@ extension HomeViewController {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
-        if indexPathSelected == indexPath {
-            return 200
-        } else {
-            return 70
-        }
+      //  if indexPathSelected == indexPath {
+            return UITableViewAutomaticDimension
+//        } else {
+//            return 70
+//        }
     }
     
     func expandRow(indexPath: IndexPath){
         
-      //  self.homeTableView.beginUpdates()
-
-        
-        self.homeTableView.reloadRows(at: [indexPath], with: .fade)
+       self.homeTableView.reloadRows(at: [indexPath], with: .automatic)
         
         if let indexPathPreviouslySelected = indexPathPreviouslySelected {
             if (indexPathPreviouslySelected != indexPath){
@@ -216,7 +215,7 @@ extension HomeViewController {
         }
         
         indexPathPreviouslySelected = indexPath
-        //self.homeTableView.endUpdates()
+  
     }
     
     func expandPreviousRow(indexPath: IndexPath){
@@ -229,7 +228,7 @@ extension HomeViewController {
     func collapseRow(indexPath: IndexPath) {
         
         indexPathSelected = nil
-        self.homeTableView.reloadRows(at: [indexPath], with: .fade)
+        self.homeTableView.reloadRows(at: [indexPath], with: .automatic)
      
         
     }
@@ -252,6 +251,10 @@ extension HomeViewController {
         }
         
         cell.itemImageView.sd_setImage(with: storageRef.child(sourceArray[indexPath.row].photos[0]), placeholderImage: UIImage.init(named: "placeholder"))
+        
+//        if(indexPath.row == sourceArray.count-1){
+//            BusyActivityView.hide()
+//        }
     }
     
     func populateExpandedCellLabelsAndImage(cell: ItemDetailHomeTableViewCell, indexPath: IndexPath, sourceArray: [Item]){
@@ -260,12 +263,51 @@ extension HomeViewController {
         
         cell.setupCollectionView()
         
+        ReadFirebaseData.readUserBasics(userUID: cell.currentItem.posterUID, completion: {(success, user) in
+            
+            DispatchQueue.main.async {
+            
+            if (success){
+                //force unwrapping is okay here because user exists if success is true
+                cell.posterNameLabel.text = "Poster: \(user!.name)"
+                cell.posterRatingLabel.text = "\(user!.rating)"
+                cell.messagePosterButton.isEnabled = true
+            }
+            else {
+                cell.posterNameLabel.text = "Poster: Unknown"
+                cell.posterRatingLabel.text = ""
+                cell.messagePosterButton.isEnabled = false
+                
+            }
+            }
+            
+        })
+        
+        
+        
         let destinationLocation: CLLocation = CLLocation(latitude: sourceArray[indexPath.row].location.latitude, longitude: sourceArray[indexPath.row].location.longitude)
         
         let distance = (destinationLocation.distance(from: getLocation())/1000)
         
-        cell.titleLabel.text = sourceArray[indexPath.row].name
-        cell.qualityLabel.text = sourceArray[indexPath.row].quality.rawValue
+        cell.titleLabel.text = cell.currentItem.name
+        cell.qualityLabel.text = cell.currentItem.quality.rawValue
+        cell.descriptionLabel.text = cell.currentItem.itemDescription
+//        cell.descriptionLabel.sizeToFit()
+//        cell.setNeedsDisplay()
+        
+        //if its a request, the item has no value
+        if(wantedAvailableSegmentedControl.selectedSegmentIndex == 0) {
+            cell.valueLabel.text = ""
+        }
+            //else it does
+        else {
+            cell.valueLabel.text = "Value: $\(cell.currentItem.value)"
+        }
+        
+        cell.posterNameLabel.text = "Loading..."
+        cell.posterRatingLabel.text = ""
+        cell.messagePosterButton.isEnabled = false
+        
         
         if (distance > 100){
             cell.distanceLabel.text = ">100 kms"
@@ -273,6 +315,10 @@ extension HomeViewController {
         else {
             cell.distanceLabel.text = String(format: "%.1f", distance) + " kms"
         }
+        
+//        if(indexPath.row == sourceArray.count-1){
+//            BusyActivityView.hide()
+//        }
     
     }
     

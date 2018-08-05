@@ -48,6 +48,10 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     var currentItemIndexPath: IndexPath!
     var lastItemSelected: Item!
     
+    var rowSelected: Bool!
+    var indexPathSelected: IndexPath?
+    var indexPathPreviouslySelected: IndexPath?
+    
     var currentCategory: ItemCategory?
   
     var searchActive : Bool = false
@@ -66,8 +70,16 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.homeTableView.delegate = self
         self.homeTableView.dataSource = self
         self.homeTableView.rowHeight = 70
+    
+       // self.homeTableView.rowHeight = UITableViewAutomaticDimension
+        rowSelected = false
+        
+        
         
         self.homeTableView.register(UINib(nibName: "ItemHomeTableViewCell", bundle: nil), forCellReuseIdentifier: "itemHomeTableViewCellID")
+        
+        
+        self.homeTableView.register(UINib(nibName: "ItemDetailHomeTableViewCell", bundle: nil), forCellReuseIdentifier: "itemHomeDetailTableViewCellID")
         
         self.homeTableView.refreshControl = UIRefreshControl()
         self.homeTableView.refreshControl?.backgroundColor = UIProperties.sharedUIProperties.purpleColour
@@ -128,16 +140,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
     
-    
-    func setupSearchBar(){
-        
-        searchBar.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 0)
-        searchBar.delegate = self
-        searchBar.keyboardAppearance = .dark
-        filteredOfferedItems = []
-        filteredRequestedItems = []
-    }
-    
+
     func presentAlertIfFirstTime(){
         
         let firstTimeUseAlert = UIAlertController(title: "Welcome to Pass It On", message: "Remember! Free items only!", preferredStyle: .alert)
@@ -155,49 +158,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         addPostBarButton.tintColor = UIProperties.sharedUIProperties.whiteColour
     }
     
-    func setupSearchButton(){
-        
-        let searchButton  = UIButton(type: .system)
-        let searchImage = UIImage(named: "search")?.withRenderingMode(.alwaysTemplate)
-        
-        searchButton.setImage(searchImage, for: .normal)
-        
-        searchButton.tintColor = UIProperties.sharedUIProperties.whiteColour
-        searchButton.addTarget(self, action: #selector(searchButtonAction), for: .touchUpInside)
-        searchButton.widthAnchor.constraint(equalToConstant: 32.0).isActive = true
-        searchButton.heightAnchor.constraint(equalToConstant: 32.0).isActive = true
-        
-        let searchBarButton = UIBarButtonItem(customView: searchButton)
-        self.navigationItem.leftBarButtonItem = searchBarButton
-        
-    }
-    
-    @objc func searchButtonAction(){
-        
-        view.bringSubview(toFront: searchBar)
-        
-        if (searchBarHeightConstraint.constant == 45){
-            UIView.animate(withDuration: 0.5, animations: {
-                self.searchBarHeightConstraint.constant = 0
-                self.view.layoutIfNeeded()
-                
-            }, completion: {(finished: Bool) in
-                self.searchBar.resignFirstResponder()
-            })
-        }
-        
-        else if (searchBarHeightConstraint.constant == 0){
-       
-        UIView.animate(withDuration: 0.5, animations: {
-            self.searchBarHeightConstraint.constant = 45
-            
-             self.view.layoutIfNeeded()
-            
-        }, completion: {(finished: Bool) in
-            self.searchBar.becomeFirstResponder()
-        })
-        }
-    }
+
     
     func setupLeaderboardButton(){
         let leaderboardImage = UIImage(named: "leaderboard")?.withRenderingMode(.alwaysTemplate)
@@ -252,7 +213,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     //location methods
-    fileprivate func getLocation() -> CLLocation {
+    func getLocation() -> CLLocation {
         self.currentLocation =  LocationManager.theLocationManager.getLocation()
         return self.currentLocation
     }
@@ -274,17 +235,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         }))
         present(alert, animated: true, completion: nil)
     }
-    
-    func sortTableView()
-    {
-        AppData.sharedInstance.onlineOfferedItems.sort(by:
-            { $0.distance(to: getLocation()) < $1.distance(to: getLocation())})
-        
-        AppData.sharedInstance.onlineRequestedItems.sort(by:
-            { $0.distance(to: getLocation()) < $1.distance(to: getLocation())})
-        
-        self.homeTableView.reloadData();
-    }
+
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
@@ -444,25 +395,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
     
-    
-    @objc func refreshTableData(sender: AnyObject) {
-        
-        if((self.homeTableView.refreshControl) != nil){
-            let dateFormatter = DateFormatter()
-            dateFormatter.setLocalizedDateFormatFromTemplate("MMM d, h:mm a")
-            let title = String("Last update: \(dateFormatter.string(from: Date()))")
-            let attributesDict = [NSAttributedStringKey.foregroundColor: UIColor.white]
-            let attributedTitle = NSAttributedString(string: title, attributes: attributesDict)
-            self.homeTableView.refreshControl?.attributedTitle = attributedTitle
-        }
-        
-        setupItemsDownloadNotifications()
-        
-        ReadFirebaseData.readOffers(category: currentCategory)
-        ReadFirebaseData.readRequests(category: currentCategory)
-    
-        self.homeTableView.refreshControl?.endRefreshing()
-    }
+
 
     //segues
     @objc func postItem() {
@@ -533,144 +466,9 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         performSegue(withIdentifier: "leaderboardSegue", sender: self)
     }
     
-    func expandRow(indexPath: IndexPath){
-        self.homeTableView.register(UINib(nibName: "ItemDetailHomeTableViewCell", bundle: nil), forCellReuseIdentifier: "itemDetailHomeTableViewCellID")
-        
-    
-    
-        
-    }
 
-    //tableView methods
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        //expand row
-      //  expandRow(indexPath: indexPath)
-        
-        
-        var itemToShow: Item
-        
-        switch(wantedAvailableSegmentedControl.selectedSegmentIndex){
-        
-            case 0:  itemToShow = AppData.sharedInstance.onlineRequestedItems[indexPath.row]
-            case 1:  itemToShow = AppData.sharedInstance.onlineOfferedItems[indexPath.row]
-            default:
-                return
-   
-        }
-        
-        if (searchApplied == true){
-            
-            switch(wantedAvailableSegmentedControl.selectedSegmentIndex){
-                
-            case 0:  itemToShow = filteredRequestedItems[indexPath.row]
-            case 1:  itemToShow = filteredOfferedItems[indexPath.row]
-            default:
-                return
-                
-            }
-        }
-        
-        
-        currentItemIndexPath = indexPath
-        lastItemSelected = itemToShow
-        
-        mapListSegmentedControl.selectedSegmentIndex = 0
-        mapListSegmentedControl.sendActions(for: UIControlEvents.valueChanged)
-       
-        homeMapView.selectAnnotation(itemToShow, animated: true)
-        
-        let span = MKCoordinateSpanMake(0.007, 0.007)
-        
-        homeMapView.setRegion(MKCoordinateRegionMake(itemToShow.coordinate, span) , animated: true)
-     
-    }
     
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        if(wantedAvailableSegmentedControl.selectedSegmentIndex == 0){
-            if(searchApplied == true) {
-                return filteredRequestedItems.count
-            }
-            else {
-                return AppData.sharedInstance.onlineRequestedItems.count
-            }
-        }
-        else if (wantedAvailableSegmentedControl.selectedSegmentIndex == 1){
-            if(searchApplied == true) {
-                return filteredOfferedItems.count
-            }
-            else {
-                return AppData.sharedInstance.onlineOfferedItems.count
-            }
-        }
-        else {
-            return 0
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-       
-        
-        let cell = tableView.dequeueReusableCell(withIdentifier: "itemHomeTableViewCellID") as! ItemHomeTableViewCell
-        let storageRef = Storage.storage().reference()
-        var sourceArray:[Item]!
-       
-        if(wantedAvailableSegmentedControl.selectedSegmentIndex == 0){
-       
-            if(searchApplied == true){
-                sourceArray = filteredRequestedItems
-            
-            }
-            else {
-                sourceArray = AppData.sharedInstance.onlineRequestedItems
-            }
-            
-            let destinationLocation: CLLocation = CLLocation(latitude: sourceArray[indexPath.row].location.latitude, longitude: sourceArray[indexPath.row].location.longitude)
-            
-            let distance = (destinationLocation.distance(from: getLocation())/1000)
-            
-            cell.itemTitleLabel.text = sourceArray[indexPath.row].name
-            cell.itemQualityLabel.text = sourceArray[indexPath.row].quality.rawValue
-         
-            if (distance > 100){
-              cell.itemDistanceLabel.text = ">100 kms"
-            }
-            else {
-                cell.itemDistanceLabel.text = String(format: "%.1f", distance) + " kms"
-            }
-            
-            cell.itemImageView.sd_setImage(with: storageRef.child(sourceArray[indexPath.row].photos[0]), placeholderImage: UIImage.init(named: "placeholder"))
-        }
-        else if (wantedAvailableSegmentedControl.selectedSegmentIndex == 1){
-            
-            if(searchApplied == true){
-                sourceArray = filteredOfferedItems
-            }
-            else {
-                sourceArray = AppData.sharedInstance.onlineOfferedItems
-            }
-            
-            let destinationLocation: CLLocation = CLLocation(latitude: sourceArray[indexPath.row].location.latitude, longitude: sourceArray[indexPath.row].location.longitude)
-            
-            let distance = (destinationLocation.distance(from: getLocation())/1000)
-            
-            cell.itemTitleLabel.text = sourceArray[indexPath.row].name
-            cell.itemQualityLabel.text = sourceArray[indexPath.row].quality.rawValue
-            
-            if (distance > 100){
-                cell.itemDistanceLabel.text = ">100 kms"
-            }
-            else {
-                cell.itemDistanceLabel.text = String(format: "%.1f", distance) + " kms"
-            }
-            cell.itemImageView.sd_setImage(with: storageRef.child(sourceArray[indexPath.row].photos[0]), placeholderImage: UIImage.init(named: "placeholder"))
-        }
  
-        return cell
-    }
     
     @objc func showItemDetail(item: Item){
 
@@ -736,128 +534,11 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
 //        self.homeTableView.scrollToRow(at: self.currentItemIndexPath, at: UITableViewScrollPosition.top, animated: true)
 
     }
-    
-    
-    
-    //searchBar delegate methods
-    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        searchActive = true;
-        searchApplied = true
-        
-        if (searchBar.text == ""){
-            searchApplied = false
-        }
-        
-        filteredOfferedItems = []
-        filteredRequestedItems = []
-        
-        tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard(_:)))
-        self.view.addGestureRecognizer(tapGesture)
-    }
-    
-    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-        searchActive = false;
-        searchApplied = true
-        
-        if (searchBar.text == ""){
-            searchApplied = false
-        }
-        
-        self.view.removeGestureRecognizer(tapGesture)
-    }
-    
-    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        searchActive = false;
-        searchApplied = false
-        homeTableView.reloadData()
-    }
-    
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        searchActive = false;
-        searchApplied = true
-        
-        if (searchBar.text == ""){
-            searchApplied = false
-        }
-        
-        searchThroughData(searchText: searchBar.text!)
-        searchBar.resignFirstResponder()
-    }
+
     
     @objc func dismissKeyboard (_ sender: UITapGestureRecognizer) {
         searchBar.resignFirstResponder()
     }
     
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        
-        searchApplied = true
-        
-        filteredOfferedItems = []
-        filteredRequestedItems = []
-        
-        
-        if (searchBar.text == ""){
-            searchApplied = false
-        }
-        
-        searchThroughData(searchText: searchText)
-        
-    }
-    
-    func searchThroughData(searchText: String) {
-    
-        var containsTag: Bool = false
-        
-        for item in AppData.sharedInstance.onlineOfferedItems {
-            
-            if (item.name.lowercased().contains(searchText.lowercased())){
-                filteredOfferedItems.append(item)
-            }
-            
-            for tag in item.tags.tagsArray {
-                if (tag.lowercased().contains(searchText.lowercased())){
-                    containsTag = true
-                }
-                else { containsTag = false }
-                
-                
-                if (containsTag == true) {
-                    if !(filteredOfferedItems.contains(item)){
-                        filteredOfferedItems.append(item)
-                    }
-                    
-                    break
-                }
-            }
-        }
-        
-        containsTag = false
-        
-        for item in AppData.sharedInstance.onlineRequestedItems {
-            
-            if (item.name.lowercased().contains(searchText.lowercased())){
-                filteredRequestedItems.append(item)
-            }
-            
-            for tag in item.tags.tagsArray {
-                if (tag.lowercased().contains(searchText.lowercased())){
-                    containsTag = true
-                }
-                else { containsTag = false }
-                
-                
-                if (containsTag == true) {
-                    if !(filteredRequestedItems.contains(item)){
-                        filteredRequestedItems.append(item)
-                    }
-                    break
-                }
-            }
-        }
-        
-        searchActive = true
-        self.homeTableView.reloadData()
-        removeAndAddAnnotations()
-    }
 }
 

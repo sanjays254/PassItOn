@@ -96,7 +96,7 @@ class ReadFirebaseData: NSObject {
                 for thisCategory in value! {
                     print("\n\n\(thisCategory.key)")
                     let data = thisCategory.value as! [String:Any]
-                    print(data)
+                  
                     readRequest(data: data)
                 }
             }
@@ -312,7 +312,6 @@ class ReadFirebaseData: NSObject {
             if readItem != nil {
                 if (!AppData.sharedInstance.onlineOfferedItems.contains(readItem!)){
                     AppData.sharedInstance.onlineOfferedItems.append(readItem!)
-                    print("appending offered items")
                 }
                 else {
                     print("item has already been added")
@@ -335,7 +334,7 @@ class ReadFirebaseData: NSObject {
             if readItem != nil {
                  if (!AppData.sharedInstance.onlineRequestedItems.contains(readItem!)){
                     AppData.sharedInstance.onlineRequestedItems.append(readItem!)
-                    print("appending requested items")
+                
                 }
                  else {
                     print("item has already been added")
@@ -369,7 +368,7 @@ class ReadFirebaseData: NSObject {
                 if readItem != nil {
                     if (!AppData.sharedInstance.currentUserOfferedItems.contains(readItem!)){
                         AppData.sharedInstance.currentUserOfferedItems.append(readItem!)
-                        print("appending offered items")
+                       
                     }
                     else {
                         print("item has already been added")

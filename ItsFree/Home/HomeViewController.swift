@@ -67,6 +67,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.homeTableView.dataSource = self
         self.homeTableView.rowHeight = 70
         
+        self.homeTableView.register(UINib(nibName: "ItemHomeTableViewCell", bundle: nil), forCellReuseIdentifier: "itemHomeTableViewCellID")
+        
         self.homeTableView.refreshControl = UIRefreshControl()
         self.homeTableView.refreshControl?.backgroundColor = UIProperties.sharedUIProperties.purpleColour
         self.homeTableView.refreshControl?.addTarget(self, action: #selector(refreshTableData), for: .valueChanged)
@@ -531,9 +533,20 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         performSegue(withIdentifier: "leaderboardSegue", sender: self)
     }
     
+    func expandRow(indexPath: IndexPath){
+        self.homeTableView.register(UINib(nibName: "ItemDetailHomeTableViewCell", bundle: nil), forCellReuseIdentifier: "itemDetailHomeTableViewCellID")
+        
+    
+    
+        
+    }
 
     //tableView methods
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        //expand row
+      //  expandRow(indexPath: indexPath)
+        
         
         var itemToShow: Item
         
@@ -599,7 +612,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        tableView.register(UINib(nibName: "ItemHomeTableViewCell", bundle: nil), forCellReuseIdentifier: "itemHomeTableViewCellID")
+       
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "itemHomeTableViewCellID") as! ItemHomeTableViewCell
         let storageRef = Storage.storage().reference()

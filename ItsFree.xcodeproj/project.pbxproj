@@ -60,6 +60,8 @@
 		CEF41A261FC3CF1C0044C63E /* PostMapViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CEF41A241FC3CF1C0044C63E /* PostMapViewController.xib */; };
 		CEF41A281FC501FA0044C63E /* SearchResultsTableTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF41A271FC501F60044C63E /* SearchResultsTableTableViewController.swift */; };
 		CEF41A2A1FC51D390044C63E /* PostPhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF41A291FC51D380044C63E /* PostPhotoCollectionViewCell.swift */; };
+		CEF9C96821167D7100B3C595 /* ItemDetailHomeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF9C96621167D7100B3C595 /* ItemDetailHomeTableViewCell.swift */; };
+		CEF9C96B2116802200B3C595 /* ItemDetailHomeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CEF9C96A2116802200B3C595 /* ItemDetailHomeTableViewCell.xib */; };
 		CEFC19921FC65C320082CB55 /* ItemDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFC19901FC65C320082CB55 /* ItemDetailViewController.swift */; };
 		CEFC19931FC65C320082CB55 /* ItemDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CEFC19911FC65C320082CB55 /* ItemDetailViewController.xib */; };
 		CEFC19951FC75E510082CB55 /* ItemDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFC19941FC75E510082CB55 /* ItemDetailView.swift */; };
@@ -153,6 +155,8 @@
 		CEF41A241FC3CF1C0044C63E /* PostMapViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PostMapViewController.xib; sourceTree = "<group>"; };
 		CEF41A271FC501F60044C63E /* SearchResultsTableTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsTableTableViewController.swift; sourceTree = "<group>"; };
 		CEF41A291FC51D380044C63E /* PostPhotoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostPhotoCollectionViewCell.swift; sourceTree = "<group>"; };
+		CEF9C96621167D7100B3C595 /* ItemDetailHomeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDetailHomeTableViewCell.swift; sourceTree = "<group>"; };
+		CEF9C96A2116802200B3C595 /* ItemDetailHomeTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ItemDetailHomeTableViewCell.xib; sourceTree = "<group>"; };
 		CEFC19901FC65C320082CB55 /* ItemDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDetailViewController.swift; sourceTree = "<group>"; };
 		CEFC19911FC65C320082CB55 /* ItemDetailViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ItemDetailViewController.xib; sourceTree = "<group>"; };
 		CEFC19941FC75E510082CB55 /* ItemDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDetailView.swift; sourceTree = "<group>"; };
@@ -266,11 +270,13 @@
 		CE2217EA211562F0003CC553 /* Home */ = {
 			isa = PBXGroup;
 			children = (
-				CEF41A1F1FC374520044C63E /* ItemHomeTableViewCell.swift */,
+				CEF9C96A2116802200B3C595 /* ItemDetailHomeTableViewCell.xib */,
 				CEFC19911FC65C320082CB55 /* ItemDetailViewController.xib */,
+				CEF9C96621167D7100B3C595 /* ItemDetailHomeTableViewCell.swift */,
 				CE014335201448280045A876 /* ItemPhotoCollectionViewCell.swift */,
 				CE014336201448280045A876 /* ItemPhotoCollectionViewCell.xib */,
 				CEF41A201FC374520044C63E /* ItemHomeTableViewCell.xib */,
+				CEF41A1F1FC374520044C63E /* ItemHomeTableViewCell.swift */,
 				CE9683D41FBF8E5600DFA277 /* HomeViewController.swift */,
 				CE43E7991FCF90290061A653 /* FilterTableViewController.swift */,
 				CEFC19941FC75E510082CB55 /* ItemDetailView.swift */,
@@ -532,6 +538,7 @@
 				01BAC9FB1FBF75A70050C891 /* GoogleService-Info.plist in Resources */,
 				CE5869D61FBE445C0012F774 /* Assets.xcassets in Resources */,
 				CE5869D41FBE445C0012F774 /* Main.storyboard in Resources */,
+				CEF9C96B2116802200B3C595 /* ItemDetailHomeTableViewCell.xib in Resources */,
 				CEF41A261FC3CF1C0044C63E /* PostMapViewController.xib in Resources */,
 				CEFC19931FC65C320082CB55 /* ItemDetailViewController.xib in Resources */,
 				013517471FC8F29D00977B2E /* ProfileViewControllers.storyboard in Resources */,
@@ -795,6 +802,7 @@
 				CEF41A1C1FC1000F0044C63E /* MapViewDelegate.swift in Sources */,
 				0135173C1FC50B3F00977B2E /* AuthenticationManager.swift in Sources */,
 				01EA0BFC1FCD1A8A00AC54AC /* WriteFirebaseData.swift in Sources */,
+				CEF9C96821167D7100B3C595 /* ItemDetailHomeTableViewCell.swift in Sources */,
 				CE2217F1211565AE003CC553 /* PostViewController+SubmitPost.swift in Sources */,
 				CE014334200FFCAA0045A876 /* UIProperties.swift in Sources */,
 				CE2217F921156B5D003CC553 /* PostViewController+SteppedQuestions.swift in Sources */,

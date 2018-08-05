@@ -393,6 +393,13 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
             if (stepIndex < 8){
                 questionLabel.text = offerStepsArray[stepIndex]
             }
+            
+            if(stepIndex == 2) {
+                if let googleImagesCollectionViewContainerUnwrapped = googleImagesCollectionViewContainer {
+                    googleImagesCollectionViewContainerUnwrapped.isHidden = true
+                }
+                
+            }
         
             if (stepIndex == 7){
                 nextButton.setTitle("Preview", for: .normal)
@@ -408,6 +415,19 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
             if (stepIndex < 8){
                 questionLabel.text = requestStepsArray[stepIndex]
             }
+            if(stepIndex == 2) {
+                if let googleImagesCollectionViewContainerUnwrapped = googleImagesCollectionViewContainer {
+                    googleImagesCollectionViewContainerUnwrapped.isHidden = false
+                }
+                else {
+                    
+                    //create it
+                    setupGoogleImagesContainerView()
+                }
+                
+            }
+            
+            
             if (stepIndex == 6){
                 nextButton.setTitle("Preview", for: .normal)
             }

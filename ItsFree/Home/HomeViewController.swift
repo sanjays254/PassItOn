@@ -15,7 +15,13 @@ import FirebaseStorage
 
 public var offerRequestBool: Bool!
 
-class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate, MKMapViewDelegate, UINavigationControllerDelegate, UISearchBarDelegate, NotificationDelegate, LoggedOutDelegate {
+class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate, MKMapViewDelegate, UINavigationControllerDelegate, UISearchBarDelegate, NotificationDelegate, LoggedOutDelegate, HomeMarkerSelectionDelegate {
+
+    
+    
+    
+    
+    var storageRef: StorageReference!
     
     let mySelectedItemNotificationKey = "mySelectedItemNotificationKey"
     let myOffersDownloadedNotificationKey = "myOffersDownloadedNotificationKey"
@@ -62,6 +68,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        storageRef = Storage.storage().reference()
         
         wantedAvailableSegmentedControl.selectedSegmentIndex = 1
         offerRequestBool = true
@@ -464,6 +472,21 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     @objc func leaderboardButtonAction() {
         performSegue(withIdentifier: "leaderboardSegue", sender: self)
+    }
+    
+    func selectMarker(item: Item) {
+        
+        
+        mapListSegmentedControl.selectedSegmentIndex = 0
+        mapListSegmentedControl.sendActions(for: UIControlEvents.valueChanged)
+        
+        homeMapView.selectAnnotation(item, animated: true)
+        
+        let span = MKCoordinateSpanMake(0.007, 0.007)
+        
+        homeMapView.setRegion(MKCoordinateRegionMake(item.coordinate, span) , animated: true)
+        
+
     }
     
 

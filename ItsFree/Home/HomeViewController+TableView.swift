@@ -77,7 +77,7 @@ extension HomeViewController {
             //force unwrap okay, because selected indexpath exists when row is selected
           //  indexPathSelected
             
-                let cell = tableView.dequeueReusableCell(withIdentifier: "itemHomeDetailTableViewCellID") as! ItemDetailHomeTableViewCell
+                let cell = generateExpandedCell(indexPath: indexPath)
             
                 return cell
             }
@@ -101,12 +101,12 @@ extension HomeViewController {
         
  
     }
-    
-    func generateDefaultCell(indexPath: IndexPath) -> UITableViewCell{
+    func generateExpandedCell(indexPath: IndexPath) -> UITableViewCell {
         
+        let cell = homeTableView.dequeueReusableCell(withIdentifier: "itemHomeDetailTableViewCellID") as! ItemDetailHomeTableViewCell
         
-        let cell = homeTableView.dequeueReusableCell(withIdentifier: "itemHomeTableViewCellID") as! ItemHomeTableViewCell
-        let storageRef = Storage.storage().reference()
+        cell.homeMapDelegate = self
+        
         var sourceArray:[Item]!
         
         if(wantedAvailableSegmentedControl.selectedSegmentIndex == 0){
@@ -119,21 +119,8 @@ extension HomeViewController {
                 sourceArray = AppData.sharedInstance.onlineRequestedItems
             }
             
-            let destinationLocation: CLLocation = CLLocation(latitude: sourceArray[indexPath.row].location.latitude, longitude: sourceArray[indexPath.row].location.longitude)
+            populateExpandedCellLabelsAndImage(cell: cell, indexPath: indexPath, sourceArray: sourceArray)
             
-            let distance = (destinationLocation.distance(from: getLocation())/1000)
-            
-            cell.itemTitleLabel.text = sourceArray[indexPath.row].name
-            cell.itemQualityLabel.text = sourceArray[indexPath.row].quality.rawValue
-            
-            if (distance > 100){
-                cell.itemDistanceLabel.text = ">100 kms"
-            }
-            else {
-                cell.itemDistanceLabel.text = String(format: "%.1f", distance) + " kms"
-            }
-            
-            cell.itemImageView.sd_setImage(with: storageRef.child(sourceArray[indexPath.row].photos[0]), placeholderImage: UIImage.init(named: "placeholder"))
         }
         else if (wantedAvailableSegmentedControl.selectedSegmentIndex == 1){
             
@@ -144,20 +131,42 @@ extension HomeViewController {
                 sourceArray = AppData.sharedInstance.onlineOfferedItems
             }
             
-            let destinationLocation: CLLocation = CLLocation(latitude: sourceArray[indexPath.row].location.latitude, longitude: sourceArray[indexPath.row].location.longitude)
+            populateExpandedCellLabelsAndImage(cell: cell, indexPath: indexPath, sourceArray: sourceArray)
+        }
+        
+        return cell
+        
+    }
+    
+    func generateDefaultCell(indexPath: IndexPath) -> UITableViewCell{
+        
+        let cell = homeTableView.dequeueReusableCell(withIdentifier: "itemHomeTableViewCellID") as! ItemHomeTableViewCell
+        
+        var sourceArray:[Item]!
+        
+        if(wantedAvailableSegmentedControl.selectedSegmentIndex == 0){
             
-            let distance = (destinationLocation.distance(from: getLocation())/1000)
-            
-            cell.itemTitleLabel.text = sourceArray[indexPath.row].name
-            cell.itemQualityLabel.text = sourceArray[indexPath.row].quality.rawValue
-            
-            if (distance > 100){
-                cell.itemDistanceLabel.text = ">100 kms"
+            if(searchApplied == true){
+                sourceArray = filteredRequestedItems
+                
             }
             else {
-                cell.itemDistanceLabel.text = String(format: "%.1f", distance) + " kms"
+                sourceArray = AppData.sharedInstance.onlineRequestedItems
             }
-            cell.itemImageView.sd_setImage(with: storageRef.child(sourceArray[indexPath.row].photos[0]), placeholderImage: UIImage.init(named: "placeholder"))
+            
+            populateDefaultCellLabelsAndImage(cell: cell, indexPath: indexPath, sourceArray: sourceArray)
+
+        }
+        else if (wantedAvailableSegmentedControl.selectedSegmentIndex == 1){
+            
+            if(searchApplied == true){
+                sourceArray = filteredOfferedItems
+            }
+            else {
+                sourceArray = AppData.sharedInstance.onlineOfferedItems
+            }
+            
+            populateDefaultCellLabelsAndImage(cell: cell, indexPath: indexPath, sourceArray: sourceArray)
         }
         
         return cell
@@ -181,53 +190,13 @@ extension HomeViewController {
             indexPathSelected = indexPath
             expandRow(indexPath: indexPath)
         }
-        
-        
-        
-        
-        
-        //        var itemToShow: Item
-        //
-        //        switch(wantedAvailableSegmentedControl.selectedSegmentIndex){
-        //
-        //        case 0:  itemToShow = AppData.sharedInstance.onlineRequestedItems[indexPath.row]
-        //        case 1:  itemToShow = AppData.sharedInstance.onlineOfferedItems[indexPath.row]
-        //        default:
-        //            return
-        //
-        //        }
-        //
-        //        if (searchApplied == true){
-        //
-        //            switch(wantedAvailableSegmentedControl.selectedSegmentIndex){
-        //
-        //            case 0:  itemToShow = filteredRequestedItems[indexPath.row]
-        //            case 1:  itemToShow = filteredOfferedItems[indexPath.row]
-        //            default:
-        //                return
-        //
-        //            }
-        //        }
-        //
-        //
-        //        currentItemIndexPath = indexPath
-        //        lastItemSelected = itemToShow
-        //
-        //        mapListSegmentedControl.selectedSegmentIndex = 0
-        //        mapListSegmentedControl.sendActions(for: UIControlEvents.valueChanged)
-        //
-        //        homeMapView.selectAnnotation(itemToShow, animated: true)
-        //
-        //        let span = MKCoordinateSpanMake(0.007, 0.007)
-        //
-        //        homeMapView.setRegion(MKCoordinateRegionMake(itemToShow.coordinate, span) , animated: true)
-        //
+
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
         if indexPathSelected == indexPath {
-            return 102
+            return 200
         } else {
             return 70
         }
@@ -264,5 +233,48 @@ extension HomeViewController {
      
         
     }
+    
+    func populateDefaultCellLabelsAndImage(cell: ItemHomeTableViewCell, indexPath: IndexPath, sourceArray: [Item]){
+        
+        
+        let destinationLocation: CLLocation = CLLocation(latitude: sourceArray[indexPath.row].location.latitude, longitude: sourceArray[indexPath.row].location.longitude)
+        
+        let distance = (destinationLocation.distance(from: getLocation())/1000)
+        
+        cell.itemTitleLabel.text = sourceArray[indexPath.row].name
+        cell.itemQualityLabel.text = sourceArray[indexPath.row].quality.rawValue
+        
+        if (distance > 100){
+            cell.itemDistanceLabel.text = ">100 kms"
+        }
+        else {
+            cell.itemDistanceLabel.text = String(format: "%.1f", distance) + " kms"
+        }
+        
+        cell.itemImageView.sd_setImage(with: storageRef.child(sourceArray[indexPath.row].photos[0]), placeholderImage: UIImage.init(named: "placeholder"))
+    }
+    
+    func populateExpandedCellLabelsAndImage(cell: ItemDetailHomeTableViewCell, indexPath: IndexPath, sourceArray: [Item]){
+        
+        cell.currentItem = sourceArray[indexPath.row]
+        
+        cell.setupCollectionView()
+        
+        let destinationLocation: CLLocation = CLLocation(latitude: sourceArray[indexPath.row].location.latitude, longitude: sourceArray[indexPath.row].location.longitude)
+        
+        let distance = (destinationLocation.distance(from: getLocation())/1000)
+        
+        cell.titleLabel.text = sourceArray[indexPath.row].name
+        cell.qualityLabel.text = sourceArray[indexPath.row].quality.rawValue
+        
+        if (distance > 100){
+            cell.distanceLabel.text = ">100 kms"
+        }
+        else {
+            cell.distanceLabel.text = String(format: "%.1f", distance) + " kms"
+        }
+    
+    }
+    
     
 }

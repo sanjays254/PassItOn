@@ -19,12 +19,6 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="174.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="g2B-PB-j23">
-                        <rect key="frame" x="8" y="5" width="70" height="164.5"/>
-                        <constraints>
-                            <constraint firstAttribute="width" constant="70" id="h1R-cj-UV8"/>
-                        </constraints>
-                    </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ktN-AR-rEF">
                         <rect key="frame" x="86" y="11" width="158" height="24.5"/>
                         <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="21"/>
@@ -38,7 +32,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Distance" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Qj-Be-pdK">
-                        <rect key="frame" x="246" y="17" width="70" height="141"/>
+                        <rect key="frame" x="246" y="17" width="70" height="15"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="70" id="nuo-ve-NUK"/>
                         </constraints>
@@ -46,24 +40,64 @@
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="52p-TZ-J53">
+                        <rect key="frame" x="291" y="44" width="25" height="25"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="25" id="DUL-JZ-Yo3"/>
+                            <constraint firstAttribute="height" constant="25" id="wMz-9D-tIk"/>
+                        </constraints>
+                        <state key="normal" title="Button" image="userlocation"/>
+                    </button>
+                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="RXA-CT-TaP">
+                        <rect key="frame" x="8" y="5" width="70" height="164.5"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="70" id="Z2s-ic-LUn"/>
+                        </constraints>
+                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="ojs-ae-caT">
+                            <size key="itemSize" width="50" height="50"/>
+                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        </collectionViewFlowLayout>
+                    </collectionView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GTT-qz-Ac7">
+                        <rect key="frame" x="86" y="70.5" width="69" height="18"/>
+                        <fontDescription key="fontDescription" name="GillSans-Light" family="Gill Sans" pointSize="15"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <constraints>
                     <constraint firstAttribute="bottomMargin" secondItem="7PZ-mV-kmm" secondAttribute="bottom" constant="113.5" id="0RW-fH-eRY"/>
                     <constraint firstItem="7Qj-Be-pdK" firstAttribute="leading" secondItem="ktN-AR-rEF" secondAttribute="trailing" constant="2" id="18M-P1-KjQ"/>
-                    <constraint firstItem="g2B-PB-j23" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="1VN-Kb-RzV"/>
                     <constraint firstItem="ktN-AR-rEF" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" id="DpA-9k-vxc"/>
-                    <constraint firstItem="7PZ-mV-kmm" firstAttribute="leading" secondItem="g2B-PB-j23" secondAttribute="trailing" constant="8" id="Gfq-bs-58D"/>
                     <constraint firstAttribute="trailing" secondItem="7Qj-Be-pdK" secondAttribute="trailing" constant="4" id="H1m-w1-dde"/>
-                    <constraint firstItem="ktN-AR-rEF" firstAttribute="leading" secondItem="g2B-PB-j23" secondAttribute="trailing" constant="8" id="Hso-6w-R02"/>
-                    <constraint firstItem="g2B-PB-j23" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="8" id="OeA-aq-O5W"/>
+                    <constraint firstAttribute="trailing" secondItem="52p-TZ-J53" secondAttribute="trailing" constant="4" id="K1c-Mg-gbE"/>
+                    <constraint firstItem="ktN-AR-rEF" firstAttribute="leading" secondItem="RXA-CT-TaP" secondAttribute="trailing" constant="8" id="Lta-Xb-RKx"/>
+                    <constraint firstItem="7PZ-mV-kmm" firstAttribute="leading" secondItem="ktN-AR-rEF" secondAttribute="leading" id="MA4-V3-2o8"/>
+                    <constraint firstItem="GTT-qz-Ac7" firstAttribute="leading" secondItem="7PZ-mV-kmm" secondAttribute="leading" id="OqX-Qj-IEE"/>
                     <constraint firstItem="7Qj-Be-pdK" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="6" id="QFG-GY-kll"/>
-                    <constraint firstAttribute="bottom" secondItem="g2B-PB-j23" secondAttribute="bottom" constant="5" id="njm-py-qBY"/>
-                    <constraint firstAttribute="bottomMargin" secondItem="7Qj-Be-pdK" secondAttribute="bottom" constant="6" id="sdf-WB-80z"/>
+                    <constraint firstItem="RXA-CT-TaP" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="e8C-Yq-IoQ"/>
+                    <constraint firstItem="RXA-CT-TaP" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="8" id="gJ9-xO-bG3"/>
+                    <constraint firstAttribute="bottom" secondItem="RXA-CT-TaP" secondAttribute="bottom" constant="5" id="kiQ-V4-cf0"/>
+                    <constraint firstItem="52p-TZ-J53" firstAttribute="top" secondItem="7Qj-Be-pdK" secondAttribute="bottom" constant="12" id="p5A-Kh-rfJ"/>
                     <constraint firstItem="7PZ-mV-kmm" firstAttribute="top" secondItem="ktN-AR-rEF" secondAttribute="bottom" id="sqA-qx-eze"/>
+                    <constraint firstItem="GTT-qz-Ac7" firstAttribute="top" secondItem="7PZ-mV-kmm" secondAttribute="bottom" constant="20" id="vc0-8k-6BN"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="distanceLabel" destination="7Qj-Be-pdK" id="yAi-Xc-gpn"/>
+                <outlet property="locationButton" destination="52p-TZ-J53" id="UFf-cd-c1V"/>
+                <outlet property="photoCollectionView" destination="RXA-CT-TaP" id="hSR-Xp-FMw"/>
+                <outlet property="qualityLabel" destination="7PZ-mV-kmm" id="o6O-YL-EOu"/>
+                <outlet property="titleLabel" destination="ktN-AR-rEF" id="FPL-tU-alp"/>
+            </connections>
             <point key="canvasLocation" x="35" y="119.5"/>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="userlocation" width="24" height="24"/>
+    </resources>
 </document>

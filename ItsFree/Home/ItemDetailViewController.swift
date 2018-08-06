@@ -306,13 +306,23 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
     }
     
     
-
-    
-    @objc func dismissFullscreenImage(_ sender: UITapGestureRecognizer) {
-
-        itemActionDelegate.dismissFullscreenImage(sender: sender, inpVC: self)
+    @objc func dismissFullscreenImage(sender: UITapGestureRecognizer) {
+        
+            self.navigationController?.isNavigationBarHidden = false
+            self.tabBarController?.tabBar.isHidden = false
+            
+            UIView.animate(withDuration: 0, animations: {}, completion: {(finished: Bool) in
+                
+                    self.itemDetailView.frame = CGRect(x: 0, y:self.detailViewTopAnchorConstant, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height)
+         
+            })
+            
+            sender.view?.removeFromSuperview()
+     
     }
     
+    
+
     
     
     @IBAction func sendEmail(_ sender: UIButton) {

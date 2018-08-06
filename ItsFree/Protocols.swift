@@ -26,7 +26,7 @@ protocol AlertDelegate {
 protocol ItemActionDelegate {
     func sendPosterMessage(inpVC: UIViewController, currentItem: Item, destinationUser: User)
     func fullscreenImage(imagePath: String, inpVC: UIViewController)
-    func dismissFullscreenImage(sender: UITapGestureRecognizer, inpVC: UIViewController)
+    func dismissFullscreenImage(sender: UITapGestureRecognizer)
 }
 
 protocol NotificationDelegate {

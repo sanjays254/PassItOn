@@ -6,8 +6,6 @@
 //  Copyright © 2017 Sanjay Shah. All rights reserved.
 //
 
-// Nicholas Fung
-
 
 import UIKit
 import MapKit
@@ -18,7 +16,7 @@ public var offerRequestBool: Bool!
 
 
 class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate, MKMapViewDelegate, UINavigationControllerDelegate, UISearchBarDelegate, NotificationDelegate, LoggedOutDelegate,ItemActionDelegate, HomeMarkerSelectionDelegate, MFMailComposeViewControllerDelegate, MFMessageComposeViewControllerDelegate {
-    
+
     
     var storageRef: StorageReference!
     
@@ -58,6 +56,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     var indexPathPreviouslySelected: IndexPath?
     
     var currentCategory: ItemCategory?
+    
+    var topVC: UIViewController?
   
     var searchActive : Bool = false
     var searchApplied : Bool = false
@@ -621,29 +621,25 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             newImageView.backgroundColor = .black
             newImageView.contentMode = .scaleAspectFit
             newImageView.isUserInteractionEnabled = true
-            let tap = UITapGestureRecognizer(target: self, action: #selector(dismissFullscreenImage))
+            let tap = UITapGestureRecognizer(target: inpVC, action: #selector(dismissFullscreenImage(sender:)))
             newImageView.addGestureRecognizer(tap)
             inpVC.view.addSubview(newImageView)
             inpVC.navigationController?.isNavigationBarHidden = true
             inpVC.tabBarController?.tabBar.isHidden = true
             
+        
+            
         }
     }
     
-    @objc func dismissFullscreenImage(sender: UITapGestureRecognizer, inpVC: UIViewController) {
-        
-        inpVC.navigationController?.isNavigationBarHidden = false
-        inpVC.tabBarController?.tabBar.isHidden = false
-        
-        UIView.animate(withDuration: 0, animations: {}, completion: {(finished: Bool) in
-            
-            if let itemDetailVC = inpVC as? ItemDetailViewController {
-                
-                itemDetailVC.itemDetailView.frame = CGRect(x: 0, y:itemDetailVC.detailViewTopAnchorConstant, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height)
-            }
-        })
+    
+    @objc func dismissFullscreenImage(sender: UITapGestureRecognizer) {
+    
+        self.navigationController?.isNavigationBarHidden = false
+        self.tabBarController?.tabBar.isHidden = false
         
         sender.view?.removeFromSuperview()
+        
     }
     
     

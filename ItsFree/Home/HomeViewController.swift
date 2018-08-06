@@ -12,13 +12,12 @@
 import UIKit
 import MapKit
 import FirebaseStorage
+import MessageUI
 
 public var offerRequestBool: Bool!
 
-class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate, MKMapViewDelegate, UINavigationControllerDelegate, UISearchBarDelegate, NotificationDelegate, LoggedOutDelegate, HomeMarkerSelectionDelegate {
 
-    
-    
+class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate, MKMapViewDelegate, UINavigationControllerDelegate, UISearchBarDelegate, NotificationDelegate, LoggedOutDelegate,ItemActionDelegate, HomeMarkerSelectionDelegate, MFMailComposeViewControllerDelegate, MFMessageComposeViewControllerDelegate {
     
     
     var storageRef: StorageReference!
@@ -363,6 +362,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBAction func changedWantedAvailableSegmnent(_ sender: UISegmentedControl) {
         
         lastItemSelected = nil
+        indexPathSelected = nil
+        indexPathPreviouslySelected = nil
         
         if(sender.selectedSegmentIndex == 0){
             offerRequestBool = false
@@ -514,6 +515,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         //make the childViewController and add it into the containerView
         let detailViewController = ItemDetailViewController()
         detailViewController.currentItem = item
+        detailViewController.itemActionDelegate = self
         
         if (wantedAvailableSegmentedControl.selectedSegmentIndex == 0){
             detailViewController.kindOfItem = "Request"
@@ -558,7 +560,92 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
 //        self.homeTableView.scrollToRow(at: self.currentItemIndexPath, at: UITableViewScrollPosition.top, animated: true)
 
     }
-
+    
+    
+    func sendPosterMessage(inpVC: UIViewController, currentItem: Item, destinationUser: User) {
+        
+        if(AppData.sharedInstance.currentUser!.UID == destinationUser.UID){
+            //show alert
+            let usersOwnItemAlert = UIAlertController(title: "Oops", message: "This item was posted by you", preferredStyle: UIAlertControllerStyle.alert)
+            let okayAction = UIAlertAction(title: "Okay", style: UIAlertActionStyle.default, handler: nil)
+            usersOwnItemAlert.addAction(okayAction)
+            inpVC.present(usersOwnItemAlert, animated: true, completion: nil)
+            
+        }
+        else {
+            
+            if (destinationUser.phoneNumber != 0){
+                
+                let textOrEmailAlert = UIAlertController(title: "\(destinationUser.name) has shared a cell number", message: "How would you like to message \(destinationUser.name)?", preferredStyle: .actionSheet)
+                
+                let emailAction = UIAlertAction(title: "Email", style: .default, handler: {_ in
+                    self.emailChosen(inpVC: inpVC, item: currentItem, destinationUser: destinationUser)})
+                
+                let textAction = UIAlertAction(title: "Text", style: .default, handler: {_ in
+                    self.textChosen(inpVC: inpVC, item: currentItem, destinationUser: destinationUser)})
+                let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+                
+                textOrEmailAlert.addAction(emailAction)
+                textOrEmailAlert.addAction(textAction)
+                textOrEmailAlert.addAction(cancelAction)
+                
+                inpVC.present(textOrEmailAlert, animated: true, completion: nil)
+            }
+            else {
+                emailChosen(inpVC: inpVC, item: currentItem, destinationUser: destinationUser)
+            }
+        }
+        
+        
+    }
+    
+    
+    
+    func fullscreenImage(imagePath : String, inpVC: UIViewController) {
+        
+        if (imagePath == ""){
+            let noImageAlert = UIAlertController(title: "Sorry", message: "This item doesn't have an image", preferredStyle: .alert)
+            let okayAction = UIAlertAction(title: "Okay", style: .default, handler: nil)
+            
+            noImageAlert.addAction(okayAction)
+            
+            inpVC.present(noImageAlert, animated: true, completion: nil)
+        }
+            
+        else {
+            
+            let newImageView = UIImageView()
+            newImageView.sd_setImage(with: storageRef.child(imagePath), placeholderImage: UIImage.init(named: "placeholder"))
+            
+            newImageView.frame = UIScreen.main.bounds
+            newImageView.backgroundColor = .black
+            newImageView.contentMode = .scaleAspectFit
+            newImageView.isUserInteractionEnabled = true
+            let tap = UITapGestureRecognizer(target: self, action: #selector(dismissFullscreenImage))
+            newImageView.addGestureRecognizer(tap)
+            inpVC.view.addSubview(newImageView)
+            inpVC.navigationController?.isNavigationBarHidden = true
+            inpVC.tabBarController?.tabBar.isHidden = true
+            
+        }
+    }
+    
+    @objc func dismissFullscreenImage(sender: UITapGestureRecognizer, inpVC: UIViewController) {
+        
+        inpVC.navigationController?.isNavigationBarHidden = false
+        inpVC.tabBarController?.tabBar.isHidden = false
+        
+        UIView.animate(withDuration: 0, animations: {}, completion: {(finished: Bool) in
+            
+            if let itemDetailVC = inpVC as? ItemDetailViewController {
+                
+                itemDetailVC.itemDetailView.frame = CGRect(x: 0, y:itemDetailVC.detailViewTopAnchorConstant, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height)
+            }
+        })
+        
+        sender.view?.removeFromSuperview()
+    }
+    
     
     @objc func dismissKeyboard (_ sender: UITapGestureRecognizer) {
         searchBar.resignFirstResponder()

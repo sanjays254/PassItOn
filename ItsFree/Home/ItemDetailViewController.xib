@@ -173,6 +173,7 @@
                         <outlet property="itemValueLabel" destination="LBY-Th-AjX" id="eaQ-7U-geX"/>
                         <outlet property="leftUpArrow" destination="Jzr-oE-szb" id="o1h-mb-UuJ"/>
                         <outlet property="mainImageView" destination="4bD-P7-jHw" id="jx3-Yl-eIn"/>
+                        <outlet property="messageButton" destination="D3q-we-ffY" id="YFK-BO-zby"/>
                         <outlet property="photoCollectionView" destination="ckl-Ev-lut" id="td8-oe-bvK"/>
                         <outlet property="posterRating" destination="L32-KL-sMa" id="n7y-B8-hIJ"/>
                         <outlet property="posterUsername" destination="58X-Bu-Kbi" id="jaM-nf-Ohi"/>

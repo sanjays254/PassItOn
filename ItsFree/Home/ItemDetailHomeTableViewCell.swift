@@ -10,14 +10,16 @@ import UIKit
 import Firebase
 import MapKit
 
-protocol HomeMarkerSelectionDelegate {
-    func selectMarker(item: Item)
-}
 
-class ItemDetailHomeTableViewCell: UITableViewCell, UICollectionViewDelegate, UICollectionViewDataSource {
+
+class ItemDetailHomeTableViewCell: UITableViewCell, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     var homeMapDelegate: HomeMarkerSelectionDelegate!
+    var itemActionDelegate: ItemActionDelegate!
     
+    var homeVC: HomeViewController!
+    
+    var poster: User?
     var currentItem: Item!
     
     var storageRef: StorageReference!
@@ -32,12 +34,9 @@ class ItemDetailHomeTableViewCell: UITableViewCell, UICollectionViewDelegate, UI
     
     @IBOutlet weak var locationButton: UIButton!
     
-    
     @IBOutlet weak var valueLabel: UILabel!
     
-    
     @IBOutlet weak var descriptionLabel: UILabel!
-    
     
     @IBOutlet weak var posterNameLabel: UILabel!
     
@@ -50,8 +49,8 @@ class ItemDetailHomeTableViewCell: UITableViewCell, UICollectionViewDelegate, UI
         super.awakeFromNib()
         
         storageRef = Storage.storage().reference()
-        
-
+    
+        messagePosterButton.addTarget(self, action: #selector(sendMessage), for: .touchUpInside)
         
         locationButton.addTarget(self, action: #selector(showItemOnMap), for: .touchUpInside)
         
@@ -69,6 +68,7 @@ class ItemDetailHomeTableViewCell: UITableViewCell, UICollectionViewDelegate, UI
         
         photoCollectionView.delegate = self
         photoCollectionView.dataSource = self
+    
         
         photoCollectionView.reloadData()
         
@@ -88,17 +88,40 @@ class ItemDetailHomeTableViewCell: UITableViewCell, UICollectionViewDelegate, UI
 //        cell.layer.borderWidth = 5.0
 //        cell.layer.cornerRadius = 5.0
         
-        
-        
         cell.imageView.sd_setImage(with: storageRef.child(photoRef[indexPath.item]), placeholderImage: UIImage.init(named: "placeholder"))
         
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        let photoRef: [String] = currentItem.photos
+        itemActionDelegate.fullscreenImage(imagePath: photoRef[indexPath.item], inpVC: homeVC)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        return CGSize(width: photoCollectionView.frame.width, height: photoCollectionView.frame.width*0.8)
+        
     }
     
 
     @objc func showItemOnMap(){
 
         homeMapDelegate.selectMarker(item: currentItem)
+        
+    }
+    
+
+    
+    @objc func sendMessage(){
+        
+        if let poster = poster {
+        
+        itemActionDelegate.sendPosterMessage(inpVC: homeVC, currentItem: currentItem, destinationUser: poster)
+        }
+        
+        
         
     }
     

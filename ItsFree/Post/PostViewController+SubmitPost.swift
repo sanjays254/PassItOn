@@ -44,8 +44,8 @@ extension PostViewController {
             return
         }
         
-        guard (titleTextField.text!.count < 18) else {
-            let alert = UIAlertController(title: "Whoops", message: "Title needs to be less than 18 characters", preferredStyle: UIAlertControllerStyle.alert)
+        guard (titleTextField.text!.count < 20) else {
+            let alert = UIAlertController(title: "Whoops", message: "Title needs to be less than 20 characters", preferredStyle: UIAlertControllerStyle.alert)
             alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.default, handler: nil))
             present(alert, animated: true, completion: nil)
             return

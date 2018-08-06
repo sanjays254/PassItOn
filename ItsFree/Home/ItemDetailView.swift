@@ -26,4 +26,5 @@ class ItemDetailView: UIView {
     
     @IBOutlet weak var leftUpArrow: UIImageView!
     
+    @IBOutlet weak var messageButton: UIButton!
 }

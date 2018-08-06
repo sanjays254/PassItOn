@@ -28,6 +28,8 @@
 		CE014338201448290045A876 /* ItemPhotoCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE014336201448280045A876 /* ItemPhotoCollectionViewCell.xib */; };
 		CE01A15C21176B3E003AC827 /* ItemDetailHomeTableViewCellPhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE01A15A21176B3E003AC827 /* ItemDetailHomeTableViewCellPhotoCollectionViewCell.swift */; };
 		CE01A15D21176B3E003AC827 /* ItemDetailHomeTableViewCellPhotoCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE01A15B21176B3E003AC827 /* ItemDetailHomeTableViewCellPhotoCollectionViewCell.xib */; };
+		CE01A15F2117E702003AC827 /* HomeViewController+Messaging.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE01A15E2117E702003AC827 /* HomeViewController+Messaging.swift */; };
+		CE01A161211816F6003AC827 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE01A160211816F6003AC827 /* Protocols.swift */; };
 		CE01EA6B200D5BD2002C33D7 /* RatingSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE01EA6A200D5BD0002C33D7 /* RatingSystem.swift */; };
 		CE2217F1211565AE003CC553 /* PostViewController+SubmitPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2217F0211565AE003CC553 /* PostViewController+SubmitPost.swift */; };
 		CE2217F321156652003CC553 /* PostViewController+PhotoCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2217F221156652003CC553 /* PostViewController+PhotoCollectionView.swift */; };
@@ -121,6 +123,8 @@
 		CE014336201448280045A876 /* ItemPhotoCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ItemPhotoCollectionViewCell.xib; sourceTree = "<group>"; };
 		CE01A15A21176B3E003AC827 /* ItemDetailHomeTableViewCellPhotoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDetailHomeTableViewCellPhotoCollectionViewCell.swift; sourceTree = "<group>"; };
 		CE01A15B21176B3E003AC827 /* ItemDetailHomeTableViewCellPhotoCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ItemDetailHomeTableViewCellPhotoCollectionViewCell.xib; sourceTree = "<group>"; };
+		CE01A15E2117E702003AC827 /* HomeViewController+Messaging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HomeViewController+Messaging.swift"; sourceTree = "<group>"; };
+		CE01A160211816F6003AC827 /* Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
 		CE01EA6A200D5BD0002C33D7 /* RatingSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingSystem.swift; sourceTree = "<group>"; };
 		CE2217F0211565AE003CC553 /* PostViewController+SubmitPost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PostViewController+SubmitPost.swift"; sourceTree = "<group>"; };
 		CE2217F221156652003CC553 /* PostViewController+PhotoCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PostViewController+PhotoCollectionView.swift"; sourceTree = "<group>"; };
@@ -288,6 +292,7 @@
 				CEF41A201FC374520044C63E /* ItemHomeTableViewCell.xib */,
 				CEF41A1F1FC374520044C63E /* ItemHomeTableViewCell.swift */,
 				CE9683D41FBF8E5600DFA277 /* HomeViewController.swift */,
+				CE01A15E2117E702003AC827 /* HomeViewController+Messaging.swift */,
 				CEDF0122211688A3004007AB /* HomeViewController+Search.swift */,
 				CEDF0120211687ED004007AB /* HomeViewController+TableView.swift */,
 				CE43E7991FCF90290061A653 /* FilterTableViewController.swift */,
@@ -381,6 +386,7 @@
 				CE2217EC211563B5003CC553 /* FirebaseStorage */,
 				CE2217EB21156320003CC553 /* Leaderboard */,
 				CE9683CF1FBE655600DFA277 /* LocationManager.swift */,
+				CE01A160211816F6003AC827 /* Protocols.swift */,
 				CEF41A1B1FC1000F0044C63E /* MapViewDelegate.swift */,
 				CE2217E721156247003CC553 /* Post */,
 				CE2217E92115629B003CC553 /* FirebaseData */,
@@ -790,6 +796,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				01BAC9F71FBE5C9E0050C891 /* Item.swift in Sources */,
+				CE01A161211816F6003AC827 /* Protocols.swift in Sources */,
 				CE5DC8BB210A661B008E3F01 /* BusyActivityView.swift in Sources */,
 				CE2217F321156652003CC553 /* PostViewController+PhotoCollectionView.swift in Sources */,
 				CE43E79A1FCF90290061A653 /* FilterTableViewController.swift in Sources */,
@@ -822,6 +829,7 @@
 				CE2217F1211565AE003CC553 /* PostViewController+SubmitPost.swift in Sources */,
 				CE014334200FFCAA0045A876 /* UIProperties.swift in Sources */,
 				CE2217F921156B5D003CC553 /* PostViewController+SteppedQuestions.swift in Sources */,
+				CE01A15F2117E702003AC827 /* HomeViewController+Messaging.swift in Sources */,
 				01C1CAEB1FBFCAE900FB636C /* Tag.swift in Sources */,
 				01F6ADA71FC3A89C00414D96 /* ImageManager.swift in Sources */,
 				CEF41A211FC374520044C63E /* ItemHomeTableViewCell.swift in Sources */,

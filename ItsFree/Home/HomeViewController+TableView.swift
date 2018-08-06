@@ -107,7 +107,11 @@ extension HomeViewController {
         
         let cell = homeTableView.dequeueReusableCell(withIdentifier: "itemHomeDetailTableViewCellID") as! ItemDetailHomeTableViewCell
         
+        cell.itemActionDelegate = self
+        cell.homeVC = self
         cell.homeMapDelegate = self
+        
+   
         
         var sourceArray:[Item]!
         
@@ -197,11 +201,11 @@ extension HomeViewController {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
-      //  if indexPathSelected == indexPath {
+        if indexPathSelected == indexPath {
             return UITableViewAutomaticDimension
-//        } else {
-//            return 70
-//        }
+        } else {
+            return 80
+        }
     }
     
     func expandRow(indexPath: IndexPath){
@@ -269,12 +273,14 @@ extension HomeViewController {
             
             if (success){
                 //force unwrapping is okay here because user exists if success is true
-                cell.posterNameLabel.text = "Poster: \(user!.name)"
+                cell.posterNameLabel.text = "\(user!.name)"
                 cell.posterRatingLabel.text = "\(user!.rating)"
                 cell.messagePosterButton.isEnabled = true
+                
+                cell.poster = user!
             }
             else {
-                cell.posterNameLabel.text = "Poster: Unknown"
+                cell.posterNameLabel.text = "Unknown Poster"
                 cell.posterRatingLabel.text = ""
                 cell.messagePosterButton.isEnabled = false
                 
@@ -292,8 +298,8 @@ extension HomeViewController {
         cell.titleLabel.text = cell.currentItem.name
         cell.qualityLabel.text = cell.currentItem.quality.rawValue
         cell.descriptionLabel.text = cell.currentItem.itemDescription
-//        cell.descriptionLabel.sizeToFit()
-//        cell.setNeedsDisplay()
+        cell.descriptionLabel.sizeToFit()
+        cell.setNeedsDisplay()
         
         //if its a request, the item has no value
         if(wantedAvailableSegmentedControl.selectedSegmentIndex == 0) {

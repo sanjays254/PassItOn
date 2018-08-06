@@ -12,9 +12,6 @@ import FirebaseStorage
 import FirebaseDatabase
 import SDWebImage
 
-protocol LoggedOutDelegate {
-    func goToLoginVC()
-}
 
 class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate{
     

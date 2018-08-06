@@ -11,9 +11,6 @@ import KeychainAccess
 import FirebaseAuth
 import Firebase
 
-protocol AlertDelegate {
-    func presentAlert(alert: UIAlertController)
-}
 
 
 class AuthenticationManager {

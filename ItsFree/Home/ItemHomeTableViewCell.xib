@@ -1,21 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
-    <customFonts key="customFonts">
-        <array key="GillSans.ttc">
-            <string>GillSans</string>
-            <string>GillSans-Light</string>
-            <string>GillSans-LightItalic</string>
-        </array>
-    </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -27,46 +21,50 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="g2B-PB-j23">
-                        <rect key="frame" x="8" y="5" width="70" height="69.5"/>
-                        <constraints>
-                            <constraint firstAttribute="width" constant="70" id="h1R-cj-UV8"/>
-                        </constraints>
+                        <rect key="frame" x="5" y="5" width="96" height="67"/>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ktN-AR-rEF">
-                        <rect key="frame" x="86" y="11" width="158" height="48"/>
-                        <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="21"/>
-                        <nil key="textColor"/>
-                        <nil key="highlightedColor"/>
-                    </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" verticalCompressionResistancePriority="748" text="Quality" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7PZ-mV-kmm">
-                        <rect key="frame" x="86" y="59" width="37" height="15"/>
+                        <rect key="frame" x="109" y="56" width="37" height="17"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="17" id="yE7-QH-g8L"/>
+                        </constraints>
                         <fontDescription key="fontDescription" name="GillSans-Light" family="Gill Sans" pointSize="13"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Distance" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Qj-Be-pdK">
-                        <rect key="frame" x="246" y="17" width="70" height="46"/>
+                        <rect key="frame" x="259" y="56" width="55" height="15"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="70" id="nuo-ve-NUK"/>
+                            <constraint firstAttribute="width" constant="55" id="nuo-ve-NUK"/>
                         </constraints>
                         <fontDescription key="fontDescription" name="GillSans-LightItalic" family="Gill Sans" pointSize="13"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ktN-AR-rEF">
+                        <rect key="frame" x="109" y="11" width="207" height="45"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="45" id="1Eb-yn-hjN"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="21"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="7Qj-Be-pdK" firstAttribute="leading" secondItem="ktN-AR-rEF" secondAttribute="trailing" constant="2" id="18M-P1-KjQ"/>
                     <constraint firstItem="g2B-PB-j23" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="1VN-Kb-RzV"/>
+                    <constraint firstAttribute="bottom" secondItem="7Qj-Be-pdK" secondAttribute="bottom" constant="6" id="DAb-cv-jGJ"/>
                     <constraint firstItem="ktN-AR-rEF" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" id="DpA-9k-vxc"/>
                     <constraint firstItem="7PZ-mV-kmm" firstAttribute="leading" secondItem="g2B-PB-j23" secondAttribute="trailing" constant="8" id="Gfq-bs-58D"/>
-                    <constraint firstAttribute="trailing" secondItem="7Qj-Be-pdK" secondAttribute="trailing" constant="4" id="H1m-w1-dde"/>
+                    <constraint firstAttribute="trailing" secondItem="7Qj-Be-pdK" secondAttribute="trailing" constant="6" id="H1m-w1-dde"/>
                     <constraint firstItem="ktN-AR-rEF" firstAttribute="leading" secondItem="g2B-PB-j23" secondAttribute="trailing" constant="8" id="Hso-6w-R02"/>
                     <constraint firstAttribute="bottom" secondItem="g2B-PB-j23" secondAttribute="bottom" constant="5" id="LoB-0j-LlQ"/>
-                    <constraint firstItem="g2B-PB-j23" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="8" id="OeA-aq-O5W"/>
-                    <constraint firstItem="7Qj-Be-pdK" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="6" id="QFG-GY-kll"/>
-                    <constraint firstAttribute="bottom" secondItem="7PZ-mV-kmm" secondAttribute="bottom" constant="5.5" id="nEJ-zI-kMM"/>
-                    <constraint firstAttribute="bottomMargin" secondItem="7Qj-Be-pdK" secondAttribute="bottom" constant="6" id="sdf-WB-80z"/>
+                    <constraint firstItem="g2B-PB-j23" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="5" id="OeA-aq-O5W"/>
+                    <constraint firstItem="g2B-PB-j23" firstAttribute="width" secondItem="H2p-sc-9uM" secondAttribute="width" multiplier="0.3" id="Rxj-Do-xy1"/>
+                    <constraint firstItem="7Qj-Be-pdK" firstAttribute="top" secondItem="7PZ-mV-kmm" secondAttribute="top" id="lb3-vd-dsm"/>
+                    <constraint firstAttribute="bottom" secondItem="7PZ-mV-kmm" secondAttribute="bottom" constant="8" id="nEJ-zI-kMM"/>
                     <constraint firstItem="7PZ-mV-kmm" firstAttribute="top" secondItem="ktN-AR-rEF" secondAttribute="bottom" id="sqA-qx-eze"/>
+                    <constraint firstAttribute="trailing" secondItem="ktN-AR-rEF" secondAttribute="trailing" constant="4" id="xwZ-pd-E6y"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>

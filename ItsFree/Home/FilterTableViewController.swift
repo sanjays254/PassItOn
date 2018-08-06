@@ -8,11 +8,7 @@
 
 import UIKit
 
-protocol NotificationDelegate {
-    
-    func setNotificationsFromDelegator(category: ItemCategory?)
-    
-}
+
 
 
 class FilterTableViewController: UITableViewController {

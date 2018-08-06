@@ -21,7 +21,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="g2B-PB-j23">
-                        <rect key="frame" x="5" y="5" width="96" height="77.5"/>
+                        <rect key="frame" x="5" y="5" width="96" height="67"/>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" verticalCompressionResistancePriority="748" text="Quality" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7PZ-mV-kmm">
                         <rect key="frame" x="109" y="56" width="37" height="17"/>
@@ -33,7 +33,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Distance" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Qj-Be-pdK">
-                        <rect key="frame" x="261" y="56" width="55" height="15"/>
+                        <rect key="frame" x="259" y="56" width="55" height="15"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="55" id="nuo-ve-NUK"/>
                         </constraints>
@@ -53,16 +53,16 @@
                 </subviews>
                 <constraints>
                     <constraint firstItem="g2B-PB-j23" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="1VN-Kb-RzV"/>
+                    <constraint firstAttribute="bottom" secondItem="7Qj-Be-pdK" secondAttribute="bottom" constant="6" id="DAb-cv-jGJ"/>
                     <constraint firstItem="ktN-AR-rEF" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" id="DpA-9k-vxc"/>
                     <constraint firstItem="7PZ-mV-kmm" firstAttribute="leading" secondItem="g2B-PB-j23" secondAttribute="trailing" constant="8" id="Gfq-bs-58D"/>
-                    <constraint firstAttribute="trailing" secondItem="7Qj-Be-pdK" secondAttribute="trailing" constant="4" id="H1m-w1-dde"/>
+                    <constraint firstAttribute="trailing" secondItem="7Qj-Be-pdK" secondAttribute="trailing" constant="6" id="H1m-w1-dde"/>
                     <constraint firstItem="ktN-AR-rEF" firstAttribute="leading" secondItem="g2B-PB-j23" secondAttribute="trailing" constant="8" id="Hso-6w-R02"/>
                     <constraint firstAttribute="bottom" secondItem="g2B-PB-j23" secondAttribute="bottom" constant="5" id="LoB-0j-LlQ"/>
                     <constraint firstItem="g2B-PB-j23" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="5" id="OeA-aq-O5W"/>
                     <constraint firstItem="g2B-PB-j23" firstAttribute="width" secondItem="H2p-sc-9uM" secondAttribute="width" multiplier="0.3" id="Rxj-Do-xy1"/>
                     <constraint firstItem="7Qj-Be-pdK" firstAttribute="top" secondItem="7PZ-mV-kmm" secondAttribute="top" id="lb3-vd-dsm"/>
                     <constraint firstAttribute="bottom" secondItem="7PZ-mV-kmm" secondAttribute="bottom" constant="8" id="nEJ-zI-kMM"/>
-                    <constraint firstAttribute="bottomMargin" secondItem="7Qj-Be-pdK" secondAttribute="bottom" constant="6" id="sdf-WB-80z"/>
                     <constraint firstItem="7PZ-mV-kmm" firstAttribute="top" secondItem="ktN-AR-rEF" secondAttribute="bottom" id="sqA-qx-eze"/>
                     <constraint firstAttribute="trailing" secondItem="ktN-AR-rEF" secondAttribute="trailing" constant="4" id="xwZ-pd-E6y"/>
                 </constraints>

@@ -133,18 +133,7 @@ extension HomeViewController {
             let currentItemID = item.UID {
  
          let linkString = createAttrLinkString(rateeName: destinationName, rateeUID: destinationUserID, itemUID: currentItemID)
-//
-//        let attrLinkString = NSMutableAttributedString(string: "Click here to Rate \(destinationName)")
-//        attrLinkString.addAttribute(NSAttributedStringKey.link, value: NSURL(string: "iOSPassItOnApp://?itemID=\(currentItemID!)&userID=\(destinationUserID!)")! , range: NSMakeRange(0, attrLinkString.length))
-//
-//        var linkString: String! = ""
-//
-//        do {
-//            let data = try attrLinkString.data(from: NSMakeRange(0, attrLinkString.length), documentAttributes: [NSAttributedString.DocumentAttributeKey.documentType : NSAttributedString.DocumentType.html])
-//            linkString = String(data: data, encoding: String.Encoding.utf8)
-//        }catch {
-//            print("error creating HTML from Attributed String")
-//        }
+
         
         //mailVC properties
         mailComposerVC.setToRecipients([destinationEmail, currentUserEmail])
@@ -167,19 +156,7 @@ extension HomeViewController {
             let currentItemID = item.UID {
         
         let linkString = createAttrLinkString(rateeName: currentUserName, rateeUID: currentUserID, itemUID: currentItemID)
-//
-//        let attrLinkString = NSMutableAttributedString(string: "Click Here to Rate \(currentUserName)")
-//        attrLinkString.addAttribute(NSAttributedStringKey.link, value: NSURL(string: "iOSPassItOnApp://?itemID=\(currentItemID)&userID=\(currentUserID!)")! , range: NSMakeRange(0, attrLinkString.length))
-//
-//        var linkString: String! = ""
-//
-//        do {
-//            let data = try attrLinkString.data(from: NSMakeRange(0, attrLinkString.length), documentAttributes: [NSAttributedString.DocumentAttributeKey.documentType : NSAttributedString.DocumentType.html])
-//            linkString = String(data: data, encoding: String.Encoding.utf8)
-//        }catch {
-//            print("error creating HTML from Attributed String")
-//        }
-        
+
         //mailVC properties
         mailComposerVC.setToRecipients([destinationEmail])
         mailComposerVC.setSubject("Pass It On: \(currentUserName) has something you want")
@@ -198,27 +175,15 @@ extension HomeViewController {
         let currentItemName = item.name
         let currentItemID = item.UID
         
-//        let attrLinkString = NSMutableAttributedString(string: "Click here to Rate \(destinationName)")
-//        attrLinkString.addAttribute(NSAttributedStringKey.link, value: NSURL(string: "iOSPassItOnApp://?itemID=\(currentItemID!)&userID=\(destinationUserID!)")! , range: NSMakeRange(0, attrLinkString.length))
-//
-//        var linkString: String! = ""
-//
-//        do {
-//            let data = try attrLinkString.data(from: NSMakeRange(0, attrLinkString.length), documentAttributes: [NSAttributedString.DocumentAttributeKey.documentType : NSAttributedString.DocumentType.html])
-//            linkString = String(data: data, encoding: String.Encoding.utf8)
-//        }catch {
-//            print("error creating HTML from Attributed String")
-//        }
         
         messageComposerVC.recipients = [destinationPhoneNumber]
         messageComposerVC.body = "Hey \(destinationName),\n\nI want your \(currentItemName). Thanks!\n\n-----------\n\nAdmin Message to \(currentUserName): Use the link below to rate \(destinationName), if you like or dislike the item.\n\niOSPassItOnApp://?itemID=\(currentItemID!)&userID=\(destinationUserID!)\n\nThanks! :)"
-        //, isHTML: true)
+    
         
         //send a message to current user with link instead of putting link in here
     }
     
     func requestText(messageComposerVC: MFMessageComposeViewController, item: Item, destinationUser: User){
-       // let destinationUser = AppData.sharedInstance.onlineUsers.filter{ $0.UID == item.posterUID }.first
         
         let destinationName = destinationUser.name
         let destinationPhoneNumber = String((destinationUser.phoneNumber))
@@ -227,15 +192,15 @@ extension HomeViewController {
         let currentUserID = AppData.sharedInstance.currentUser!.UID
         let currentItemName = item.name
         let currentItemID = item.UID
-        
-//        let linkString = createAttrLinkString(rateeName: currentUserName, rateeUID: currentUserID, itemUID: currentItemID)
-//
 
         //mailVC properties
         messageComposerVC.recipients = [destinationPhoneNumber]
         
         messageComposerVC.body = "Hey \(destinationName),\n\nI have a \(currentItemName).\n\nAdmin message to \(destinationName): Please click the link below if \(currentUserName) gives you the item, to easily delete your post from the app and so that you can rate him/her!\n\niOSPassItOnApp://?itemID=\(currentItemID!)&userID=\(currentUserID!)\n\nThanks! :)"
     }
+    
+    
+    
     
     func createAttrLinkString(rateeName: String, rateeUID: String, itemUID: String) -> String {
         

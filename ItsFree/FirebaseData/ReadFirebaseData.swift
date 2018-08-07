@@ -14,48 +14,52 @@ import CoreLocation
 
 class ReadFirebaseData: NSObject {
     
+    //get all offers
     class func readOffers(category:ItemCategory?) {
-        if ( Auth.auth().currentUser == nil)
-        {
-            return
-        }
         
         var ref:DatabaseReference
-        if category == nil {
-            ref = AppData.sharedInstance.offersNode
+        
+        //if category not specified, ref should be entire offers node
+        if let category = category {
+            ref = AppData.sharedInstance.offersNode.child("\(category.rawValue)")
+            
         }
         else {
-            ref = AppData.sharedInstance.offersNode.child("\(category!.rawValue)")
+            ref = AppData.sharedInstance.offersNode
         }
+        
         ref.observeSingleEvent(of: .value, with: { (snapshot) in
-            let value = snapshot.value as? NSDictionary;
+            if let value = snapshot.value as? NSDictionary {
+        
+                AppData.sharedInstance.onlineOfferedItems.removeAll()
             
-            if ( value == nil) {
-                NotificationCenter.default.post(name: Notification.Name(rawValue: "noOfferedItemsInCategoryKey"), object: nil)
-                
-                let myOffersDownloadedNotificationKey = "myOffersDownloadedNotificationKey"
-                NotificationCenter.default.post(name: Notification.Name(rawValue: myOffersDownloadedNotificationKey), object: nil)
-                
-                return
-            }
-            AppData.sharedInstance.onlineOfferedItems.removeAll()
-            
-            //if no category filter applied**
-            if category == nil {
-                for thisCategory in value! {
-                    print("\n\n\(thisCategory.key)")
-                    let data = thisCategory.value as! [String:Any]
+                //if no category filter applied, loop through all categories
+                if category == nil {
+                    for thisCategory in value {
+                        print("\n\n\(thisCategory.key)")
+                        let data = thisCategory.value as! [String:Any]
                     
-                    readOffer(data: data)
+                        readOffer(data: data)
+                    }
                 }
+                else {
+                    if let data = value as? [String:Any] {
+                        readOffer(data: data)
+                    }
+                }
+                
+                NotificationCenter.default.post(name: Notification.Name(rawValue: NotificationKeys.shared.offersDownloadedNotificationKey), object: nil)
+                
             }
+                
             else {
-                let data = value as? [String:Any]
-                readOffer(data: data!)
+               
+                NotificationCenter.default.post(name: Notification.Name(rawValue: NotificationKeys.shared.noOffersDownloadedInThisCategoryNotificationKey), object: nil)
+                    
+                    
+                //NotificationCenter.default.post(name: Notification.Name(rawValue: NotificationKeys.shared.offersDownloadedNotificationKey), object: nil)
+
             }
-            let myOffersDownloadedNotificationKey = "myOffersDownloadedNotificationKey"
-            NotificationCenter.default.post(name: Notification.Name(rawValue: myOffersDownloadedNotificationKey), object: nil)
-            
         })
         
 
@@ -64,254 +68,64 @@ class ReadFirebaseData: NSObject {
     
     //get all requested items
     class func readRequests(category:ItemCategory?) {
-        if ( Auth.auth().currentUser == nil) {
-            return
-        }
         
         var ref:DatabaseReference
-        if category == nil {
-            ref = AppData.sharedInstance.requestsNode
+        
+        //if category not specified, ref should be entire offers node
+        if let category = category {
+            ref = AppData.sharedInstance.requestsNode.child("\(category.rawValue)")
         }
         else {
-            ref = AppData.sharedInstance.requestsNode.child("\(category!.rawValue)")
+            ref = AppData.sharedInstance.requestsNode
         }
         
         ref.observeSingleEvent(of: .value, with: { (snapshot) in
             
-            let value = snapshot.value as? NSDictionary
+            if let value = snapshot.value as? NSDictionary {
+        
             
-            if ( value == nil) {
-                NotificationCenter.default.post(name: Notification.Name(rawValue: "noRequestedItemsInCategoryKey"), object: nil)
-                
-                let myRequestsDownloadedNotificationKey = "myRequestsDownloadedNotificationKey"
-                NotificationCenter.default.post(name: Notification.Name(rawValue: myRequestsDownloadedNotificationKey), object: nil)
-                
-                return
-            }
+                AppData.sharedInstance.onlineRequestedItems.removeAll()
             
-            AppData.sharedInstance.onlineRequestedItems.removeAll()
-            
-            //if no category filter applied**
-            if category == nil {
-                for thisCategory in value! {
-                    print("\n\n\(thisCategory.key)")
-                    let data = thisCategory.value as! [String:Any]
+                //if no category filter applied, loop through all categories
+                if category == nil {
+                    for thisCategory in value {
+                        print("\n\n\(thisCategory.key)")
+                        if let data = thisCategory.value as? [String:Any] {
                   
-                    readRequest(data: data)
+                            readRequest(data: data)
+                        }
+                    }
                 }
-            }
-            else {
-                let data = value as? [String:Any]
-                readRequest(data: data!)
-            }
-            let myRequestsDownloadedNotificationKey = "myRequestsDownloadedNotificationKey"
-            NotificationCenter.default.post(name: Notification.Name(rawValue: myRequestsDownloadedNotificationKey), object: nil)
-            
-        })
-    }
-    
-    
-    
-    //getMyCurrentUser
-    class func readCurrentUser(){
-        if ( Auth.auth().currentUser == nil) {
-            return
-        }
-        
-        AppData.sharedInstance.usersNode.observeSingleEvent(of: .value, with: {(snapshot) in
-            
-            let value = snapshot.value as? NSDictionary
-            
-            if ( value == nil) {
-                return
-            }
-            if let currentUserUID = Auth.auth().currentUser?.uid {
-                if let currentUser = value?["\(currentUserUID)"] {
-            
-                let user: [String:Any] = currentUser as! [String:Any]
-                 
-                    let userUID: String = user["UID"] as! String
-                let ratingInt = user["rating"] as! NSNumber
-                var readUserOffers: [String]
-                var readUserRequests: [String]
                 
-                if (user.keys.contains("offers")){
-                    readUserOffers = (user["offers"] as? [String])!
-                }
                 else {
-                    readUserOffers = [] as [String]
-                }
+                    if let data = value as? [String:Any] {
+                        readRequest(data: data)
                 
-                if (user.keys.contains("requests")){
-                    readUserRequests = (user["requests"] as? [String])!
-                }
-                else {
-                    readUserRequests = [] as [String]
-                }
-                
-                var index = 0
-                for i in readUserOffers{
-                    
-                    if(i == ""){
-                        readUserOffers.remove(at: index)
-                    }
-                    else {
-                        index = index+1
                     }
                 }
-                
-                
-                index = 0
-                for i in readUserRequests{
-                    
-                    if(i == ""){
-                        readUserRequests.remove(at: index)
-                    }
-                    else {
-                        index = index+1
-                    }
-                }
-                
-                let readUser = User(email: (user["email"] ?? "no email") as! String,phoneNumber: (user["phoneNumber"] ?? 0) as! Int, name: user["name"] as! String, rating: Int(truncating: ratingInt), uid: (user["UID"] ?? "no UID") as! String, profileImage: (user["profileImage"] ?? "no profileImage") as! String, offers: readUserOffers, requests: readUserRequests)
             
-            
-                    AppData.sharedInstance.currentUser = readUser
-                    
-                    storeCurrentUsersItems(userUID: userUID)
-                    
-                    let myUserDownloadNotificationKey = "myUserDownloadNotificationKey"
-                    NotificationCenter.default.post(name: Notification.Name(rawValue: myUserDownloadNotificationKey), object: nil)
-           
-                }
+            NotificationCenter.default.post(name: Notification.Name(rawValue: NotificationKeys.shared.requestsDownloadedNotificationKey), object: nil)
             }
             
-        })
-        
-    }
-    
-    //readUserBasics
-    class func readUserBasics(userUID: String, completion: @escaping (_ success: Bool, _ user: User?) -> Void ){
-        
-        AppData.sharedInstance.usersNode.child(userUID).observeSingleEvent(of: .value, with: {(snapshot) in
-            
-            if let userSnapshot = snapshot.value as? NSDictionary {
-       
-                    let user: [String:Any] = userSnapshot as! [String:Any]
-                
-                    let ratingInt = user["rating"] as! NSNumber
-                    var readUserOffers: [String]
-                    var readUserRequests: [String]
-                    
-                    if (user.keys.contains("offers")){
-                        readUserOffers = (user["offers"] as? [String])!
-                    }
-                    else {
-                        readUserOffers = [] as [String]
-                    }
-                    
-                    if (user.keys.contains("requests")){
-                        readUserRequests = (user["requests"] as? [String])!
-                    }
-                    else {
-                        readUserRequests = [] as [String]
-                    }
-                    
-                    var index = 0
-                    for i in readUserOffers{
-                        
-                        if(i == ""){
-                            readUserOffers.remove(at: index)
-                        }
-                        else {
-                            index = index+1
-                        }
-                    }
-                    
-                    
-                    index = 0
-                    for i in readUserRequests{
-                        
-                        if(i == ""){
-                            readUserRequests.remove(at: index)
-                        }
-                        else {
-                            index = index+1
-                        }
-                    }
-                    
-                    let readUser = User(email: (user["email"] ?? "no email") as! String,phoneNumber: (user["phoneNumber"] ?? 0) as! Int, name: user["name"] as! String, rating: Int(truncating: ratingInt), uid: (user["UID"] ?? "no UID") as! String, profileImage: (user["profileImage"] ?? "no profileImage") as! String, offers: readUserOffers, requests: readUserRequests)
-                
-                
-                completion(true, readUser)
-                
-            
-            }
             else {
-                completion(false, nil)
+               
+                    NotificationCenter.default.post(name: Notification.Name(rawValue: NotificationKeys.shared.noRequestsDownloadedInThisCategoryKey), object: nil)
+      
+                  //  NotificationCenter.default.post(name: Notification.Name(rawValue: NotificationKeys.shared.requestsDownloadedNotificationKey), object: nil)
+                
             }
+            
         })
     }
     
-    
-    //get all users
-    class func readUsers(completion: @escaping (_ success: Bool) -> Void) {
-        if ( Auth.auth().currentUser == nil) {
-            return
-        }
-        
-        AppData.sharedInstance.onlineUsers.removeAll()        
-        AppData.sharedInstance.usersNode
-            .observeSingleEvent(of: .value, with: { (snapshot) in
-                
-                let value = snapshot.value as? NSDictionary
-                
-                if ( value == nil) {
-                    return
-                }
-                
-                var index = 0
-                
-                for any in (value?.allValues)! {
-                
-                    let user: [String:Any] = any as! [String:Any]
-                    let userUID: String = user["UID"] as! String
-                    
-                    
-                    readUserBasics(userUID: userUID, completion: {(success, user) in
-                        
-                        index += 1
-                        
-                        if (success){
-                            AppData.sharedInstance.onlineUsers.append(user!)
-                            
-                        }
-                        else {
-                            print("Error reading user with uid: \(userUID)")
-                        }
-                        
-                        if (value?.count == index){
-                            completion(true)
-                        }
-                        
-                    })
-
-
-                
-                }
-                let myUsersDownloadNotificationKey = "myUsersDownloadNotificationKey"
-                NotificationCenter.default.post(name: Notification.Name(rawValue: myUsersDownloadNotificationKey), object: nil)
-            })
-        
-    }
 
     
     fileprivate class func readOffer(data:[String:Any]) {
         for any in data {
-            let item: [String:Any] = any.value as! [String:Any]
-            let readItem = Item(with: item)
-            if readItem != nil {
-                if (!AppData.sharedInstance.onlineOfferedItems.contains(readItem!)){
-                    AppData.sharedInstance.onlineOfferedItems.append(readItem!)
+            if let item: [String:Any] = any.value as? [String:Any],
+             let readItem = Item(with: item) {
+                if (!AppData.sharedInstance.onlineOfferedItems.contains(readItem)){
+                    AppData.sharedInstance.onlineOfferedItems.append(readItem)
                 }
                 else {
                     print("item has already been added")
@@ -320,7 +134,7 @@ class ReadFirebaseData: NSObject {
                
             }
             else {
-                print("Nil found in offered items")
+                print("An offered item was returned as nil")
                 
             }
         }
@@ -329,11 +143,11 @@ class ReadFirebaseData: NSObject {
     fileprivate class func readRequest(data:[String:Any]) {
    
         for any in data {
-            let item: [String:Any] = any.value as! [String:Any]
-            let readItem = Item(with: item)
-            if readItem != nil {
-                 if (!AppData.sharedInstance.onlineRequestedItems.contains(readItem!)){
-                    AppData.sharedInstance.onlineRequestedItems.append(readItem!)
+            if let item: [String:Any] = any.value as? [String:Any],
+                let readItem = Item(with: item) {
+           
+                 if (!AppData.sharedInstance.onlineRequestedItems.contains(readItem)){
+                    AppData.sharedInstance.onlineRequestedItems.append(readItem)
                 
                 }
                  else {
@@ -341,11 +155,12 @@ class ReadFirebaseData: NSObject {
                 }
             }
             else {
-                print("Nil found in requested items")
+                print("A requested item was returned as nil")
             }
             
         }
     }
+    
     
     class func storeCurrentUsersItems(userUID:String){
         
@@ -407,9 +222,9 @@ class ReadFirebaseData: NSObject {
                 
                 let readItem = Item(with: item)
                 
-                if readItem != nil {
-                    if (!AppData.sharedInstance.currentUserRequestedItems.contains(readItem!)){
-                        AppData.sharedInstance.currentUserRequestedItems.append(readItem!)
+                if let readItem = readItem {
+                    if (!AppData.sharedInstance.currentUserRequestedItems.contains(readItem)){
+                        AppData.sharedInstance.currentUserRequestedItems.append(readItem)
                         print("appending offered items")
                     }
                     else {
@@ -437,47 +252,3 @@ class ReadFirebaseData: NSObject {
         }
     }
 }
-    
-    
-    extension UIImage {
-        func resizeImage(_ dimension: CGFloat, opaque: Bool, contentMode: UIViewContentMode = .scaleAspectFit) -> UIImage {
-            var width: CGFloat
-            var height: CGFloat
-            var newImage: UIImage
-            
-            let size = self.size
-            let aspectRatio =  size.width/size.height
-            
-            switch contentMode {
-            case .scaleAspectFit:
-                if aspectRatio > 1 {                            // Landscape image
-                    width = dimension
-                    height = dimension / aspectRatio
-                } else {                                        // Portrait image
-                    height = dimension
-                    width = dimension * aspectRatio
-                }
-                
-            default:
-                fatalError("UIIMage.resizeToFit(): FATAL: Unimplemented ContentMode")
-            }
-            
-            if #available(iOS 10.0, *) {
-                let renderFormat = UIGraphicsImageRendererFormat.default()
-                renderFormat.opaque = opaque
-                let renderer = UIGraphicsImageRenderer(size: CGSize(width: width, height: height), format: renderFormat)
-                newImage = renderer.image {
-                    (context) in
-                    self.draw(in: CGRect(x: 0, y: 0, width: width, height: height))
-                }
-            } else {
-                UIGraphicsBeginImageContextWithOptions(CGSize(width: width, height: height), opaque, 0)
-                self.draw(in: CGRect(x: 0, y: 0, width: width, height: height))
-                newImage = UIGraphicsGetImageFromCurrentImageContext()!
-                UIGraphicsEndImageContext()
-            }
-            
-            return newImage
-        }
-}
-

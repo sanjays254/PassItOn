@@ -86,7 +86,7 @@ class Item: NSObject, MKAnnotation {
             
         }
         else {
-            print("no photos (must be a request)")
+            print("no photos (might be a request)")
             inpPhotos = []
         }
         

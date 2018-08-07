@@ -16,6 +16,7 @@ class ImageManager {
     
     typealias uploadImageClosure = (Bool, String?) -> Void
     
+    //uploading item images
     class func uploadImage(image:UIImage, userUID:String, filename:String, completion: @escaping uploadImageClosure) {
         let storageRef = Storage.storage().reference()
         let storagePath = "\(userUID)/\(filename)"
@@ -35,6 +36,8 @@ class ImageManager {
             
         })
     }
+    
+    //uploading user profile image
     class func uploadUserProfileImage(image:UIImage, userUID:String, completion: @escaping uploadImageClosure) {
         let storageRef = Storage.storage().reference()
         let storagePath = "\(userUID)/profileImage"
@@ -43,8 +46,8 @@ class ImageManager {
         metedata.contentType = "image/jpeg"
         
         storageRef.child(storagePath).putData(imageData).observe(.success, handler: {(snapshot) in
+            
             if let downloadURL = snapshot.metadata?.downloadURL()?.absoluteString {
-            // Write the download URL to the Realtime Database
             
                 AppData.sharedInstance.currentUser?.profileImage = downloadURL
             

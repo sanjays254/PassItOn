@@ -14,7 +14,7 @@ import Firebase
 
 class WriteFirebaseData {
     
-     typealias writeListingClosure = (Bool) -> Void;
+    typealias writeListingClosure = (Bool) -> Void;
     
     class func write(item:Item, type:Int, completion: @escaping writeListingClosure) {
         let user = AppData.sharedInstance.currentUser!
@@ -41,10 +41,9 @@ class WriteFirebaseData {
                     AppData.sharedInstance.currentUserOfferedItems.append(item)
                     
                 }
-                
-            
             
             break
+            
         case 1:
             itemRef = "requests/"
             itemRef.append(itemPath)
@@ -63,14 +62,15 @@ class WriteFirebaseData {
                 
             }
             break
+            
         default:
             print("Error: Invalid argument passed for 'type'")
             return
         }
+        
         Database.database().reference().child(itemRef).setValue(item.toDictionary(), withCompletionBlock:{(error, ref) in
             
             if error != nil {
-                //present alert
                 completion(false)
             }
             
@@ -89,7 +89,8 @@ class WriteFirebaseData {
     }
     
     
-    typealias deleteListingClosure = (Bool) -> Void;
+    typealias deleteListingClosure = (Bool) -> Void
+    
     class func delete(itemUID: String, completion: @escaping deleteListingClosure) {
         let user = AppData.sharedInstance.currentUser!
         var itemPath:String? = nil
@@ -101,7 +102,6 @@ class WriteFirebaseData {
                     itemPath = post
                     AppData.sharedInstance.currentUser!.offeredItems.remove(at: index)
                    AppData.sharedInstance.currentUserOfferedItems.remove(at: index)
-                    
                     
                 }
                 break
@@ -116,10 +116,9 @@ class WriteFirebaseData {
                         print("found it in requesteditems")
                         AppData.sharedInstance.currentUser!.requestedItems.remove(at: index)
                         AppData.sharedInstance.currentUserRequestedItems.remove(at: index)
-                        
-                    
             
                     }
+                    
                     break
                 }
                 else{

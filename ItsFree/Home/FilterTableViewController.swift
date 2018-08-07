@@ -14,7 +14,7 @@ import UIKit
 class FilterTableViewController: UITableViewController {
 
     var categoryTableView: UITableView!
-    var notificationDelegate: NotificationDelegate!
+    var filterNotificationDelegate: FilterNotificationDelegate!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,26 +59,31 @@ class FilterTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
  
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(presentNonRequestedAlert), name: NSNotification.Name(rawValue: NotificationKeys.shared.noRequestsDownloadedInThisCategoryKey), object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(presentNonAvailableAlert), name: NSNotification.Name(rawValue: NotificationKeys.shared.noOffersDownloadedInThisCategoryNotificationKey), object: nil)
+        
                     if(indexPath.row == 0){
+                        
+                        filterNotificationDelegate.filterApplied()
+                        filterNotificationDelegate.setNotificationsFromDelegator(category: nil)
+                        
                         ReadFirebaseData.readOffers(category:nil)
                         ReadFirebaseData.readRequests(category: nil)
-                         notificationDelegate.setNotificationsFromDelegator(category: nil)
-
+                        
                     }
                     else {
+                        
+                        filterNotificationDelegate.filterApplied()
+                        filterNotificationDelegate.setNotificationsFromDelegator(category: ItemCategory.enumName(index:indexPath.row-1))
+                        
                         ReadFirebaseData.readOffers(category: ItemCategory.enumName(index:indexPath.row-1))
                         
                         ReadFirebaseData.readRequests(category: ItemCategory.enumName(index:indexPath.row-1))
-                        
-                        notificationDelegate.setNotificationsFromDelegator(category: ItemCategory.enumName(index:indexPath.row-1))
+ 
                     }
-        
 
-     
-        NotificationCenter.default.addObserver(self, selector: #selector(presentNonRequestedAlert), name: NSNotification.Name(rawValue: "noRequestedItemsInCategoryKey"), object: nil)
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(presentNonAvailableAlert), name: NSNotification.Name(rawValue: "noOfferedItemsInCategoryKey"), object: nil)
-        
         self.navigationController?.popViewController(animated: true)
         
     }

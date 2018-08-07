@@ -15,24 +15,7 @@ import MessageUI
 public var offerRequestBool: Bool!
 
 
-class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate, MKMapViewDelegate, UINavigationControllerDelegate, UISearchBarDelegate, NotificationDelegate, LoggedOutDelegate,ItemActionDelegate, HomeMarkerSelectionDelegate, MFMailComposeViewControllerDelegate, MFMessageComposeViewControllerDelegate {
-
-    
-    var storageRef: StorageReference!
-    
-    let mySelectedItemNotificationKey = "mySelectedItemNotificationKey"
-    let myOffersDownloadedNotificationKey = "myOffersDownloadedNotificationKey"
-    let myRequestsDownloadedNotificationKey = "myRequestsDownloadedNotificationKey"
-    let filterAppliedKey = "filterAppliedKey"
-    
-    var offersDownloaded: Bool!
-    var requestsDownloaded: Bool!
-    
-    weak var currentLocation: CLLocation!
-    weak var locationManager: CLLocationManager!
-    
-    var compassButton: UIButton!
-    var mapListSegmentedControl: UISegmentedControl!
+class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate, MKMapViewDelegate, UINavigationControllerDelegate, UISearchBarDelegate, FilterNotificationDelegate, LoggedOutDelegate,ItemActionDelegate, HomeMarkerSelectionDelegate, MFMailComposeViewControllerDelegate, MFMessageComposeViewControllerDelegate {
     
     @IBOutlet weak var wantedAvailableSegmentedControl: UISegmentedControl!
     @IBOutlet weak var newPostButton: UIBarButtonItem!
@@ -47,6 +30,17 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     var itemDetailContainerView: UIView!
     var filterContainerView: UIView!
+    
+    var storageRef: StorageReference!
+    
+    var offersDownloaded: Bool!
+    var requestsDownloaded: Bool!
+    
+    weak var currentLocation: CLLocation!
+    weak var locationManager: CLLocationManager!
+    
+    var compassButton: UIButton!
+    var mapListSegmentedControl: UISegmentedControl!
     
     var currentItemIndexPath: IndexPath!
     var lastItemSelected: Item!
@@ -80,8 +74,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
   
         rowSelected = false
         
-        
-        
         self.homeTableView.register(UINib(nibName: "ItemHomeTableViewCell", bundle: nil), forCellReuseIdentifier: "itemHomeTableViewCellID")
         
         
@@ -96,10 +88,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         MapViewDelegate.theMapViewDelegate.theMapView = homeMapView
         setInitalMapRegion()
         homeMapView.register(MKMarkerAnnotationView.self, forAnnotationViewWithReuseIdentifier: "itemMarkerView")
-        
-        //homeMapView.register(ItemClusterView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultClusterAnnotationViewReuseIdentifier)
-
-        
+   
         setupSearchBar()
         setupPostButton()
         setupSearchButton()
@@ -126,7 +115,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         profileButton.isEnabled = false
         
-        NotificationCenter.default.addObserver(self, selector: #selector(allowProfileAccess), name: NSNotification.Name(rawValue: "myUserDownloadNotificationKey"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(allowProfileAccess), name: NSNotification.Name(rawValue: NotificationKeys.shared.myUserDownloadedNotificationKey), object: nil)
         
         ReadFirebaseData.readCurrentUser()
     }
@@ -254,7 +243,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
         setupItemsDownloadNotifications()
         
-        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: mySelectedItemNotificationKey), object: nil, queue: nil, using: catchNotification)
+        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: NotificationKeys.shared.selectedItemNotificationKey), object: nil, queue: nil, using: catchNotification)
     }
     
     func setupItemsDownloadNotifications(){
@@ -262,9 +251,9 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         offersDownloaded = false
         requestsDownloaded = false
         
-        NotificationCenter.default.addObserver(self, selector: #selector(notificationsPosted(notification:)), name: NSNotification.Name(rawValue: myOffersDownloadedNotificationKey), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(notificationsPosted(notification:)), name: NSNotification.Name(rawValue: NotificationKeys.shared.offersDownloadedNotificationKey), object: nil)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(notificationsPosted(notification:)), name: NSNotification.Name(rawValue: myRequestsDownloadedNotificationKey), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(notificationsPosted(notification:)), name: NSNotification.Name(rawValue: NotificationKeys.shared.requestsDownloadedNotificationKey), object: nil)
     }
     
     func setNotificationsFromDelegator(category: ItemCategory?) {
@@ -273,6 +262,12 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         setupItemsDownloadNotifications()
     }
     
+    func filterApplied() {
+        
+        indexPathSelected = nil
+        indexPathPreviouslySelected = nil
+        
+    }
     
 
     //receives info from mapViewDelegate about which itemAnnotation was clicked on
@@ -292,15 +287,15 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     @objc func notificationsPosted(notification: NSNotification){
     
-        if(notification.name == NSNotification.Name(rawValue: myOffersDownloadedNotificationKey)){
+        if(notification.name == NSNotification.Name(rawValue: NotificationKeys.shared.offersDownloadedNotificationKey)){
             offersDownloaded = true
-            NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: myOffersDownloadedNotificationKey), object: nil)
+            NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: NotificationKeys.shared.offersDownloadedNotificationKey), object: nil)
             
         }
         
-        if(notification.name == NSNotification.Name(rawValue: myRequestsDownloadedNotificationKey)){
+        if(notification.name == NSNotification.Name(rawValue: NotificationKeys.shared.requestsDownloadedNotificationKey)){
             requestsDownloaded = true
-            NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: myRequestsDownloadedNotificationKey), object: nil)
+            NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: NotificationKeys.shared.requestsDownloadedNotificationKey), object: nil)
             
         }
         
@@ -348,7 +343,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBAction func filterTapped(_ sender: UIBarButtonItem) {
         
         let filterViewController = FilterTableViewController()
-        filterViewController.notificationDelegate = self
+        filterViewController.filterNotificationDelegate = self
         self.navigationController?.pushViewController(filterViewController, animated: true)
        
         filterViewController.view.translatesAutoresizingMaskIntoConstraints = false
@@ -432,7 +427,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     @objc func allowProfileAccess(){
         
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: "myUserDownloadNotificationKey"), object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: NotificationKeys.shared.myUserDownloadedNotificationKey), object: nil)
     
         profileButton.isEnabled = true
     }

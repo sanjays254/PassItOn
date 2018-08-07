@@ -15,27 +15,23 @@ class AppData: NSObject {
 
     static let sharedInstance = AppData()
     
-    public var currentUser: User? = nil
-    public var currentUserOfferedItems: [Item] = []
-    public var currentUserRequestedItems: [Item] = []
-    public var currentUserPhotos: [String : UIImage] = [:]
+    var currentUser: User? = nil
+    var currentUserOfferedItems: [Item] = []
+    var currentUserRequestedItems: [Item] = []
     
     public var onlineOfferedItems: [Item] = []
     public var onlineRequestedItems: [Item] = []
     public var onlineUsers: [User] = []
-    public var onlineUsersPhotos : [String : UIImage] = [:]
     
     public var usersNode: DatabaseReference
     public var offersNode: DatabaseReference
     public var requestsNode: DatabaseReference
-    public var categorizedItemsNode: DatabaseReference
     
     
     public override init() {
         usersNode = Database.database().reference().child("users")
         offersNode = Database.database().reference().child("offers")
         requestsNode = Database.database().reference().child("requests")
-        categorizedItemsNode = Database.database().reference().child("categorizedItems")
     }
     
 }

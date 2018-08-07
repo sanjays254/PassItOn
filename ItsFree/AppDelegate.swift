@@ -30,6 +30,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             self.window?.rootViewController = initialViewController
             self.window?.makeKeyAndVisible()
             
+            loggedInBool = true
+            
             return true
             
         }
@@ -76,21 +78,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
 
         //make sure the url prefix/scheme is right.
-        if(url.scheme == "iOSPassItOnApp"){
+        if(url.scheme == "iospassitonapp"){
             print("Scheme is: \(url.scheme!)")
             print("Query is: \(url.query!)")
             
             //if no user logged in, loggedInBool will be nil. So present alert telling them to log in
-            if(loggedInBool == nil || loggedInBool == false){
+            if Auth.auth().currentUser == nil {
+          
                 
-                let mainVC = self.window?.rootViewController as! LoginViewController
-                
-                mainVC.loginAndRate(url: url)
+//                if let mainNavVC = self.window?.rootViewController as? UINavigationController,
+//                    let homeVC = mainNavVC.viewControllers[0] as? HomeViewController {
+//
+//                    homeVC.loginAndRate(url: url)
+//                }
         
             }
                 
             //else if we were logged in, loggedInBool would be true. So just go to rating the user.
-            else if (loggedInBool){
+            else {
                 openedThroughSchema(url: url)
                 
             }

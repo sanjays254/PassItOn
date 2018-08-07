@@ -68,6 +68,10 @@ extension HomeViewController {
     
     //searchBar delegate methods
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        
+        indexPathSelected = nil
+        indexPathPreviouslySelected = nil
+        
         searchActive = true;
         searchApplied = true
         

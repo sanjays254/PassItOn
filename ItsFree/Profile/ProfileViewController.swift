@@ -15,7 +15,6 @@ import SDWebImage
 
 class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate{
     
-    let myDowloadCompletedNotificationKey = "myUserDownloadNotificationKey"
 
     @IBOutlet weak var backButton: UIButton!
     @IBOutlet weak var editButton: UIButton!
@@ -59,7 +58,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         super.viewDidLoad()
         
     
-        NotificationCenter.default.addObserver(self, selector: #selector(setUpProfileText), name: NSNotification.Name(rawValue: myDowloadCompletedNotificationKey), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(setUpProfileText), name: NSNotification.Name(rawValue: NotificationKeys.shared.myUserDownloadedNotificationKey), object: nil)
         
         imagePicker.delegate = self
         editingProfile = false

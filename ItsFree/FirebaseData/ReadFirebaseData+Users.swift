@@ -24,8 +24,8 @@ extension ReadFirebaseData {
                 let currentUser = value["\(currentUserUID)"],
                 let user: [String:Any] = currentUser as? [String:Any] {
                 
-                let userUID: String = user["UID"] as! String
-                let ratingInt = user["rating"] as! NSNumber
+                if let userUID: String = user["UID"] as? String {
+                //let ratingInt =
                 
                 var readUserOffers: [String]
                 var readUserRequests: [String]
@@ -67,7 +67,7 @@ extension ReadFirebaseData {
                     }
                 }
                 
-                let readUser = User(email: (user["email"] ?? "no email") as! String,phoneNumber: (user["phoneNumber"] ?? 0) as! Int, name: user["name"] as! String, rating: Int(truncating: ratingInt), uid: (user["UID"] ?? "no UID") as! String, profileImage: (user["profileImage"] ?? "no profileImage") as! String, offers: readUserOffers, requests: readUserRequests)
+                let readUser = User(email: (user["email"] as? String ?? "no email"),phoneNumber: (user["phoneNumber"] as? Int ?? 0) , name:(user["name"] as? String ?? "no name"), rating: (user["rating"] as? Int ?? 0), uid: (user["UID"] as? String ?? "no UID"), profileImage: (user["profileImage"] as? String ?? "no profileImage") , offers: readUserOffers, requests: readUserRequests)
                 
                 AppData.sharedInstance.currentUser = readUser
                 
@@ -75,6 +75,7 @@ extension ReadFirebaseData {
                 
                 NotificationCenter.default.post(name: Notification.Name(rawValue: NotificationKeys.shared.myUserDownloadedNotificationKey), object: nil)
                 
+            }
             }
             
         })
@@ -84,51 +85,50 @@ extension ReadFirebaseData {
     
     //get all users
     class func readUsers(completion: @escaping (_ success: Bool) -> Void) {
-        if ( Auth.auth().currentUser == nil) {
-            return
-        }
         
         AppData.sharedInstance.onlineUsers.removeAll()
         AppData.sharedInstance.usersNode
             .observeSingleEvent(of: .value, with: { (snapshot) in
                 
-                let value = snapshot.value as? NSDictionary
-                
-                if ( value == nil) {
-                    return
-                }
-                
+                if let value = snapshot.value as? NSDictionary {
+     
                 var index = 0
                 
-                for any in (value?.allValues)! {
+                for any in (value.allValues) {
                     
-                    let user: [String:Any] = any as! [String:Any]
-                    let userUID: String = user["UID"] as! String
+                    if let user: [String:Any] = any as? [String:Any],
+                        let userUID: String = user["UID"] as? String {
                     
                     
-                    readUserBasics(userUID: userUID, completion: {(success, user) in
+                    readUserBasics(userUID: userUID, completion: {(success, readUser) in
                         
                         index += 1
                         
                         if (success){
-                            AppData.sharedInstance.onlineUsers.append(user!)
+                            //force unwrap readUser okay, because we success is only true if it exists
+                            AppData.sharedInstance.onlineUsers.append(readUser!)
                             
                         }
                         else {
                             print("Error reading user with uid: \(userUID)")
                         }
                         
-                        if (value?.count == index){
+                        //when weve read all users, make the callback
+                        if (value.count == index){
                             completion(true)
                         }
                         
                     })
-                    
-                    
-                    
+                    }
+
                 }
                 
                 NotificationCenter.default.post(name: Notification.Name(rawValue: NotificationKeys.shared.usersDownloadedNotificationKey), object: nil)
+                }
+                else {
+                    
+                    print("Error with snapshot dict)")
+                }
             })
         
     }
@@ -139,11 +139,11 @@ extension ReadFirebaseData {
         
         AppData.sharedInstance.usersNode.child(userUID).observeSingleEvent(of: .value, with: {(snapshot) in
             
-            if let userSnapshot = snapshot.value as? NSDictionary {
+            if let userSnapshot = snapshot.value as? NSDictionary,
                 
-                let user: [String:Any] = userSnapshot as! [String:Any]
+                let user: [String:Any] = userSnapshot as? [String:Any] {
                 
-                let ratingInt = user["rating"] as! NSNumber
+               // let ratingInt = user["rating"] as! NSNumber
                 var readUserOffers: [String]
                 var readUserRequests: [String]
                 
@@ -184,7 +184,7 @@ extension ReadFirebaseData {
                     }
                 }
                 
-                let readUser = User(email: (user["email"] ?? "no email") as! String,phoneNumber: (user["phoneNumber"] ?? 0) as! Int, name: user["name"] as! String, rating: Int(truncating: ratingInt), uid: (user["UID"] ?? "no UID") as! String, profileImage: (user["profileImage"] ?? "no profileImage") as! String, offers: readUserOffers, requests: readUserRequests)
+                let readUser = User(email: (user["email"] ?? "no email") as! String,phoneNumber: (user["phoneNumber"] ?? 0) as! Int, name: user["name"] as! String, rating: user["rating"] as! Int, uid: (user["UID"] ?? "no UID") as! String, profileImage: (user["profileImage"] ?? "no profileImage") as! String, offers: readUserOffers, requests: readUserRequests)
                 
                 
                 completion(true, readUser)

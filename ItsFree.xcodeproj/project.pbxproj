@@ -234,6 +234,8 @@
 		CE2217E62115367A003CC553 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				CE9683CF1FBE655600DFA277 /* LocationManager.swift */,
+				CEF41A1B1FC1000F0044C63E /* MapViewDelegate.swift */,
 				CE01A160211816F6003AC827 /* Protocols.swift */,
 				CE014333200FFCAA0045A876 /* UIProperties.swift */,
 				CE82ACBA211904C30034C67B /* NotificationKeys.swift */,
@@ -392,8 +394,6 @@
 				CE2217EA211562F0003CC553 /* Home */,
 				CE2217EC211563B5003CC553 /* FirebaseStorage */,
 				CE2217EB21156320003CC553 /* Leaderboard */,
-				CE9683CF1FBE655600DFA277 /* LocationManager.swift */,
-				CEF41A1B1FC1000F0044C63E /* MapViewDelegate.swift */,
 				CE2217E721156247003CC553 /* Post */,
 				CE2217E92115629B003CC553 /* FirebaseData */,
 				CE5869D51FBE445C0012F774 /* Assets.xcassets */,

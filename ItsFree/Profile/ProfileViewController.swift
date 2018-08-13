@@ -11,6 +11,7 @@ import FirebaseAuth
 import FirebaseStorage
 import FirebaseDatabase
 import SDWebImage
+import ChatSDK
 
 
 class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate{
@@ -206,7 +207,13 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     
     @IBAction func leaderboardButton(_ sender: UIButton) {
         
-        performSegue(withIdentifier: "leaderboardSegue", sender: self)
+        
+        if let conversationsVC = BInterfaceManager.shared().a.privateThreadsViewController() {
+            
+            self.navigationController?.pushViewController(conversationsVC, animated: true)
+            
+        }
+        //performSegue(withIdentifier: "leaderboardSegue", sender: self)
     }
     
     

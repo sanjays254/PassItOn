@@ -473,6 +473,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     @objc func leaderboardButtonAction() {
+    
+        
         performSegue(withIdentifier: "leaderboardSegue", sender: self)
     }
     

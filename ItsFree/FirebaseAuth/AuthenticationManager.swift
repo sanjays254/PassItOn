@@ -143,6 +143,7 @@ class AuthenticationManager {
                 
                 BIntegrationHelper.updateUser(withName: authUser!.displayName, image: UIImage(), url: "")
                 
+                
                 BNetworkManager.shared().a.users()
                 
                 BusyActivityView.hide()

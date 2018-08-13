@@ -14,6 +14,9 @@ target 'ItsFree' do
   pod 'FirebaseUI'
   pod 'KeychainAccess'
   pod 'ChatSDK'
+  pod 'ChatSDK/FirebaseAdapter'
+  pod 'ChatSDK/FirebaseFileStorage'
+  pod 'ChatSDK/FirebasePush'
 
   target 'ItsFreeTests' do
     inherit! :search_paths

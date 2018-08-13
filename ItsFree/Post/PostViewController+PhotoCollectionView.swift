@@ -131,7 +131,10 @@ extension PostViewController {
                     
                     
                     if(indexPath.item < (itemToEdit.photos.count)){
-                        cell.postCollectionViewCellImageView.sd_setImage(with:storageRef.child(itemToEdit.photos[indexPath.item]), placeholderImage: UIImage.init(named: "placeholder"))
+                       
+                       
+    
+                    cell.postCollectionViewCellImageView.sd_setImage(with:storageRef.child(itemToEdit.photos[indexPath.item]), placeholderImage: UIImage.init(named: "placeholder"))
                     }
                         
                     else {

@@ -8,8 +8,8 @@
 
 import Foundation
 import FirebaseStorage
-import UIKit 
-import FirebaseStorageUI
+import UIKit
+import FirebaseUI
 
 
 class ImageManager {
@@ -43,16 +43,28 @@ class ImageManager {
         metedata.contentType = "image/jpeg"
         
         storageRef.child(storagePath).putData(imageData).observe(.success, handler: {(snapshot) in
-            if let downloadURL = snapshot.metadata?.downloadURL()?.absoluteString {
-            // Write the download URL to the Realtime Database
             
-                AppData.sharedInstance.currentUser?.profileImage = downloadURL
+            storageRef.child(storagePath).downloadURL(completion: {(url, error) in
+                
+                if error != nil {
+                        completion(false, nil)
+                }
+                else {
+                    AppData.sharedInstance.currentUser?.profileImage = url!.absoluteString
+                    
+                    completion(true, url!.absoluteString)
+                }
+                
+            })
             
-                completion(true, downloadURL)
-            }
-            else {
-                completion(false, nil)
-            }
+//            if let downloadURL = snapshot.metadata?.downloadURL()?.absoluteString {
+//            // Write the download URL to the Realtime Database
+//
+//
+//            }
+//            else {
+//
+//            }
             
             })
         

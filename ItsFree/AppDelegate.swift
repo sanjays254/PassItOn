@@ -22,13 +22,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let config = BConfiguration.init();
         config.rootPath = "messages"
         
-        FirebaseApp.configure()
+       // FirebaseApp.configure()
     
         config.allowUsersToCreatePublicChats = true
         BChatSDK.initialize(config, app: application, options: launchOptions)
         
         //launch directly into HomeVC if a user is cached
-        if Auth.auth().currentUser != nil {
+        if let currUser = Auth.auth().currentUser {
+            
             
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             
@@ -36,6 +37,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             self.window?.rootViewController = initialViewController
             self.window?.makeKeyAndVisible()
+            
+            
+            //make ChatUser
+//            NM.auth().authenticate(BAccountDetails.username(currUser.email, password: ""))
+//            
+//            BIntegrationHelper.updateUser(withName: currUser.displayName, image: UIImage(), url: "")
+//            
+//            BNetworkManager.shared().a.users()
             
             return true
             

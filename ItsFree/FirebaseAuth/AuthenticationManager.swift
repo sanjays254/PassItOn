@@ -23,7 +23,7 @@ class AuthenticationManager {
         print("Registering with firebase")
         Auth.auth().createUser(withEmail: email,
                                password: password)
-        { (newUser, registerError) in
+        { (data, registerError) in
             if registerError == nil {
                 let flag = true
                 completionHandler(flag)
@@ -35,24 +35,24 @@ class AuthenticationManager {
                         print("Email sent")
                     }
                 })
-                let setUsername = newUser?.createProfileChangeRequest()
-                setUsername?.displayName = name
+                let setUsername = data!.user.createProfileChangeRequest()
+                setUsername.displayName = name
                 
-                setUsername?.commitChanges(completion:
+                setUsername.commitChanges(completion:
                     { (profileError) in
                         if profileError == nil {
-                            let addedUser = User(email: newUser!.email!,
+                            let addedUser = User(email: (data?.user.email!)!,
                                                  phoneNumber: 0,
-                                                 name: newUser!.displayName!,
+                                                 name: (data?.user.displayName!)!,
                                                  rating: 0,
-                                                 uid: newUser!.uid, profileImage: "",
+                                                 uid: (data?.user.uid)!, profileImage: "",
                                                  offers: [""],
                                                  requests: [""])
                             
                             AppData.sharedInstance.currentUser = addedUser
                             
                             AppData.sharedInstance.usersNode
-                                .child(newUser!.uid)
+                                .child(data!.user.uid)
                                 .setValue(addedUser.toDictionary())
                             print("Sign up successful")
                             AuthenticationManager.addToKeychain(email: email, password: password)
@@ -61,7 +61,7 @@ class AuthenticationManager {
                             //set up ChatSDK user
                             NM.auth().authenticate(BAccountDetails.username(email, password: password))
                             
-                            BIntegrationHelper.updateUser(withName: newUser!.displayName, image: UIImage(), url: "")
+                            BIntegrationHelper.updateUser(withName: data!.user.displayName, image: UIImage(), url: "")
                             
                             BNetworkManager.shared().a.users()
                             
@@ -141,7 +141,7 @@ class AuthenticationManager {
                 //make ChatUser
                 NM.auth().authenticate(BAccountDetails.username(email, password: password))
                 
-                BIntegrationHelper.updateUser(withName: authUser!.displayName, image: UIImage(), url: "")
+                BIntegrationHelper.updateUser(withName: authUser!.user.displayName, image: UIImage(), url: "")
                 
                 
                 BNetworkManager.shared().a.users()

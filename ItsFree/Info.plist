@@ -2,6 +2,11 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
@@ -28,11 +33,51 @@
 				<string>iOSPassItOnApp</string>
 			</array>
 		</dict>
+        <dict>
+            <key>CFBundleURLSchemes</key>
+            <array>
+                <string>fb648056098576150</string>
+            </array>
+        </dict>
+        <dict>
+            <key>CFBundleTypeRole</key>
+            <string>Editor</string>
+            <key>CFBundleURLSchemes</key>
+            <array>
+                <string>co.deluge.Chat-SDK</string>
+            </array>
+        </dict>
+        <dict>
+            <key>CFBundleTypeRole</key>
+            <string>Editor</string>
+            <key>CFBundleURLSchemes</key>
+            <array>
+                <string>com.googleusercontent.apps.1088435112418-4cm46hg39okkf0skj2h5roj1q62anmec</string>
+            </array>
+        </dict>
+        <dict>
+            <key>CFBundleTypeRole</key>
+            <string>Editor</string>
+            <key>CFBundleURLSchemes</key>
+            <array>
+                <string>twitterkit-Kqprq5b6bVeEfcMAGoHzUmB3I</string>
+            </array>
+        </dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>6</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+    <key>NSContactsUsageDescription</key>
+    <string>To check if any of your contacts use this app</string>
+    <key>NSLocationAlwaysUsageDescription</key>
+    <string>To send location messages</string>
+    <key>NSLocationUsageDescription</key>
+    <string>To send location messages</string>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>To send audio messages</string>
+    <key>NSPhotoLibraryAddUsageDescription</key>
+    <string>To save the photo to your library</string>
 	<key>NSCameraUsageDescription</key>
 	<string>App needs to access your Camera if you want to upload photos</string>
 	<key>NSLocationWhenInUseUsageDescription</key>

@@ -13,6 +13,7 @@ target 'ItsFree' do
   pod 'FirebaseStorage'
   pod 'FirebaseUI'
   pod 'KeychainAccess'
+  pod 'ChatSDK'
 
   target 'ItsFreeTests' do
     inherit! :search_paths

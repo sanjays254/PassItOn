@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import ChatSDK
 
 import KeychainAccess
 
@@ -18,7 +19,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
+        let config = BConfiguration.init();
+        config.rootPath = "messages"
+        
         FirebaseApp.configure()
+    
+        config.allowUsersToCreatePublicChats = true
+        BChatSDK.initialize(config, app: application, options: launchOptions)
         
         //launch directly into HomeVC if a user is cached
         if Auth.auth().currentUser != nil {
@@ -73,38 +80,38 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     
     //This is called when the app is opened through the URL Scheme
-    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
-
-        //make sure the url prefix/scheme is right.
-        if(url.scheme == "iOSPassItOnApp"){
-            print("Scheme is: \(url.scheme!)")
-            print("Query is: \(url.query!)")
-            
-            //if no user logged in, loggedInBool will be nil. So present alert telling them to log in
-            if(loggedInBool == nil || loggedInBool == false){
-                
-                let mainVC = self.window?.rootViewController as! LoginViewController
-                
-                mainVC.loginAndRate(url: url)
-        
-            }
-                
-            //else if we were logged in, loggedInBool would be true. So just go to rating the user.
-            else if (loggedInBool){
-                openedThroughSchema(url: url)
-                
-            }
-            
-            //if it was a available item
-            //if link is clicked, send an email to seller saying thanks, and take me to the post to delete the item,
-            
-            return true
-        }
-            
-        else {
-            return false
-        }
-    }
+//    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+//
+//        //make sure the url prefix/scheme is right.
+//        if(url.scheme == "iOSPassItOnApp"){
+//            print("Scheme is: \(url.scheme!)")
+//            print("Query is: \(url.query!)")
+//            
+//            //if no user logged in, loggedInBool will be nil. So present alert telling them to log in
+//            if(loggedInBool == nil || loggedInBool == false){
+//                
+//                let mainVC = self.window?.rootViewController as! LoginViewController
+//                
+//                mainVC.loginAndRate(url: url)
+//        
+//            }
+//                
+//            //else if we were logged in, loggedInBool would be true. So just go to rating the user.
+//            else if (loggedInBool){
+//                openedThroughSchema(url: url)
+//                
+//            }
+//            
+//            //if it was a available item
+//            //if link is clicked, send an email to seller saying thanks, and take me to the post to delete the item,
+//            
+//            return true
+//        }
+//            
+//        else {
+//            return false
+//        }
+//    }
     
     
     //connector method to parse the url from the scheme link
@@ -115,6 +122,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         //should we deinitialize the instance of rating system?
    
+    }
+    
+    
+    //ChatSDK methods
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        BChatSDK.application(application, didRegisterForRemoteNotificationsWithDeviceToken: deviceToken)
+    }
+    
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        BChatSDK.application(application, didReceiveRemoteNotification: userInfo)
+    }
+    
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) {
+        BChatSDK.application(application, didReceiveRemoteNotification: userInfo)
+    }
+    
+    func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
+        return BChatSDK.application(application, open: url, sourceApplication: sourceApplication, annotation: annotation)
+    }
+    
+    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+        return BChatSDK.application(app, open: url, options: options)
     }
 }
 

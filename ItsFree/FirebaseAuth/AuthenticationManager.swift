@@ -10,6 +10,7 @@ import Foundation
 import KeychainAccess
 import FirebaseAuth
 import Firebase
+import ChatSDK
 
 
 
@@ -56,6 +57,15 @@ class AuthenticationManager {
                             print("Sign up successful")
                             AuthenticationManager.addToKeychain(email: email, password: password)
                             guestUser = false
+                            
+                            //set up ChatSDK user
+                            NM.auth().authenticate(BAccountDetails.username(email, password: password))
+                            
+                            BIntegrationHelper.updateUser(withName: newUser!.displayName, image: UIImage(), url: "")
+                            
+                            BNetworkManager.shared().a.users()
+                            
+                            
                         }
                         else {
                             print("Error setting profile name: \(String(describing: profileError))")
@@ -71,8 +81,7 @@ class AuthenticationManager {
     
     class func addToKeychain(email:String, password:String) {
         
-        
-        
+    
         print("Adding to keychain...")
         let keychain = Keychain(service: "com.itsFree")
         
@@ -127,6 +136,14 @@ class AuthenticationManager {
                 print("Login Successful")
                 guestUser = false
                 addToKeychain(email: email, password: password)
+                
+                
+                //make ChatUser
+                NM.auth().authenticate(BAccountDetails.username(email, password: password))
+                
+                BIntegrationHelper.updateUser(withName: authUser!.displayName, image: UIImage(), url: "")
+                
+                BNetworkManager.shared().a.users()
                 
                 BusyActivityView.hide()
                 

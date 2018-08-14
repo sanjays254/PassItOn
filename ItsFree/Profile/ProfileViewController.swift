@@ -207,12 +207,8 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     
     @IBAction func leaderboardButton(_ sender: UIButton) {
         
-        
-        if let conversationsVC = BInterfaceManager.shared().a.privateThreadsViewController() {
-            
-            self.navigationController?.pushViewController(conversationsVC, animated: true)
-            
-        }
+        performSegue(withIdentifier: "conversationsSegue", sender: self)
+
         //performSegue(withIdentifier: "leaderboardSegue", sender: self)
     }
     

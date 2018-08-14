@@ -111,6 +111,7 @@
                         <outlet property="wantedAvailableSegmentedControl" destination="kVJ-lR-ADn" id="BwG-Mp-ZZP"/>
                         <segue destination="uu9-5f-Eua" kind="show" identifier="postSegue" id="Ief-IJ-IS6"/>
                         <segue destination="7I6-kj-hON" kind="presentation" identifier="toProfileSegue" id="fQC-9c-mf1"/>
+                        <segue destination="DWZ-FP-IBD" kind="show" identifier="chatThreadSegue" id="mCg-85-wSj"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -124,6 +125,36 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MQ3-tW-VaA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="708" y="602"/>
+        </scene>
+        <!--Chat Thread View Controller-->
+        <scene sceneID="yho-hf-GJA">
+            <objects>
+                <viewController id="DWZ-FP-IBD" customClass="ChatThreadViewController" customModule="ItsFree" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="s2N-tf-1Dm">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="j1X-r7-Eej">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="83T-mR-guV" firstAttribute="trailing" secondItem="j1X-r7-Eej" secondAttribute="trailing" id="5Gd-p9-4ub"/>
+                            <constraint firstItem="j1X-r7-Eej" firstAttribute="top" secondItem="83T-mR-guV" secondAttribute="top" id="DKb-H6-FRg"/>
+                            <constraint firstItem="83T-mR-guV" firstAttribute="bottom" secondItem="j1X-r7-Eej" secondAttribute="bottom" id="Z7D-ha-8z4"/>
+                            <constraint firstItem="j1X-r7-Eej" firstAttribute="leading" secondItem="83T-mR-guV" secondAttribute="leading" id="gCn-2g-q7j"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="83T-mR-guV"/>
+                    </view>
+                    <connections>
+                        <outlet property="chatContainerView" destination="j1X-r7-Eej" id="g8R-Hg-Cjr"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="cCH-ja-72b" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="182" y="1088"/>
         </scene>
         <!--Post Map View Controller-->
         <scene sceneID="ZLj-Bc-Dnr">

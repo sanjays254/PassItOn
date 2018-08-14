@@ -40,11 +40,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             
             //make ChatUser
-//            NM.auth().authenticate(BAccountDetails.username(currUser.email, password: ""))
-//            
-//            BIntegrationHelper.updateUser(withName: currUser.displayName, image: UIImage(), url: "")
-//            
-//            BNetworkManager.shared().a.users()
+            NM.auth().authenticate(BAccountDetails.username(currUser.email, password: "password"))
+            
+            BIntegrationHelper.updateUser(withName: currUser.displayName, image: UIImage(), url: "")
+            
+            BNetworkManager.shared().a.users()
             
             return true
             

@@ -65,6 +65,9 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     var filteredRequestedItems:[Item]!
     var tapGesture: UITapGestureRecognizer!
     
+    var messageItem: Item?
+    var messageUser: User?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -470,6 +473,15 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             
             
         }
+        
+        if (segue.identifier == "chatThreadSegue"){
+            
+            let chatThreadVC = segue.destination as! ChatThreadViewController
+            
+                chatThreadVC.item = messageItem
+                chatThreadVC.destinationUser = messageUser
+            
+        }
     }
     
     @objc func leaderboardButtonAction() {
@@ -565,6 +577,20 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     
     func sendPosterMessage(inpVC: UIViewController, currentItem: Item, destinationUser: User) {
+        
+        messageItem = currentItem
+        messageUser = destinationUser
+        
+        performSegue(withIdentifier: "chatThreadSegue", sender: self)
+        
+        //USE chatSDK
+//        let chatThreadVC = ChatThreadViewController()
+//        chatThreadVC.item = currentItem
+//        chatThreadVC.destinationUser = destinationUser
+//
+//        self.navigationController?.pushViewController(chatThreadVC, animated: true)
+   
+        return
         
         if(AppData.sharedInstance.currentUser!.UID == destinationUser.UID){
             //show alert

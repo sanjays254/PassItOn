@@ -53,6 +53,8 @@
 		CE9683D01FBE655600DFA277 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9683CF1FBE655600DFA277 /* LocationManager.swift */; };
 		CE9683D21FBF6C9700DFA277 /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9683D11FBF6C9700DFA277 /* PostViewController.swift */; };
 		CE9683D51FBF8E5700DFA277 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9683D41FBF8E5600DFA277 /* HomeViewController.swift */; };
+		CEB1FCAB21226D3F004337D7 /* ChatThreadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB1FCAA21226D3F004337D7 /* ChatThreadViewController.swift */; };
+		CEB1FCAD21228450004337D7 /* ConversationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB1FCAC21228450004337D7 /* ConversationsViewController.swift */; };
 		CEBD48A11FCC949800C5267F /* LeaderboardTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBD48A01FCC949800C5267F /* LeaderboardTableViewController.swift */; };
 		CEBD48A41FCCD02600C5267F /* LeaderboardTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBD48A21FCCD02600C5267F /* LeaderboardTableViewCell.swift */; };
 		CEBD48A51FCCD02600C5267F /* LeaderboardTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CEBD48A31FCCD02600C5267F /* LeaderboardTableViewCell.xib */; };
@@ -154,6 +156,8 @@
 		CE9683CF1FBE655600DFA277 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		CE9683D11FBF6C9700DFA277 /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
 		CE9683D41FBF8E5600DFA277 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		CEB1FCAA21226D3F004337D7 /* ChatThreadViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatThreadViewController.swift; sourceTree = "<group>"; };
+		CEB1FCAC21228450004337D7 /* ConversationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationsViewController.swift; sourceTree = "<group>"; };
 		CEBD48A01FCC949800C5267F /* LeaderboardTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderboardTableViewController.swift; sourceTree = "<group>"; };
 		CEBD48A21FCCD02600C5267F /* LeaderboardTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderboardTableViewCell.swift; sourceTree = "<group>"; };
 		CEBD48A31FCCD02600C5267F /* LeaderboardTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LeaderboardTableViewCell.xib; sourceTree = "<group>"; };
@@ -265,6 +269,7 @@
 				013517461FC8F29D00977B2E /* ProfileViewControllers.storyboard */,
 				CE014331200FFB960045A876 /* MyPostsTableViewCell.swift */,
 				013517441FC8F1FD00977B2E /* ProfileViewController.swift */,
+				CEB1FCAC21228450004337D7 /* ConversationsViewController.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -293,6 +298,7 @@
 				CEF41A1F1FC374520044C63E /* ItemHomeTableViewCell.swift */,
 				CE9683D41FBF8E5600DFA277 /* HomeViewController.swift */,
 				CE01A15E2117E702003AC827 /* HomeViewController+Messaging.swift */,
+				CEB1FCAA21226D3F004337D7 /* ChatThreadViewController.swift */,
 				CEDF0122211688A3004007AB /* HomeViewController+Search.swift */,
 				CEDF0120211687ED004007AB /* HomeViewController+TableView.swift */,
 				CE43E7991FCF90290061A653 /* FilterTableViewController.swift */,
@@ -794,6 +800,8 @@
 				CEDF0121211687ED004007AB /* HomeViewController+TableView.swift in Sources */,
 				CE2F14182114EACE009C330F /* PostViewController+GoogleImages.swift in Sources */,
 				CEFC19921FC65C320082CB55 /* ItemDetailViewController.swift in Sources */,
+				CEB1FCAD21228450004337D7 /* ConversationsViewController.swift in Sources */,
+				CEB1FCAB21226D3F004337D7 /* ChatThreadViewController.swift in Sources */,
 				CEF41A1C1FC1000F0044C63E /* MapViewDelegate.swift in Sources */,
 				0135173C1FC50B3F00977B2E /* AuthenticationManager.swift in Sources */,
 				01EA0BFC1FCD1A8A00AC54AC /* WriteFirebaseData.swift in Sources */,

@@ -16,27 +16,30 @@ class ChatThreadViewController: UIViewController {
     @IBOutlet weak var chatContainerView: UIView!
     
  
+
     var embeddedVC: UIViewController?
-    var meetupButton: UIBarButtonItem!
+    var meetupBarButton: UIBarButtonItem!
     
     var thread: PThread?
     
-    var item: Item!
+    var item: Item?
     var destinationUser: User!
     
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //if opened from convos, we need to find the user and the item
-        if destinationUser == nil {
-            
-     
-        }
+//        //if opened from convos, we need to find the user and the item
+//        if destinationUser == nil {
+//
+//
+//        }
 
  
         
-        let meetupBarButton = UIBarButtonItem.init(title: "Meetup", style: .plain, target: self, action: #selector(meetup))
+        meetupBarButton = UIBarButtonItem.init(title: "Meetup", style: .plain, target: self, action: #selector(meetup))
+        
+       
         
         self.navigationItem.rightBarButtonItems = [meetupBarButton]
         
@@ -65,7 +68,16 @@ class ChatThreadViewController: UIViewController {
     
     @objc func meetup(){
         
-        //meetup feature
+        
+        
+        //if item exists, it means user definitely exists
+        if let item = self.item {
+            
+            //payment feature and Rating feature here
+            
+            Alert.Show(inpVc: self, customAlert: nil, inpTitle: "Coming soon!", inpMessage: "Payment & Rating feature coming soon", inpOkTitle: "Ok")
+            
+        }
         
     }
     
@@ -78,7 +90,8 @@ class ChatThreadViewController: UIViewController {
         
         let destUser = coreHandler.user(forEntityID: destinationUser.UID)
   
-        if let destUser = destUser {
+        if let destUser = destUser,
+            let item = item {
             
             
             
@@ -91,7 +104,7 @@ class ChatThreadViewController: UIViewController {
                     
                     self.thread = thread
                     
-                    self.thread?.setMetaString("\(self.item.UID)", forKey: "itemUID")
+                    self.thread?.setMetaString("\(item.UID)", forKey: "itemUID")
                     
                     self.thread?.setMetaString("\(self.destinationUser.UID)", forKey: "userUID")
                     
@@ -127,9 +140,10 @@ class ChatThreadViewController: UIViewController {
     func goToChat(){
         
         //let chatVc = BInterfaceManager.shared().a.chatViewController(with: thread)
+         meetupBarButton.isEnabled = false
         
-        if let itemID = thread?.metaString(forKey: "itemUID"),
-            let userID = thread?.metaString(forKey: "userUID") {
+        if let itemID = thread!.metaString(forKey: "itemUID"),
+            let userID = thread!.metaString(forKey: "userUID") {
         
     
         ReadFirebaseData.readUserBasics(userUID: userID, completion: {(success, user) in
@@ -137,13 +151,48 @@ class ChatThreadViewController: UIViewController {
             if success {
                 
                // ReadItem here
+                self.item = ReadFirebaseData.readItem(itemUID: itemID)
+                
+                if self.item == nil {
+                    Alert.Show(inpVc: self, customAlert: nil, inpTitle: "Item is not available", inpMessage: "The item you have been discussing may have been deleted", inpOkTitle: "Okay")
+                }
+                
+                else {
+                    self.meetupBarButton.isEnabled = true
+                }
                 
                 self.destinationUser = user!
                 self.title = "\(user!.name)"
                 
             }
             else {
-                Alert.Show(inpVc: self, customAlert: nil, inpTitle: "User is not available", inpMessage: "The user has left the app", inpOkTitle: "Ok")
+                
+                let alert = UIAlertController(title: "User is not available", message: "The user has left the app", preferredStyle: .alert)
+                
+                let deleteChatAction = UIAlertAction(title: "Delete Conversation", style: .destructive, handler: {(action) in
+                    
+                    //delete chat
+                    
+                })
+                
+                let cancelAction = UIAlertAction(title: "See Conversation", style: .default, handler: nil)
+                
+                let backAction = UIAlertAction(title: "Go back to all conversations", style: .cancel, handler: {(action) in
+                    
+                    self.navigationController?.popViewController(animated: true)
+                    
+                })
+                
+                
+                alert.addAction(deleteChatAction)
+                alert.addAction(cancelAction)
+                alert.addAction(backAction)
+                
+                self.present(alert, animated: true, completion: nil)
+                
+                
+                
+                
             }
             
         })

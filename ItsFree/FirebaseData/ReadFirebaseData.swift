@@ -393,6 +393,24 @@ class ReadFirebaseData: NSObject {
         }
     }
     
+    class func readItem(itemUID: String) -> Item? {
+        
+        for item in AppData.sharedInstance.onlineOfferedItems {
+            if item.UID == itemUID {
+                return item
+            }
+        }
+        
+        for item in AppData.sharedInstance.onlineRequestedItems {
+            if item.UID == itemUID {
+                return item
+            }
+        }
+        
+        return nil
+    }
+    
+    
     class func storeCurrentUsersItems(userUID:String){
         
         AppData.sharedInstance.currentUserOfferedItems = []

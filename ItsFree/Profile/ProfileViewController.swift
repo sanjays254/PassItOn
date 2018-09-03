@@ -24,6 +24,8 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     
     @IBOutlet weak var leaderboardButton: UIButton!
     
+    @IBOutlet weak var conversationsButton: UIButton!
+    
     @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var emailLabel: UILabel!
@@ -85,6 +87,11 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         self.leaderboardButton.layer.backgroundColor = UIColor.black.cgColor
         self.leaderboardButton.layer.cornerRadius = self.backButton.frame.size.width/2
         self.leaderboardButton.layer.masksToBounds = false
+        
+        conversationsButton.setImage(#imageLiteral(resourceName: "conversations"), for: .normal)
+        self.conversationsButton.layer.backgroundColor = UIColor.black.cgColor
+        self.conversationsButton.layer.cornerRadius = self.backButton.frame.size.width/2
+        self.conversationsButton.layer.masksToBounds = false
         
 
         ReadFirebaseData.readCurrentUser()
@@ -206,10 +213,14 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     }
     
     @IBAction func leaderboardButton(_ sender: UIButton) {
+    
+        performSegue(withIdentifier: "leaderboardSegue", sender: self)
+    }
+    
+    @IBAction func conversationsButton(_ sender: UIButton) {
         
         performSegue(withIdentifier: "conversationsSegue", sender: self)
-
-        //performSegue(withIdentifier: "leaderboardSegue", sender: self)
+        
     }
     
     

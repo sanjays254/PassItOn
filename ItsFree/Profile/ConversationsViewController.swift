@@ -18,6 +18,7 @@ class ConversationsViewController: UIViewController {
         super.viewDidLoad()
         
         self.navigationController?.setNavigationBarHidden(false, animated: true)
+        self.title = "Conversations"
         
         if let conversationsVC = BInterfaceManager.shared().a.privateThreadsViewController() {
             
@@ -41,17 +42,26 @@ class ConversationsViewController: UIViewController {
     
         NotificationCenter.default.addObserver(self, selector: #selector(receiveNotification), name: NSNotification.Name(rawValue: "notifyme"), object: nil)
     
-    
-    
-    
-        // Do any additional setup after loading the view.
+
     }
 
     @objc func receiveNotification(ns: NSNotification){
     
         let vc = ns.userInfo!["ThreadVC"] as! UIViewController
+        let thread = ns.userInfo!["thread"] as! PThread
     
-        self.navigationController?.pushViewController(vc, animated: true)
+        
+        let chatThreadVC = self.storyboard?.instantiateViewController(withIdentifier: "chatThreadVCID") as! ChatThreadViewController
+        
+       // chatThreadVC.item = messageItem
+       // chatThreadVC.destinationUser = messageUser
+        chatThreadVC.embeddedVC = vc
+        chatThreadVC.thread = thread
+        
+        
+        
+        self.navigationController?.pushViewController(chatThreadVC, animated: true)
+       
         
 
     }

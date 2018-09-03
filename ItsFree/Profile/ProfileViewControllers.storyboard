@@ -158,7 +158,7 @@
                                 <color key="textColor" red="0.30666246755854526" green="0.14943884116484898" blue="0.95634310233160624" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kKd-sP-LUU" userLabel="Leaderboard Button">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kKd-sP-LUU" userLabel="Conversations Button">
                                 <rect key="frame" x="7" y="68" width="50" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="50" id="hA8-nI-Ct6"/>
@@ -169,7 +169,7 @@
                                     <color key="titleColor" red="0.61623996940000003" green="1" blue="0.3396967099" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
-                                    <action selector="leaderboardButton:" destination="9wv-wn-pjM" eventType="touchUpInside" id="U0c-ks-zAv"/>
+                                    <action selector="conversationsButton:" destination="9wv-wn-pjM" eventType="touchUpInside" id="Lmb-nF-YIz"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="phoneNumber" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Npc-Gf-Jxg">
@@ -184,6 +184,20 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Chi-hB-pz8" userLabel="Leaderboard Button">
+                                <rect key="frame" x="7" y="210" width="50" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="50" id="WMe-t8-C36"/>
+                                    <constraint firstAttribute="height" constant="50" id="pqb-tT-Du6"/>
+                                </constraints>
+                                <color key="tintColor" red="0.61623996940000003" green="1" blue="0.3396967099" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <state key="normal" image="backButton">
+                                    <color key="titleColor" red="0.61623996940000003" green="1" blue="0.3396967099" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="leaderboardButton:" destination="9wv-wn-pjM" eventType="touchUpInside" id="5Ug-8n-yDO"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -195,6 +209,7 @@
                             <constraint firstItem="kKd-sP-LUU" firstAttribute="top" secondItem="xl0-9u-a6U" secondAttribute="bottom" constant="11" id="AJj-LM-MD3"/>
                             <constraint firstItem="BGP-j3-w4p" firstAttribute="top" secondItem="apo-xE-xyy" secondAttribute="top" constant="7" id="Cmt-02-8ZC"/>
                             <constraint firstItem="n16-cV-pxw" firstAttribute="top" secondItem="xP3-iM-nzo" secondAttribute="bottom" constant="20" id="F6T-W0-HoU"/>
+                            <constraint firstItem="Chi-hB-pz8" firstAttribute="leading" secondItem="apo-xE-xyy" secondAttribute="leading" constant="7" id="RBc-oT-6gN"/>
                             <constraint firstItem="Npc-Gf-Jxg" firstAttribute="centerX" secondItem="8f5-Z4-td5" secondAttribute="centerX" id="SvJ-wk-rkv"/>
                             <constraint firstItem="8kg-8t-3qi" firstAttribute="top" secondItem="9Iv-nz-LsU" secondAttribute="bottom" constant="5" id="UXP-s9-dxJ"/>
                             <constraint firstItem="EgC-jl-kXm" firstAttribute="leading" secondItem="apo-xE-xyy" secondAttribute="leading" id="Uxh-zL-yT7"/>
@@ -206,6 +221,7 @@
                             <constraint firstItem="9Iv-nz-LsU" firstAttribute="centerX" secondItem="8f5-Z4-td5" secondAttribute="centerX" id="hUQ-6z-t9t"/>
                             <constraint firstItem="8Dm-5y-SA3" firstAttribute="top" secondItem="n16-cV-pxw" secondAttribute="bottom" constant="10" id="haE-gq-4Ah"/>
                             <constraint firstItem="kKd-sP-LUU" firstAttribute="leading" secondItem="apo-xE-xyy" secondAttribute="leading" constant="7" id="jDv-gX-sIy"/>
+                            <constraint firstItem="Chi-hB-pz8" firstAttribute="centerY" secondItem="9Iv-nz-LsU" secondAttribute="centerY" id="lVq-zJ-3dI"/>
                             <constraint firstItem="8kg-8t-3qi" firstAttribute="centerX" secondItem="8f5-Z4-td5" secondAttribute="centerX" id="lim-cP-5lg"/>
                             <constraint firstItem="9Iv-nz-LsU" firstAttribute="top" secondItem="I2y-oy-I5o" secondAttribute="bottom" constant="5" id="mk0-it-zox"/>
                             <constraint firstItem="xl0-9u-a6U" firstAttribute="leading" secondItem="apo-xE-xyy" secondAttribute="leading" constant="7" id="qqL-yy-gDU"/>
@@ -228,9 +244,10 @@
                     </navigationItem>
                     <connections>
                         <outlet property="backButton" destination="xl0-9u-a6U" id="31F-qd-jA8"/>
+                        <outlet property="conversationsButton" destination="kKd-sP-LUU" id="o6b-la-maP"/>
                         <outlet property="editButton" destination="7pi-MC-I6z" id="96V-eb-sir"/>
                         <outlet property="emailLabel" destination="8Dm-5y-SA3" id="gBU-be-e20"/>
-                        <outlet property="leaderboardButton" destination="kKd-sP-LUU" id="iFE-yh-t8V"/>
+                        <outlet property="leaderboardButton" destination="Chi-hB-pz8" id="5J0-lW-2vS"/>
                         <outlet property="logoutButton" destination="BGP-j3-w4p" id="8Dc-9r-fe5"/>
                         <outlet property="myPostsTableView" destination="48w-2B-IEK" id="tpQ-tQ-FCa"/>
                         <outlet property="offersRequestsSegmentedControl" destination="EgC-jl-kXm" id="39e-7D-d0X"/>
@@ -277,6 +294,7 @@
                     </view>
                     <connections>
                         <outlet property="containerView" destination="9ua-ao-fdA" id="iCu-Fv-zdI"/>
+                        <segue destination="Hlx-Xp-ij9" kind="show" id="LFd-Zo-8ht"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hUW-QX-OU9" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -458,6 +476,36 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ofi-M1-hOT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1049" y="-493"/>
+        </scene>
+        <!--Chat Thread View Controller-->
+        <scene sceneID="yBG-Oo-4e0">
+            <objects>
+                <viewController storyboardIdentifier="chatThreadVCID" id="Hlx-Xp-ij9" customClass="ChatThreadViewController" customModule="ItsFree" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="p79-Dy-KTo">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="i4X-zC-h09">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="i4X-zC-h09" firstAttribute="leading" secondItem="NfF-SW-MFi" secondAttribute="leading" id="4fu-KO-vr3"/>
+                            <constraint firstItem="NfF-SW-MFi" firstAttribute="trailing" secondItem="i4X-zC-h09" secondAttribute="trailing" id="Enj-qe-MIS"/>
+                            <constraint firstItem="i4X-zC-h09" firstAttribute="top" secondItem="NfF-SW-MFi" secondAttribute="top" id="Ixa-fd-Wmo"/>
+                            <constraint firstItem="NfF-SW-MFi" firstAttribute="bottom" secondItem="i4X-zC-h09" secondAttribute="bottom" id="R61-yu-Qtu"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="NfF-SW-MFi"/>
+                    </view>
+                    <connections>
+                        <outlet property="chatContainerView" destination="i4X-zC-h09" id="7AY-2q-9Dv"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dMP-Qe-lTJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2402" y="784"/>
         </scene>
     </scenes>
     <resources>

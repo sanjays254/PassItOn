@@ -10,6 +10,7 @@ import UIKit
 import Firebase
 import FirebaseAuth
 import CoreLocation
+import ChatSDK
 
 
 class ReadFirebaseData: NSObject {
@@ -181,11 +182,56 @@ class ReadFirebaseData: NSObject {
                     
                     let myUserDownloadNotificationKey = "myUserDownloadNotificationKey"
                     NotificationCenter.default.post(name: Notification.Name(rawValue: myUserDownloadNotificationKey), object: nil)
+                    
+                    
+                    updateChatUserImage()
+            
            
                 }
             }
             
         })
+        
+    }
+    
+    class func updateChatUserImage(){
+        
+        //need to get user image
+        let session = URLSession(configuration: .default)
+        
+        //creating a dataTask
+        let getImageFromUrl = session.dataTask(with: URL(string: (AppData.sharedInstance.currentUser?.profileImage)!)!) { (data, response, error) in
+            
+            //if there is any error
+            if let e = error {
+                //displaying the message
+                print("Error Occurred: \(e)")
+                
+            } else {
+                //in case of now error, checking wheather the response is nil or not
+                if (response as? HTTPURLResponse) != nil {
+                    
+                    //checking if the response contains an image
+                    if let imageData = data {
+                        
+                        //getting the image
+                        let image = UIImage(data: imageData)
+                        
+                       //updateChatUser
+                        BIntegrationHelper.updateUser(withName: AppData.sharedInstance.currentUser?.name, image: image, url: AppData.sharedInstance.currentUser?.profileImage)
+                        
+                    } else {
+                        print("Image file is currupted")
+                    }
+                } else {
+                    print("No response from server")
+                }
+            }
+        }
+        
+        //starting the download task
+        getImageFromUrl.resume()
+        
         
     }
     

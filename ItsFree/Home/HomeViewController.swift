@@ -236,7 +236,12 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         MapViewDelegate.theMapViewDelegate.theMapView = homeMapView
-
+        
+        if guestUser == true {
+            profileButton.isEnabled = false
+        } else {
+            profileButton.isEnabled = true
+        }
     }
     
     

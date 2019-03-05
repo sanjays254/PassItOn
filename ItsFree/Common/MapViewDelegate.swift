@@ -14,8 +14,6 @@ class MapViewDelegate: NSObject, MKMapViewDelegate {
     var theMapView: MKMapView!
     var currentLocation: CLLocation? = LocationManager.theLocationManager.getLocation()
     
-    let myNotificationKey = "mySelectedItemNotificationKey"
-    
     static let theMapViewDelegate = MapViewDelegate()
     
     func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
@@ -190,7 +188,7 @@ class MapViewDelegate: NSObject, MKMapViewDelegate {
             
     
             
-            NotificationCenter.default.post(name: Notification.Name(rawValue: myNotificationKey), object: nil, userInfo: ["name" : myItem])
+            NotificationCenter.default.post(name: Notification.Name(rawValue: NotificationKeys.shared.selectedItemNotificationKey), object: nil, userInfo: ["name" : myItem])
         }
     }
     

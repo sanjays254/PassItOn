@@ -105,7 +105,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, AlertDelegate{
                                                         //if scheme link was opened, then add the notification observer
                                                         
                                                         if(self.schemaURL != nil){
-                                                                                                                    NotificationCenter.default.addObserver(self, selector: #selector(self.rateUser), name: NSNotification.Name(rawValue: "myUsersDownloadNotificationKey"), object: nil)
+                                                                                                                    NotificationCenter.default.addObserver(self, selector: #selector(self.rateUser), name: NSNotification.Name(rawValue: NotificationKeys.shared.usersDownloadedNotificationKey), object: nil)
                                                         }
                                                         
                                                     }
@@ -141,12 +141,30 @@ class LoginViewController: UIViewController, UITextFieldDelegate, AlertDelegate{
             //if scheme link was opened, then add the notification observer, so we can rate a user when the data has been downloaded
             //do we really need this if statement? this function is only called when we open the app with a schema!!!!
             if(self.schemaURL != nil){
-                NotificationCenter.default.addObserver(self, selector: #selector(self.rateUser), name: NSNotification.Name(rawValue: "myUsersDownloadNotificationKey"), object: nil)
+                NotificationCenter.default.addObserver(self, selector: #selector(self.rateUser), name: NSNotification.Name(rawValue: NotificationKeys.shared.usersDownloadedNotificationKey), object: nil)
             }
         }
         //else if we are still logged out, login like normal.
         else {
             login()
+        }
+    }
+    
+    //rateUser calls the ratingFunction and alert from the AppDelegate
+    @objc func rateUser() {
+        
+        if(AppData.sharedInstance.onlineUsers.count == 0){
+            let noUsersFoundAlert =  UIAlertController(title: "Oops", message: "No users were found", preferredStyle: .alert)
+            let okayAction = UIAlertAction(title: "Okay", style: .default, handler: nil)
+            
+            noUsersFoundAlert.addAction(okayAction)
+            present(noUsersFoundAlert, animated: true, completion: nil)
+        }
+            
+        else {
+            if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
+                appDelegate.openedThroughSchema(url: schemaURL)
+            }
         }
     }
     
@@ -162,23 +180,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, AlertDelegate{
         }
     }
     
-    
-    //rateUser calls the ratingFunction and alert from the AppDelegate
-    @objc func rateUser() {
-        
-        if(AppData.sharedInstance.onlineUsers.count == 0){
-            let noUsersFoundAlert =  UIAlertController(title: "Oops", message: "No users were found", preferredStyle: .alert)
-            let okayAction = UIAlertAction(title: "Okay", style: .default, handler: nil)
-            
-            noUsersFoundAlert.addAction(okayAction)
-            present(noUsersFoundAlert, animated: true, completion: nil)
-        }
-        
-        else {
-            let appDelegate = UIApplication.shared.delegate as! AppDelegate
-            appDelegate.openedThroughSchema(url: schemaURL)
-        }
-    }
+
     
     @IBAction func toggleScreen(_ sender: Any) {
         print("Toggling...")

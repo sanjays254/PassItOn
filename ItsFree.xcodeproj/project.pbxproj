@@ -50,6 +50,8 @@
 		CE5869EF1FBE445C0012F774 /* ItsFreeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5869EE1FBE445C0012F774 /* ItsFreeUITests.swift */; };
 		CE5DC8BB210A661B008E3F01 /* BusyActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5DC8BA210A661B008E3F01 /* BusyActivityView.swift */; };
 		CE5DC8BD210A688A008E3F01 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5DC8BC210A688A008E3F01 /* Alert.swift */; };
+		CE82ACBB211904C40034C67B /* NotificationKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE82ACBA211904C30034C67B /* NotificationKeys.swift */; };
+		CE82ACBD211908680034C67B /* ReadFirebaseData+Users.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE82ACBC211908680034C67B /* ReadFirebaseData+Users.swift */; };
 		CE9683D01FBE655600DFA277 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9683CF1FBE655600DFA277 /* LocationManager.swift */; };
 		CE9683D21FBF6C9700DFA277 /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9683D11FBF6C9700DFA277 /* PostViewController.swift */; };
 		CE9683D51FBF8E5700DFA277 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9683D41FBF8E5600DFA277 /* HomeViewController.swift */; };
@@ -151,6 +153,8 @@
 		CE5869F01FBE445C0012F774 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CE5DC8BA210A661B008E3F01 /* BusyActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusyActivityView.swift; sourceTree = "<group>"; };
 		CE5DC8BC210A688A008E3F01 /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
+		CE82ACBA211904C30034C67B /* NotificationKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationKeys.swift; sourceTree = "<group>"; };
+		CE82ACBC211908680034C67B /* ReadFirebaseData+Users.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ReadFirebaseData+Users.swift"; sourceTree = "<group>"; };
 		CE9683CF1FBE655600DFA277 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		CE9683D11FBF6C9700DFA277 /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
 		CE9683D41FBF8E5600DFA277 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
@@ -230,7 +234,11 @@
 		CE2217E62115367A003CC553 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				CE9683CF1FBE655600DFA277 /* LocationManager.swift */,
+				CEF41A1B1FC1000F0044C63E /* MapViewDelegate.swift */,
+				CE01A160211816F6003AC827 /* Protocols.swift */,
 				CE014333200FFCAA0045A876 /* UIProperties.swift */,
+				CE82ACBA211904C30034C67B /* NotificationKeys.swift */,
 				CE5DC8BA210A661B008E3F01 /* BusyActivityView.swift */,
 				CE5DC8BC210A688A008E3F01 /* Alert.swift */,
 			);
@@ -274,6 +282,7 @@
 			children = (
 				01C1CAE81FBFB35500FB636C /* AppData.swift */,
 				CEF41A1D1FC113290044C63E /* ReadFirebaseData.swift */,
+				CE82ACBC211908680034C67B /* ReadFirebaseData+Users.swift */,
 				01EA0BFB1FCD1A8A00AC54AC /* WriteFirebaseData.swift */,
 			);
 			path = FirebaseData;
@@ -385,9 +394,6 @@
 				CE2217EA211562F0003CC553 /* Home */,
 				CE2217EC211563B5003CC553 /* FirebaseStorage */,
 				CE2217EB21156320003CC553 /* Leaderboard */,
-				CE9683CF1FBE655600DFA277 /* LocationManager.swift */,
-				CE01A160211816F6003AC827 /* Protocols.swift */,
-				CEF41A1B1FC1000F0044C63E /* MapViewDelegate.swift */,
 				CE2217E721156247003CC553 /* Post */,
 				CE2217E92115629B003CC553 /* FirebaseData */,
 				CE5869D51FBE445C0012F774 /* Assets.xcassets */,
@@ -772,9 +778,11 @@
 				01F6ADA71FC3A89C00414D96 /* ImageManager.swift in Sources */,
 				CEF41A211FC374520044C63E /* ItemHomeTableViewCell.swift in Sources */,
 				CEF41A281FC501FA0044C63E /* SearchResultsTableTableViewController.swift in Sources */,
+				CE82ACBB211904C40034C67B /* NotificationKeys.swift in Sources */,
 				CE2F14152114DFF7009C330F /* GoogleImageCollectionViewCell.swift in Sources */,
 				CE2F14102114D608009C330F /* GoogleImagesCollectionViewController.swift in Sources */,
 				01D5DF461FBF86F40029A276 /* User.swift in Sources */,
+				CE82ACBD211908680034C67B /* ReadFirebaseData+Users.swift in Sources */,
 				CEF41A2A1FC51D390044C63E /* PostPhotoCollectionViewCell.swift in Sources */,
 				CE5DC8BD210A688A008E3F01 /* Alert.swift in Sources */,
 				CE9683D51FBF8E5700DFA277 /* HomeViewController.swift in Sources */,

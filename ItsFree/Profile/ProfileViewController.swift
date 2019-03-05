@@ -15,7 +15,6 @@ import SDWebImage
 
 class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate{
     
-    let myDowloadCompletedNotificationKey = "myUserDownloadNotificationKey"
 
     @IBOutlet weak var backButton: UIButton!
     @IBOutlet weak var editButton: UIButton!
@@ -59,7 +58,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         super.viewDidLoad()
         
     
-        NotificationCenter.default.addObserver(self, selector: #selector(setUpProfileText), name: NSNotification.Name(rawValue: myDowloadCompletedNotificationKey), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(setUpProfileText), name: NSNotification.Name(rawValue: NotificationKeys.shared.myUserDownloadedNotificationKey), object: nil)
         
         imagePicker.delegate = self
         editingProfile = false
@@ -367,30 +366,24 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
                 AppData.sharedInstance.usersNode.child((self.user?.UID)!).child("profileImage").setValue(path, withCompletionBlock: {(error, ref) in
                     
                     if (error == nil){
-                        //https://firebasestorage.googleapis.com/v0/b/itsfree-fce29.appspot.com/o/HjlZ3CaBZGQbha33p5CLoLwMEFs2%2FprofileImage?alt=media&token=0189daca-cbcc-49f6-adf9-962454555eaa
-                        
+
                         DispatchQueue.main.async {
                             
-                        //need to clear this cached image
-                        //USE DOWNLOAD WITH URL WITH OPTIONS!!!
                             self.profileImageView.sd_setImage(with: URL(string: path!), placeholderImage: self.myImage, options: .refreshCached, completed: nil)
                             
-                            //self.profileImageView.image = self.myImage
+                            Alert.Show(inpVc: self, customAlert: nil, inpTitle: "Success", inpMessage: "Your profile picture was updated", inpOkTitle: "Ok")
                             
-                           // self.profileImageView.sd_setImage
-                           // self.profileImageView.sd_setImage(with: self.storageRef.child((AppData.sharedInstance.currentUser?.profileImage)!), placeholderImage: self.myImage)
-                           
+                            BusyActivityView.hide()
                         }
-                        
-                        Alert.Show(inpVc: self, customAlert: nil, inpTitle: "Success", inpMessage: "Your profile picture was updated", inpOkTitle: "Ok")
-                        
-                        BusyActivityView.hide()
+    
                         
                     }
                     else {
-                        Alert.Show(inpVc: self, customAlert: nil, inpTitle: "Error", inpMessage: "Your profile picture didnt get saved", inpOkTitle: "Try again")
+                         DispatchQueue.main.async {
+                            Alert.Show(inpVc: self, customAlert: nil, inpTitle: "Error", inpMessage: "Your profile picture didnt get saved", inpOkTitle: "Try again")
                         
-                        BusyActivityView.hide()
+                            BusyActivityView.hide()
+                        }
                         
                     }
                     
@@ -399,9 +392,11 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
             else {
                 
                 //error
+                DispatchQueue.main.async {
                 Alert.Show(inpVc: self, customAlert: nil, inpTitle: "Error", inpMessage: "Your new profile picture was uploaded, but there was error in your account", inpOkTitle: "Try again")
                 
                 BusyActivityView.hide()
+                }
                 
             }
             

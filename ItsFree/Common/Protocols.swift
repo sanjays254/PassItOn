@@ -29,8 +29,9 @@ protocol ItemActionDelegate {
     func dismissFullscreenImage(sender: UITapGestureRecognizer)
 }
 
-protocol NotificationDelegate {
+protocol FilterNotificationDelegate {
     
     func setNotificationsFromDelegator(category: ItemCategory?)
+    func filterApplied()
     
 }

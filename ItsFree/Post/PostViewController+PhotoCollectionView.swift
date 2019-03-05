@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import SimpleImageViewer
 
 
 extension PostViewController {
@@ -199,6 +200,9 @@ extension PostViewController {
                         
                         viewAction = UIAlertAction(title: "View Photo", style: UIAlertActionStyle.default, handler:{ (action) in
                             //open photo
+                            if let cell = collectionView.cellForItem(at: indexPath) as? PostPhotoCollectionViewCell {
+                                self.fullscreenImage(imagePath: self.itemToEdit.photos[indexPath.item], imageView: cell.postCollectionViewCellImageView, inpVC: self)
+                            }
                             
                         })
                         
@@ -215,7 +219,11 @@ extension PostViewController {
                         
                         viewAction = UIAlertAction(title: "View Photo", style: UIAlertActionStyle.default, handler:{ (action) in
                             //open photo
-                            self.fullscreenImage(image: self.photosArray[indexPath.item - (self.itemToEdit.photos.count-1)])
+                            if let cell = collectionView.cellForItem(at: indexPath) as? PostPhotoCollectionViewCell {
+                                self.fullscreenImage(imageView: cell.postCollectionViewCellImageView)
+                            }
+                            
+                            //self.fullscreenImage(image: self.photosArray[indexPath.item - (self.itemToEdit.photos.count-1)])
                             
                         })
                         
@@ -252,7 +260,9 @@ extension PostViewController {
                         
                         viewAction = UIAlertAction(title: "View Photo", style: UIAlertActionStyle.default, handler:{ (action) in
                             //open photo
-                            
+                            if let cell = collectionView.cellForItem(at: indexPath) as? PostPhotoCollectionViewCell {
+                                self.fullscreenImage(imagePath: self.itemToEdit.photos[indexPath.item], imageView: cell.postCollectionViewCellImageView, inpVC: self)
+                            }
                         })
                         
                         changeAction = UIAlertAction(title: "Delete Photo", style: UIAlertActionStyle.destructive, handler:{ (action) in
@@ -268,7 +278,10 @@ extension PostViewController {
                         
                         viewAction = UIAlertAction(title: "View Photo", style: UIAlertActionStyle.default, handler:{ (action) in
                             //open photo
-                            self.fullscreenImage(image: self.photosArray[indexPath.item - (self.itemToEdit.photos.count)])
+                            if let cell = collectionView.cellForItem(at: indexPath) as? PostPhotoCollectionViewCell {
+                                self.fullscreenImage(imageView: cell.postCollectionViewCellImageView)
+                            }
+                            //self.fullscreenImage(image: self.photosArray[indexPath.item - (self.itemToEdit.photos.count)])
                             
                         })
                         
@@ -301,7 +314,10 @@ extension PostViewController {
                 let changePhotoAlert = UIAlertController(title: "View or Delete Photo?", message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
                 
                 let viewAction = UIAlertAction(title: "View Photo", style: UIAlertActionStyle.default, handler:{ (action) in
-                    self.fullscreenImage(image: self.photosArray[indexPath.item])
+                    
+                    if let cell = collectionView.cellForItem(at: indexPath) as? PostPhotoCollectionViewCell {
+                         self.fullscreenImage(imageView: cell.postCollectionViewCellImageView)
+                    }
                 })
                 
                 let changeAction = UIAlertAction(title: "Delete Photo", style: UIAlertActionStyle.destructive, handler:{ (action) in
@@ -319,4 +335,52 @@ extension PostViewController {
             }
         }
     }
+    
+    func fullscreenImage(imagePath : String, imageView: UIImageView, inpVC: UIViewController) {
+        
+        if (imagePath == ""){
+            let noImageAlert = UIAlertController(title: "Sorry", message: "This item doesn't have an image", preferredStyle: .alert)
+            let okayAction = UIAlertAction(title: "Okay", style: .default, handler: nil)
+            
+            noImageAlert.addAction(okayAction)
+            
+            inpVC.present(noImageAlert, animated: true, completion: nil)
+        }
+            
+        else {
+            
+//            let newImageView = UIImageView()
+//            newImageView.sd_setImage(with: storageRef.child(imagePath), placeholderImage: UIImage.init(named: "placeholder"))
+//
+//            newImageView.frame = UIScreen.main.bounds
+//            newImageView.backgroundColor = .black
+//            newImageView.contentMode = .scaleAspectFit
+//            newImageView.isUserInteractionEnabled = true
+//            let tap = UITapGestureRecognizer(target: inpVC, action: #selector(dismissFullscreenImage(sender:)))
+//            newImageView.addGestureRecognizer(tap)
+//            inpVC.view.addSubview(newImageView)
+//            inpVC.navigationController?.isNavigationBarHidden = true
+//            inpVC.tabBarController?.tabBar.isHidden = true
+            
+            
+            let configuration = ImageViewerConfiguration { config in
+                config.imageView = imageView
+            }
+            
+            let imageViewerController = ImageViewerController(configuration: configuration)
+            
+            present(imageViewerController, animated: true)
+            
+        }
+    }
+    
+    @objc func dismissFullscreenImage(sender: UITapGestureRecognizer) {
+        
+        self.navigationController?.isNavigationBarHidden = false
+        self.tabBarController?.tabBar.isHidden = false
+        
+        sender.view?.removeFromSuperview()
+        
+    }
+    
 }

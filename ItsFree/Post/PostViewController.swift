@@ -10,6 +10,7 @@ import UIKit
 import MapKit
 import FirebaseStorage
 import CoreLocation
+import SimpleImageViewer
 
 class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UITextViewDelegate, UICollectionViewDelegateFlowLayout{
     
@@ -70,7 +71,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
     @IBOutlet var locationButtonTopConstraint: NSLayoutConstraint!
     @IBOutlet var locationButtonLeadingConstraint: NSLayoutConstraint!
     @IBOutlet var locationButtonTrailingConstraint: NSLayoutConstraint!
-    @IBOutlet var locationButtonBottomConstraint: NSLayoutConstraint!
+    //@IBOutlet var locationButtonBottomConstraint: NSLayoutConstraint!
     
     var topConstraintInResponseView: NSLayoutConstraint!
     var bottomConstraintInResponseView: NSLayoutConstraint!
@@ -363,7 +364,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         qualitySegmentTopConstraint.isActive = false
         categoryButtonTopConstraint.isActive = false
         locationButtonTopConstraint.isActive = false
-        locationButtonBottomConstraint.isActive = false
+       // locationButtonBottomConstraint.isActive = false
         
         setupCascadingQuestions()
     }
@@ -587,21 +588,31 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
     }
     
     //fullcreen image methods
-    func fullscreenImage(image: UIImage) {
+    func fullscreenImage(imageView: UIImageView) {
         
-        let newImageView = UIImageView(image: image)
-        newImageView.frame = UIScreen.main.bounds
-        newImageView.backgroundColor = .black
-        newImageView.contentMode = .scaleAspectFit
-        newImageView.isUserInteractionEnabled = true
-        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissFullscreenImage))
-        newImageView.addGestureRecognizer(tap)
-        self.view.addSubview(newImageView)
-        self.navigationController?.isNavigationBarHidden = true
-        self.tabBarController?.tabBar.isHidden = true
+//        let newImageView = UIImageView(image: image)
+//        newImageView.frame = UIScreen.main.bounds
+//        newImageView.backgroundColor = .black
+//        newImageView.contentMode = .scaleAspectFit
+//        newImageView.isUserInteractionEnabled = true
+//        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissFullscreenImg))
+//        newImageView.addGestureRecognizer(tap)
+//        self.view.addSubview(newImageView)
+//        self.navigationController?.isNavigationBarHidden = true
+//        self.tabBarController?.tabBar.isHidden = true
+        
+        
+        let configuration = ImageViewerConfiguration { config in
+            config.imageView = imageView
+        }
+        
+        let imageViewerController = ImageViewerController(configuration: configuration)
+        
+        present(imageViewerController, animated: true)
+        
     }
     
-    @objc func dismissFullscreenImage(_ sender: UITapGestureRecognizer) {
+    @objc func dismissFullscreenImg(_ sender: UITapGestureRecognizer) {
         self.navigationController?.isNavigationBarHidden = false
         self.tabBarController?.tabBar.isHidden = false
         sender.view?.removeFromSuperview()

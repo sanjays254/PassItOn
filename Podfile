@@ -13,6 +13,7 @@ target 'ItsFree' do
   pod 'FirebaseStorage'
   pod 'FirebaseUI'
   pod 'KeychainAccess'
+  pod 'SimpleImageViewer', '~> 1.1.1'
 
   target 'ItsFreeTests' do
     inherit! :search_paths

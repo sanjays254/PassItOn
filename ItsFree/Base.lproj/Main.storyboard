@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="9V3-22-K9S">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="9V3-22-K9S">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
-        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
-        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -198,7 +196,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="80"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9CS-A8-mYb">
-                                        <rect key="frame" x="97.5" y="78" width="180" height="1"/>
+                                        <rect key="frame" x="97.5" y="78" width="180" height="1.5"/>
                                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="180" id="YAF-DT-Gw5"/>
@@ -230,7 +228,7 @@
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Leaderboard" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7XK-bB-uwC">
-                                        <rect key="frame" x="102" y="24" width="172" height="48"/>
+                                        <rect key="frame" x="101.5" y="24" width="172" height="48"/>
                                         <fontDescription key="fontDescription" name="Copperplate-Light" family="Copperplate" pointSize="26"/>
                                         <color key="textColor" red="0.61623996940000003" green="1" blue="0.3396967099" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
@@ -283,7 +281,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ZWX-8d-wP2">
-                                                    <rect key="frame" x="53" y="7" width="45" height="45.5"/>
+                                                    <rect key="frame" x="53" y="7.5" width="45" height="45"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="ZWX-8d-wP2" secondAttribute="height" multiplier="1:1" id="VTg-Yr-751"/>
                                                         <constraint firstAttribute="width" constant="45" id="dNN-BW-Z7I"/>
@@ -349,6 +347,9 @@
                             </view>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Title" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="9QC-CH-sNi">
                                 <rect key="frame" x="16" y="15" width="343" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="edJ-9G-buE"/>
+                                </constraints>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
@@ -385,7 +386,7 @@
                                     <constraint firstItem="ePM-Xj-1Wt" firstAttribute="leading" secondItem="HS7-Ws-qQg" secondAttribute="leading" id="vRd-8j-vvL"/>
                                 </constraints>
                             </view>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="HvF-Qc-sIh">
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="HvF-Qc-sIh">
                                 <rect key="frame" x="16" y="455" width="343" height="29"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="28" id="k1T-TM-HQg"/>
@@ -397,7 +398,7 @@
                                     <segment title="Damaged"/>
                                 </segments>
                             </segmentedControl>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gBU-nq-UfP">
+                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="leading" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gBU-nq-UfP">
                                 <rect key="frame" x="16" y="498" width="343" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="pOX-Yu-UeZ"/>
@@ -410,8 +411,11 @@
                                     <action selector="openCategories:" destination="uu9-5f-Eua" eventType="touchUpInside" id="7bZ-Si-eiy"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1tg-1W-cY8">
+                            <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1tg-1W-cY8">
                                 <rect key="frame" x="16" y="543" width="343" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="cVY-Uc-b3V"/>
+                                </constraints>
                                 <state key="normal" title="Location:">
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -419,9 +423,12 @@
                                     <action selector="selectPostLocationButton:" destination="uu9-5f-Eua" eventType="touchUpInside" id="eK6-ql-K98"/>
                                 </connections>
                             </button>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="xfP-it-5u6">
-                                <rect key="frame" x="16" y="263" width="343" height="184"/>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="xfP-it-5u6">
+                                <rect key="frame" x="16" y="297" width="343" height="150"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" relation="lessThanOrEqual" constant="130" id="83Z-ck-tUV"/>
+                                </constraints>
                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Uxh-rl-sae">
                                     <size key="itemSize" width="50" height="50"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -456,6 +463,9 @@
                             </collectionView>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Custom Tag" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="kfk-u6-46H">
                                 <rect key="frame" x="16" y="155" width="260" height="32"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="32" id="CdX-un-t8N"/>
+                                </constraints>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
@@ -464,6 +474,7 @@
                                 <rect key="frame" x="284" y="155" width="75" height="32"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="75" id="Kxf-RU-Blj"/>
+                                    <constraint firstAttribute="height" constant="32" id="SJE-tc-5ZQ"/>
                                 </constraints>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -511,7 +522,6 @@
                             <constraint firstItem="ivO-1W-BYH" firstAttribute="trailing" secondItem="HS7-Ws-qQg" secondAttribute="trailing" constant="20" id="nj7-lS-9Jb"/>
                             <constraint firstItem="13M-XH-0j6" firstAttribute="bottom" secondItem="kfk-u6-46H" secondAttribute="bottom" constant="-5" id="por-8Q-ewn"/>
                             <constraint firstItem="ivO-1W-BYH" firstAttribute="trailing" secondItem="1tg-1W-cY8" secondAttribute="trailing" constant="16" id="qij-h7-9pM"/>
-                            <constraint firstItem="ivO-1W-BYH" firstAttribute="bottom" secondItem="1tg-1W-cY8" secondAttribute="bottom" constant="30" id="tu6-K5-Xqu"/>
                             <constraint firstItem="gBU-nq-UfP" firstAttribute="top" secondItem="HvF-Qc-sIh" secondAttribute="bottom" constant="15" id="um2-lz-N17"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="ivO-1W-BYH"/>
@@ -544,7 +554,6 @@
                         <outlet property="descriptionTopConstraint" destination="KYF-sT-yQo" id="l5j-eA-WaY"/>
                         <outlet property="descriptionTrailingConstraint" destination="Fy3-xb-RCg" id="mfQ-Xc-RQO"/>
                         <outlet property="locationButton" destination="1tg-1W-cY8" id="rOf-FT-UAx"/>
-                        <outlet property="locationButtonBottomConstraint" destination="tu6-K5-Xqu" id="Oix-vL-bBZ"/>
                         <outlet property="locationButtonLeadingConstraint" destination="cwB-Rm-gst" id="GJE-vS-b2m"/>
                         <outlet property="locationButtonTopConstraint" destination="YlU-dH-Ncz" id="HJr-7t-Z8V"/>
                         <outlet property="locationButtonTrailingConstraint" destination="qij-h7-9pM" id="Gdl-JM-T2R"/>
@@ -599,11 +608,11 @@
         </scene>
     </scenes>
     <resources>
-        <image name="backButton" width="24" height="24"/>
-        <image name="done" width="26" height="26"/>
-        <image name="filter" width="25" height="25"/>
-        <image name="me" width="25" height="25"/>
-        <image name="userImage" width="25" height="25"/>
-        <image name="userlocation" width="24" height="24"/>
+        <image name="backButton" width="48" height="48"/>
+        <image name="done" width="52" height="52"/>
+        <image name="filter" width="50" height="50"/>
+        <image name="me" width="50" height="50"/>
+        <image name="userImage" width="50" height="50"/>
+        <image name="userlocation" width="48" height="48"/>
     </resources>
 </document>

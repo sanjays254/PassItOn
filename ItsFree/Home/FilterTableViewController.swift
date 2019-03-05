@@ -38,7 +38,8 @@ class FilterTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return ItemCategory.count+1
+        //return ItemCategory.count+1
+        return 14
     }
 
 

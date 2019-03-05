@@ -172,9 +172,6 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     func setupTableView() {
         myPostsTableView.delegate = self
         myPostsTableView.dataSource = self
-        
-        myPostsTableView.layer.borderColor = UIColor.black.cgColor
-        myPostsTableView.layer.borderWidth = 3.0
     }
     
     func setUpProfilePicture() {

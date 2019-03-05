@@ -69,7 +69,7 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
         
         itemDetailView.translatesAutoresizingMaskIntoConstraints = false
         
-        detailViewTopAnchorConstant = (UIScreen.main.bounds.size.height-(itemDetailView.mainImageView.frame.minY+itemDetailView.categoryLabel.frame.maxY)) - (44 + (UIApplication.shared.statusBarFrame.size.height))
+        detailViewTopAnchorConstant = (UIScreen.main.bounds.size.height-(itemDetailView.mainImageView.frame.minY+itemDetailView.categoryLabel.frame.maxY)) - (44 + (UIApplication.shared.statusBarFrame.size.height)) - 20
         
         detailViewBottomAnchorConstant = 0
         
@@ -133,7 +133,7 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
     }
     
     @objc func mainImageTapped(recognizer: UITapGestureRecognizer) {
-        itemActionDelegate.fullscreenImage(imagePath: currentItem.photos[0], inpVC: self)
+        itemActionDelegate.fullscreenImage(imagePath: currentItem.photos[0], imageView: itemDetailView.mainImageView, inpVC: self)
     }
     
     func setupCollectionView(){
@@ -217,7 +217,14 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         let photoRef: [String] = currentItem.photos
-        itemActionDelegate.fullscreenImage(imagePath: photoRef[indexPath.item], inpVC: self)
+        
+        if let cell = collectionView.cellForItem(at: indexPath) as? ItemPhotoCollectionViewCell {
+            if let imageView = cell.collectionViewImageVew {
+            
+            itemActionDelegate.fullscreenImage(imagePath: photoRef[indexPath.item], imageView: imageView, inpVC: self)
+            }
+        }
+
     }
     
     //When screen is tapped outside the itemDetailView, go back to Map
@@ -238,7 +245,7 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
         
         let topOfFullViewFrame = (UIScreen.main.bounds.size.height-(itemDetailView.mainImageView.frame.minY+itemDetailView.photoCollectionView.frame.maxY)) - (44 + (UIApplication.shared.statusBarFrame.size.height))
         
-        let topOfPreviewFrame = (UIScreen.main.bounds.size.height-(itemDetailView.mainImageView.frame.minY+itemDetailView.categoryLabel.frame.maxY)) - (44 + (UIApplication.shared.statusBarFrame.size.height))
+        let topOfPreviewFrame = (UIScreen.main.bounds.size.height-(itemDetailView.mainImageView.frame.minY+itemDetailView.categoryLabel.frame.maxY)) - (44 + (UIApplication.shared.statusBarFrame.size.height)) - 20
         
         
         

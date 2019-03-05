@@ -448,8 +448,6 @@
 				CE5869DB1FBE445C0012F774 /* Sources */,
 				CE5869DC1FBE445C0012F774 /* Frameworks */,
 				CE5869DD1FBE445C0012F774 /* Resources */,
-				2225FC58D1E8F79BA1028945 /* [CP] Embed Pods Frameworks */,
-				95BF70D852E9E6E91C80CAB8 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -469,8 +467,6 @@
 				CE5869E61FBE445C0012F774 /* Sources */,
 				CE5869E71FBE445C0012F774 /* Frameworks */,
 				CE5869E81FBE445C0012F774 /* Resources */,
-				B5016570A39D5A12B68BBE7B /* [CP] Embed Pods Frameworks */,
-				6D199B844AB4350128CD8E6D /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -612,28 +608,13 @@
 			shellPath = /bin/sh;
 			shellScript = "TAGS=\"TODO:|FIXME:|:hugging_face::\"…find \"${SRCROOT}\" \\( -type f -name \"*.swift\" \\) -print0 | xargs -0 egrep";
 		};
-		2225FC58D1E8F79BA1028945 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ItsFreeTests/Pods-ItsFreeTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		59DEF184B45311ECFA4C6022 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-ItsFree/Pods-ItsFree-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-ItsFree/Pods-ItsFree-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
 				"${BUILT_PRODUCTS_DIR}/BoringSSL/openssl.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
@@ -644,6 +625,7 @@
 				"${BUILT_PRODUCTS_DIR}/KeychainAccess/KeychainAccess.framework",
 				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
+				"${BUILT_PRODUCTS_DIR}/SimpleImageViewer/SimpleImageViewer.framework",
 				"${BUILT_PRODUCTS_DIR}/gRPC/GRPCClient.framework",
 				"${BUILT_PRODUCTS_DIR}/gRPC-Core/grpc.framework",
 				"${BUILT_PRODUCTS_DIR}/gRPC-ProtoRPC/ProtoRPC.framework",
@@ -663,6 +645,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KeychainAccess.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SimpleImageViewer.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GRPCClient.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpc.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ProtoRPC.framework",
@@ -672,37 +655,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ItsFree/Pods-ItsFree-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		6D199B844AB4350128CD8E6D /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ItsFreeUITests/Pods-ItsFreeUITests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		95BF70D852E9E6E91C80CAB8 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ItsFreeTests/Pods-ItsFreeTests-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ItsFree/Pods-ItsFree-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		A1F58DEFC0F36E651EC696DD /* [CP] Check Pods Manifest.lock */ = {
@@ -723,28 +676,13 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		B5016570A39D5A12B68BBE7B /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ItsFreeUITests/Pods-ItsFreeUITests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		DB766064DB1829A6235043BD /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-ItsFree/Pods-ItsFree-resources.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-ItsFree/Pods-ItsFree-resources.sh",
 				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseUI/FirebaseAuthUI.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseUI/FirebaseFacebookAuthUI.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseUI/FirebaseGoogleAuthUI.bundle",
@@ -767,7 +705,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ItsFree/Pods-ItsFree-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ItsFree/Pods-ItsFree-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		F8E7B90AEF5684A815B00187 /* [CP] Check Pods Manifest.lock */ = {

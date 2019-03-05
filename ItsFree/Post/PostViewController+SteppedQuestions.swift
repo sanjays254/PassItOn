@@ -128,7 +128,7 @@ extension PostViewController {
             locationButtonTopConstraint.isActive = true
             locationButtonLeadingConstraint.isActive = true
             locationButtonTrailingConstraint.isActive = true
-            locationButtonBottomConstraint.isActive = true
+            //locationButtonBottomConstraint.isActive = true
             
             photoCollectionView.reloadData()
             

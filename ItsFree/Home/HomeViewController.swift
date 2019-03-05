@@ -11,6 +11,7 @@ import UIKit
 import MapKit
 import FirebaseStorage
 import MessageUI
+import SimpleImageViewer
 
 public var offerRequestBool: Bool!
 
@@ -576,7 +577,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             
             if (destinationUser.phoneNumber != 0){
                 
-                let textOrEmailAlert = UIAlertController(title: "\(destinationUser.name) has shared a cell number", message: "How would you like to message \(destinationUser.name)?", preferredStyle: .actionSheet)
+                let textOrEmailAlert = UIAlertController(title: "\(destinationUser.name) has shared a cell number", message: "How would you like to contact \(destinationUser.name)?", preferredStyle: .actionSheet)
                 
                 let emailAction = UIAlertAction(title: "Email", style: .default, handler: {_ in
                     self.emailChosen(inpVC: inpVC, item: currentItem, destinationUser: destinationUser)})
@@ -601,7 +602,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     
     
-    func fullscreenImage(imagePath : String, inpVC: UIViewController) {
+    func fullscreenImage(imagePath : String, imageView: UIImageView, inpVC: UIViewController) {
         
         if (imagePath == ""){
             let noImageAlert = UIAlertController(title: "Sorry", message: "This item doesn't have an image", preferredStyle: .alert)
@@ -614,20 +615,26 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             
         else {
             
-            let newImageView = UIImageView()
-            newImageView.sd_setImage(with: storageRef.child(imagePath), placeholderImage: UIImage.init(named: "placeholder"))
+//            let newImageView = UIImageView()
+//            newImageView.sd_setImage(with: storageRef.child(imagePath), placeholderImage: UIImage.init(named: "placeholder"))
+//            
+//            newImageView.frame = UIScreen.main.bounds
+//            newImageView.backgroundColor = .black
+//            newImageView.contentMode = .scaleAspectFit
+//            newImageView.isUserInteractionEnabled = true
+//            let tap = UITapGestureRecognizer(target: inpVC, action: #selector(dismissFullscreenImage(sender:)))
+//            newImageView.addGestureRecognizer(tap)
+//            inpVC.view.addSubview(newImageView)
+//            inpVC.navigationController?.isNavigationBarHidden = true
+//            inpVC.tabBarController?.tabBar.isHidden = true
             
-            newImageView.frame = UIScreen.main.bounds
-            newImageView.backgroundColor = .black
-            newImageView.contentMode = .scaleAspectFit
-            newImageView.isUserInteractionEnabled = true
-            let tap = UITapGestureRecognizer(target: inpVC, action: #selector(dismissFullscreenImage(sender:)))
-            newImageView.addGestureRecognizer(tap)
-            inpVC.view.addSubview(newImageView)
-            inpVC.navigationController?.isNavigationBarHidden = true
-            inpVC.tabBarController?.tabBar.isHidden = true
+            let configuration = ImageViewerConfiguration { config in
+                config.imageView = imageView
+            }
             
-        
+            let imageViewerController = ImageViewerController(configuration: configuration)
+            
+            present(imageViewerController, animated: true)
             
         }
     }

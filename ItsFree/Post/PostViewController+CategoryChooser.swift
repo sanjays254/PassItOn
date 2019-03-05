@@ -22,7 +22,8 @@ extension PostViewController {
     
     //category chooser tableView delegate methods
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return ItemCategory.count
+        //return ItemCategory.count
+        return 13
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

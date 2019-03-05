@@ -96,7 +96,13 @@ class ItemDetailHomeTableViewCell: UITableViewCell, UICollectionViewDelegate, UI
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         let photoRef: [String] = currentItem.photos
-        itemActionDelegate.fullscreenImage(imagePath: photoRef[indexPath.item], inpVC: homeVC)
+        if let cell = collectionView.cellForItem(at: indexPath) as? ItemDetailHomeTableViewCellPhotoCollectionViewCell {
+            
+            if let imageView = cell.imageView {
+            
+                itemActionDelegate.fullscreenImage(imagePath: photoRef[indexPath.item], imageView: imageView, inpVC: homeVC)
+            }
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

@@ -349,20 +349,6 @@ extension PostViewController {
             
         else {
             
-//            let newImageView = UIImageView()
-//            newImageView.sd_setImage(with: storageRef.child(imagePath), placeholderImage: UIImage.init(named: "placeholder"))
-//
-//            newImageView.frame = UIScreen.main.bounds
-//            newImageView.backgroundColor = .black
-//            newImageView.contentMode = .scaleAspectFit
-//            newImageView.isUserInteractionEnabled = true
-//            let tap = UITapGestureRecognizer(target: inpVC, action: #selector(dismissFullscreenImage(sender:)))
-//            newImageView.addGestureRecognizer(tap)
-//            inpVC.view.addSubview(newImageView)
-//            inpVC.navigationController?.isNavigationBarHidden = true
-//            inpVC.tabBarController?.tabBar.isHidden = true
-            
-            
             let configuration = ImageViewerConfiguration { config in
                 config.imageView = imageView
             }

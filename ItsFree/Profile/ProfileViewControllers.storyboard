@@ -32,7 +32,7 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="email" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Dm-5y-SA3">
                                 <rect key="frame" x="167.5" y="165.5" width="40" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" weight="thin" pointSize="17"/>
-                                <nil key="textColor"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="70" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="48w-2B-IEK">
@@ -154,7 +154,7 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Points" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Iv-nz-LsU">
                                 <rect key="frame" x="166.5" y="224.5" width="42.5" height="20"/>
                                 <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="17"/>
-                                <color key="textColor" red="0.30666246755854526" green="0.14943884116484898" blue="0.95634310233160624" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kKd-sP-LUU" userLabel="Leaderboard Button">
@@ -174,13 +174,13 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="phoneNumber" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Npc-Gf-Jxg">
                                 <rect key="frame" x="141.5" y="191" width="92" height="17"/>
                                 <fontDescription key="fontDescription" type="system" weight="thin" pointSize="14"/>
-                                <nil key="textColor"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="User's display name" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="n16-cV-pxw">
                                 <rect key="frame" x="90.5" y="127" width="194" height="28.5"/>
                                 <fontDescription key="fontDescription" name="GillSans-Light" family="Gill Sans" pointSize="25"/>
-                                <nil key="textColor"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
@@ -201,7 +201,7 @@
                             <constraint firstItem="Npc-Gf-Jxg" firstAttribute="top" secondItem="8Dm-5y-SA3" secondAttribute="bottom" constant="5" id="cJj-0e-WcH"/>
                             <constraint firstItem="48w-2B-IEK" firstAttribute="leading" secondItem="apo-xE-xyy" secondAttribute="leading" id="cfk-WB-u2p"/>
                             <constraint firstItem="8Dm-5y-SA3" firstAttribute="centerX" secondItem="8f5-Z4-td5" secondAttribute="centerX" id="gdc-37-Hgy"/>
-                            <constraint firstItem="48w-2B-IEK" firstAttribute="bottom" secondItem="apo-xE-xyy" secondAttribute="bottom" id="gfy-nn-2v0"/>
+                            <constraint firstItem="48w-2B-IEK" firstAttribute="bottom" secondItem="8f5-Z4-td5" secondAttribute="bottom" id="gfy-nn-2v0"/>
                             <constraint firstItem="9Iv-nz-LsU" firstAttribute="centerX" secondItem="8f5-Z4-td5" secondAttribute="centerX" id="hUQ-6z-t9t"/>
                             <constraint firstItem="8Dm-5y-SA3" firstAttribute="top" secondItem="n16-cV-pxw" secondAttribute="bottom" constant="10" id="haE-gq-4Ah"/>
                             <constraint firstItem="kKd-sP-LUU" firstAttribute="leading" secondItem="apo-xE-xyy" secondAttribute="leading" constant="7" id="jDv-gX-sIy"/>

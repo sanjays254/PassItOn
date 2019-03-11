@@ -31,6 +31,10 @@
 		CE01A15F2117E702003AC827 /* HomeViewController+Messaging.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE01A15E2117E702003AC827 /* HomeViewController+Messaging.swift */; };
 		CE01A161211816F6003AC827 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE01A160211816F6003AC827 /* Protocols.swift */; };
 		CE01EA6B200D5BD2002C33D7 /* RatingSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE01EA6A200D5BD0002C33D7 /* RatingSystem.swift */; };
+		CE0E6BBC2230B91A0044EAD8 /* Resnet50.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = CE0E6BBB2230B91A0044EAD8 /* Resnet50.mlmodel */; };
+		CE0E6BBE22319F7D0044EAD8 /* ImageProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE0E6BBD22319F7D0044EAD8 /* ImageProcessor.swift */; };
+		CE0E6BC02231A94F0044EAD8 /* Inceptionv3.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = CE0E6BBF2231A94E0044EAD8 /* Inceptionv3.mlmodel */; };
+		CE0E6BC2223711F50044EAD8 /* PostPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE0E6BC1223711F40044EAD8 /* PostPreviewViewController.swift */; };
 		CE2217F1211565AE003CC553 /* PostViewController+SubmitPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2217F0211565AE003CC553 /* PostViewController+SubmitPost.swift */; };
 		CE2217F321156652003CC553 /* PostViewController+PhotoCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2217F221156652003CC553 /* PostViewController+PhotoCollectionView.swift */; };
 		CE2217F52115678A003CC553 /* PostViewController+CategoryChooser.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2217F42115678A003CC553 /* PostViewController+CategoryChooser.swift */; };
@@ -128,6 +132,10 @@
 		CE01A15E2117E702003AC827 /* HomeViewController+Messaging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HomeViewController+Messaging.swift"; sourceTree = "<group>"; };
 		CE01A160211816F6003AC827 /* Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
 		CE01EA6A200D5BD0002C33D7 /* RatingSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingSystem.swift; sourceTree = "<group>"; };
+		CE0E6BBB2230B91A0044EAD8 /* Resnet50.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; name = Resnet50.mlmodel; path = "../../../../../Downloads/CoreML-Vision-demo-master/CoreML-Vision-Demo/Resnet50.mlmodel"; sourceTree = "<group>"; };
+		CE0E6BBD22319F7D0044EAD8 /* ImageProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageProcessor.swift; sourceTree = "<group>"; };
+		CE0E6BBF2231A94E0044EAD8 /* Inceptionv3.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = Inceptionv3.mlmodel; sourceTree = "<group>"; };
+		CE0E6BC1223711F40044EAD8 /* PostPreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostPreviewViewController.swift; sourceTree = "<group>"; };
 		CE2217F0211565AE003CC553 /* PostViewController+SubmitPost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PostViewController+SubmitPost.swift"; sourceTree = "<group>"; };
 		CE2217F221156652003CC553 /* PostViewController+PhotoCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PostViewController+PhotoCollectionView.swift"; sourceTree = "<group>"; };
 		CE2217F42115678A003CC553 /* PostViewController+CategoryChooser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PostViewController+CategoryChooser.swift"; sourceTree = "<group>"; };
@@ -236,6 +244,7 @@
 			children = (
 				CE9683CF1FBE655600DFA277 /* LocationManager.swift */,
 				CEF41A1B1FC1000F0044C63E /* MapViewDelegate.swift */,
+				CE0E6BBD22319F7D0044EAD8 /* ImageProcessor.swift */,
 				CE01A160211816F6003AC827 /* Protocols.swift */,
 				CE014333200FFCAA0045A876 /* UIProperties.swift */,
 				CE82ACBA211904C30034C67B /* NotificationKeys.swift */,
@@ -256,6 +265,7 @@
 				CEF41A231FC3CF1C0044C63E /* PostMapViewController.swift */,
 				CEF41A291FC51D380044C63E /* PostPhotoCollectionViewCell.swift */,
 				CE9683D11FBF6C9700DFA277 /* PostViewController.swift */,
+				CE0E6BC1223711F40044EAD8 /* PostPreviewViewController.swift */,
 				CE2217F821156B5D003CC553 /* PostViewController+SteppedQuestions.swift */,
 				CE2217F621156978003CC553 /* PostViewController+Tags.swift */,
 				CE2217F42115678A003CC553 /* PostViewController+CategoryChooser.swift */,
@@ -385,6 +395,8 @@
 				01EA0BFA1FCBD20500AC54AC /* ItsFree.entitlements */,
 				01BAC9FA1FBF759E0050C891 /* GoogleService-Info.plist */,
 				CE5869DA1FBE445C0012F774 /* Info.plist */,
+				CE0E6BBB2230B91A0044EAD8 /* Resnet50.mlmodel */,
+				CE0E6BBF2231A94E0044EAD8 /* Inceptionv3.mlmodel */,
 				CE2217EE2115642F003CC553 /* Login */,
 				CE2217E82115627B003CC553 /* Profile */,
 				CE5869CE1FBE445C0012F774 /* AppDelegate.swift */,
@@ -739,7 +751,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE0E6BBC2230B91A0044EAD8 /* Resnet50.mlmodel in Sources */,
 				01BAC9F71FBE5C9E0050C891 /* Item.swift in Sources */,
+				CE0E6BBE22319F7D0044EAD8 /* ImageProcessor.swift in Sources */,
 				CE01A161211816F6003AC827 /* Protocols.swift in Sources */,
 				CE5DC8BB210A661B008E3F01 /* BusyActivityView.swift in Sources */,
 				CE2217F321156652003CC553 /* PostViewController+PhotoCollectionView.swift in Sources */,
@@ -747,6 +761,7 @@
 				01BAC9F91FBF6CD10050C891 /* Enums.swift in Sources */,
 				CE01EA6B200D5BD2002C33D7 /* RatingSystem.swift in Sources */,
 				CE01A15C21176B3E003AC827 /* ItemDetailHomeTableViewCellPhotoCollectionViewCell.swift in Sources */,
+				CE0E6BC02231A94F0044EAD8 /* Inceptionv3.mlmodel in Sources */,
 				CE014332200FFB960045A876 /* MyPostsTableViewCell.swift in Sources */,
 				CEF41A251FC3CF1C0044C63E /* PostMapViewController.swift in Sources */,
 				CE2F141A2114F38B009C330F /* ReadGoogleImages.swift in Sources */,
@@ -757,6 +772,7 @@
 				CE014337201448290045A876 /* ItemPhotoCollectionViewCell.swift in Sources */,
 				01C1CAE91FBFB35500FB636C /* AppData.swift in Sources */,
 				CE5869CF1FBE445C0012F774 /* AppDelegate.swift in Sources */,
+				CE0E6BC2223711F50044EAD8 /* PostPreviewViewController.swift in Sources */,
 				CEBD48A41FCCD02600C5267F /* LeaderboardTableViewCell.swift in Sources */,
 				CE9683D01FBE655600DFA277 /* LocationManager.swift in Sources */,
 				CEFC19951FC75E510082CB55 /* ItemDetailView.swift in Sources */,

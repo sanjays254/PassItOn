@@ -95,6 +95,16 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         offersRequestsSegmentedControl.layer.borderWidth = 3.0
         offersRequestsSegmentedControl.layer.borderColor = UIColor.black.cgColor
         offersRequestsSegmentedControl.layer.cornerRadius = 4.0
+        
+        let gradient = CAGradientLayer()
+        
+        gradient.frame = view.bounds
+        gradient.colors = [UIProperties.sharedUIProperties.purpleColour.cgColor, UIColor.purple.cgColor]
+        gradient.opacity = 1
+        gradient.startPoint = CGPoint(x: 0.0, y: 0.5)
+        gradient.endPoint = CGPoint(x: 1.0, y: 0.5)
+        //gradient.anchorPoint = CGPoint.zero
+        view.layer.insertSublayer(gradient, at: 0)
     }
     
     override func viewWillAppear(_ animated: Bool) {

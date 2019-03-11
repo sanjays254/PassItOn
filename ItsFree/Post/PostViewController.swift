@@ -11,6 +11,7 @@ import MapKit
 import FirebaseStorage
 import CoreLocation
 import SimpleImageViewer
+import Vision
 
 class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UITextViewDelegate, UICollectionViewDelegateFlowLayout{
     
@@ -189,6 +190,13 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
         setupPhotoCollectionView()
         setupOfferRequestSegmentedControl()
         setupTagButtonsView()
+        
+        let gradient = CAGradientLayer()
+        
+        gradient.frame = view.bounds
+        gradient.colors = [UIColor.black.cgColor, UIColor.purple.cgColor]
+        
+        view.layer.insertSublayer(gradient, at: 0)
     }
     
     func setupCancelButton(){
@@ -495,6 +503,55 @@ class PostViewController: UIViewController, MKMapViewDelegate, UITextFieldDelega
             print("image loaded: \(myImage!)")
         }
         photosArray.append(myImage!)
+        
+        guard let model = try? VNCoreMLModel(for: Resnet50().model) else { return }
+        let request = VNCoreMLRequest(model: model) { (finishedRequest, error) in
+            guard let results = finishedRequest.results as? [VNClassificationObservation] else { return }
+           // guard let Observation = results.first else { return }
+            
+            DispatchQueue.main.async(execute: {
+                for i in 0..<5 {
+                    print(results[i].identifier)
+                    print(results[i].confidence)
+                }
+               // print(Observation.confidence)
+            })
+        }
+        //guard let pixelBuffer: CVPixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else { return }
+        
+        if let image = myImage?.cgImage {
+            guard let pixelBuffer: CVPixelBuffer = ImageProcessor.pixelBuffer(forImage: image) else {
+                return
+            }
+        
+            // executes request
+            try? VNImageRequestHandler(cvPixelBuffer: pixelBuffer, options: [:]).perform([request])
+        }
+        
+        guard let imodel = try? VNCoreMLModel(for: Inceptionv3().model) else { return }
+        let irequest = VNCoreMLRequest(model: imodel) { (finishedRequest, error) in
+            guard let results = finishedRequest.results as? [VNClassificationObservation] else { return }
+            // guard let Observation = results.first else { return }
+            
+            DispatchQueue.main.async(execute: {
+                for i in 0..<5 {
+                    print("i: \(results[i].identifier)")
+                    print("i: \(results[i].confidence)")
+                }
+                // print(Observation.confidence)
+            })
+        }
+        //guard let pixelBuffer: CVPixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else { return }
+        
+        if let image = myImage?.cgImage {
+            guard let pixelBuffer: CVPixelBuffer = ImageProcessor.pixelBuffer(forImage: image) else {
+                return
+            }
+            
+            // executes request
+            try? VNImageRequestHandler(cvPixelBuffer: pixelBuffer, options: [:]).perform([irequest])
+        }
+        
         dismiss(animated: true, completion: nil)
         photoCollectionView.reloadData()
     }

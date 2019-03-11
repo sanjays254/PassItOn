@@ -101,10 +101,13 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         setupNotifications()
         
-        ReadFirebaseData.readOffers(category: nil)
-        ReadFirebaseData.readRequests(category: nil)
+        let downloadQueue = DispatchQueue(label: "downloadQueue")
+        downloadQueue.async {
+            ReadFirebaseData.readOffers(category: nil)
+            ReadFirebaseData.readRequests(category: nil)
      
-        readCurrentUser()
+            self.readCurrentUser()
+        }
     
         if let firstTimeUserUnwrapped = firstTimeUser{
             if (firstTimeUserUnwrapped){
@@ -114,9 +117,11 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     func readCurrentUser(){
         
-        profileButton.isEnabled = false
+        DispatchQueue.main.async {
+            self.profileButton.isEnabled = false
         
-        NotificationCenter.default.addObserver(self, selector: #selector(allowProfileAccess), name: NSNotification.Name(rawValue: NotificationKeys.shared.myUserDownloadedNotificationKey), object: nil)
+            NotificationCenter.default.addObserver(self, selector: #selector(self.allowProfileAccess), name: NSNotification.Name(rawValue: NotificationKeys.shared.myUserDownloadedNotificationKey), object: nil)
+        }
         
         ReadFirebaseData.readCurrentUser()
     }
@@ -427,6 +432,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
         
         else {
+            //let postPreviewVC = PostPreviewViewController()
+            //self.navigationController?.pushViewController(postPreviewVC, animated: true)
             self.performSegue(withIdentifier: "postSegue", sender: self)
         }
     }

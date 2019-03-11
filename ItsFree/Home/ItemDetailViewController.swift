@@ -84,6 +84,16 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
         itemDetailView.layer.cornerRadius = 30
         itemDetailView.layer.borderWidth = 5
         itemDetailView.layer.borderColor = UIColor.black.cgColor
+        itemDetailView.clipsToBounds = true
+        
+        let gradient = CAGradientLayer()
+        
+        gradient.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: itemDetailView.frame.height)
+        gradient.colors = [UIProperties.sharedUIProperties.purpleColour.cgColor, UIColor.purple.cgColor]
+        gradient.opacity = 1
+        gradient.startPoint = CGPoint(x: 0.0, y: 0.5)
+        gradient.endPoint = CGPoint(x: 1.0, y: 0.5)
+        itemDetailView.layer.insertSublayer(gradient, at: 0)
     }
     
     func setupGestures(){
@@ -154,12 +164,13 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
         itemDetailView.photoCollectionView.delegate = self
         itemDetailView.photoCollectionView.dataSource = self
         
+        itemDetailView.photoCollectionView.backgroundColor = .clear
         itemDetailView.photoCollectionView.isUserInteractionEnabled = true
         
         let nibName = UINib(nibName: "ItemPhotoCollectionViewCell", bundle:nil)
         itemDetailView.photoCollectionView.register(nibName, forCellWithReuseIdentifier: "itemPhotoCollectionViewCell")
         
-        itemDetailView.photoCollectionView.backgroundColor = UIProperties.sharedUIProperties.purpleColour
+        //itemDetailView.photoCollectionView.backgroundColor = UIProperties.sharedUIProperties.purpleColour
     }
     
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
@@ -224,7 +235,6 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
             itemActionDelegate.fullscreenImage(imagePath: photoRef[indexPath.item], imageView: imageView, inpVC: self)
             }
         }
-
     }
     
     //When screen is tapped outside the itemDetailView, go back to Map

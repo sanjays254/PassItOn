@@ -11,6 +11,7 @@ import FirebaseAuth
 import FirebaseStorage
 import FirebaseDatabase
 import SDWebImage
+import STRatingControl
 
 
 class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate{
@@ -27,6 +28,9 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     @IBOutlet weak var emailLabel: UILabel!
     @IBOutlet weak var phoneNumberLabel: UILabel!
     @IBOutlet weak var pointsLabel: UILabel!
+    
+    @IBOutlet weak var starRatingControl: STRatingControl!
+    
     @IBOutlet weak var offersRequestsSegmentedControl: UISegmentedControl!
     @IBOutlet weak var myPostsTableView: UITableView!
     
@@ -80,10 +84,13 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         self.logoutButton.layer.masksToBounds = false
         
         leaderboardButton.setImage(#imageLiteral(resourceName: "wreath"), for: .normal)
+        leaderboardButton.isEnabled = false
         self.leaderboardButton.layer.backgroundColor = UIColor.black.cgColor
         self.leaderboardButton.layer.cornerRadius = self.backButton.frame.size.width/2
         self.leaderboardButton.layer.masksToBounds = false
         
+//        starRatingControl.filledStarImage = resizeImage(image: "filledStar")
+//        starRatingControl.tintColor = .white
 
         ReadFirebaseData.readCurrentUser()
         
@@ -115,6 +122,32 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+    }
+    
+    func resizeImage(image: String) -> UIImage {
+        if let cgImage = UIImage(named: image)?.cgImage {
+        
+        let width = cgImage.width / 2
+        let height = cgImage.height / 2
+        let bitsPerComponent = cgImage.bitsPerComponent
+        let bytesPerRow = cgImage.bytesPerRow
+        let colorSpace = cgImage.colorSpace!
+        let bitmapInfo = cgImage.bitmapInfo
+        
+            let context = CGContext(data: nil, width: width, height: height, bitsPerComponent: bitsPerComponent, bytesPerRow: bytesPerRow, space: colorSpace, bitmapInfo: bitmapInfo.rawValue)
+        
+            context!.interpolationQuality = .high
+        
+            context!.draw(cgImage, in: CGRect(origin: .zero, size: CGSize(width: CGFloat(width), height: CGFloat(height))))
+        
+           let scaledImage = context!.makeImage().flatMap { UIImage(cgImage: $0) }
+
+            
+            return scaledImage!
+        }
+        else {
+            return UIImage()
+        }
     }
     
     func setupTextFields(){

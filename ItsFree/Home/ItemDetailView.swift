@@ -19,7 +19,7 @@ class ItemDetailView: UIView {
     @IBOutlet weak var mainImageView: UIImageView!
     
     @IBOutlet weak var posterUsername: UILabel!
-    @IBOutlet weak var posterRating: UILabel!
+   
     @IBOutlet weak var itemValueLabel: UILabel!
     
     @IBOutlet weak var rightUpArrow: UIImageView!
@@ -27,4 +27,7 @@ class ItemDetailView: UIView {
     @IBOutlet weak var leftUpArrow: UIImageView!
     
     @IBOutlet weak var messageButton: UIButton!
+     @IBOutlet weak var posterRating: UILabel!
+    
+    
 }

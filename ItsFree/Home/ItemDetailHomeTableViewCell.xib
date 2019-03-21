@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
-        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -58,7 +57,7 @@
                         </collectionViewFlowLayout>
                     </collectionView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GTT-qz-Ac7">
-                        <rect key="frame" x="129" y="90" width="184" height="10.5"/>
+                        <rect key="frame" x="129" y="89.5" width="184" height="5"/>
                         <constraints>
                             <constraint firstAttribute="height" relation="lessThanOrEqual" constant="200" id="Mea-h2-ZoG"/>
                         </constraints>
@@ -67,7 +66,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Poster" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CA6-Ea-Jcp">
-                        <rect key="frame" x="129" y="108.5" width="40" height="18"/>
+                        <rect key="frame" x="129" y="102.5" width="40" height="18"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="18" id="DoY-QU-pZy"/>
                         </constraints>
@@ -76,7 +75,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IBp-pX-Dj7">
-                        <rect key="frame" x="273" y="108.5" width="40" height="35"/>
+                        <rect key="frame" x="273" y="102.5" width="40" height="35"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="35" id="639-Td-qKg"/>
                             <constraint firstAttribute="width" constant="40" id="HCp-dh-PAC"/>
@@ -84,10 +83,10 @@
                         <color key="tintColor" red="0.20029094489999999" green="0.0" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <state key="normal" title="Button" image="email"/>
                     </button>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PosterRating" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ly9-n4-3lb">
-                        <rect key="frame" x="129" y="129.5" width="78" height="18"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Poster Rating" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QaG-wl-Z9V">
+                        <rect key="frame" x="129" y="130.5" width="82" height="17"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="18" id="XVb-gW-Bpa"/>
+                            <constraint firstAttribute="height" constant="17" id="pS3-rN-rma"/>
                         </constraints>
                         <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="15"/>
                         <nil key="textColor"/>
@@ -111,32 +110,40 @@
                         <color key="tintColor" red="0.20029094489999999" green="0.0" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <state key="normal" title="Button" image="marker"/>
                     </button>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="filledStar" translatesAutoresizingMaskIntoConstraints="NO" id="LG4-ac-YWf">
+                        <rect key="frame" x="216" y="133" width="12" height="12"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="12" id="e13-GP-Mk1"/>
+                            <constraint firstAttribute="width" secondItem="LG4-ac-YWf" secondAttribute="height" multiplier="1:1" id="nSr-y4-jsf"/>
+                        </constraints>
+                    </imageView>
                 </subviews>
                 <constraints>
                     <constraint firstItem="CA6-Ea-Jcp" firstAttribute="top" secondItem="GTT-qz-Ac7" secondAttribute="bottom" constant="8" id="3kv-52-Yf2"/>
                     <constraint firstItem="GTT-qz-Ac7" firstAttribute="top" secondItem="h0c-AN-x8P" secondAttribute="bottom" constant="8.5" id="4KD-Kh-fP7"/>
                     <constraint firstItem="7Qj-Be-pdK" firstAttribute="bottom" secondItem="h0c-AN-x8P" secondAttribute="bottom" id="7XO-up-z6r"/>
+                    <constraint firstItem="LG4-ac-YWf" firstAttribute="leading" secondItem="QaG-wl-Z9V" secondAttribute="trailing" constant="5" id="9Eg-rI-Bd3"/>
+                    <constraint firstItem="LG4-ac-YWf" firstAttribute="centerY" secondItem="QaG-wl-Z9V" secondAttribute="centerY" id="9qE-vh-mmA"/>
                     <constraint firstItem="ktN-AR-rEF" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" id="DpA-9k-vxc"/>
                     <constraint firstItem="CA6-Ea-Jcp" firstAttribute="leading" secondItem="GTT-qz-Ac7" secondAttribute="leading" id="E3E-Vb-UNe"/>
-                    <constraint firstItem="ly9-n4-3lb" firstAttribute="leading" secondItem="CA6-Ea-Jcp" secondAttribute="leading" id="F57-mZ-jgh"/>
                     <constraint firstAttribute="trailing" secondItem="7Qj-Be-pdK" secondAttribute="trailing" constant="4" id="H1m-w1-dde"/>
                     <constraint firstItem="h0c-AN-x8P" firstAttribute="leading" secondItem="7PZ-mV-kmm" secondAttribute="leading" id="KKq-m5-3tJ"/>
                     <constraint firstItem="ktN-AR-rEF" firstAttribute="leading" secondItem="RXA-CT-TaP" secondAttribute="trailing" constant="12" id="Lta-Xb-RKx"/>
                     <constraint firstItem="7PZ-mV-kmm" firstAttribute="leading" secondItem="ktN-AR-rEF" secondAttribute="leading" id="MA4-V3-2o8"/>
                     <constraint firstItem="GTT-qz-Ac7" firstAttribute="leading" secondItem="7PZ-mV-kmm" secondAttribute="leading" id="OqX-Qj-IEE"/>
-                    <constraint firstItem="RXA-CT-TaP" firstAttribute="bottom" secondItem="ly9-n4-3lb" secondAttribute="bottom" id="RBk-ai-0WZ"/>
-                    <constraint firstItem="ly9-n4-3lb" firstAttribute="top" secondItem="CA6-Ea-Jcp" secondAttribute="bottom" constant="3" id="RPl-VH-Y2c"/>
+                    <constraint firstAttribute="bottom" secondItem="QaG-wl-Z9V" secondAttribute="bottom" constant="5" id="Oqm-sF-GK8"/>
                     <constraint firstAttribute="trailing" secondItem="GTT-qz-Ac7" secondAttribute="trailing" constant="7" id="U06-WV-eoe"/>
                     <constraint firstItem="RXA-CT-TaP" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="e8C-Yq-IoQ"/>
                     <constraint firstItem="RXA-CT-TaP" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="5" id="gJ9-xO-bG3"/>
                     <constraint firstItem="RXA-CT-TaP" firstAttribute="width" secondItem="H2p-sc-9uM" secondAttribute="width" multiplier="0.35" id="gYh-VT-ZtK"/>
                     <constraint firstAttribute="trailing" secondItem="ktN-AR-rEF" secondAttribute="trailing" constant="12" id="geI-Sk-iYe"/>
+                    <constraint firstItem="QaG-wl-Z9V" firstAttribute="leading" secondItem="RXA-CT-TaP" secondAttribute="trailing" constant="12" id="iCv-90-iUv"/>
                     <constraint firstAttribute="bottom" secondItem="RXA-CT-TaP" secondAttribute="bottom" constant="5" id="kiQ-V4-cf0"/>
                     <constraint firstItem="h0c-AN-x8P" firstAttribute="top" secondItem="7PZ-mV-kmm" secondAttribute="bottom" constant="7" id="l4W-qf-J2w"/>
                     <constraint firstAttribute="trailing" secondItem="52p-TZ-J53" secondAttribute="trailing" constant="10" id="nLy-fH-nmy"/>
                     <constraint firstAttribute="trailing" secondItem="IBp-pX-Dj7" secondAttribute="trailing" constant="7" id="npi-tu-0F4"/>
+                    <constraint firstItem="CA6-Ea-Jcp" firstAttribute="bottom" secondItem="QaG-wl-Z9V" secondAttribute="top" constant="-10" id="sTH-zo-uyo"/>
                     <constraint firstItem="7PZ-mV-kmm" firstAttribute="top" secondItem="ktN-AR-rEF" secondAttribute="bottom" constant="10" id="sqA-qx-eze"/>
-                    <constraint firstAttribute="bottom" secondItem="ly9-n4-3lb" secondAttribute="bottom" constant="5" id="suq-Vo-aDj"/>
                     <constraint firstItem="IBp-pX-Dj7" firstAttribute="top" secondItem="CA6-Ea-Jcp" secondAttribute="top" id="yE5-Ev-qNN"/>
                     <constraint firstItem="7Qj-Be-pdK" firstAttribute="top" secondItem="52p-TZ-J53" secondAttribute="bottom" id="yzh-CE-59Q"/>
                 </constraints>
@@ -149,16 +156,17 @@
                 <outlet property="messagePosterButton" destination="IBp-pX-Dj7" id="ej7-eJ-KfB"/>
                 <outlet property="photoCollectionView" destination="RXA-CT-TaP" id="hSR-Xp-FMw"/>
                 <outlet property="posterNameLabel" destination="CA6-Ea-Jcp" id="W5a-nu-80b"/>
-                <outlet property="posterRatingLabel" destination="ly9-n4-3lb" id="P6E-ci-kzA"/>
+                <outlet property="posterRating" destination="QaG-wl-Z9V" id="tPg-iB-lFj"/>
                 <outlet property="qualityLabel" destination="7PZ-mV-kmm" id="o6O-YL-EOu"/>
                 <outlet property="titleLabel" destination="ktN-AR-rEF" id="FPL-tU-alp"/>
                 <outlet property="valueLabel" destination="h0c-AN-x8P" id="14c-Ub-7gD"/>
             </connections>
-            <point key="canvasLocation" x="35" y="108.5"/>
+            <point key="canvasLocation" x="33.600000000000001" y="108.39580209895054"/>
         </tableViewCell>
     </objects>
     <resources>
-        <image name="email" width="128" height="128"/>
-        <image name="marker" width="24" height="24"/>
+        <image name="email" width="204.80000305175781" height="204.80000305175781"/>
+        <image name="filledStar" width="50" height="50"/>
+        <image name="marker" width="48" height="48"/>
     </resources>
 </document>

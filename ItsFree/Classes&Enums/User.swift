@@ -13,12 +13,12 @@ class User {
     var email:String
     var phoneNumber: Int
     var name:String
-    var rating:Int
+    var rating:Double
     var profileImage:String
     var offeredItems:[String]
     var requestedItems:[String]
     
-    init(email:String, phoneNumber: Int, name:String, rating:Int, uid:String, profileImage:String, offers:[String], requests:[String]) {
+    init(email:String, phoneNumber: Int, name:String, rating:Double, uid:String, profileImage:String, offers:[String], requests:[String]) {
         self.UID = uid
         self.email = email
         self.phoneNumber = phoneNumber
@@ -34,7 +34,7 @@ class User {
             let inpName: String = inpDict["name"] as? String,
             let inpEmail: String = inpDict["email"] as? String,
             let inpPhoneNumber: Int = inpDict["phoneNumber"] as? Int,
-            let inpRating: Int = inpDict["rating"] as? Int,
+            let inpRating: Double = inpDict["rating"] as? Double,
             let inpUID: String = inpDict["UID"] as? String,
             let inpProfileImage: String = inpDict["profileImage"] as? String,
             var inpOffers:[String] = inpDict["offers"] as? [String],

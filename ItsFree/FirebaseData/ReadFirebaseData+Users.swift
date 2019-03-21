@@ -67,7 +67,7 @@ extension ReadFirebaseData {
                     }
                 }
                 
-                let readUser = User(email: (user["email"] as? String ?? "no email"),phoneNumber: (user["phoneNumber"] as? Int ?? 0) , name:(user["name"] as? String ?? "no name"), rating: (user["rating"] as? Int ?? 0), uid: (user["UID"] as? String ?? "no UID"), profileImage: (user["profileImage"] as? String ?? "no profileImage") , offers: readUserOffers, requests: readUserRequests)
+                let readUser = User(email: (user["email"] as? String ?? "no email"),phoneNumber: (user["phoneNumber"] as? Int ?? 0) , name:(user["name"] as? String ?? "no name"), rating: (user["rating"] as? Double ?? 0.0), uid: (user["UID"] as? String ?? "no UID"), profileImage: (user["profileImage"] as? String ?? "no profileImage") , offers: readUserOffers, requests: readUserRequests)
                 
                 AppData.sharedInstance.currentUser = readUser
                 
@@ -184,7 +184,7 @@ extension ReadFirebaseData {
                     }
                 }
                 
-                let readUser = User(email: (user["email"] ?? "no email") as! String,phoneNumber: (user["phoneNumber"] ?? 0) as! Int, name: user["name"] as! String, rating: user["rating"] as! Int, uid: (user["UID"] ?? "no UID") as! String, profileImage: (user["profileImage"] ?? "no profileImage") as! String, offers: readUserOffers, requests: readUserRequests)
+                let readUser = User(email: (user["email"] ?? "no email") as! String,phoneNumber: (user["phoneNumber"] ?? 0) as! Int, name: user["name"] as! String, rating: user["rating"] as! Double, uid: (user["UID"] ?? "no UID") as! String, profileImage: (user["profileImage"] ?? "no profileImage") as! String, offers: readUserOffers, requests: readUserRequests)
                 
                 
                 completion(true, readUser)

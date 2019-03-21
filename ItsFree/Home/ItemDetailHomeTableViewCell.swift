@@ -9,8 +9,7 @@
 import UIKit
 import Firebase
 import MapKit
-
-
+import STRatingControl
 
 class ItemDetailHomeTableViewCell: UITableViewCell, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
@@ -39,9 +38,8 @@ class ItemDetailHomeTableViewCell: UITableViewCell, UICollectionViewDelegate, UI
     @IBOutlet weak var descriptionLabel: UILabel!
     
     @IBOutlet weak var posterNameLabel: UILabel!
-    
-    @IBOutlet weak var posterRatingLabel: UILabel!
-    
+
+    @IBOutlet weak var posterRating: UILabel!
     
     @IBOutlet weak var messagePosterButton: UIButton!
     

@@ -13,6 +13,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ItemDetailViewController" customModule="ItsFree" customModuleProvider="target">
             <connections>
                 <outlet property="itemDetailView" destination="IvU-C1-Sgh" id="cPZ-iB-QA2"/>
+                <outlet property="starImageView" destination="nL7-ph-4Bx" id="5qq-US-Ug6"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="seg-eY-2qt"/>
             </connections>
         </placeholder>
@@ -132,6 +133,13 @@
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
                         </label>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nL7-ph-4Bx">
+                            <rect key="frame" x="108.5" y="47" width="12" height="12"/>
+                            <constraints>
+                                <constraint firstAttribute="width" secondItem="nL7-ph-4Bx" secondAttribute="height" multiplier="1:1" id="Quh-UI-okP"/>
+                                <constraint firstAttribute="height" constant="12" id="dgT-0V-TH0"/>
+                            </constraints>
+                        </view>
                     </subviews>
                     <color key="backgroundColor" red="0.20029094489983684" green="0.0" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
@@ -150,10 +158,12 @@
                         <constraint firstItem="pyp-ZW-Lc8" firstAttribute="top" secondItem="sHA-bN-zLF" secondAttribute="bottom" constant="8" id="UBl-E1-aPm"/>
                         <constraint firstItem="4bD-P7-jHw" firstAttribute="top" secondItem="IvU-C1-Sgh" secondAttribute="top" constant="8" id="Va1-Xk-9Ey"/>
                         <constraint firstItem="58X-Bu-Kbi" firstAttribute="top" secondItem="IvU-C1-Sgh" secondAttribute="top" constant="25" id="WcI-p8-yjB"/>
+                        <constraint firstItem="nL7-ph-4Bx" firstAttribute="centerY" secondItem="L32-KL-sMa" secondAttribute="centerY" id="YX9-Mc-mer"/>
                         <constraint firstItem="LBY-Th-AjX" firstAttribute="top" secondItem="L32-KL-sMa" secondAttribute="bottom" constant="30" id="Ybr-sN-65P"/>
                         <constraint firstItem="agc-wE-eOD" firstAttribute="top" secondItem="oeb-1P-NCA" secondAttribute="bottom" constant="16" id="bMY-1y-lBB"/>
                         <constraint firstItem="agc-wE-eOD" firstAttribute="leading" secondItem="IvU-C1-Sgh" secondAttribute="leading" constant="28" id="c0s-Ll-KYt"/>
                         <constraint firstItem="pyp-ZW-Lc8" firstAttribute="centerX" secondItem="IvU-C1-Sgh" secondAttribute="centerX" id="cip-9g-2O7"/>
+                        <constraint firstItem="nL7-ph-4Bx" firstAttribute="leading" secondItem="L32-KL-sMa" secondAttribute="trailing" constant="5" id="exc-Sb-Ylj"/>
                         <constraint firstItem="ckl-Ev-lut" firstAttribute="leading" secondItem="IvU-C1-Sgh" secondAttribute="leading" constant="7" id="gjo-T8-u2i"/>
                         <constraint firstItem="agc-wE-eOD" firstAttribute="top" secondItem="pyp-ZW-Lc8" secondAttribute="bottom" constant="15.5" id="jMQ-2c-Lra"/>
                         <constraint firstItem="D3q-we-ffY" firstAttribute="top" secondItem="IvU-C1-Sgh" secondAttribute="top" constant="12" id="mel-v3-5Wo"/>
@@ -190,7 +200,7 @@
                 <constraint firstItem="IvU-C1-Sgh" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="X6e-ZN-eV4"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
-            <point key="canvasLocation" x="33.5" y="71.5"/>
+            <point key="canvasLocation" x="32.799999999999997" y="70.614692653673174"/>
         </view>
     </objects>
     <resources>

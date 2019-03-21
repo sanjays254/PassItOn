@@ -274,14 +274,14 @@ extension HomeViewController {
             if (success){
                 //force unwrapping is okay here because user exists if success is true
                 cell.posterNameLabel.text = "\(user!.name)"
-                cell.posterRatingLabel.text = "\(user!.rating)"
+                cell.posterRating.text = "\(user!.rating)"
                 cell.messagePosterButton.isEnabled = true
                 
                 cell.poster = user!
             }
             else {
                 cell.posterNameLabel.text = "Unknown Poster"
-                cell.posterRatingLabel.text = ""
+                cell.posterRating.text = "0"
                 cell.messagePosterButton.isEnabled = false
                 
             }
@@ -307,11 +307,11 @@ extension HomeViewController {
         }
             //else it does
         else {
-            cell.valueLabel.text = "Value: $\(cell.currentItem.value)"
+            cell.valueLabel.text = "$\(cell.currentItem.value)"
         }
         
         cell.posterNameLabel.text = "Loading..."
-        cell.posterRatingLabel.text = ""
+        cell.posterRating.text = "0"
         cell.messagePosterButton.isEnabled = false
         
         

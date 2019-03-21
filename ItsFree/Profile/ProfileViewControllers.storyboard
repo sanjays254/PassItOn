@@ -137,7 +137,7 @@
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8kg-8t-3qi">
                                 <rect key="frame" x="127.5" y="249.5" width="120" height="0.5"/>
-                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="120" id="Amd-No-Jhi"/>
                                     <constraint firstAttribute="height" constant="0.5" id="qMj-A5-qXk"/>
@@ -145,15 +145,15 @@
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="I2y-oy-I5o">
                                 <rect key="frame" x="127.5" y="219" width="120" height="0.5"/>
-                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="0.5" id="7Of-IN-paB"/>
                                     <constraint firstAttribute="width" constant="120" id="aL1-VQ-2Qh"/>
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Points" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Iv-nz-LsU">
-                                <rect key="frame" x="166.5" y="224.5" width="42.5" height="20"/>
-                                <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="17"/>
+                                <rect key="frame" x="261.5" y="224.5" width="40" height="20"/>
+                                <fontDescription key="fontDescription" name="GillSans-Light" family="Gill Sans" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -183,26 +183,46 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bml-cj-n60" customClass="STRatingControl" customModule="STRatingControl">
+                                <rect key="frame" x="125.5" y="224.5" width="124" height="20"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="image" keyPath="filledStarImage" value="filledStar"/>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="maxRating">
+                                        <integer key="value" value="5"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="rating">
+                                        <integer key="value" value="5"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="image" keyPath="emptyStarImage" value="unfilledStar"/>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="spacing">
+                                        <integer key="value" value="6"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="apo-xE-xyy" firstAttribute="trailing" secondItem="BGP-j3-w4p" secondAttribute="trailing" constant="7" id="0ix-AZ-D9F"/>
                             <constraint firstItem="I2y-oy-I5o" firstAttribute="top" secondItem="Npc-Gf-Jxg" secondAttribute="bottom" constant="11" id="18B-AY-t5A"/>
+                            <constraint firstItem="8kg-8t-3qi" firstAttribute="top" secondItem="bml-cj-n60" secondAttribute="bottom" constant="5" id="1Km-Kg-wma"/>
                             <constraint firstItem="7pi-MC-I6z" firstAttribute="top" secondItem="BGP-j3-w4p" secondAttribute="bottom" constant="11" id="3ca-9a-hRk"/>
                             <constraint firstItem="apo-xE-xyy" firstAttribute="trailing" secondItem="EgC-jl-kXm" secondAttribute="trailing" id="5vd-YZ-O2u"/>
                             <constraint firstItem="48w-2B-IEK" firstAttribute="top" secondItem="EgC-jl-kXm" secondAttribute="bottom" id="ACa-Xe-759"/>
                             <constraint firstItem="kKd-sP-LUU" firstAttribute="top" secondItem="xl0-9u-a6U" secondAttribute="bottom" constant="11" id="AJj-LM-MD3"/>
                             <constraint firstItem="BGP-j3-w4p" firstAttribute="top" secondItem="apo-xE-xyy" secondAttribute="top" constant="7" id="Cmt-02-8ZC"/>
                             <constraint firstItem="n16-cV-pxw" firstAttribute="top" secondItem="xP3-iM-nzo" secondAttribute="bottom" constant="20" id="F6T-W0-HoU"/>
+                            <constraint firstItem="bml-cj-n60" firstAttribute="top" secondItem="I2y-oy-I5o" secondAttribute="bottom" constant="5" id="Fpb-tB-hR6"/>
                             <constraint firstItem="Npc-Gf-Jxg" firstAttribute="centerX" secondItem="8f5-Z4-td5" secondAttribute="centerX" id="SvJ-wk-rkv"/>
                             <constraint firstItem="8kg-8t-3qi" firstAttribute="top" secondItem="9Iv-nz-LsU" secondAttribute="bottom" constant="5" id="UXP-s9-dxJ"/>
                             <constraint firstItem="EgC-jl-kXm" firstAttribute="leading" secondItem="apo-xE-xyy" secondAttribute="leading" id="Uxh-zL-yT7"/>
                             <constraint firstItem="xP3-iM-nzo" firstAttribute="centerX" secondItem="8f5-Z4-td5" secondAttribute="centerX" id="XcR-cQ-PDx"/>
+                            <constraint firstItem="9Iv-nz-LsU" firstAttribute="leading" secondItem="bml-cj-n60" secondAttribute="trailing" constant="12" id="YNh-we-opJ"/>
                             <constraint firstItem="Npc-Gf-Jxg" firstAttribute="top" secondItem="8Dm-5y-SA3" secondAttribute="bottom" constant="5" id="cJj-0e-WcH"/>
+                            <constraint firstItem="bml-cj-n60" firstAttribute="centerX" secondItem="8f5-Z4-td5" secondAttribute="centerX" id="cWD-n1-8PT"/>
                             <constraint firstItem="48w-2B-IEK" firstAttribute="leading" secondItem="apo-xE-xyy" secondAttribute="leading" id="cfk-WB-u2p"/>
                             <constraint firstItem="8Dm-5y-SA3" firstAttribute="centerX" secondItem="8f5-Z4-td5" secondAttribute="centerX" id="gdc-37-Hgy"/>
                             <constraint firstItem="48w-2B-IEK" firstAttribute="bottom" secondItem="8f5-Z4-td5" secondAttribute="bottom" id="gfy-nn-2v0"/>
-                            <constraint firstItem="9Iv-nz-LsU" firstAttribute="centerX" secondItem="8f5-Z4-td5" secondAttribute="centerX" id="hUQ-6z-t9t"/>
                             <constraint firstItem="8Dm-5y-SA3" firstAttribute="top" secondItem="n16-cV-pxw" secondAttribute="bottom" constant="10" id="haE-gq-4Ah"/>
                             <constraint firstItem="kKd-sP-LUU" firstAttribute="leading" secondItem="apo-xE-xyy" secondAttribute="leading" constant="7" id="jDv-gX-sIy"/>
                             <constraint firstItem="8kg-8t-3qi" firstAttribute="centerX" secondItem="8f5-Z4-td5" secondAttribute="centerX" id="lim-cP-5lg"/>
@@ -236,6 +256,7 @@
                         <outlet property="phoneNumberLabel" destination="Npc-Gf-Jxg" id="aGm-FF-pnh"/>
                         <outlet property="pointsLabel" destination="9Iv-nz-LsU" id="UVI-pB-nBI"/>
                         <outlet property="profileImageView" destination="xP3-iM-nzo" id="FlW-r2-dtd"/>
+                        <outlet property="starRatingControl" destination="bml-cj-n60" id="0s3-kz-rTX"/>
                         <outlet property="usernameLabel" destination="n16-cV-pxw" id="7o6-b8-3Kn"/>
                         <segue destination="PeL-VY-bKF" kind="show" identifier="editPostSegue" id="Vzt-2A-kUi"/>
                         <segue destination="PeL-VY-bKF" kind="show" identifier="newPostSegue" id="OVC-ZH-Us7"/>
@@ -432,7 +453,9 @@
         <image name="backButton" width="48" height="48"/>
         <image name="defaultProfile" width="600" height="600"/>
         <image name="edit" width="50" height="50"/>
+        <image name="filledStar" width="50" height="50"/>
         <image name="me" width="50" height="50"/>
+        <image name="unfilledStar" width="50" height="50"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="OVC-ZH-Us7"/>

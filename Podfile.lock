@@ -90,6 +90,7 @@ PODS:
   - FirebaseUI/Twitter (4.5.0):
     - FirebaseUI/Auth
     - TwitterKit (~> 3.0)
+  - Forex (1.0.0)
   - GoogleSignIn (4.1.1):
     - "GoogleToolboxForMac/NSDictionary+URLArguments (~> 2.1)"
     - "GoogleToolboxForMac/NSString+URLArguments (~> 2.1)"
@@ -133,6 +134,8 @@ PODS:
     - GTMSessionFetcher/Core (= 1.1.12)
   - KeychainAccess (3.1.0)
   - leveldb-library (1.20)
+  - Money (2.0.1):
+    - ValueCoding (~> 2)
   - nanopb (0.3.8):
     - nanopb/decode (= 0.3.8)
     - nanopb/encode (= 0.3.8)
@@ -143,9 +146,11 @@ PODS:
     - SDWebImage/Core (= 4.2.2)
   - SDWebImage/Core (4.2.2)
   - SimpleImageViewer (1.1.1)
+  - STRatingControl (1.1.2)
   - TwitterCore (3.0.2)
   - TwitterKit (3.2.1):
     - TwitterCore (>= 3.0.2)
+  - ValueCoding (2.2.0)
 
 DEPENDENCIES:
   - Firebase
@@ -153,8 +158,11 @@ DEPENDENCIES:
   - FirebaseDatabase
   - FirebaseStorage
   - FirebaseUI
+  - Forex
   - KeychainAccess
+  - Money
   - SimpleImageViewer (~> 1.1.1)
+  - STRatingControl
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -171,6 +179,7 @@ SPEC REPOS:
     - FirebaseInstanceID
     - FirebaseStorage
     - FirebaseUI
+    - Forex
     - GoogleSignIn
     - GoogleToolboxForMac
     - gRPC
@@ -181,12 +190,15 @@ SPEC REPOS:
     - GTMSessionFetcher
     - KeychainAccess
     - leveldb-library
+    - Money
     - nanopb
     - Protobuf
     - SDWebImage
     - SimpleImageViewer
+    - STRatingControl
     - TwitterCore
     - TwitterKit
+    - ValueCoding
 
 SPEC CHECKSUMS:
   Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
@@ -202,6 +214,7 @@ SPEC CHECKSUMS:
   FirebaseInstanceID: 24958382a1011bba5aaff37e334e7a650b9118f5
   FirebaseStorage: 0cca42d9b889a0227c3a50121f45a4469fc9eb27
   FirebaseUI: 883482fea73b73bbb488c55176f4c6ad128957eb
+  Forex: 981afff221b07984f025185541ce0a91335138ad
   GoogleSignIn: 3fdaa34a2ba04dbd7a25d7db39aecb0da98d5bdc
   GoogleToolboxForMac: 2501e2ad72a52eb3dfe7bd9aee7dad11b858bd20
   gRPC: b56decfd0094854d2ccfe80c8fb767237dace3be
@@ -212,13 +225,16 @@ SPEC CHECKSUMS:
   GTMSessionFetcher: ebaa1f79a5366922c1735f1566901f50beba23b7
   KeychainAccess: 94c5540b32eabf7bc32bfb976a268e8ea05fd6da
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
+  Money: 6faa689f86c455112971c900e8a31fa0b9c02365
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
   Protobuf: 8a9838fba8dae3389230e1b7f8c104aa32389c03
   SDWebImage: 89a9d32cd520bbb46eb14e541d5109b3564af198
   SimpleImageViewer: 34c3a2cde2d9ac022146772cefc27fca14b0c8b1
+  STRatingControl: 254ee5f6dd174e3fa9d8365a08326291fd0bd950
   TwitterCore: e0420b01e02e7d20e94690e37f43e75de219ab8d
   TwitterKit: 205ac89824bbfe9e85a16c420d30bb7bcbedac45
+  ValueCoding: dd37df7966fb14d5238c19e2f88c86ac4064ef96
 
-PODFILE CHECKSUM: 7e33843262c0171dade3772431c167c27f870f51
+PODFILE CHECKSUM: 2f4446e8ff5f558e7e13c440df3a26148b1a3f02
 
 COCOAPODS: 1.6.0

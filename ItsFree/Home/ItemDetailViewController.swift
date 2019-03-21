@@ -9,10 +9,13 @@
 import UIKit
 import MessageUI
 import FirebaseStorage
+import Money
+import Forex
 
 class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDelegate, MFMessageComposeViewControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIGestureRecognizerDelegate {
     
     
+    @IBOutlet weak var starImageView: UIView!
     var detailViewTopAnchorConstant: CGFloat!
     var detailViewBottomAnchorConstant: CGFloat!
     
@@ -38,6 +41,7 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
         setupItemDetailContainer()
         setupItemLabels()
         setupGestures()
+        setupStar()
         
         self.itemDetailView.messageButton.isEnabled = false
         
@@ -64,12 +68,29 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
         super.didReceiveMemoryWarning()
     }
     
+    func setupStar() {
+        let star = UIImageView(frame: starImageView.bounds)
+        star.image = UIImage(named: "filledStar")
+        star.tintColor = .white
+        
+        starImageView.addSubview(star)
+        
+//        star.leadingAnchor.constraint(equalTo: starImageView.leadingAnchor).isActive = true
+//        star.trailingAnchor.constraint(equalTo: starImageView.trailingAnchor).isActive = true
+//        star.topAnchor.constraint(equalTo: starImageView.topAnchor).isActive = true
+//        star.bottomAnchor.constraint(equalTo: starImageView.bottomAnchor).isActive = true
+        
+        star.contentMode = .scaleAspectFit
+        
+    }
 
     func setupItemDetailContainer(){
         
         itemDetailView.translatesAutoresizingMaskIntoConstraints = false
         
-        detailViewTopAnchorConstant = (UIScreen.main.bounds.size.height-(itemDetailView.mainImageView.frame.minY+itemDetailView.categoryLabel.frame.maxY)) - (44 + (UIApplication.shared.statusBarFrame.size.height)) - 20
+        let x = (UIScreen.main.bounds.size.height-(itemDetailView.mainImageView.frame.minY+itemDetailView.categoryLabel.frame.maxY))
+        
+        detailViewTopAnchorConstant = x - (44 + (UIApplication.shared.statusBarFrame.size.height)) - 20
         
         detailViewBottomAnchorConstant = 0
         
@@ -135,7 +156,18 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
         
     
         if (kindOfItem == "Offer"){
-            itemDetailView.itemValueLabel.text = "Value: $\(currentItem.value)"
+            //let value: CAD = (CAD(currentItem!.value))
+            let value = Money(integerLiteral: currentItem.value)
+            let locale = NSLocale.current
+
+            
+//            Forex.shared.rate(value: value, from: .CAD, to: CurrencyType()) { (exchange, error) in
+//                print("Name:(exchange?.currency.description) Rate: (exchange?.value)")
+//            }
+            
+              itemDetailView.itemValueLabel.text = "\(value)"
+         
+
         }
         else if (kindOfItem == "Request"){
             itemDetailView.itemValueLabel.text = ""
@@ -255,7 +287,9 @@ class ItemDetailViewController: UIViewController, MFMailComposeViewControllerDel
         
         let topOfFullViewFrame = (UIScreen.main.bounds.size.height-(itemDetailView.mainImageView.frame.minY+itemDetailView.photoCollectionView.frame.maxY)) - (44 + (UIApplication.shared.statusBarFrame.size.height))
         
-        let topOfPreviewFrame = (UIScreen.main.bounds.size.height-(itemDetailView.mainImageView.frame.minY+itemDetailView.categoryLabel.frame.maxY)) - (44 + (UIApplication.shared.statusBarFrame.size.height)) - 20
+        let previewContentHeight = (UIScreen.main.bounds.size.height-(itemDetailView.mainImageView.frame.minY+itemDetailView.categoryLabel.frame.maxY))
+        
+        let topOfPreviewFrame = previewContentHeight - (44 + (UIApplication.shared.statusBarFrame.size.height)) - 20
         
         
         

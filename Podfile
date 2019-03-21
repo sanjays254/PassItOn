@@ -14,6 +14,9 @@ target 'ItsFree' do
   pod 'FirebaseUI'
   pod 'KeychainAccess'
   pod 'SimpleImageViewer', '~> 1.1.1'
+  pod 'STRatingControl'
+  pod 'Money'
+  pod 'Forex'
 
   target 'ItsFreeTests' do
     inherit! :search_paths
